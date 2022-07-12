@@ -1,0 +1,440 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC210287688AC00F1495A /* DictionaryView.swift */; };
+		E4DCC2132876890A00F1495A /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2122876890A00F1495A /* AlertView.swift */; };
+		E4DCC2152876896200F1495A /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */; };
+		E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2162878038E00F1495A /* Color_ext.swift */; };
+		E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2182878080F00F1495A /* ScannerView.swift */; };
+		E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */; };
+		E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC21E287D3A0B00F1495A /* Entry.swift */; };
+		E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F362282821D46C0078721F /* LexiscopeApp.swift */; };
+		E4F3622B2821D46C0078721F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3622A2821D46C0078721F /* ContentView.swift */; };
+		E4F3622D2821D46E0078721F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4F3622C2821D46E0078721F /* Assets.xcassets */; };
+		E4F362302821D46E0078721F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4F3622F2821D46E0078721F /* Preview Assets.xcassets */; };
+		E4F3623A2821ED500078721F /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F362392821ED500078721F /* CameraView.swift */; };
+		E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3623C2821EE610078721F /* CameraViewModel.swift */; };
+		E4F3623F2821F6990078721F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3623E2821F6990078721F /* Constant.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E4DCC210287688AC00F1495A /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
+		E4DCC2122876890A00F1495A /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
+		E4DCC2162878038E00F1495A /* Color_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_ext.swift; sourceTree = "<group>"; };
+		E4DCC2182878080F00F1495A /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBorder.swift; sourceTree = "<group>"; };
+		E4DCC21E287D3A0B00F1495A /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		E4F362252821D46C0078721F /* Lexiscope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lexiscope.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F362282821D46C0078721F /* LexiscopeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiscopeApp.swift; sourceTree = "<group>"; };
+		E4F3622A2821D46C0078721F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E4F3622C2821D46E0078721F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E4F3622F2821D46E0078721F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E4F362392821ED500078721F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		E4F3623C2821EE610078721F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		E4F3623E2821F6990078721F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E4F362222821D46C0078721F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E433FD852876868800FE7D4C /* DictionaryView */ = {
+			isa = PBXGroup;
+			children = (
+				E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */,
+				E4DCC210287688AC00F1495A /* DictionaryView.swift */,
+			);
+			path = DictionaryView;
+			sourceTree = "<group>";
+		};
+		E4DCC21C287D39B400F1495A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E4DCC21E287D3A0B00F1495A /* Entry.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E4DCC21D287D39BE00F1495A /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				E4F3623E2821F6990078721F /* Constant.swift */,
+				E4DCC2162878038E00F1495A /* Color_ext.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		E4F3621C2821D46C0078721F = {
+			isa = PBXGroup;
+			children = (
+				E4F362272821D46C0078721F /* Lexiscope */,
+				E4F362262821D46C0078721F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E4F362262821D46C0078721F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E4F362252821D46C0078721F /* Lexiscope.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E4F362272821D46C0078721F /* Lexiscope */ = {
+			isa = PBXGroup;
+			children = (
+				E4F362282821D46C0078721F /* LexiscopeApp.swift */,
+				E4F362362821D5210078721F /* Views */,
+				E4DCC21C287D39B400F1495A /* Model */,
+				E4DCC21D287D39BE00F1495A /* Helper */,
+				E4F3622C2821D46E0078721F /* Assets.xcassets */,
+				E4F3622E2821D46E0078721F /* Preview Content */,
+			);
+			path = Lexiscope;
+			sourceTree = "<group>";
+		};
+		E4F3622E2821D46E0078721F /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				E4F3622F2821D46E0078721F /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E4F362362821D5210078721F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E4F3622A2821D46C0078721F /* ContentView.swift */,
+				E433FD852876868800FE7D4C /* DictionaryView */,
+				E4F362382821E5C90078721F /* AudioView */,
+				E4F362372821D5400078721F /* CameraView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E4F362372821D5400078721F /* CameraView */ = {
+			isa = PBXGroup;
+			children = (
+				E4F3623B2821EE480078721F /* Model */,
+				E4F362392821ED500078721F /* CameraView.swift */,
+				E4DCC2122876890A00F1495A /* AlertView.swift */,
+				E4DCC2182878080F00F1495A /* ScannerView.swift */,
+				E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */,
+			);
+			path = CameraView;
+			sourceTree = "<group>";
+		};
+		E4F362382821E5C90078721F /* AudioView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AudioView;
+			sourceTree = "<group>";
+		};
+		E4F3623B2821EE480078721F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E4F3623C2821EE610078721F /* CameraViewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E4F362242821D46C0078721F /* Lexiscope */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4F362332821D46E0078721F /* Build configuration list for PBXNativeTarget "Lexiscope" */;
+			buildPhases = (
+				E4F362212821D46C0078721F /* Sources */,
+				E4F362222821D46C0078721F /* Frameworks */,
+				E4F362232821D46C0078721F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lexiscope;
+			productName = Lexiscope;
+			productReference = E4F362252821D46C0078721F /* Lexiscope.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E4F3621D2821D46C0078721F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					E4F362242821D46C0078721F = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+				};
+			};
+			buildConfigurationList = E4F362202821D46C0078721F /* Build configuration list for PBXProject "Lexiscope" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E4F3621C2821D46C0078721F;
+			productRefGroup = E4F362262821D46C0078721F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E4F362242821D46C0078721F /* Lexiscope */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E4F362232821D46C0078721F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4F362302821D46E0078721F /* Preview Assets.xcassets in Resources */,
+				E4F3622D2821D46E0078721F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E4F362212821D46C0078721F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
+				E4DCC2152876896200F1495A /* CameraViewRepresentable.swift in Sources */,
+				E4F3623A2821ED500078721F /* CameraView.swift in Sources */,
+				E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */,
+				E4DCC2132876890A00F1495A /* AlertView.swift in Sources */,
+				E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */,
+				E4F3623F2821F6990078721F /* Constant.swift in Sources */,
+				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
+				E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */,
+				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
+				E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */,
+				E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E4F362312821D46E0078721F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E4F362322821D46E0078721F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E4F362342821D46E0078721F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Lexiscope/Preview Content\"";
+				DEVELOPMENT_TEAM = W9299UY4N9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = carrism.Lexiscope;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E4F362352821D46E0078721F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Lexiscope/Preview Content\"";
+				DEVELOPMENT_TEAM = W9299UY4N9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = carrism.Lexiscope;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E4F362202821D46C0078721F /* Build configuration list for PBXProject "Lexiscope" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4F362312821D46E0078721F /* Debug */,
+				E4F362322821D46E0078721F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E4F362332821D46E0078721F /* Build configuration list for PBXNativeTarget "Lexiscope" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4F362342821D46E0078721F /* Debug */,
+				E4F362352821D46E0078721F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E4F3621D2821D46C0078721F /* Project object */;
+}
