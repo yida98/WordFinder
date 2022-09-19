@@ -9,6 +9,31 @@ import Foundation
 
 /// Model transcribed from *Oxford Dictionary* https://developer.oxforddictionaries.com/documentation
 struct OxfordEntry {
+    
+    // MARK: - Typealiases
+    typealias PronunciationsList = Array<InlineModel1>
+    typealias ArrayOfRelatedEntries = Array<InlineModel2>
+    
+    typealias GrammaticalFeaturesList = [InlineModel3]
+    
+    typealias CategorizedTextList = [InlineModel4]
+    typealias VariantFormsList = [InlineModel5]
+
+    typealias CrossReferencesList = [InlineModel6]
+    
+    typealias regionsList = Array<InlineModel7>
+    typealias registersList = Array<InlineModel8>
+    typealias domainsList = Array<InlineModel9>
+
+    typealias SynonymsAntonyms = InlineModel10
+
+    typealias domainClassesList = Array<InlineModel11>
+    typealias ExamplesList = Array<InlineModel12>
+    typealias semanticClassesList = Array<InlineModel13>
+    
+    typealias ExampleText = String
+
+    // MARK: - Model Types
     struct RetrieveEntry { // TODO: Codable
         var metadata: Dictionary<String, String>?
         var results: Array<HeadwordEntry>?
@@ -35,10 +60,6 @@ struct OxfordEntry {
         
     }
 
-    // FIXME: What are these
-    typealias PronunciationsList = Array<InlineModel1>
-    typealias ArrayOfRelatedEntries = Array<InlineModel2>
-
     struct Entry: Identifiable { // TODO: Codable
         /// A grouping of crossreference notes.
         var crossReferenceMarkers: Array<String>?
@@ -61,17 +82,10 @@ struct OxfordEntry {
         }
     }
 
-    typealias GrammaticalFeaturesList = [InlineModel3]
-
     struct LexicalCategory {
         var id: String
         var text: String
     }
-
-    typealias CategorizedTextList = [InlineModel4]
-    typealias VariantFormsList = [InlineModel5]
-
-    typealias CrossReferencesList = [InlineModel6]
 
     struct InflectedForm {
         /// A subject, discipline, or branch of knowledge particular to the Inflection.
@@ -128,16 +142,6 @@ struct OxfordEntry {
         var variantForms: VariantFormsList?
     }
 
-    typealias regionsList = Array<InlineModel7>
-    typealias registersList = Array<InlineModel8>
-    typealias domainsList = Array<InlineModel9>
-
-    typealias SynonymsAntonyms = InlineModel10
-
-    typealias domainClassesList = Array<InlineModel11>
-    typealias ExamplesList = Array<InlineModel12>
-    typealias semanticClassesList = Array<InlineModel13>
-
     struct thesaurusLink {
         /// identifier of a word.
         var entry_id: String
@@ -145,7 +149,6 @@ struct OxfordEntry {
         var sense_id: String
     }
 
-    typealias ExampleText = String
     /*
      Inline Model 1
      

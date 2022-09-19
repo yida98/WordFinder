@@ -15,58 +15,21 @@ struct CameraView: View {
     @ObservedObject var viewModel: CameraViewModel
     
     var body: some View {
-        
         ZStack {
-            Group {
-                CameraViewRepresentable(viewModel: viewModel)
-    
-                ScannerView()
-                    .environmentObject(viewModel)
-                    .frame(width: CameraViewModel.viewportSize.width,
-                           height: CameraViewModel.viewportSize.height)
-                    .overlay(Text(viewModel.word)
-                                .foregroundColor(Color.babyPowder)
-                                .offset(y: CameraViewModel.viewportSize.height*0.5 + 16))
-            } .position(x: Constant.screenBounds.width/2,
-                        y: viewModel.trueCameraHeight/2)
+//            RoundedRectangle(cornerRadius: 20)
+//                .frame(width: Constant.screenBounds.width - 40, height:
+//                .frame(width: Constant.screenBounds.width, height: 500)
+//                .background(Color.blue)
+//                .shadow(radius: 10)
             
-            DictionaryView()
-//                .environmentObject(viewModel)
-                .offset(y: viewModel.trueCameraHeight/2 - CameraViewModel.viewFurtherInset)
-            
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button {
-                        viewModel.lookup()
-                    } label: {
-                        Text("Search")
-                            .foregroundColor(.white)
-                            .font(Font.custom(Constant.fontName, size: 20))
-                            .fontWeight(.semibold)
-                    }
-                    .frame(width: CameraViewModel.buttonSize.width, height: CameraViewModel.buttonSize.height)
-                    .background(Color.darkSkyBlue)
-                    .padding(CameraViewModel.buttonPadding)
-                    .mask(RoundedRectangle(cornerRadius: CameraViewModel.buttonCornerRadius)
-                            .frame(width: CameraViewModel.buttonSize.width, height: CameraViewModel.buttonSize.height))
-                }
-            }
-            AlertView(isPresenting: !viewModel.allowsCameraUsage) {
-                Button {
-                    Application.shared.openSettings()
-                } label: {
-                    HStack {
-                        Text("Camera disabled in settings")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        Image(systemName: "arrowshape.turn.up.right.circle.fill")
-                            .foregroundColor(.lightGrey) // TODO: Group colours into primary, secondary etc.
-                    }
-                }
-            }.offset(y: 50)
+            CameraViewRepresentable(viewModel: viewModel)
         }
-        .ignoresSafeArea()
+        .mask {
+            RoundedRectangle(cornerRadius: 20)
+                .frame(width: Constant.screenBounds.width - 40, height: 150)
+            /// Note: Putting the shadow modifier here allows the original view to pass through into the shadow. The mask modifier applies any transparency of the masking view.
+        }
+        .frame(width: Constant.screenBounds.width - 40, height: 150)
+        .clipped()
     }
 }
