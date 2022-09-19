@@ -26,7 +26,6 @@ struct CameraView: View {
         }
         .mask {
             RoundedRectangle(cornerRadius: 20)
-                .frame(width: Constant.screenBounds.width - 40, height: 150)
             /// Note: Putting the shadow modifier here allows the original view to pass through into the shadow. The mask modifier applies any transparency of the masking view.
         }
         .frame(width: Constant.screenBounds.width - 40, height: 150)

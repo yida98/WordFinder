@@ -18,7 +18,6 @@ struct CameraViewRepresentable: UIViewRepresentable {
         let cameraView = CameraScannerView()
         cameraView.viewModel = viewModel
         cameraView.delegate = context.coordinator
-//        cameraView.startRunning()
         return cameraView
     }
     
@@ -147,13 +146,6 @@ class CameraScannerView: UIView {
     
     private var loaded = false
     
-//    override func viewDidLoad() {
-//        self.delegate!.request = VNRecognizeTextRequest(completionHandler: detectText)
-//
-//        super.viewDidLoad()
-//        setup()
-//        /// Note: Creating a UIView and changing its frame will keep the aspect ratio of the preview layer consistent.
-//    }
     override func layoutSubviews() {
         self.delegate!.request = VNRecognizeTextRequest(completionHandler: detectText)
         if !loaded {
