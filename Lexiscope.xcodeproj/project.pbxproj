@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */; };
 		E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */; };
+		E467D5EB28D87AF60005480D /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5EA28D87AF60005480D /* DefinitionView.swift */; };
+		E467D5ED28DBB8F30005480D /* SearchStyleToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5EC28DBB8F30005480D /* SearchStyleToggleView.swift */; };
+		E467D5F028DBB9260005480D /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5EF28DBB9260005480D /* SearchView.swift */; };
+		E467D5F228DBC4CE0005480D /* AudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F128DBC4CE0005480D /* AudioView.swift */; };
+		E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F328DBC6810005480D /* SearchViewModel.swift */; };
+		E467D5F628DBD0920005480D /* SearchIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F528DBD0920005480D /* SearchIconView.swift */; };
 		E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC210287688AC00F1495A /* DictionaryView.swift */; };
 		E4DCC2132876890A00F1495A /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2122876890A00F1495A /* AlertView.swift */; };
 		E4DCC2152876896200F1495A /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */; };
@@ -28,6 +34,12 @@
 /* Begin PBXFileReference section */
 		E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		E467D5EA28D87AF60005480D /* DefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
+		E467D5EC28DBB8F30005480D /* SearchStyleToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStyleToggleView.swift; sourceTree = "<group>"; };
+		E467D5EF28DBB9260005480D /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		E467D5F128DBC4CE0005480D /* AudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioView.swift; sourceTree = "<group>"; };
+		E467D5F328DBC6810005480D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		E467D5F528DBD0920005480D /* SearchIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIconView.swift; sourceTree = "<group>"; };
 		E4DCC210287688AC00F1495A /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
 		E4DCC2122876890A00F1495A /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
@@ -61,8 +73,22 @@
 			children = (
 				E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */,
 				E4DCC210287688AC00F1495A /* DictionaryView.swift */,
+				E467D5EA28D87AF60005480D /* DefinitionView.swift */,
 			);
 			path = DictionaryView;
+			sourceTree = "<group>";
+		};
+		E467D5EE28DBB90B0005480D /* SearchStyleView */ = {
+			isa = PBXGroup;
+			children = (
+				E467D5EF28DBB9260005480D /* SearchView.swift */,
+				E467D5EC28DBB8F30005480D /* SearchStyleToggleView.swift */,
+				E467D5F528DBD0920005480D /* SearchIconView.swift */,
+				E467D5F328DBC6810005480D /* SearchViewModel.swift */,
+				E4F362382821E5C90078721F /* AudioView */,
+				E4F362372821D5400078721F /* CameraView */,
+			);
+			path = SearchStyleView;
 			sourceTree = "<group>";
 		};
 		E4DCC21C287D39B400F1495A /* Model */ = {
@@ -125,8 +151,7 @@
 				E4F3622A2821D46C0078721F /* ContentView.swift */,
 				E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */,
 				E433FD852876868800FE7D4C /* DictionaryView */,
-				E4F362382821E5C90078721F /* AudioView */,
-				E4F362372821D5400078721F /* CameraView */,
+				E467D5EE28DBB90B0005480D /* SearchStyleView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -147,6 +172,7 @@
 		E4F362382821E5C90078721F /* AudioView */ = {
 			isa = PBXGroup;
 			children = (
+				E467D5F128DBC4CE0005480D /* AudioView.swift */,
 			);
 			path = AudioView;
 			sourceTree = "<group>";
@@ -233,12 +259,18 @@
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
 				E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */,
 				E4DCC2152876896200F1495A /* CameraViewRepresentable.swift in Sources */,
+				E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */,
+				E467D5F628DBD0920005480D /* SearchIconView.swift in Sources */,
 				E4F3623A2821ED500078721F /* CameraView.swift in Sources */,
 				E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */,
+				E467D5F028DBB9260005480D /* SearchView.swift in Sources */,
+				E467D5EB28D87AF60005480D /* DefinitionView.swift in Sources */,
 				E4DCC2132876890A00F1495A /* AlertView.swift in Sources */,
 				E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */,
 				E4F3623F2821F6990078721F /* Constant.swift in Sources */,
+				E467D5ED28DBB8F30005480D /* SearchStyleToggleView.swift in Sources */,
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
+				E467D5F228DBC4CE0005480D /* AudioView.swift in Sources */,
 				E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */,
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
 				E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */,

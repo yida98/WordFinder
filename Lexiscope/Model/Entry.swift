@@ -52,6 +52,7 @@ struct OxfordEntry {
         var entries: Array<Entry>
         var language: String
         var lexicalCategory: LexicalCategory
+        var pronunciations: PronunciationsList?
         var root: String?
         var text: String
         var id: String {

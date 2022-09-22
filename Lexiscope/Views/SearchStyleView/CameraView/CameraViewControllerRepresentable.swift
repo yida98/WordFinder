@@ -167,6 +167,7 @@ class CameraScannerView: UIView {
     static private var bufferRatio: CGFloat = 640/480
     
     func startLiveVideo() {
+        // FIXME: Super slow creating the first view. Async some functions
         session.sessionPreset = .vga640x480
         viewModel.bufferSize = CGSize(width: 640, height: 480)
         
