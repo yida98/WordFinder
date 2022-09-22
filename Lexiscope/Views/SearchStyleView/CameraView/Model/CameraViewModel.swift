@@ -27,6 +27,8 @@ class CameraViewModel: ObservableObject {
 //        }
 //    }
     
+    @Published var cameraPaused: Bool = false
+    
     @Published var loading: Bool = false
     @Published var allowsCameraUsage: Bool = true
     

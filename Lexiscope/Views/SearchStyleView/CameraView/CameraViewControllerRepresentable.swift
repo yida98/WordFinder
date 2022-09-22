@@ -22,14 +22,18 @@ struct CameraViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: CameraScannerView, context: Context) {
-        uiView.startRunning()
+        if viewModel.cameraPaused {
+            uiView.stopRunning()
+        } else {
+            uiView.startRunning()
+        }
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
-    class Coordinator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+    class Coordinator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
         let parent: CameraViewRepresentable
         
         var request: VNRecognizeTextRequest!
@@ -48,7 +52,7 @@ struct CameraViewRepresentable: UIViewRepresentable {
 //            request.usesLanguageCorrection = true
 //            request.recognitionLanguages = [
 
-            // The origin point is a corner, not the centre origin
+            /// The origin point is a corner, not the centre origin
             let height = (Constant.screenBounds.width / (parent.viewModel.bufferSize.height / parent.viewModel.bufferSize.width))
             let originX = (Constant.screenBounds.width - CameraViewModel.viewportSize.width) / 2
             let originY = (height - CameraViewModel.viewportSize.height)/2
@@ -71,6 +75,17 @@ struct CameraViewRepresentable: UIViewRepresentable {
                 debugPrint(error)
             }
         }
+        
+        func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+            guard let imageData = photo.fileDataRepresentation() else { return }
+            let previewImage = UIImage(data: imageData)
+        }
+        
+        func handleTakePhoto() {
+            
+        }
+        
+        // MARK: Helper funcs
         
         private static func normalizeBounds(for regionOfInterest: CGRect, in bufferSize: CGSize) -> CGRect {
             
@@ -164,6 +179,10 @@ class CameraScannerView: UIView {
         session.startRunning()
     }
     
+    func stopRunning() {
+        session.stopRunning()
+    }
+    
     static private var bufferRatio: CGFloat = 640/480
     
     func startLiveVideo() {
@@ -211,7 +230,7 @@ class CameraScannerView: UIView {
     
     }
 
-// MARK: - Text Detection
+// MARK: Text Detection
     private func detectText(request: VNRequest, error: Error?) {
         if error != nil {
             debugPrint(error.debugDescription)
@@ -238,7 +257,7 @@ class CameraScannerView: UIView {
         }
     }
     
-// MARK: - Helper Functions
+// MARK: Helper Functions
     private static func closestTo(_ point: Point,in results: [VNRecognizedTextObservation]) -> VNRecognizedTextObservation? {
         return results.reduce(results.first) { result, observation in
             var prevDistance: Float = 0

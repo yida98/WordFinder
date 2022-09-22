@@ -17,6 +17,9 @@ struct CameraView: View {
     var body: some View {
         ZStack {
             CameraViewRepresentable(viewModel: viewModel)
+                .onTapGesture {
+                    viewModel.cameraPaused.toggle()
+                }
             ScannerView()
                 .environmentObject(viewModel)
                 .frame(width: CameraViewModel.viewportSize.width,
