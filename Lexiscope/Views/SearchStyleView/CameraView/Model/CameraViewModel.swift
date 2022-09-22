@@ -11,7 +11,7 @@ import Combine
 import AVFoundation
 
 class CameraViewModel: ObservableObject {
-    @Published var coords: [CGRect] = [CGRect]()
+    @Published var coordinates: CGRect = .zero
     @Published var bufferSize: CGSize = CGSize(width: 1, height: 1) {
         willSet {
             trueCameraHeight = Constant.screenBounds.width / (newValue.height / newValue.width)

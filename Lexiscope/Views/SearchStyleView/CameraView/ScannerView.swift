@@ -9,7 +9,22 @@ import Foundation
 import SwiftUI
 
 struct ScannerView: View {
+    @EnvironmentObject var viewModel: CameraViewModel
+    
     var body: some View {
-        Spacer()
+        ZStack {
+            RoundedRectangle(cornerRadius: 10) // TODO: Theme
+                .foregroundColor(Color.darkSkyBlue.opacity(0.3))
+                .frame(width: viewModel.coordinates.width,
+                       height: viewModel.coordinates.height)
+                .position(x: viewModel.coordinates.midX,
+                          y: viewModel.coordinates.midY)
+        }
+    }
+}
+
+extension CGRect: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        
     }
 }

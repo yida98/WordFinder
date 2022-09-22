@@ -12,23 +12,18 @@ import Vision
 
 struct CameraView: View {
     
-    @ObservedObject var viewModel: CameraViewModel
+    @StateObject var viewModel: CameraViewModel = CameraViewModel()
     
     var body: some View {
         ZStack {
-//            RoundedRectangle(cornerRadius: 20)
-//                .frame(width: Constant.screenBounds.width - 40, height:
-//                .frame(width: Constant.screenBounds.width, height: 500)
-//                .background(Color.blue)
-//                .shadow(radius: 10)
-            
             CameraViewRepresentable(viewModel: viewModel)
+            ScannerView()
+                .environmentObject(viewModel)
+                .frame(width: CameraViewModel.viewportSize.width,
+                       height: CameraViewModel.viewportSize.height)
+                .overlay(Text(viewModel.word)
+                            .foregroundColor(Color.babyPowder)
+                            .offset(y: CameraViewModel.viewportSize.height*0.5 + 16))
         }
-        .mask {
-            RoundedRectangle(cornerRadius: 20)
-            /// Note: Putting the shadow modifier here allows the original view to pass through into the shadow. The mask modifier applies any transparency of the masking view.
-        }
-        .frame(width: Constant.screenBounds.width - 40, height: 150)
-        .clipped()
     }
 }

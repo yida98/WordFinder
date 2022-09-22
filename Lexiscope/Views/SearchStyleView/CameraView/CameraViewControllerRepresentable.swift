@@ -218,11 +218,6 @@ class CameraScannerView: UIView {
             return
         }
 
-        // TODO: Reassess need
-//        DispatchQueue.main.async { [self] in
-//            viewModel.coords = [CGRect]()
-//            viewModel.word = ""
-//        }
         guard let results = request.results as? [VNRecognizedTextObservation] else {
             debugPrint("no requests")
             return
@@ -235,7 +230,7 @@ class CameraScannerView: UIView {
                 if viewModel != nil {
                     DispatchQueue.main.async { [self] in
                         bounds = Self.boundingBox(forRegionOfInterest: bounds, fromOutput: CameraViewModel.viewportSize)
-                        viewModel.coords.append(bounds)
+                        viewModel.coordinates = bounds
                         viewModel.word = recognizedText.string
                     }
                 }

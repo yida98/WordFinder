@@ -14,7 +14,7 @@ struct SearchView: View {
         VStack {
             ZStack {
                 if viewModel.cameraSearch {
-                    CameraViewRepresentable(viewModel: CameraViewModel())
+                    CameraView()
                 } else {
                     AudioView()
                 }
@@ -22,7 +22,6 @@ struct SearchView: View {
                 HStack {
                     Spacer()
                     SearchStyleToggleView()
-                        .environmentObject(viewModel)
                 }
             }
             .mask {
