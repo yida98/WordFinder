@@ -18,7 +18,7 @@ struct CameraView: View {
         ZStack {
             CameraViewRepresentable(viewModel: viewModel)
                 .onTapGesture {
-                    viewModel.cameraPaused.toggle()
+                    viewModel.takePhoto()
                 }
             ScannerView()
                 .environmentObject(viewModel)
@@ -26,7 +26,8 @@ struct CameraView: View {
                        height: CameraViewModel.viewportSize.height)
                 .overlay(Text(viewModel.word)
                             .foregroundColor(Color.babyPowder)
-                            .offset(y: CameraViewModel.viewportSize.height*0.5 + 16))
+                            //.offset(y: CameraViewModel.viewportSize.height*0.5 + 16) // FIXME: Correct offset
+                )
         }
     }
 }
