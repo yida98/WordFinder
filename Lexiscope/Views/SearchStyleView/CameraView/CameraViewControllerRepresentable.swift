@@ -46,10 +46,12 @@ class CameraScannerView: UIView {
     
     private var loaded = false
     
+    private var width: CGFloat = Constant.screenBounds.width
+    private var height: CGFloat = Constant.screenBounds.width * CameraViewModel.bufferRatio
+    
     override func layoutSubviews() {
         if !loaded {
-            self.frame.size = CGSize(width: Constant.screenBounds.width,
-                                     height: Constant.screenBounds.width * CameraViewModel.bufferRatio)
+            self.frame.size = CGSize(width: width, height: height)
             setup()
         }
         super.layoutSubviews()

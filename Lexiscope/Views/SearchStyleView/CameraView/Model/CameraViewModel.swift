@@ -254,14 +254,14 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampl
 //            request.usesLanguageCorrection = true
 //            request.recognitionLanguages = [
 
-        /// The origin point is a corner, not the centre origin
+        /// The origin point is the lower-left corner, not the centre origin
         let height = (Constant.screenBounds.width / (bufferSize.height / bufferSize.width))
         let originX = (Constant.screenBounds.width - CameraViewModel.viewportSize.width) / 2
         let originY = (height - CameraViewModel.viewportSize.height)/2
 
         request.regionOfInterest = Self.normalizeBounds(for: CGRect(origin: CGPoint(x: originX,
                                                                                     y: originY),
-                                                               size: CameraViewModel.viewportSize),
+                                                                    size: CameraViewModel.viewportSize),
                                                         in: bufferSize)
 //            let imageRequestHandler = VNImageRequestHandler(cgImage: imageFromSampleBuffer(sampleBuffer : sampleBuffer).cgImage!, options: [:])
 //            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
@@ -280,6 +280,7 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampl
     
     // MARK: Helper funcs
     
+    /// Calculate the `regionOfInterest` in the `bufferSize` normalized for the screen size
     private static func normalizeBounds(for regionOfInterest: CGRect, in bufferSize: CGSize) -> CGRect {
         
         var rect = regionOfInterest
@@ -314,9 +315,14 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampl
     
     func takePhoto() {
         let photoSettings = AVCapturePhotoSettings()
-        if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
-            photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
-            photoOutput.capturePhoto(with: photoSettings, delegate: self)
-        }
+//        if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+//            photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+//            photoOutput.capturePhoto(with: photoSettings, delegate: self)
+//        }
     }
 }
+
+extension CameraViewModel {
+//    static let scannerSize: CGSize = CGSize(width: , height: <#T##CGFloat#>)
+}
+	

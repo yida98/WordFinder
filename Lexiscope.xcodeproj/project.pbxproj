@@ -84,14 +84,22 @@
 			isa = PBXGroup;
 			children = (
 				E467D5EF28DBB9260005480D /* SearchView.swift */,
-				E467D5EC28DBB8F30005480D /* SearchStyleToggleView.swift */,
-				E467D5F528DBD0920005480D /* SearchIconView.swift */,
 				E467D5F328DBC6810005480D /* SearchViewModel.swift */,
-				E467D5F728DC1C850005480D /* SearchToolbar.swift */,
+				E467D5F928DE6D5F0005480D /* SearchViewComponents */,
 				E4F362382821E5C90078721F /* AudioView */,
 				E4F362372821D5400078721F /* CameraView */,
 			);
 			path = SearchStyleView;
+			sourceTree = "<group>";
+		};
+		E467D5F928DE6D5F0005480D /* SearchViewComponents */ = {
+			isa = PBXGroup;
+			children = (
+				E467D5EC28DBB8F30005480D /* SearchStyleToggleView.swift */,
+				E467D5F528DBD0920005480D /* SearchIconView.swift */,
+				E467D5F728DC1C850005480D /* SearchToolbar.swift */,
+			);
+			path = SearchViewComponents;
 			sourceTree = "<group>";
 		};
 		E4DCC21C287D39B400F1495A /* Model */ = {
