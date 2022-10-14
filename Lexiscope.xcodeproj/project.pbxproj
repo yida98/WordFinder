@@ -19,7 +19,6 @@
 		E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F728DC1C850005480D /* SearchToolbar.swift */; };
 		E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC210287688AC00F1495A /* DictionaryView.swift */; };
 		E4DCC2132876890A00F1495A /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2122876890A00F1495A /* AlertView.swift */; };
-		E4DCC2152876896200F1495A /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */; };
 		E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2162878038E00F1495A /* Color_ext.swift */; };
 		E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2182878080F00F1495A /* ScannerView.swift */; };
 		E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */; };
@@ -46,7 +45,6 @@
 		E467D5F728DC1C850005480D /* SearchToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchToolbar.swift; sourceTree = "<group>"; };
 		E4DCC210287688AC00F1495A /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
 		E4DCC2122876890A00F1495A /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
-		E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
 		E4DCC2162878038E00F1495A /* Color_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_ext.swift; sourceTree = "<group>"; };
 		E4DCC2182878080F00F1495A /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBorder.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 				E4F362392821ED500078721F /* CameraView.swift */,
 				E4DCC2122876890A00F1495A /* AlertView.swift */,
 				E4DCC2182878080F00F1495A /* ScannerView.swift */,
-				E4DCC2142876896200F1495A /* CameraViewRepresentable.swift */,
 				E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */,
 			);
 			path = CameraView;
@@ -273,7 +270,6 @@
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
 				E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */,
 				E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */,
-				E4DCC2152876896200F1495A /* CameraViewRepresentable.swift in Sources */,
 				E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */,
 				E467D5F628DBD0920005480D /* SearchIconView.swift in Sources */,
 				E4F3623A2821ED500078721F /* CameraView.swift in Sources */,
