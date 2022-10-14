@@ -16,10 +16,17 @@ struct CameraView: View {
     
     var body: some View {
         ZStack {
-            CameraViewRepresentable(viewModel: viewModel)
-                .onTapGesture {
-                    viewModel.takePhoto()
-                }
+            if let capturedImage = viewModel.capturedImage {
+                Image(uiImage: capturedImage)
+                    .onTapGesture {
+                        viewModel.resumeCamera()
+                    }
+            } else {
+                CameraViewRepresentable(viewModel: viewModel)
+                    .onTapGesture {
+                        viewModel.takePhoto()
+                    }
+            }
             ScannerView()
                 .environmentObject(viewModel)
                 .frame(width: CameraViewModel.viewportSize.width,

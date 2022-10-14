@@ -22,9 +22,6 @@ struct CameraViewRepresentable: UIViewRepresentable {
     
     /// Updates the state of the specified view with new information from SwiftUI. Same as send.
     func updateUIView(_ uiView: CameraScannerView, context: Context) {
-        if !viewModel.isRunning {
-            viewModel.startRunning()
-        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -44,23 +41,22 @@ struct CameraViewRepresentable: UIViewRepresentable {
 class CameraScannerView: UIView {
     var viewModel: CameraViewModel!
     
-    private var loaded = false
-    
     private var width: CGFloat = Constant.screenBounds.width
     private var height: CGFloat = Constant.screenBounds.width * CameraViewModel.bufferRatio
+    private var firstLaunch: Bool = true
     
     override func layoutSubviews() {
-        if !loaded {
+        if firstLaunch {
             self.frame.size = CGSize(width: width, height: height)
             setup()
         }
+        firstLaunch = false
         super.layoutSubviews()
     }
     
     func setup() {
-        if let previewLayer = viewModel.startLiveVideo() {
-            loaded = true
-            
+        viewModel.startCamera()
+        if let previewLayer = viewModel.cameraPreviewLayer() {            
             previewLayer.frame = self.frame
             self.layer.insertSublayer(previewLayer, at: 0)
         }
