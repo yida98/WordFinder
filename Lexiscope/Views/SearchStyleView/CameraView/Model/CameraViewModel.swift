@@ -30,6 +30,9 @@ class CameraViewModel: NSObject,
     // FIXME: Fix all of these magic values
     static let viewportSize = CGSize(width: Constant.screenBounds.width * 0.3,
                                      height: 65)
+    static let cameraSize = CGSize(width: Constant.screenBounds.width,
+                                   height: Constant.screenBounds.width * CameraViewModel.bufferRatio)
+    
     static let boundingBoxPadding: CGFloat = 4
     static let boundingBoxCornerRadius: CGFloat = 6
     static let viewFurtherInset: CGFloat = 50
@@ -143,18 +146,17 @@ class CameraViewModel: NSObject,
     
     // MARK: Camera variables
     var camera: TextDetectionCameraModel?
-    let sessionPreset: AVCaptureSession.Preset = .vga640x480
+    let sessionPreset: AVCaptureSession.Preset = .photo
     @Published var capturedImage: UIImage?
     @Published var coordinates: CGRect = .zero
-    @Published var bufferSize: CGSize = CGSize(width: 640, height: 480)
-    static let bufferRatio: CGFloat = 640/480
+    @Published var bufferSize: CGSize = CGSize(width: 4032, height: 3024)
+    static let bufferRatio: CGFloat = 4032/3024
     
     // MARK: - AVCapturePhotoCaptureDelegate
         
     internal func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let imageData = photo.fileDataRepresentation() else { return }
-        let previewImage = UIImage(data: imageData)
-        capturedImage = previewImage
+        guard let imageData = photo.fileDataRepresentation(), let previewImage = UIImage(data: imageData) else { return }
+        capturedImage = previewImage.resizingTo(size: CameraViewModel.cameraSize)
     }
     
     func takePhoto() {
@@ -279,3 +281,12 @@ protocol AVCaptureVideoTextDetectionDelegate {
     func detectText(request: VNRequest, error: Error?)
 }
 	
+extension UIImage {
+    func resizingTo(size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        self.draw(in: CGRect(origin: .zero, size: size))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+}

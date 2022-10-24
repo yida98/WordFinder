@@ -41,13 +41,11 @@ struct CameraViewRepresentable: UIViewRepresentable {
 class CameraScannerView: UIView {
     var viewModel: CameraViewModel!
     
-    private var width: CGFloat = Constant.screenBounds.width
-    private var height: CGFloat = Constant.screenBounds.width * CameraViewModel.bufferRatio
     private var firstLaunch: Bool = true
     
     override func layoutSubviews() {
         if firstLaunch {
-            self.frame.size = CGSize(width: width, height: height)
+            self.frame.size = CameraViewModel.cameraSize
             setup()
         }
         firstLaunch = false
