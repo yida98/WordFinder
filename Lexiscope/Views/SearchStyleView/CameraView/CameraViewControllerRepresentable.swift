@@ -45,11 +45,14 @@ class CameraScannerView: UIView {
     
     override func layoutSubviews() {
         if firstLaunch {
-            self.frame.size = CameraViewModel.cameraSize
             setup()
         }
         firstLaunch = false
         super.layoutSubviews()
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        return CameraViewModel.cameraSize
     }
     
     func setup() {

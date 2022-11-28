@@ -18,11 +18,14 @@ struct CameraView: View {
         ZStack {
             if let capturedImage = viewModel.capturedImage {
                 Image(uiImage: capturedImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .onTapGesture {
                         viewModel.resumeCamera()
                     }
             } else {
                 CameraViewRepresentable(viewModel: viewModel)
+                    .fixedSize(horizontal: false, vertical: true)
                     .onTapGesture {
                         viewModel.takePhoto()
                     }
