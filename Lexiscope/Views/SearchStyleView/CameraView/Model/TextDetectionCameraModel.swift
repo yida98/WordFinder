@@ -56,8 +56,7 @@ class TextDetectionCameraModel {
     }
     
     func startRunning() {
-        // FIXME: -[AVCaptureSession startRunning] should be called from background thread. Calling it on the main thread can lead to UI unresponsiveness
-        self.session.startRunning()
+            self.session.startRunning()
     }
     
     func capturePhoto(with settings: AVCapturePhotoSettings, delegate: AVCapturePhotoCaptureDelegate) {

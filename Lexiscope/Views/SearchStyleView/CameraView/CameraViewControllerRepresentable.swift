@@ -45,7 +45,9 @@ class CameraScannerView: UIView {
     
     override func layoutSubviews() {
         if firstLaunch {
-            setup()
+            DispatchQueue.global().async {
+                self.setup()
+            }
         }
         firstLaunch = false
         super.layoutSubviews()
@@ -57,9 +59,11 @@ class CameraScannerView: UIView {
     
     func setup() {
         viewModel.startCamera()
-        if let previewLayer = viewModel.cameraPreviewLayer() {            
-            previewLayer.frame = self.frame
-            self.layer.insertSublayer(previewLayer, at: 0)
+        if let previewLayer = viewModel.cameraPreviewLayer() {
+            DispatchQueue.main.async {
+                previewLayer.frame = self.frame
+                self.layer.insertSublayer(previewLayer, at: 0)
+            }
         }
     }
 
