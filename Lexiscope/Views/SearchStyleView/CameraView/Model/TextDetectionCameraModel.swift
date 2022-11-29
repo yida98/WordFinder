@@ -16,7 +16,6 @@ class TextDetectionCameraModel {
     private let deviceOutput = AVCapturePhotoOutput()
     var previewLayer: AVCaptureVideoPreviewLayer! = nil
     
-    var request: VNRecognizeTextRequest!
     let sessionPreset: AVCaptureSession.Preset
     let captureVideoTextDetectionDelegate: AVCaptureVideoTextDetectionDelegate
 
@@ -26,9 +25,6 @@ class TextDetectionCameraModel {
     }
     
     func startLiveVideo() -> AVCaptureVideoPreviewLayer? {
-        request = VNRecognizeTextRequest(completionHandler: captureVideoTextDetectionDelegate.detectText(request:error:))
-
-        
         var deviceInput: AVCaptureDeviceInput!
         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             debugPrint("No video device; might be using a simulator.")
@@ -56,7 +52,7 @@ class TextDetectionCameraModel {
     }
     
     func startRunning() {
-            self.session.startRunning()
+        self.session.startRunning()
     }
     
     func capturePhoto(with settings: AVCapturePhotoSettings, delegate: AVCapturePhotoCaptureDelegate) {

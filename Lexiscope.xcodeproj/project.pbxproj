@@ -10,6 +10,7 @@
 		E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */; };
 		E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */; };
 		E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */; };
+		E44573622935BE87008154B7 /* TextDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44573612935BE87008154B7 /* TextDetector.swift */; };
 		E467D5EB28D87AF60005480D /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5EA28D87AF60005480D /* DefinitionView.swift */; };
 		E467D5ED28DBB8F30005480D /* SearchStyleToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5EC28DBB8F30005480D /* SearchStyleToggleView.swift */; };
 		E467D5F028DBB9260005480D /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5EF28DBB9260005480D /* SearchView.swift */; };
@@ -36,6 +37,7 @@
 		E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetectionCameraModel.swift; sourceTree = "<group>"; };
+		E44573612935BE87008154B7 /* TextDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetector.swift; sourceTree = "<group>"; };
 		E467D5EA28D87AF60005480D /* DefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
 		E467D5EC28DBB8F30005480D /* SearchStyleToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStyleToggleView.swift; sourceTree = "<group>"; };
 		E467D5EF28DBB9260005480D /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			children = (
 				E4F3623C2821EE610078721F /* CameraViewModel.swift */,
 				E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */,
+				E44573612935BE87008154B7 /* TextDetector.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
 				E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */,
 				E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */,
+				E44573622935BE87008154B7 /* TextDetector.swift in Sources */,
 				E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */,
 				E467D5F628DBD0920005480D /* SearchIconView.swift in Sources */,
 				E4F3623A2821ED500078721F /* CameraView.swift in Sources */,

@@ -27,19 +27,19 @@ class CameraViewModel: NSObject,
 //    }
     @Published var allowsCameraUsage: Bool = true
     
-    // FIXME: Fix all of these magic values
+    // TODO: Fix all of these magic values
     static let viewportSize = CGSize(width: Constant.screenBounds.width * 0.3,
                                      height: 65)
     static let cameraSize = CGSize(width: Constant.screenBounds.width,
                                    height: Constant.screenBounds.width * CameraViewModel.bufferRatio)
     
-    static let boundingBoxPadding: CGFloat = 4
-    static let boundingBoxCornerRadius: CGFloat = 6
-    static let viewFurtherInset: CGFloat = 50
-    
-    static let buttonSize = CGSize(width: 90, height: 40)
-    static let buttonPadding: CGFloat = 50
-    static let buttonCornerRadius: CGFloat = 20
+//    static let boundingBoxPadding: CGFloat = 4
+//    static let boundingBoxCornerRadius: CGFloat = 6
+//    static let viewFurtherInset: CGFloat = 50
+//
+//    static let buttonSize = CGSize(width: 90, height: 40)
+//    static let buttonPadding: CGFloat = 50
+//    static let buttonCornerRadius: CGFloat = 20
     
     var cancellableSet = Set<AnyCancellable>()
     
@@ -84,6 +84,9 @@ class CameraViewModel: NSObject,
 // MARK: - Text Detection
     private static let maxCandidates = 1 // TODO: Delegate out these customizations to others
     
+    private static let centerPoint = CGPoint(x: 0.5, y: 0.5)
+    private static let leadingPoint = CGPoint(x: 0, y: 0.5)
+    
     internal func detectText(request: VNRequest, error: Error?) {
         if error != nil {
             debugPrint(error.debugDescription)
@@ -95,7 +98,7 @@ class CameraViewModel: NSObject,
             return
         }
         
-        if let result = Self.closestTo(.bottom, in: results) {
+        if let result = TextDetector.closestTo(Self.centerPoint, in: results) {
             if let recognizedText = result.topCandidates(Self.maxCandidates).first {
                 let bounds = Self.boundingBox(forRegionOfInterest: result.boundingBox, fromOutput: CameraViewModel.viewportSize)
                 DispatchQueue.main.async { [self] in
@@ -105,58 +108,21 @@ class CameraViewModel: NSObject,
             }
         }
     }
-
-// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
-    var request: VNRecognizeTextRequest!
-    var sequenceHandler = VNSequenceRequestHandler()
-    
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+    // MARK: - AVCapturePhotoCaptureDelegate
 
-
-        request.recognitionLevel = .accurate
-//            request.usesLanguageCorrection = true
-//            request.recognitionLanguages = [
-
-        /// The origin point is the lower-left corner, not the centre origin
-        let height = (Constant.screenBounds.width / (bufferSize.height / bufferSize.width))
-        let originX = (Constant.screenBounds.width - CameraViewModel.viewportSize.width) / 2
-        let originY = (height - CameraViewModel.viewportSize.height)/2
-
-        request.regionOfInterest = Self.normalizeBounds(for: CGRect(origin: CGPoint(x: originX,
-                                                                                    y: originY),
-                                                                    size: CameraViewModel.viewportSize),
-                                                        in: bufferSize)
-//            let imageRequestHandler = VNImageRequestHandler(cgImage: imageFromSampleBuffer(sampleBuffer : sampleBuffer).cgImage!, options: [:])
-//            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
-        /// Turned off `Address Sanitizer` to ensure `VNImageRequestHandler` doesn't deallocate non-allocated memory
-        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
-                                                        orientation: CGImagePropertyOrientation.right,
-                                                        options: [:])
-
-        do {
-            try imageRequestHandler.perform([request])
-        } catch {
-            // TODO: Handle errors
-            debugPrint(error)
-        }
-    }
-    
     // MARK: Camera variables
     var camera: TextDetectionCameraModel?
     let sessionPreset: AVCaptureSession.Preset = .photo
     @Published var capturedImage: UIImage?
     @Published var coordinates: CGRect = .zero
-    @Published var bufferSize: CGSize = CGSize(width: 4032, height: 3024)
+//    @Published var bufferSize: CGSize = CGSize(width: 4032, height: 3024)
     static let bufferRatio: CGFloat = 4032/3024
     
-    // MARK: - AVCapturePhotoCaptureDelegate
-        
     internal func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation(), let previewImage = UIImage(data: imageData) else { return }
         capturedImage = previewImage.resizingTo(size: CameraViewModel.cameraSize)
+        TextDetector.detect(from: imageData, request: detectText(request:error:))
     }
     
     func takePhoto() {
@@ -206,48 +172,6 @@ class CameraViewModel: NSObject,
         size = CGSize(width: size.width/width, height: size.height/height)
         
         return size
-    }
-
-    private static func closestTo(_ point: Point,in results: [VNRecognizedTextObservation]) -> VNRecognizedTextObservation? {
-        return results.reduce(results.first) { result, observation in
-            var prevDistance: Float = 0
-            var currDistance: Float = 0
-            guard let prev = result else {
-                return observation
-            }
-            var pointX, pointY, prevX, prevY, currX, currY: Float
-            
-            switch point {
-            case .top:
-                pointX = 0.5
-                pointY = 1
-                prevX = Float(prev.boundingBox.midX)
-                prevY = Float(prev.boundingBox.maxY)
-                currX = Float(observation.boundingBox.midX)
-                currY = Float(observation.boundingBox.maxY)
-            case .bottom:
-                pointX = 0.5
-                pointY = 0
-                prevX = Float(prev.boundingBox.midX)
-                prevY = Float(prev.boundingBox.minY)
-                currX = Float(observation.boundingBox.midX)
-                currY = Float(observation.boundingBox.minY)
-                
-            default: // Centre case
-                pointX = 0.5
-                pointY = 0.5
-                prevX = Float(prev.boundingBox.midX)
-                prevY = Float(prev.boundingBox.midY)
-                currX = Float(observation.boundingBox.midX)
-                currY = Float(observation.boundingBox.midY)
-            }
-            
-            prevDistance += (pointX - prevX).magnitude + (pointY - prevY).magnitude
-            currDistance += (pointX - currX).magnitude + (pointY - currY).magnitude
-            
-//            print(prevDistance, prev.boundingBox.midX, prev.boundingBox.midY, currDistance, observation.boundingBox.midX, observation.boundingBox.midY)
-            return prevDistance > currDistance ? observation : result
-        }
     }
     
     fileprivate static func boundingBox(forRegionOfInterest: CGRect, fromOutput size: CGSize) -> CGRect {
