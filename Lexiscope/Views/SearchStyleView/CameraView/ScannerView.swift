@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct ScannerView: View {
-    @EnvironmentObject var viewModel: CameraViewModel
+    @EnvironmentObject var viewModel: ScannerViewModel
     
     var body: some View {
         ZStack {

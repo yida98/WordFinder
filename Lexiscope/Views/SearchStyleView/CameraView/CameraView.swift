@@ -31,9 +31,7 @@ struct CameraView: View {
                     }
             }
             ScannerView()
-                .environmentObject(viewModel)
-                .frame(width: CameraViewModel.viewportSize.width,
-                       height: CameraViewModel.viewportSize.height)
+                .environmentObject(viewModel.getScannerModel())
                 .overlay(Text(viewModel.word)
                             .foregroundColor(Color.babyPowder)
                             //.offset(y: CameraViewModel.viewportSize.height*0.5 + 16) // FIXME: Correct offset

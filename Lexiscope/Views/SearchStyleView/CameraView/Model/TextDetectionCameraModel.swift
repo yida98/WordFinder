@@ -17,11 +17,9 @@ class TextDetectionCameraModel {
     var previewLayer: AVCaptureVideoPreviewLayer! = nil
     
     let sessionPreset: AVCaptureSession.Preset
-    let captureVideoTextDetectionDelegate: AVCaptureVideoTextDetectionDelegate
 
-    init(sessionPreset: AVCaptureSession.Preset, captureVideoTextDetectionDelegate: AVCaptureVideoTextDetectionDelegate) {
+    init(sessionPreset: AVCaptureSession.Preset) {
         self.sessionPreset = sessionPreset
-        self.captureVideoTextDetectionDelegate = captureVideoTextDetectionDelegate
     }
     
     func startLiveVideo() -> AVCaptureVideoPreviewLayer? {
