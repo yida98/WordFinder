@@ -11,19 +11,19 @@ import Combine
 import AVFoundation
 
 class CameraViewModel: NSObject,
-                        ObservableObject,
-                        AVCaptureVideoDataOutputSampleBufferDelegate,
-                        AVCapturePhotoCaptureDelegate {
+                       ObservableObject,
+                       AVCaptureVideoDataOutputSampleBufferDelegate,
+                       AVCapturePhotoCaptureDelegate {
     
     @Published var hasCapturedImage: Bool = false
     @Published var loading: Bool = false
     
     @Published var word: String = ""
-//    @Published var headwordEntry: HeadwordEntry? {
-//        willSet {
-//            loading = false
-//        }
-//    }
+    //    @Published var headwordEntry: HeadwordEntry? {
+    //        willSet {
+    //            loading = false
+    //        }
+    //    }
     @Published var allowsCameraUsage: Bool = true
     
     // TODO: Fix all of these magic values
@@ -32,7 +32,14 @@ class CameraViewModel: NSObject,
     
     var cancellableSet = Set<AnyCancellable>()
     
-    override init() {
+    var cameraViewportSize: CGSize
+    
+    convenience override init() {
+        self.init(cameraViewportSize: .zero)
+    }
+    
+    init(cameraViewportSize: CGSize) {
+        self.cameraViewportSize = cameraViewportSize
         super.init()
         CameraViewModel.requestCameraAccess { success in
             Just(success)
@@ -44,24 +51,24 @@ class CameraViewModel: NSObject,
     func lookup() {
         if word != "" {
             loading = true
-
-//            URLTask.shared.get(word: word)
-//                .receive(on: RunLoop.main)
-//                .sink(receiveCompletion: { completion in
-//                    debugPrint("completed")
-//                }, receiveValue: { entry in
-//                    if let newEntry = entry {
-//                        self.headwordEntry = newEntry
-//                    } else {
-//                        self.headwordEntry = nil
-//                    }
-//                })
-//                .store(in: &cancellableSet)
+            
+            //            URLTask.shared.get(word: word)
+            //                .receive(on: RunLoop.main)
+            //                .sink(receiveCompletion: { completion in
+            //                    debugPrint("completed")
+            //                }, receiveValue: { entry in
+            //                    if let newEntry = entry {
+            //                        self.headwordEntry = newEntry
+            //                    } else {
+            //                        self.headwordEntry = nil
+            //                    }
+            //                })
+            //                .store(in: &cancellableSet)
         }
     }
     
     func removeEntry(indexSet: IndexSet) {
-//        Storage.shared.entries.remove(atOffsets: indexSet)
+        //        Storage.shared.entries.remove(atOffsets: indexSet)
     }
     
     static func requestCameraAccess(_ completion: @escaping (_ success: Bool) -> Void) {
@@ -75,7 +82,13 @@ class CameraViewModel: NSObject,
     private var scannerViewModel: ScannerViewModel?
     
     func getScannerModel() -> ScannerViewModel {
-        let viewModel = ScannerViewModel(input: $capturedImage.eraseToAnyPublisher())
+        // Assuming the origin is the lower-left corner of the parent (i.e. the camera)
+        let roiOrigin = CGPoint(x: 0,
+                                y: (Self.cameraSize.height - cameraViewportSize.height) / 2)
+        let regionOfInterest = CGRect(origin: roiOrigin,
+                                      size: cameraViewportSize)
+        let viewModel = ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
+                                         regionOfInterest: regionOfInterest)
         scannerViewModel = viewModel
         return viewModel
     }

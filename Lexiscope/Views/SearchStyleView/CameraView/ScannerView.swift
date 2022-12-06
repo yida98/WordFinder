@@ -13,7 +13,9 @@ struct ScannerView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 10) // TODO: Theme
+            Text(viewModel.resultCluster)
+            // FIXME: Negative frame, coordinates.width
+            RoundedRectangle(cornerRadius: 0) // TODO: Theme
                 .foregroundColor(Color.darkSkyBlue.opacity(0.3))
                 .frame(width: viewModel.coordinates.width,
                        height: viewModel.coordinates.height)

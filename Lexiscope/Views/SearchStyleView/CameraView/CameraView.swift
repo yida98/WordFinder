@@ -12,7 +12,7 @@ import Vision
 
 struct CameraView: View {
     
-    @StateObject var viewModel: CameraViewModel = CameraViewModel()
+    @ObservedObject var viewModel: CameraViewModel
     
     var body: some View {
         ZStack {
@@ -32,6 +32,8 @@ struct CameraView: View {
             }
             ScannerView()
                 .environmentObject(viewModel.getScannerModel())
+                .frame(width: viewModel.cameraViewportSize.width,
+                       height: viewModel.cameraViewportSize.height)
                 .overlay(Text(viewModel.word)
                             .foregroundColor(Color.babyPowder)
                             //.offset(y: CameraViewModel.viewportSize.height*0.5 + 16) // FIXME: Correct offset

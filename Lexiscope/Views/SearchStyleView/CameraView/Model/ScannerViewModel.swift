@@ -12,14 +12,18 @@ import Combine
 
 class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
     var textDetector = VNTextDetector()
-    var imageOrientation: CGImagePropertyOrientation = .right
+    var imageOrientation: CGImagePropertyOrientation = .up
     var recognitionLevel: VNRequestTextRecognitionLevel = .accurate
+    var regionOfInterest: CGRect
+    var realRegionOfInterest: CGRect
     
     @Published var coordinates: CGRect = .zero
     @Published var resultCluster: String = ""
     private var inputSubscriber: AnyCancellable?
     
-    init(input: AnyPublisher<UIImage?, Never>) {
+    init(input: AnyPublisher<UIImage?, Never>, regionOfInterest: CGRect) {
+        self.realRegionOfInterest = regionOfInterest
+        self.regionOfInterest = Self.calculateRegionOfInterest(for: regionOfInterest)
         textDetector.delegate = self
         self.inputSubscriber = input.sink(receiveValue: { uiImage in
             if let image = uiImage, let cgImage = image.cgImage {
@@ -45,7 +49,8 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
         
         if let result = VNTextDetector.closestTo(Self.centerPoint, in: results) {
             if let recognizedText = result.topCandidates(Self.maxCandidates).first {
-                let bounds = Self.boundingBox(forRegionOfInterest: result.boundingBox, fromOutput: .zero)
+                let bounds = Self.boundingBox(of: result.boundingBox,
+                                              inRealRegionOfInterest: realRegionOfInterest)
                 DispatchQueue.main.async { [self] in
                     coordinates = bounds
                     resultCluster = recognizedText.string
@@ -54,52 +59,28 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
         }
     }
     
-    /// Calculate the `regionOfInterest` in the `bufferSize` normalized for the screen size
-    private static func normalizeBounds(for regionOfInterest: CGRect, in bufferSize: CGSize) -> CGRect {
+    fileprivate static func boundingBox(of output: CGRect, inRealRegionOfInterest roi: CGRect) -> CGRect {
+        var normalizedOutput = VNImageRectForNormalizedRect(output, Int(roi.width), Int(roi.height))
         
-        var rect = regionOfInterest
-        let width = Constant.screenBounds.width
-        let height = width / (bufferSize.height / bufferSize.width)
-        rect.origin = CGPoint(x: rect.minX/width, y: rect.minY/height)
-        rect.size = CGSize(width: rect.size.width/width, height: rect.size.height/height)
-        return rect
+        
+        let outputTranslation = CGAffineTransform(translationX: 0, y: -roi.height)
+        let outputScale = CGAffineTransform(scaleX: 1, y: -1)
+
+        normalizedOutput = normalizedOutput.applying(outputTranslation)
+        normalizedOutput = normalizedOutput.applying(outputScale)
+        
+        return normalizedOutput
     }
     
-    private static func normalizeSize(for regionOfInterest: CGSize, in bufferSize: CGSize) -> CGSize {
-        
-        var size = regionOfInterest
-        let width = Constant.screenBounds.width
-        let height = width / (bufferSize.height / bufferSize.width)
-
-        size = CGSize(width: size.width/width, height: size.height/height)
-        
-        return size
-    }
-    
-    fileprivate static func boundingBox(forRegionOfInterest: CGRect, fromOutput size: CGSize) -> CGRect {
-        
-        let imageWidth = size.width
-        let imageHeight = size.height
-        
-        let imageRatio = imageWidth / imageHeight
-        let width = imageWidth
-        let height = width / imageRatio
-        
-        // Begin with input rect.
-        var rect = forRegionOfInterest
-        
-        // FIXME: Figure out actual rotation
-//        let bottomToTopTransform = CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -1)
-        let uiRotationTransform = CGAffineTransform(translationX: 1, y: 1).rotated(by: CGFloat.pi)
-//        let transform = bottomToTopTransform.concatenating(uiRotationTransform)
-        rect = rect.applying(uiRotationTransform)
-        
-        rect.size.height *= height
-        rect.size.width *= width
-        
-        rect.origin.x = (rect.origin.x) * width
-        rect.origin.y = rect.origin.y * height
-
-        return rect
+    /// Calculates the region of interest for the scanner based on the size of the viewport of the serach view
+    /// The camera's size doesn't scale with the change in the viewport's size
+    static func calculateRegionOfInterest(for roi: CGRect) -> CGRect {
+        debugPrint(roi)
+        let x = roi.minX / CameraViewModel.cameraSize.width
+        let y = roi.minY / CameraViewModel.cameraSize.height
+        let width = roi.width / CameraViewModel.cameraSize.width
+        let height = roi.height / CameraViewModel.cameraSize.height
+        let result = CGRect(x: x, y: y, width: width, height: height)
+        return result
     }
 }
