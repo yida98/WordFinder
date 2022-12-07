@@ -13,7 +13,8 @@ import AVFoundation
 class CameraViewModel: NSObject,
                        ObservableObject,
                        AVCaptureVideoDataOutputSampleBufferDelegate,
-                       AVCapturePhotoCaptureDelegate {
+                       AVCapturePhotoCaptureDelegate,
+                       NormalizationDelegate {
     
     @Published var hasCapturedImage: Bool = false
     @Published var loading: Bool = false
@@ -27,8 +28,7 @@ class CameraViewModel: NSObject,
     @Published var allowsCameraUsage: Bool = true
     
     // TODO: Fix all of these magic values
-    static let cameraSize = CGSize(width: Constant.screenBounds.width,
-                                   height: Constant.screenBounds.width * CameraViewModel.bufferRatio)
+    var cameraSizePublisher: CurrentValueSubject<CGSize, Never> = CurrentValueSubject<CGSize, Never>(.zero)
     
     var cancellableSet = Set<AnyCancellable>()
     
@@ -84,27 +84,39 @@ class CameraViewModel: NSObject,
     func getScannerModel() -> ScannerViewModel {
         // Assuming the origin is the lower-left corner of the parent (i.e. the camera)
         let roiOrigin = CGPoint(x: 0,
-                                y: (Self.cameraSize.height - cameraViewportSize.height) / 2)
+                                y: (cameraSizePublisher.value.height - cameraViewportSize.height) / 2)
         let regionOfInterest = CGRect(origin: roiOrigin,
                                       size: cameraViewportSize)
         let viewModel = ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
-                                         regionOfInterest: regionOfInterest)
+                                         regionOfInterest: regionOfInterest,
+                                         normalizationDelegate: self)
         scannerViewModel = viewModel
         return viewModel
+    }
+    
+    /// Calculates the region of interest for the scanner based on the size of the viewport of the serach view
+    /// The camera's size doesn't scale with the change in the viewport's size
+    func normalize(rect: CGRect) -> CGRect {
+        let x = rect.minX / cameraSizePublisher.value.width
+        let y = rect.minY / cameraSizePublisher.value.height
+        let width = rect.width / cameraSizePublisher.value.width
+        let height = rect.height / cameraSizePublisher.value.height
+        let result = CGRect(x: x, y: y, width: width, height: height)
+        return result
     }
     
     // MARK: - AVCapturePhotoCaptureDelegate
 
     // MARK: Camera variables
     var camera: TextDetectionCameraModel?
-    let sessionPreset: AVCaptureSession.Preset = .photo
+    /// The session preset determines the buffer's aspect ratio
+    var sessionPreset: AVCaptureSession.Preset = .photo
+    var bufferRatio: CGFloat = .zero
     @Published var capturedImage: UIImage?
-//    @Published var bufferSize: CGSize = CGSize(width: 4032, height: 3024)
-    static let bufferRatio: CGFloat = 4032/3024
     
-    internal func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation(), let previewImage = UIImage(data: imageData) else { return }
-        capturedImage = previewImage.resizingTo(size: CameraViewModel.cameraSize)
+        capturedImage = previewImage.resizingTo(size: cameraSizePublisher.value)
     }
     
     func takePhoto() {
@@ -119,6 +131,7 @@ class CameraViewModel: NSObject,
     }
     
     func startCamera() {
+        setBufferRatio(with: .photo)
         camera = TextDetectionCameraModel(sessionPreset: sessionPreset)
         camera?.startRunning()
     }
@@ -129,6 +142,16 @@ class CameraViewModel: NSObject,
     
     func cameraPreviewLayer() -> CALayer? {
         return camera?.startLiveVideo()
+    }
+    
+    func setBufferRatio(with preset: AVCaptureSession.Preset) {
+        sessionPreset = preset
+        // TODO: Other presets
+        bufferRatio = 4/3
+        
+        let cameraSize = CGSize(width: cameraViewportSize.width,
+                                height: cameraViewportSize.width * bufferRatio)
+        cameraSizePublisher.send(cameraSize)
     }
 }
 

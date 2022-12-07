@@ -12,18 +12,25 @@ import Combine
 
 class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
     var textDetector = VNTextDetector()
+    
+    // MARK: VNTextDetectorDelegate
     var imageOrientation: CGImagePropertyOrientation = .up
     var recognitionLevel: VNRequestTextRecognitionLevel = .accurate
     var regionOfInterest: CGRect
+    
     var realRegionOfInterest: CGRect
     
     @Published var coordinates: CGRect = .zero
     @Published var resultCluster: String = ""
     private var inputSubscriber: AnyCancellable?
     
-    init(input: AnyPublisher<UIImage?, Never>, regionOfInterest: CGRect) {
+    var normalizationDelegate: NormalizationDelegate?
+    
+    init(input: AnyPublisher<UIImage?, Never>, regionOfInterest: CGRect, normalizationDelegate: NormalizationDelegate) {
         self.realRegionOfInterest = regionOfInterest
-        self.regionOfInterest = Self.calculateRegionOfInterest(for: regionOfInterest)
+        self.normalizationDelegate = normalizationDelegate
+        self.regionOfInterest = normalizationDelegate.normalize(rect: regionOfInterest)
+        
         textDetector.delegate = self
         self.inputSubscriber = input.sink(receiveValue: { uiImage in
             if let image = uiImage, let cgImage = image.cgImage {
@@ -62,7 +69,6 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
     fileprivate static func boundingBox(of output: CGRect, inRealRegionOfInterest roi: CGRect) -> CGRect {
         var normalizedOutput = VNImageRectForNormalizedRect(output, Int(roi.width), Int(roi.height))
         
-        
         let outputTranslation = CGAffineTransform(translationX: 0, y: -roi.height)
         let outputScale = CGAffineTransform(scaleX: 1, y: -1)
 
@@ -71,16 +77,8 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
         
         return normalizedOutput
     }
-    
-    /// Calculates the region of interest for the scanner based on the size of the viewport of the serach view
-    /// The camera's size doesn't scale with the change in the viewport's size
-    static func calculateRegionOfInterest(for roi: CGRect) -> CGRect {
-        debugPrint(roi)
-        let x = roi.minX / CameraViewModel.cameraSize.width
-        let y = roi.minY / CameraViewModel.cameraSize.height
-        let width = roi.width / CameraViewModel.cameraSize.width
-        let height = roi.height / CameraViewModel.cameraSize.height
-        let result = CGRect(x: x, y: y, width: width, height: height)
-        return result
-    }
+}
+
+protocol NormalizationDelegate {
+    func normalize(rect: CGRect) -> CGRect
 }

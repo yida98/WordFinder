@@ -39,7 +39,7 @@ struct CameraViewRepresentable: UIViewRepresentable {
 }
 
 class CameraScannerView: UIView {
-    var viewModel: CameraViewModel!
+    var viewModel: CameraViewModel?
     
     private var firstLaunch: Bool = true
     
@@ -53,12 +53,20 @@ class CameraScannerView: UIView {
         super.layoutSubviews()
     }
     
+    var cameraSizeSubscriber: AnyCancellable?
     override var intrinsicContentSize: CGSize {
-        return CameraViewModel.cameraSize
+        guard let viewModel = viewModel else { return .zero }
+        return viewModel.cameraSizePublisher.value
     }
     
     func setup() {
+        guard let viewModel = viewModel else { return }
         viewModel.startCamera()
+        cameraSizeSubscriber = viewModel.cameraSizePublisher.sink { _ in
+            DispatchQueue.main.async {
+                self.invalidateIntrinsicContentSize()
+            }
+        }
         if let previewLayer = viewModel.cameraPreviewLayer() {
             DispatchQueue.main.async {
                 previewLayer.frame = self.frame
