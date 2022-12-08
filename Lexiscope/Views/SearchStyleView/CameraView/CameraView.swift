@@ -24,8 +24,7 @@ struct CameraView: View {
                 CameraViewRepresentable(viewModel: viewModel)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            ScannerView()
-                .environmentObject(viewModel.getScannerModel())
+            ScannerView(viewModel: viewModel.getScannerModel())
                 .frame(width: viewModel.cameraViewportSize.width,
                        height: viewModel.cameraViewportSize.height)
                 .onTapGesture {

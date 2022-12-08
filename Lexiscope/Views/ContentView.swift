@@ -14,8 +14,7 @@ struct ContentView: View {
         VStack {
             DefinitionView(word: Self.someEntry)
             Spacer()
-            SearchView()
-                .environmentObject(SearchViewModel())
+            SearchView(viewModel: SearchViewModel())
         }
     }
     

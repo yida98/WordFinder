@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchStyleToggleView: View {
-    @EnvironmentObject var viewModel: SearchViewModel
+    @ObservedObject var viewModel: SearchViewModel
     var body: some View {
         VStack {
             SearchIconView(selected: viewModel.cameraSearch, systemName: "camera")
@@ -32,11 +32,5 @@ struct SearchStyleToggleView: View {
         .mask {
             RoundedRectangle(cornerRadius: .infinity)
         }
-    }
-}
-
-struct SearchStyleToggleView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchStyleToggleView()
     }
 }

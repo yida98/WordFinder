@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @EnvironmentObject var viewModel: SearchViewModel
+    @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
         VStack {
@@ -21,7 +21,7 @@ struct SearchView: View {
                  
                 HStack {
                     Spacer()
-                    SearchStyleToggleView()
+                    SearchStyleToggleView(viewModel: SearchViewModel())
                 }
             }
             .frame(width: viewModel.cameraViewportSize.width,
@@ -39,11 +39,5 @@ struct SearchView: View {
             RoundedRectangle(cornerRadius: 20)
         }
         .clipped()
-    }
-}
-
-struct SearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchView()
     }
 }
