@@ -119,7 +119,15 @@ class CameraViewModel: NSObject,
         capturedImage = previewImage.resizingTo(size: cameraSizePublisher.value)
     }
     
-    func takePhoto() {
+    func handleCameraViewTap() {
+        if (capturedImage != nil) {
+            resumeCamera()
+        } else {
+            takePhoto()
+        }
+    }
+    
+    private func takePhoto() {
         var photoSettings = AVCapturePhotoSettings()
         if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first,
             let camera = camera {
@@ -136,7 +144,7 @@ class CameraViewModel: NSObject,
         camera?.startRunning()
     }
     
-    func resumeCamera() {
+    private func resumeCamera() {
         capturedImage = nil
     }
     

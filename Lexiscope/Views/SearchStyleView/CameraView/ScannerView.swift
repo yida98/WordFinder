@@ -14,14 +14,25 @@ struct ScannerView: View {
     var body: some View {
         ZStack {
             Text(viewModel.resultCluster)
-            // FIXME: Negative frame, coordinates.width
-            RoundedRectangle(cornerRadius: 0) // TODO: Theme
-                .foregroundColor(Color.darkSkyBlue.opacity(0.3))
-                .frame(width: viewModel.coordinates.width,
-                       height: viewModel.coordinates.height)
-                .position(x: viewModel.coordinates.midX,
-                          y: viewModel.coordinates.midY)
+            // FIXME: Negative frame, coordinates.
+            Rectangle()
+                .foregroundColor(.black.opacity(0.5))
+                .mask {
+                    if viewModel.coordinates != .zero {
+                        Window(coordinates: viewModel.coordinates).fill(style: FillStyle(eoFill: true))
+                    }
+                }
         }
+    }
+}
+
+struct Window: Shape {
+    let coordinates: CGRect
+    func path(in rect: CGRect) -> Path {
+        var path = Rectangle().path(in: rect)
+        
+        path.addRect(coordinates)
+        return path
     }
 }
 
