@@ -12,7 +12,7 @@ struct SearchToolbar: View {
     
     var body: some View {
         HStack {
-            Text(viewModel.wordSearchRequest)
+            WordCellClusterView(viewModel: viewModel)
         }
     }
 }
