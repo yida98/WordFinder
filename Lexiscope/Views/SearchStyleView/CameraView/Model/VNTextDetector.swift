@@ -12,8 +12,6 @@ class VNTextDetector: ObservableObject {
     
     var delegate: VNTextDetectorDelegate?
     
-    private var latestDetection: VNRequest?
-    
     init() {}
     
     func detect(from imageData: Data) {
@@ -49,10 +47,6 @@ class VNTextDetector: ObservableObject {
         } catch {
             debugPrint("Could not handle \(request) because of \(error)")
         }
-    }
-    
-    func getLatestDetection() -> VNRequest? {
-        return latestDetection
     }
     
     // MARK: Helper funcs

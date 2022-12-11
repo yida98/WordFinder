@@ -11,17 +11,17 @@ import SwiftUI
 import Combine
 
 class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
-    var textDetector = VNTextDetector()
+    private var textDetector = VNTextDetector()
     
     // MARK: VNTextDetectorDelegate
     var imageOrientation: CGImagePropertyOrientation = .up
     var recognitionLevel: VNRequestTextRecognitionLevel = .accurate
     var regionOfInterest: CGRect
     
-    var realRegionOfInterest: CGRect
+    private var realRegionOfInterest: CGRect
     
     @Published var coordinates: CGRect = .zero
-    @Published var resultCluster: String = ""
+    private var resultCluster: PassthroughSubject<String, Never>
     private var inputSubscriber: AnyCancellable?
     
     var normalizationDelegate: NormalizationDelegate?
@@ -31,12 +31,15 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
         self.normalizationDelegate = normalizationDelegate
         self.regionOfInterest = normalizationDelegate.normalize(rect: regionOfInterest)
         
+        self.resultCluster = PassthroughSubject<String, Never>()
+        
         textDetector.delegate = self
         self.inputSubscriber = input.sink(receiveValue: { uiImage in
             if let image = uiImage, let cgImage = image.cgImage {
                 self.textDetector.detect(from: cgImage)
             }
         })
+        WordSearchRequestManager.shared.addPublisher(resultCluster.eraseToAnyPublisher())
     }
     
     private static let maxCandidates = 1 // TODO: Delegate out these customizations to others
@@ -60,7 +63,7 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
                                               inRealRegionOfInterest: realRegionOfInterest)
                 DispatchQueue.main.async { [self] in
                     coordinates = bounds
-                    resultCluster = recognizedText.string
+                    resultCluster.send(recognizedText.string)
                 }
             }
         }

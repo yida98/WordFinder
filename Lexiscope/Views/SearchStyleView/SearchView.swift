@@ -21,7 +21,7 @@ struct SearchView: View {
                  
                 HStack {
                     Spacer()
-                    SearchStyleToggleView(viewModel: SearchViewModel())
+                    SearchStyleToggleView(viewModel: viewModel)
                 }
             }
             .frame(width: viewModel.cameraViewportSize.width,
@@ -32,7 +32,7 @@ struct SearchView: View {
             }
             .clipped()
 
-            SearchToolbar()
+            SearchToolbar(viewModel: viewModel)
         }
         .background(.gray)
         .mask {

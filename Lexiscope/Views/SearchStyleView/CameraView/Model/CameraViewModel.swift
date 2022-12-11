@@ -16,22 +16,10 @@ class CameraViewModel: NSObject,
                        AVCapturePhotoCaptureDelegate,
                        NormalizationDelegate {
     
-    @Published var hasCapturedImage: Bool = false
-    @Published var loading: Bool = false
-    
-    @Published var word: String = ""
-    //    @Published var headwordEntry: HeadwordEntry? {
-    //        willSet {
-    //            loading = false
-    //        }
-    //    }
     @Published var allowsCameraUsage: Bool = true
     
     // TODO: Fix all of these magic values
     var cameraSizePublisher: CurrentValueSubject<CGSize, Never> = CurrentValueSubject<CGSize, Never>(.zero)
-    
-    var cancellableSet = Set<AnyCancellable>()
-    
     var cameraViewportSize: CGSize
     
     convenience override init() {
@@ -45,25 +33,6 @@ class CameraViewModel: NSObject,
             Just(success)
                 .receive(on: RunLoop.main)
                 .assign(to: &self.$allowsCameraUsage)
-        }
-    }
-    
-    func lookup() {
-        if word != "" {
-            loading = true
-            
-            //            URLTask.shared.get(word: word)
-            //                .receive(on: RunLoop.main)
-            //                .sink(receiveCompletion: { completion in
-            //                    debugPrint("completed")
-            //                }, receiveValue: { entry in
-            //                    if let newEntry = entry {
-            //                        self.headwordEntry = newEntry
-            //                    } else {
-            //                        self.headwordEntry = nil
-            //                    }
-            //                })
-            //                .store(in: &cancellableSet)
         }
     }
     

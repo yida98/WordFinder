@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct SearchToolbar: View {
+    @ObservedObject var viewModel: SearchViewModel
+    
     var body: some View {
         HStack {
-            Text("Hola World!")
+            Text(viewModel.wordSearchRequest)
         }
-    }
-}
-
-struct SearchToolbar_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchToolbar()
     }
 }

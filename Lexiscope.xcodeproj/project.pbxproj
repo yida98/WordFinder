@@ -19,6 +19,7 @@
 		E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F328DBC6810005480D /* SearchViewModel.swift */; };
 		E467D5F628DBD0920005480D /* SearchIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F528DBD0920005480D /* SearchIconView.swift */; };
 		E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F728DC1C850005480D /* SearchToolbar.swift */; };
+		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC210287688AC00F1495A /* DictionaryView.swift */; };
 		E4DCC2132876890A00F1495A /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2122876890A00F1495A /* AlertView.swift */; };
 		E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2162878038E00F1495A /* Color_ext.swift */; };
@@ -47,6 +48,7 @@
 		E467D5F328DBC6810005480D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E467D5F528DBD0920005480D /* SearchIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIconView.swift; sourceTree = "<group>"; };
 		E467D5F728DC1C850005480D /* SearchToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchToolbar.swift; sourceTree = "<group>"; };
+		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4DCC210287688AC00F1495A /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
 		E4DCC2122876890A00F1495A /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		E4DCC2162878038E00F1495A /* Color_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_ext.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				E4F3623E2821F6990078721F /* Constant.swift */,
 				E4DCC2162878038E00F1495A /* Color_ext.swift */,
+				E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
 				E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */,
 				E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */,
+				E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
