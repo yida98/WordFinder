@@ -51,17 +51,23 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
             return
         }
         
-        if let result = VNTextDetector.closestTo(Self.centerPoint, in: results) {
-            if let recognizedText = result.topCandidates(Self.maxCandidates).first,
-                let normalizationDelegate = regionOfInterestDelegate {
+        if let roiDelegate = regionOfInterestDelegate,
+            let result = VNTextDetector.closestTo(upsideDownLocationOfInterest(), in: results) {
+            if let recognizedText = result.topCandidates(Self.maxCandidates).first {
                 let bounds = Self.boundingBox(of: result.boundingBox,
-                                              inRealRegionOfInterest: normalizationDelegate.getRealRegionOfInterest())
+                                              inRealRegionOfInterest: roiDelegate.getRealRegionOfInterest())
                 DispatchQueue.main.async { [self] in
                     coordinates = bounds
                     resultCluster.send(recognizedText.string)
                 }
             }
         }
+    }
+    
+    func upsideDownLocationOfInterest() -> CGPoint {
+        guard let regionOfInterestDelegate = regionOfInterestDelegate else { return .zero }
+        let loc = regionOfInterestDelegate.getLocationOfInterest()
+        return CGPoint(x: loc.x, y: 1 - loc.y)
     }
     
     func getRegionOfInterest() -> CGRect {
@@ -83,7 +89,7 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
 }
 
 protocol ROIDelegate {
-    func normalize(rect: CGRect) -> CGRect
     func getRegionOfInterest() -> CGRect
     func getRealRegionOfInterest() -> CGRect
+    func getLocationOfInterest() -> CGPoint
 }

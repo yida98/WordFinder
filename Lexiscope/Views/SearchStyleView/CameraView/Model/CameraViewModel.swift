@@ -18,9 +18,9 @@ class CameraViewModel: NSObject,
     
     @Published var allowsCameraUsage: Bool = true
     
-    // TODO: Fix all of these magic values
     var cameraSizePublisher: CurrentValueSubject<CGSize, Never> = CurrentValueSubject<CGSize, Never>(.zero)
     var cameraViewportSize: CGSize
+    private var locationOfInterest: CGPoint
     
     convenience override init() {
         self.init(cameraViewportSize: .zero)
@@ -28,6 +28,7 @@ class CameraViewModel: NSObject,
     
     init(cameraViewportSize: CGSize) {
         self.cameraViewportSize = cameraViewportSize
+        self.locationOfInterest = .zero
         super.init()
         CameraViewModel.requestCameraAccess { success in
             Just(success)
@@ -63,7 +64,7 @@ class CameraViewModel: NSObject,
     
     /// Calculates the region of interest for the scanner based on the size of the viewport of the serach view
     /// The camera's size doesn't scale with the change in the viewport's size
-    func normalize(rect: CGRect) -> CGRect {
+    private func normalize(rect: CGRect) -> CGRect {
         let x = rect.minX / cameraSizePublisher.value.width
         let y = rect.minY / cameraSizePublisher.value.height
         let width = rect.width / cameraSizePublisher.value.width
@@ -86,6 +87,12 @@ class CameraViewModel: NSObject,
         return regionOfInterest
     }
     
+    func getLocationOfInterest() -> CGPoint {
+        let x = locationOfInterest.x / cameraViewportSize.width
+        let y = locationOfInterest.y / cameraViewportSize.height
+        return CGPoint(x: x, y: y)
+    }
+    
     // MARK: - AVCapturePhotoCaptureDelegate
 
     // MARK: Camera variables
@@ -100,7 +107,8 @@ class CameraViewModel: NSObject,
         capturedImage = previewImage.resizingTo(size: cameraSizePublisher.value)
     }
     
-    func handleCameraViewTap() {
+    func handleCameraViewTap(at location: CGPoint) {
+        locationOfInterest = location
         if (capturedImage != nil) {
             resumeCamera()
         } else {
@@ -126,6 +134,7 @@ class CameraViewModel: NSObject,
     
     private func resumeCamera() {
         capturedImage = nil
+        locationOfInterest = .zero
     }
     
     func cameraPreviewLayer() -> CALayer? {

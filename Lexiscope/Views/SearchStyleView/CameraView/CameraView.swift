@@ -24,12 +24,16 @@ struct CameraView: View {
                 CameraViewRepresentable(viewModel: viewModel)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            ScannerView(viewModel: viewModel.getScannerModel())
-                .frame(width: viewModel.cameraViewportSize.width,
-                       height: viewModel.cameraViewportSize.height)
-                .onTapGesture {
-                    viewModel.handleCameraViewTap()
-                }
+            if #available(iOS 16.0, *) {
+                ScannerView(viewModel: viewModel.getScannerModel())
+                    .frame(width: viewModel.cameraViewportSize.width,
+                           height: viewModel.cameraViewportSize.height)
+                    .onTapGesture(coordinateSpace: .local) { location in
+                        viewModel.handleCameraViewTap(at: location)
+                    }
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 }
