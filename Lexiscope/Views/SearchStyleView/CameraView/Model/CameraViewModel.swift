@@ -56,7 +56,7 @@ class CameraViewModel: NSObject,
             return scannerViewModel!
         }
         let viewModel = ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
-                                         normalizationDelegate: self)
+                                         regionOfInterestDelegate: self)
         scannerViewModel = viewModel
         return viewModel
     }
