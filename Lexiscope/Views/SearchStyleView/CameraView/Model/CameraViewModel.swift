@@ -91,8 +91,8 @@ class CameraViewModel: NSObject,
     }
     
     func getLocationOfInterest() -> CGPoint {
-        let x = locationOfInterest.x / cameraViewportSize.width
-        let y = locationOfInterest.y / cameraViewportSize.height
+        let x = locationOfInterest.x / cameraSizePublisher.value.width
+        let y = locationOfInterest.y / cameraSizePublisher.value.height
         return CGPoint(x: x, y: y)
     }
     
@@ -125,8 +125,6 @@ class CameraViewModel: NSObject,
             let camera = camera {
             photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
             camera.capturePhoto(with: photoSettings, delegate: self)
-            
-            self.camera = nil
         }
     }
     

@@ -17,13 +17,14 @@ struct CameraView: View {
     var body: some View {
         if #available(iOS 16.0, *) {
             ZStack {
-                if let capturedImage = viewModel.capturedImage {
-                    Image(uiImage: capturedImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } else {
+                ZStack {
                     CameraViewRepresentable(viewModel: viewModel)
                         .fixedSize(horizontal: false, vertical: true)
+                    if let capturedImage = viewModel.capturedImage {
+                        Image(uiImage: capturedImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    }
                 }
                 if #available(iOS 16.0, *) {
                     ScannerView(viewModel: viewModel.getScannerModel())
