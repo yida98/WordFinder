@@ -40,7 +40,7 @@ class VNTextDetector: ObservableObject {
         let requestHandler = delegate.detectText(request:error:)
         let request = VNRecognizeTextRequest(completionHandler: requestHandler)
         
-        request.regionOfInterest = delegate.regionOfInterest
+        request.regionOfInterest = delegate.getRegionOfInterest()
         request.recognitionLevel = delegate.recognitionLevel
         do {
             try handler.perform([request])
@@ -76,6 +76,6 @@ extension CGPoint {
 protocol VNTextDetectorDelegate {
     var imageOrientation: CGImagePropertyOrientation { get set }
     var recognitionLevel: VNRequestTextRecognitionLevel { get set }
-    var regionOfInterest: CGRect { get set }
     func detectText(request: VNRequest, error: Error?)
+    func getRegionOfInterest() -> CGRect
 }

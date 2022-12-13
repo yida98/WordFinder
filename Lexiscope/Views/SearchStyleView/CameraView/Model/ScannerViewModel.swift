@@ -16,22 +16,16 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
     // MARK: VNTextDetectorDelegate
     var imageOrientation: CGImagePropertyOrientation = .up
     var recognitionLevel: VNRequestTextRecognitionLevel = .accurate
-    var regionOfInterest: CGRect
-    
-    private var realRegionOfInterest: CGRect
     
     @Published var coordinates: CGRect = .zero
     private var resultCluster: PassthroughSubject<String, Never>
     private var inputSubscriber: AnyCancellable?
     
-    var normalizationDelegate: NormalizationDelegate?
+    var regionOfInterestDelegate: ROIDelegate?
     
-    init(input: AnyPublisher<UIImage?, Never>, regionOfInterest: CGRect, normalizationDelegate: NormalizationDelegate) {
-        self.realRegionOfInterest = regionOfInterest
-        self.normalizationDelegate = normalizationDelegate
-        self.regionOfInterest = normalizationDelegate.normalize(rect: regionOfInterest)
-        
+    init(input: AnyPublisher<UIImage?, Never>, regionOfInterestDelegate: ROIDelegate) {
         self.resultCluster = PassthroughSubject<String, Never>()
+        self.regionOfInterestDelegate = regionOfInterestDelegate
         
         textDetector.delegate = self
         self.inputSubscriber = input.sink(receiveValue: { uiImage in
@@ -58,15 +52,21 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
         }
         
         if let result = VNTextDetector.closestTo(Self.centerPoint, in: results) {
-            if let recognizedText = result.topCandidates(Self.maxCandidates).first {
+            if let recognizedText = result.topCandidates(Self.maxCandidates).first,
+                let normalizationDelegate = regionOfInterestDelegate {
                 let bounds = Self.boundingBox(of: result.boundingBox,
-                                              inRealRegionOfInterest: realRegionOfInterest)
+                                              inRealRegionOfInterest: normalizationDelegate.getRealRegionOfInterest())
                 DispatchQueue.main.async { [self] in
                     coordinates = bounds
                     resultCluster.send(recognizedText.string)
                 }
             }
         }
+    }
+    
+    func getRegionOfInterest() -> CGRect {
+        guard let normalizationDelegate = regionOfInterestDelegate else { return .zero }
+        return normalizationDelegate.getRegionOfInterest()
     }
     
     fileprivate static func boundingBox(of output: CGRect, inRealRegionOfInterest roi: CGRect) -> CGRect {
@@ -82,6 +82,8 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
     }
 }
 
-protocol NormalizationDelegate {
+protocol ROIDelegate {
     func normalize(rect: CGRect) -> CGRect
+    func getRegionOfInterest() -> CGRect
+    func getRealRegionOfInterest() -> CGRect
 }

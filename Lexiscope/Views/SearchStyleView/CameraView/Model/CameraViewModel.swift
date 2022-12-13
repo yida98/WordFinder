@@ -14,7 +14,7 @@ class CameraViewModel: NSObject,
                        ObservableObject,
                        AVCaptureVideoDataOutputSampleBufferDelegate,
                        AVCapturePhotoCaptureDelegate,
-                       NormalizationDelegate {
+                       ROIDelegate {
     
     @Published var allowsCameraUsage: Bool = true
     
@@ -34,6 +34,7 @@ class CameraViewModel: NSObject,
                 .receive(on: RunLoop.main)
                 .assign(to: &self.$allowsCameraUsage)
         }
+        setBufferRatio(with: .photo)
     }
     
     func removeEntry(indexSet: IndexSet) {
@@ -51,13 +52,10 @@ class CameraViewModel: NSObject,
     private var scannerViewModel: ScannerViewModel?
     
     func getScannerModel() -> ScannerViewModel {
-        // Assuming the origin is the lower-left corner of the parent (i.e. the camera)
-        let roiOrigin = CGPoint(x: 0,
-                                y: (cameraSizePublisher.value.height - cameraViewportSize.height) / 2)
-        let regionOfInterest = CGRect(origin: roiOrigin,
-                                      size: cameraViewportSize)
+        if scannerViewModel != nil {
+            return scannerViewModel!
+        }
         let viewModel = ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
-                                         regionOfInterest: regionOfInterest,
                                          normalizationDelegate: self)
         scannerViewModel = viewModel
         return viewModel
@@ -72,6 +70,20 @@ class CameraViewModel: NSObject,
         let height = rect.height / cameraSizePublisher.value.height
         let result = CGRect(x: x, y: y, width: width, height: height)
         return result
+    }
+    
+    func getRegionOfInterest() -> CGRect {
+        let regionOfInterest = normalize(rect: getRealRegionOfInterest())
+        return regionOfInterest
+    }
+    
+    func getRealRegionOfInterest() -> CGRect {
+        // Assuming the origin is the lower-left corner of the parent (i.e. the camera)
+        let roiOrigin = CGPoint(x: 0,
+                                y: (cameraSizePublisher.value.height - cameraViewportSize.height) / 2)
+        let regionOfInterest = CGRect(origin: roiOrigin,
+                                      size: cameraViewportSize)
+        return regionOfInterest
     }
     
     // MARK: - AVCapturePhotoCaptureDelegate
@@ -108,7 +120,6 @@ class CameraViewModel: NSObject,
     }
     
     func startCamera() {
-        setBufferRatio(with: .photo)
         camera = TextDetectionCameraModel(sessionPreset: sessionPreset)
         camera?.startRunning()
     }

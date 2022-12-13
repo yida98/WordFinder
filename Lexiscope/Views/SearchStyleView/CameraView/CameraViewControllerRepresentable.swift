@@ -61,12 +61,12 @@ class CameraScannerView: UIView {
     
     func setup() {
         guard let viewModel = viewModel else { return }
-        viewModel.startCamera()
         cameraSizeSubscriber = viewModel.cameraSizePublisher.sink { _ in
             DispatchQueue.main.async {
                 self.invalidateIntrinsicContentSize()
             }
         }
+        viewModel.startCamera()
         if let previewLayer = viewModel.cameraPreviewLayer() {
             DispatchQueue.main.async {
                 previewLayer.frame = self.frame
