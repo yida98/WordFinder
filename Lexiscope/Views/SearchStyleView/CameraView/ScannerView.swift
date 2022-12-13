@@ -18,9 +18,12 @@ struct ScannerView: View {
                 Rectangle()
                     .foregroundColor(.black.opacity(0.5))
                     .mask {
-                            Window(coordinates: viewModel.coordinates).fill(style: FillStyle(eoFill: true))
-                        }
-                }
+                        Window(coordinates: viewModel.coordinates).fill(style: FillStyle(eoFill: true))
+                    }
+                RoundedRectangle(cornerRadius: 3).stroke(Color.white, lineWidth: 1)
+                    .frame(width: viewModel.coordinates.width, height: viewModel.coordinates.height)
+                    .position(x: viewModel.coordinates.midX, y: viewModel.coordinates.midY)
+            }
         }
     }
 }
