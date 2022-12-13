@@ -52,14 +52,17 @@ class CameraViewModel: NSObject,
     
     private var scannerViewModel: ScannerViewModel?
     
+    private func makeScannerModel() -> ScannerViewModel {
+        return ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
+                                         regionOfInterestDelegate: self)
+    }
+    
     func getScannerModel() -> ScannerViewModel {
         if scannerViewModel != nil {
             return scannerViewModel!
         }
-        let viewModel = ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
-                                         regionOfInterestDelegate: self)
-        scannerViewModel = viewModel
-        return viewModel
+        scannerViewModel = makeScannerModel()
+        return scannerViewModel!
     }
     
     /// Calculates the region of interest for the scanner based on the size of the viewport of the serach view
@@ -135,6 +138,7 @@ class CameraViewModel: NSObject,
     private func resumeCamera() {
         capturedImage = nil
         locationOfInterest = .zero
+        scannerViewModel?.coordinates = .zero
     }
     
     func cameraPreviewLayer() -> CALayer? {

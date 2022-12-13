@@ -15,25 +15,29 @@ struct CameraView: View {
     @ObservedObject var viewModel: CameraViewModel
     
     var body: some View {
-        ZStack {
-            if let capturedImage = viewModel.capturedImage {
-                Image(uiImage: capturedImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } else {
-                CameraViewRepresentable(viewModel: viewModel)
-                    .fixedSize(horizontal: false, vertical: true)
+        if #available(iOS 16.0, *) {
+            ZStack {
+                if let capturedImage = viewModel.capturedImage {
+                    Image(uiImage: capturedImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } else {
+                    CameraViewRepresentable(viewModel: viewModel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                if #available(iOS 16.0, *) {
+                    ScannerView(viewModel: viewModel.getScannerModel())
+                        .frame(width: viewModel.cameraViewportSize.width,
+                               height: viewModel.cameraViewportSize.height)
+                } else {
+                    // Fallback on earlier versions
+                }
             }
-            if #available(iOS 16.0, *) {
-                ScannerView(viewModel: viewModel.getScannerModel())
-                    .frame(width: viewModel.cameraViewportSize.width,
-                           height: viewModel.cameraViewportSize.height)
-                    .onTapGesture(coordinateSpace: .local) { location in
-                        viewModel.handleCameraViewTap(at: location)
-                    }
-            } else {
-                // Fallback on earlier versions
+            .onTapGesture(coordinateSpace: .local) { location in
+                viewModel.handleCameraViewTap(at: location)
             }
+        } else {
+            // Fallback on earlier versions
         }
     }
 }

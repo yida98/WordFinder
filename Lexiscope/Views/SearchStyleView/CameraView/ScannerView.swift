@@ -13,13 +13,13 @@ struct ScannerView: View {
     
     var body: some View {
         ZStack {
+            if viewModel.coordinates != .zero {
             // FIXME: Negative frame, coordinates.
-            Rectangle()
-                .foregroundColor(.black.opacity(0.5))
-                .mask {
-                    if viewModel.coordinates != .zero {
-                        Window(coordinates: viewModel.coordinates).fill(style: FillStyle(eoFill: true))
-                    }
+                Rectangle()
+                    .foregroundColor(.black.opacity(0.5))
+                    .mask {
+                            Window(coordinates: viewModel.coordinates).fill(style: FillStyle(eoFill: true))
+                        }
                 }
         }
     }
