@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WordCell: View {
     var word: String
-    var selected: Bool = false
+    var selected: Bool
     var body: some View {
         Text(word)
             .fixedSize(horizontal: true, vertical: true)
@@ -22,6 +22,6 @@ struct WordCell: View {
 
 struct WordCell_Previews: PreviewProvider {
     static var previews: some View {
-        WordCell(word: "Red")
+        WordCell(word: "Red", selected: true)
     }
 }

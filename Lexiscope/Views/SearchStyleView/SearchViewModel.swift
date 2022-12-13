@@ -15,6 +15,7 @@ class SearchViewModel: ObservableObject {
     @Published var individualWords: [String]
     var cameraViewportSize = CGSize(width: Constant.screenBounds.width, height: 200)
     var wordStreamSubscriber: Set<AnyCancellable>
+    var selectedWordIndex: Int
     private var cameraViewModel: CameraViewModel
     
     init() {
@@ -22,14 +23,34 @@ class SearchViewModel: ObservableObject {
         self.wordSearchRequest = ""
         self.individualWords = [String]()
         self.wordStreamSubscriber = Set<AnyCancellable>()
+        self.selectedWordIndex = 0
         self.cameraViewModel = CameraViewModel(cameraViewportSize: cameraViewportSize)
-        WordSearchRequestManager.shared.stream().sink(receiveValue: { [weak self] resultCluster in
-            self?.individualWords = resultCluster.split(usingRegex: "[^A-Za-zÀ-ÖØ-öø-ÿ-]")
-        }).store(in: &wordStreamSubscriber)
+        WordSearchRequestManager.shared.stream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
     }
     
     func getCameraViewModel() -> CameraViewModel {
         return cameraViewModel
+    }
+    
+    func handleNewRequest(_ resultCluster: String) {
+        individualWords = resultCluster.split(usingRegex: "[^A-Za-zÀ-ÖØ-öø-ÿ-]")
+        selectedWordIndex = estimatedSelectionIndex()
+    }
+    
+    private func estimatedSelectionIndex() -> Int {
+        let length = individualWords.flatMap { $0 }.count
+        let estimatedSelectionRatio = getCameraViewModel().getLocationOfInterest().x
+        let estimatedSelectionValue: Int = Int(CGFloat(length) * estimatedSelectionRatio)
+        var partialLength: Int = 0
+        var wordIndex: Int = 0
+        while wordIndex < individualWords.count {
+            partialLength += individualWords[wordIndex].count
+            if partialLength >= estimatedSelectionValue {
+                break
+            }
+            wordIndex += 1
+        }
+        return wordIndex
     }
 }
 

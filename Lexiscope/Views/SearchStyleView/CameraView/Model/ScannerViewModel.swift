@@ -37,8 +37,6 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
     }
     
     private static let maxCandidates = 1 // TODO: Delegate out these customizations to others
-    private static let centerPoint = CGPoint(x: 0.5, y: 0.5)
-    private static let leadingPoint = CGPoint(x: 0, y: 0.5)
     
     func detectText(request: VNRequest, error: Error?) {
         if error != nil {

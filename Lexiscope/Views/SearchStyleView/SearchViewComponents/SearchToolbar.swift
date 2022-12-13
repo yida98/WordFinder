@@ -12,7 +12,9 @@ struct SearchToolbar: View {
     
     var body: some View {
         HStack {
-            WordCellClusterView(viewModel: viewModel)
+            ScrollView(.horizontal) {
+                WordCellClusterView(viewModel: viewModel)
+            }
         }
     }
 }
