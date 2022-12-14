@@ -30,6 +30,7 @@ struct SearchView: View {
                 RoundedRectangle(cornerRadius: 20)
                 /// Note: Putting the shadow modifier here allows the original view to pass through from the shadow. The mask modifier applies any opacity of the masking view.
             }
+            .contentShape(RoundedRectangle(cornerRadius: 20))
             .clipped()
 
             SearchToolbar(viewModel: viewModel)
