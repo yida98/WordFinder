@@ -12,7 +12,7 @@ struct WordCell: View {
     var selected: Bool
     var body: some View {
         Text(word)
-            .foregroundColor(selected ? .black : .white.opacity(0.5))
+            .foregroundColor(selected ? .white : .white.opacity(0.5))
             .fixedSize(horizontal: true, vertical: true)
             .padding(2)
             .padding(.horizontal, 3)

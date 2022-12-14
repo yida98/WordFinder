@@ -9,19 +9,18 @@ import SwiftUI
 
 struct SearchToolbar: View {
     @ObservedObject var viewModel: SearchViewModel
+    @State private var scrollViewContentSize: CGSize = .zero
     
     var body: some View {
         VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                ScrollView(.horizontal, showsIndicators: false) {
-                    WordCellClusterView(viewModel: viewModel)
+            ScrollViewReader { scrollViewProxy in
+                GeometryReader { geometryProxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        WordCellClusterView(viewModel: viewModel, scrollProxy: scrollViewProxy)
+                            .frame(minWidth: geometryProxy.size.width)
+                    }
                 }
-                Spacer()
             }
-            Spacer()
         }
-        .frame(height: 30)
     }
 }

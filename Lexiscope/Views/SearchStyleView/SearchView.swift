@@ -34,6 +34,7 @@ struct SearchView: View {
             .clipped()
 
             SearchToolbar(viewModel: viewModel)
+                .frame(height: 30)
         }
         .background(Color.boyBlue)
         .mask {
