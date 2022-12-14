@@ -14,6 +14,9 @@ struct WordCellClusterView: View {
             ForEach(0..<viewModel.individualWords.count, id: \.self) { wordIndex in
                 WordCell(word: viewModel.individualWords[wordIndex],
                          selected: wordIndex == viewModel.selectedWordIndex)
+                    .onTapGesture {
+                        viewModel.handleTap(at: wordIndex)
+                    }
             }
         }
     }

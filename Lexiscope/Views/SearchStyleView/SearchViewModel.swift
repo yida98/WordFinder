@@ -13,17 +13,17 @@ class SearchViewModel: ObservableObject {
     @Published var cameraSearch: Bool
     @Published var wordSearchRequest: String
     @Published var individualWords: [String]
+    @Published var selectedWordIndex: Int
     var cameraViewportSize = CGSize(width: Constant.screenBounds.width, height: 200)
     var wordStreamSubscriber: Set<AnyCancellable>
-    var selectedWordIndex: Int
     private var cameraViewModel: CameraViewModel
     
     init() {
         self.cameraSearch = true
         self.wordSearchRequest = ""
         self.individualWords = [String]()
-        self.wordStreamSubscriber = Set<AnyCancellable>()
         self.selectedWordIndex = 0
+        self.wordStreamSubscriber = Set<AnyCancellable>()
         self.cameraViewModel = CameraViewModel(cameraViewportSize: cameraViewportSize)
         WordSearchRequestManager.shared.stream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
     }
@@ -51,6 +51,10 @@ class SearchViewModel: ObservableObject {
             wordIndex += 1
         }
         return wordIndex
+    }
+    
+    func handleTap(at index: Int) {
+        selectedWordIndex = index
     }
 }
 
