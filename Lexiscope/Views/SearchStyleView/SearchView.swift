@@ -24,8 +24,7 @@ struct SearchView: View {
                     SearchStyleToggleView(viewModel: viewModel)
                 }
             }
-            .frame(width: viewModel.cameraViewportSize.width,
-                   height: viewModel.cameraViewportSize.height)
+            .frame(height: viewModel.cameraViewportSize.height)
             .mask {
                 RoundedRectangle(cornerRadius: 20)
                 /// Note: Putting the shadow modifier here allows the original view to pass through from the shadow. The mask modifier applies any opacity of the masking view.
@@ -36,6 +35,7 @@ struct SearchView: View {
             SearchToolbar(viewModel: viewModel)
                 .frame(height: 30)
         }
+        .frame(width: viewModel.cameraViewportSize.width)
         .background(Color.boyBlue)
         .mask {
             RoundedRectangle(cornerRadius: 20)

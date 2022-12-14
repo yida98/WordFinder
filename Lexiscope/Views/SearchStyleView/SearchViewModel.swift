@@ -14,7 +14,7 @@ class SearchViewModel: ObservableObject {
     @Published var wordSearchRequest: String
     @Published var individualWords: [String]
     @Published var selectedWordIndex: Int
-    var cameraViewportSize = CGSize(width: Constant.screenBounds.width, height: 200)
+    var cameraViewportSize = CGSize(width: Constant.screenBounds.width - 30, height: 200)
     var wordStreamSubscriber: Set<AnyCancellable>
     private var cameraViewModel: CameraViewModel
     
