@@ -30,7 +30,7 @@ struct CameraView: View {
                     .frame(width: viewModel.cameraViewportSize.width,
                            height: viewModel.cameraViewportSize.height)
             }
-            .onTapGesture(coordinateSpace: .named("scanner")) { location in
+            .onTapGesture(coordinateSpace: .local) { location in
                 viewModel.handleCameraViewTap(at: location)
             }
         } else {

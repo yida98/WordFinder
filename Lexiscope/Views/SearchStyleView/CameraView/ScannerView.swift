@@ -25,7 +25,6 @@ struct ScannerView: View {
                     .position(x: viewModel.coordinates.midX, y: viewModel.coordinates.midY)
             }
         }
-        .coordinateSpace(name: "scanner")
     }
 }
 

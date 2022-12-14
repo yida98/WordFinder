@@ -54,7 +54,7 @@ class CameraViewModel: NSObject,
     
     private func makeScannerModel() -> ScannerViewModel {
         return ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
-                                         regionOfInterestDelegate: self)
+                                regionOfInterestDelegate: self)
     }
     
     func getScannerModel() -> ScannerViewModel {
@@ -83,7 +83,7 @@ class CameraViewModel: NSObject,
     
     func getRealRegionOfInterest() -> CGRect {
         // Assuming the origin is the lower-left corner of the parent (i.e. the camera)
-        let roiOrigin = CGPoint(x: 0,
+        let roiOrigin = CGPoint(x: (cameraSizePublisher.value.width - cameraViewportSize.width) / 2,
                                 y: (cameraSizePublisher.value.height - cameraViewportSize.height) / 2)
         let regionOfInterest = CGRect(origin: roiOrigin,
                                       size: cameraViewportSize)
@@ -91,9 +91,16 @@ class CameraViewModel: NSObject,
     }
     
     func getLocationOfInterest() -> CGPoint {
-        let x = locationOfInterest.x / cameraViewportSize.width
-        let y = locationOfInterest.y / cameraViewportSize.height
-        return CGPoint(x: x, y: y)
+        return normalizePoint(locationOfInterest,
+                              to: getRealRegionOfInterest())
+    }
+    
+    private func normalizePoint(_ point: CGPoint, to childCoords: CGRect) -> CGPoint {
+        let childX = point.x - childCoords.minX
+        let childY = point.y - childCoords.minY
+        let normalizedX = childX / childCoords.width
+        let normalizedY = childY / childCoords.height
+        return CGPoint(x: normalizedX, y: normalizedY)
     }
     
     // MARK: - AVCapturePhotoCaptureDelegate

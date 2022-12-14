@@ -50,7 +50,7 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
         }
         
         if let roiDelegate = regionOfInterestDelegate,
-           let result = VNTextDetector.closestTo(roiDelegate.getLocationOfInterest(), in: results) {
+           let result = VNTextDetector.closestTo(upsideDownLocationOfInterest(), in: results) {
             if let recognizedText = result.topCandidates(Self.maxCandidates).first {
                 let bounds = Self.boundingBox(of: result.boundingBox,
                                               inRealRegionOfInterest: roiDelegate.getRealRegionOfInterest())
