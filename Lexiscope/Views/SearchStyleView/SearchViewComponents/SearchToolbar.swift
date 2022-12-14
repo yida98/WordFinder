@@ -11,10 +11,17 @@ struct SearchToolbar: View {
     @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
-        HStack {
-            ScrollView(.horizontal) {
-                WordCellClusterView(viewModel: viewModel)
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                ScrollView(.horizontal, showsIndicators: false) {
+                    WordCellClusterView(viewModel: viewModel)
+                }
+                Spacer()
             }
+            Spacer()
         }
+        .frame(height: 30)
     }
 }

@@ -35,7 +35,7 @@ struct SearchView: View {
 
             SearchToolbar(viewModel: viewModel)
         }
-        .background(.gray)
+        .background(Color.boyBlue)
         .mask {
             RoundedRectangle(cornerRadius: 20)
         }

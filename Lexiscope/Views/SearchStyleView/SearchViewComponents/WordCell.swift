@@ -12,10 +12,11 @@ struct WordCell: View {
     var selected: Bool
     var body: some View {
         Text(word)
+            .foregroundColor(selected ? .black : .white.opacity(0.5))
             .fixedSize(horizontal: true, vertical: true)
-            .padding(4)
+            .padding(2)
             .padding(.horizontal, 3)
-            .background(selected ? Color.orange.opacity(0.3) : .clear)
+            .background(selected ? Color.blueCrayola.opacity(0.3) : .clear)
             .cornerRadius(5)
     }
 }

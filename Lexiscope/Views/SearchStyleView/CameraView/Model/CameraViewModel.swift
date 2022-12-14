@@ -91,8 +91,8 @@ class CameraViewModel: NSObject,
     }
     
     func getLocationOfInterest() -> CGPoint {
-        let x = locationOfInterest.x / cameraSizePublisher.value.width
-        let y = locationOfInterest.y / cameraSizePublisher.value.height
+        let x = locationOfInterest.x / cameraViewportSize.width
+        let y = locationOfInterest.y / cameraViewportSize.height
         return CGPoint(x: x, y: y)
     }
     
