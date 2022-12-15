@@ -12,9 +12,9 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            DefinitionView(word: Self.someEntry)
+            DefinitionView(viewModel: viewModel.getdefinitionViewModel())
             Spacer()
-            SearchView(viewModel: SearchViewModel())
+            SearchView(viewModel: viewModel.getSearchViewModel())
         }
     }
     

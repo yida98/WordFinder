@@ -8,7 +8,20 @@
 import Foundation
 
 class ContentViewModel {
-    func getCameraViewModel() -> CameraViewModel {
-        return CameraViewModel()
+    private var definitionViewModel: DefinitionViewModel?
+    private var searchViewModel: SearchViewModel?
+    
+    func getdefinitionViewModel() -> DefinitionViewModel {
+        guard definitionViewModel != nil else {
+            return DefinitionViewModel()
+        }
+        return definitionViewModel!
+    }
+
+    func getSearchViewModel() -> SearchViewModel {
+        guard searchViewModel != nil else {
+            return SearchViewModel()
+        }
+        return searchViewModel!
     }
 }

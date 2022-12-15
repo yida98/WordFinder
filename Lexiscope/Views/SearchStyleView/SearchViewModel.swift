@@ -11,21 +11,29 @@ import Combine
 class SearchViewModel: ObservableObject {
     // TODO: Persist default
     @Published var cameraSearch: Bool
-    @Published var wordSearchRequest: String
-    @Published var individualWords: [String]
-    @Published var selectedWordIndex: Int
+    @Published var individualWords: [String]?
+    @Published var selectedWordIndex: Int? {
+        didSet {
+            if let selectedWordIndex = selectedWordIndex,
+                let individualWords = individualWords,
+                selectedWordIndex < individualWords.count {
+                let word = individualWords[selectedWordIndex]
+                selectedWordPublisher.send(word)
+            }
+        }
+    }
     var cameraViewportSize = CGSize(width: Constant.screenBounds.width - 30, height: 200)
     var wordStreamSubscriber: Set<AnyCancellable>
+    private var selectedWordPublisher: PassthroughSubject<String, Never>
     private var cameraViewModel: CameraViewModel
     
     init() {
         self.cameraSearch = true
-        self.wordSearchRequest = ""
-        self.individualWords = [String]()
-        self.selectedWordIndex = 0
         self.wordStreamSubscriber = Set<AnyCancellable>()
+        self.selectedWordPublisher = PassthroughSubject<String, Never>()
         self.cameraViewModel = CameraViewModel(cameraViewportSize: cameraViewportSize)
-        WordSearchRequestManager.shared.stream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
+        WordSearchRequestManager.shared.clusterStream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
+        WordSearchRequestManager.shared.addPublisher(selectedWordPublisher.eraseToAnyPublisher())
     }
     
     func getCameraViewModel() -> CameraViewModel {
@@ -38,6 +46,7 @@ class SearchViewModel: ObservableObject {
     }
     
     private func estimatedSelectionIndex() -> Int {
+        guard let individualWords = individualWords else { return 0 }
         let length = individualWords.flatMap { $0 }.count
         let estimatedSelectionRatio = getCameraViewModel().getLocationOfInterest().x
         let estimatedSelectionValue: Int = Int(CGFloat(length) * estimatedSelectionRatio)

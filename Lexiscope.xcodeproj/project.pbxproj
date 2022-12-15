@@ -19,6 +19,8 @@
 		E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F328DBC6810005480D /* SearchViewModel.swift */; };
 		E467D5F628DBD0920005480D /* SearchIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F528DBD0920005480D /* SearchIconView.swift */; };
 		E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F728DC1C850005480D /* SearchToolbar.swift */; };
+		E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE2294A76450076824C /* DefinitionViewModel.swift */; };
+		E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE4294ACAEB0076824C /* URLTask.swift */; };
 		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */; };
 		E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */; };
@@ -50,6 +52,8 @@
 		E467D5F328DBC6810005480D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E467D5F528DBD0920005480D /* SearchIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIconView.swift; sourceTree = "<group>"; };
 		E467D5F728DC1C850005480D /* SearchToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchToolbar.swift; sourceTree = "<group>"; };
+		E475BFE2294A76450076824C /* DefinitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewModel.swift; sourceTree = "<group>"; };
+		E475BFE4294ACAEB0076824C /* URLTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTask.swift; sourceTree = "<group>"; };
 		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCellClusterView.swift; sourceTree = "<group>"; };
 		E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 				E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */,
 				E4DCC210287688AC00F1495A /* DictionaryView.swift */,
 				E467D5EA28D87AF60005480D /* DefinitionView.swift */,
+				E475BFE2294A76450076824C /* DefinitionViewModel.swift */,
 			);
 			path = DictionaryView;
 			sourceTree = "<group>";
@@ -128,6 +133,7 @@
 				E4F3623E2821F6990078721F /* Constant.swift */,
 				E4DCC2162878038E00F1495A /* Color_ext.swift */,
 				E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */,
+				E475BFE4294ACAEB0076824C /* URLTask.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -299,9 +305,11 @@
 				E467D5ED28DBB8F30005480D /* SearchStyleToggleView.swift in Sources */,
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
 				E467D5F228DBC4CE0005480D /* AudioView.swift in Sources */,
+				E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */,
 				E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */,
 				E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */,
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
+				E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */,
 				E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */,
 				E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */,
 				E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */,

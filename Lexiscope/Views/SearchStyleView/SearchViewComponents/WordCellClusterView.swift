@@ -12,8 +12,8 @@ struct WordCellClusterView: View {
     var scrollProxy: ScrollViewProxy
     var body: some View {
         HStack(spacing: -4) {
-            ForEach(0..<viewModel.individualWords.count, id: \.self) { wordIndex in
-                WordCell(word: viewModel.individualWords[wordIndex],
+            ForEach(0..<(viewModel.individualWords?.count ?? 0), id: \.self) { wordIndex in
+                WordCell(word: viewModel.individualWords?[wordIndex] ?? "",
                          selected: wordIndex == viewModel.selectedWordIndex)
                     .onAppear {
                         withAnimation {

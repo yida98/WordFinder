@@ -34,21 +34,30 @@ struct OxfordEntry {
     typealias ExampleText = String
 
     // MARK: - Model Types
-    struct RetrieveEntry { // TODO: Codable
+    struct RetrieveEntry: Codable { // TODO: Codable
         var metadata: Dictionary<String, String>?
         var results: Array<HeadwordEntry>?
     }
 
-    struct HeadwordEntry: Identifiable { // TODO: Codable
+    class HeadwordEntry: NSObject, Codable, Identifiable { // TODO: Codable
         var id: String
         var language: String
         var lexicalEntries: Array<LexicalEntry>
         var pronunciations: PronunciationsList?
         var type: String?
         var word: String
+        
+        init(id: String, language: String, lexicalEntries: Array<LexicalEntry>, pronunciations: PronunciationsList? = nil, type: String? = nil, word: String) {
+            self.id = id
+            self.language = language
+            self.lexicalEntries = lexicalEntries
+            self.pronunciations = pronunciations
+            self.type = type
+            self.word = word
+        }
     }
 
-    struct LexicalEntry: Identifiable { // TODO: Codable
+    struct LexicalEntry: Codable, Identifiable { // TODO: Codable
         var entries: Array<Entry>
         var language: String
         var lexicalCategory: LexicalCategory
@@ -61,7 +70,7 @@ struct OxfordEntry {
         
     }
 
-    struct Entry: Identifiable { // TODO: Codable
+    struct Entry: Codable, Identifiable { // TODO: Codable
         /// A grouping of crossreference notes.
         var crossReferenceMarkers: Array<String>?
         var crossReferences: CrossReferencesList?
@@ -83,12 +92,12 @@ struct OxfordEntry {
         }
     }
 
-    struct LexicalCategory {
+    struct LexicalCategory: Codable {
         var id: String
         var text: String
     }
 
-    struct InflectedForm {
+    struct InflectedForm: Codable {
         /// A subject, discipline, or branch of knowledge particular to the Inflection.
         var domains: domainsList?
         var grammaticalFeatures: GrammaticalFeaturesList?
@@ -102,7 +111,7 @@ struct OxfordEntry {
         var registers: registersList?
     }
 
-    struct Sense {
+    struct Sense: Codable {
         /// An antonym of a word.
         var antonyms: SynonymsAntonyms?
         /// A construction provides information about typical syntax used of this sense. Each construction may optionally have one or more examples.
@@ -143,7 +152,7 @@ struct OxfordEntry {
         var variantForms: VariantFormsList?
     }
 
-    struct thesaurusLink {
+    struct thesaurusLink: Codable {
         /// identifier of a word.
         var entry_id: String
         /// identifier of a sense.
@@ -207,7 +216,7 @@ struct OxfordEntry {
 
     // MARK: - Inline Models
 
-    struct InlineModel1 {
+    struct InlineModel1: Codable {
         /// The URL of the sound file.
         var audioFile: String?
         /// A local or regional variation where the pronunciation occurs, e.g. 'British English'.
@@ -222,7 +231,7 @@ struct OxfordEntry {
         var registers: registersList?
     }
 
-    struct InlineModel2 {
+    struct InlineModel2: Codable {
         /// A subject, discipline, or branch of knowledge particular to the Sense.
         var domains: domainsList?
         /// The identifier of the word.
@@ -236,7 +245,7 @@ struct OxfordEntry {
         var text: String
     }
 
-    struct inline_model_2 {
+    struct inline_model_2: Codable {
         var domains: domainsList?
         var examples: Array<ExampleText>?
         var notes: CategorizedTextList?
@@ -246,13 +255,13 @@ struct OxfordEntry {
         var text: String
     }
 
-    struct InlineModel3 {
+    struct InlineModel3: Codable {
         var id: String
         var text: String
         var type: String
     }
 
-    struct InlineModel4 {
+    struct InlineModel4: Codable {
         /// The identifier of the word.
         var id: String?
         /// A note text.
@@ -261,7 +270,7 @@ struct OxfordEntry {
         var type: String
     }
 
-    struct InlineModel5 {
+    struct InlineModel5: Codable {
         /// A subject, discipline, or branch of knowledge particular to the Sense.
         var domains: domainsList?
         var notes: CategorizedTextList?
@@ -274,7 +283,7 @@ struct OxfordEntry {
         var text: String
     }
 
-    struct InlineModel6 {
+    struct InlineModel6: Codable {
         /// The word id of the co-occurrence.
         var id: String
         /// The word of the co-occurrence.
@@ -283,22 +292,22 @@ struct OxfordEntry {
         var type: String
     }
 
-    struct InlineModel7 {
+    struct InlineModel7: Codable {
         var id: String
         var text: String
     }
 
-    struct InlineModel8 {
+    struct InlineModel8: Codable {
         var id: String
         var text: String
     }
 
-    struct InlineModel9 {
+    struct InlineModel9: Codable {
         var id: String
         var text: String
     }
 
-    struct InlineModel10 {
+    struct InlineModel10: Codable {
         var domains: domainsList?
         var id: String?
         var language: String?
@@ -309,12 +318,12 @@ struct OxfordEntry {
         var text: String
     }
 
-    struct InlineModel11 {
+    struct InlineModel11: Codable {
         var id: String
         var text: String
     }
 
-    struct InlineModel12 {
+    struct InlineModel12: Codable {
         /// A list of statements of the exact meaning of a word.
         var definitions: Array<String>
         /// A subject, discipline, or branch of knowledge particular to the Sense.
@@ -329,7 +338,7 @@ struct OxfordEntry {
         var text: String
     }
 
-    struct InlineModel13 {
+    struct InlineModel13: Codable {
         var id: String
         var text: String
     }

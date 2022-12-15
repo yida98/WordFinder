@@ -33,7 +33,7 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
                 self.textDetector.detect(from: cgImage)
             }
         })
-        WordSearchRequestManager.shared.addPublisher(resultCluster.eraseToAnyPublisher())
+        WordSearchRequestManager.shared.addPublisher(resultCluster.eraseToAnyPublisher(), to: .cluster)
     }
     
     private static let maxCandidates = 1 // TODO: Delegate out these customizations to others

@@ -8,26 +8,28 @@
 import SwiftUI
 
 struct DefinitionView: View {
-    var word: OxfordEntry.HeadwordEntry
+    @ObservedObject var viewModel: DefinitionViewModel
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false, content: {
             HStack {
-                Text(word.word)
+                Text(viewModel.headwordEntry?.word ?? "")
                 Spacer()
             }
-            Text(Self.phoneticString(for: word))
-            VStack {
-                ForEach(word.lexicalEntries) { lexicalEntry in
-                    
-                    Text(lexicalEntry.lexicalCategory.text.capitalized)
-                    ForEach(lexicalEntry.allSenses()) { sense in
-                        if sense.definitions != nil {
-                            ForEach(sense.definitions!, id: \.self) { definition in
-                                Text("\(definition)")
+            if let word = viewModel.headwordEntry {
+                Text(Self.phoneticString(for: word))
+                VStack {
+                    ForEach(word.lexicalEntries) { lexicalEntry in
+                        
+                        Text(lexicalEntry.lexicalCategory.text.capitalized)
+                        ForEach(lexicalEntry.allSenses()) { sense in
+                            if sense.definitions != nil {
+                                ForEach(sense.definitions!, id: \.self) { definition in
+                                    Text("\(definition)")
+                                }
+                            } else { /// The `else` block is required to silence the excessive compile time warning
+                                EmptyView()
                             }
-                        } else { /// The `else` block is required to silence the excessive compile time warning
-                            EmptyView()
                         }
                     }
                 }
