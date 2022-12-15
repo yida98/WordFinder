@@ -43,6 +43,7 @@ class SearchViewModel: ObservableObject {
     func handleNewRequest(_ resultCluster: String?) {
         guard let resultCluster = resultCluster else { return }
         individualWords = resultCluster.split(usingRegex: "[^A-Za-zÀ-ÖØ-öø-ÿ-]")
+        individualWords = individualWords?.filter { $0.hasAtLeastOneChar() }
         selectedWordIndex = estimatedSelectionIndex()
     }
     
@@ -82,5 +83,12 @@ extension String {
         }
         result.append(String(self[position..<endIndex]))
         return result.filter { !$0.isEmpty }
+    }
+    
+    func hasAtLeastOneChar() -> Bool {
+        if self.range(of: "[A-Za-zÀ-ÖØ-öø-ÿ]+", options: .regularExpression) != nil {
+            return true
+        }
+        return false
     }
 }
