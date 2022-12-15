@@ -40,7 +40,8 @@ class SearchViewModel: ObservableObject {
         return cameraViewModel
     }
     
-    func handleNewRequest(_ resultCluster: String) {
+    func handleNewRequest(_ resultCluster: String?) {
+        guard let resultCluster = resultCluster else { return }
         individualWords = resultCluster.split(usingRegex: "[^A-Za-zÀ-ÖØ-öø-ÿ-]")
         selectedWordIndex = estimatedSelectionIndex()
     }

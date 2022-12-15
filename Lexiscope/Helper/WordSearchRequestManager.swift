@@ -11,25 +11,25 @@ import SwiftUI
 
 class WordSearchRequestManager {
     static let shared = WordSearchRequestManager()
-    var requestStream: CurrentValueSubject<String, Never>
-    var requestClusterStream: CurrentValueSubject<String, Never>
+    var requestStream: CurrentValueSubject<String?, Never>
+    var requestClusterStream: CurrentValueSubject<String?, Never>
     var wordSearchRequestSubscriber = Set<AnyCancellable>()
     
     private init() {
-        self.requestStream = CurrentValueSubject<String, Never>("")
-        self.requestClusterStream = CurrentValueSubject<String, Never>("")
+        self.requestStream = CurrentValueSubject<String?, Never>(nil)
+        self.requestClusterStream = CurrentValueSubject<String?, Never>(nil)
     }
     
-    func clusterStream() -> AnyPublisher<String, Never> {
+    func clusterStream() -> AnyPublisher<String?, Never> {
         return requestClusterStream.eraseToAnyPublisher()
     }
     
-    func stream() -> AnyPublisher<String, Never> {
+    func stream() -> AnyPublisher<String?, Never> {
         return requestStream.eraseToAnyPublisher()
     }
     
     func addPublisher(_ publisher: AnyPublisher<String, Never>, to stream: Stream = .single) {
-        var requestStream: ReferenceWritableKeyPath<WordSearchRequestManager, String>
+        var requestStream: ReferenceWritableKeyPath<WordSearchRequestManager, String?>
         switch stream {
         case .cluster:
             requestStream = \WordSearchRequestManager.requestClusterStream.value
@@ -37,7 +37,15 @@ class WordSearchRequestManager {
             requestStream = \WordSearchRequestManager.requestStream.value
         }
         publisher
-            .assign(to: requestStream, on: self)
+            .sink(receiveValue: { [weak self] value in
+                switch stream {
+                case .cluster:
+                    self?.requestClusterStream.value = value
+                default:
+                    self?.requestStream.value = value
+                }
+                
+            })
             .store(in: &wordSearchRequestSubscriber)
     }
     

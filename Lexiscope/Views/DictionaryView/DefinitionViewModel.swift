@@ -22,7 +22,8 @@ class DefinitionViewModel: ObservableObject {
         WordSearchRequestManager.shared.stream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
     }
     
-    private func handleNewRequest(_ word: String) {
+    private func handleNewRequest(_ word: String?) {
+        guard let word = word else { return }
         URLTask.shared.define(word: word)
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
