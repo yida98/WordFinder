@@ -22,13 +22,14 @@ class SearchViewModel: ObservableObject {
             }
         }
     }
-    var cameraViewportSize = CGSize(width: Constant.screenBounds.width - 30, height: 200)
+    var cameraViewportSize: CGSize
     var wordStreamSubscriber: Set<AnyCancellable>
     private var selectedWordPublisher: PassthroughSubject<String, Never>
     private var cameraViewModel: CameraViewModel
     
-    init() {
+    init(cameraViewportSize: CGSize) {
         self.cameraSearch = true
+        self.cameraViewportSize = cameraViewportSize
         self.wordStreamSubscriber = Set<AnyCancellable>()
         self.selectedWordPublisher = PassthroughSubject<String, Never>()
         self.cameraViewModel = CameraViewModel(cameraViewportSize: cameraViewportSize)

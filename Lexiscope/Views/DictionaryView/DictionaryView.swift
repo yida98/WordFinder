@@ -9,9 +9,12 @@ import Foundation
 import SwiftUI
 
 struct DictionaryView: View {
-    @State var expanded: Bool = false
+    @StateObject var viewModel: DictionaryViewModel = DictionaryViewModel()
     
     var body: some View {
-        Spacer()
+        VStack {
+            DefinitionView(viewModel: viewModel.getDefinitionViewModel())
+            Spacer()
+        }
     }
 }

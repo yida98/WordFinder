@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
-    var viewModel: ContentViewModel
+    @ObservedObject var viewModel: ContentViewModel
     
     var body: some View {
-        VStack {
-            DefinitionView(viewModel: viewModel.getdefinitionViewModel())
-            Spacer()
-            SearchView(viewModel: viewModel.getSearchViewModel())
-        }
+        ZStack {
+            VStack {
+                SearchView(viewModel: viewModel.getSearchViewModel())
+                Spacer()
+            }
+            VStack {
+                Spacer()
+                    .frame(height: viewModel.searchViewOffset)
+                DictionaryView()
+                    .background(.white)
+                    .mask {
+                        RoundedRectangle(cornerRadius: 20)
+                    }
+                    .shadow(radius: 4)
+            }
+        }.ignoresSafeArea()
     }
     
     // TODO: Remove after debug
