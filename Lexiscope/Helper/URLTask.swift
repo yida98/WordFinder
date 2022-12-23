@@ -22,12 +22,16 @@ class URLTask {
     func define(word: String,
                 language: URLTask.Language = URLTask.default_language,
                 fields: Array<String> = ["definitions", "pronunciations"],
-                strictMatch: Bool = false) -> AnyPublisher<OxfordEntry.HeadwordEntry?, Error> {
+                strictMatch: Bool = false) -> AnyPublisher<HeadwordEntry?, Error> {
         let trimmedWord = word.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if let entry = DataManager.shared.retrieveEntry(trimmedWord) {
+            return Just(entry).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
         
         guard let requestURL = URLTask.requestURL(for: trimmedWord, in: language, fields: fields, strictMatch: strictMatch) else {
             print("[ERROR] Invalid word")
-            return Fail(error: LazyDictionaryError.badRequest).eraseToAnyPublisher()
+            return Fail(error: DictionaryError.badRequest).eraseToAnyPublisher()
         }
         
         guard let url = URL(string: requestURL) else {
@@ -51,13 +55,14 @@ class URLTask {
                     throw NetworkError.badResponse
                 }
             }
-            .decode(type: OxfordEntry.RetrieveEntry.self, decoder: decoder)
+            .decode(type: RetrieveEntry.self, decoder: decoder)
             .tryMap {
                 if let result = $0.results, let firstResult = result.first {
+                    DataManager.shared.saveEntry(firstResult)
                     return firstResult
                 } else {
                     print("[ERROR] no result")
-                    throw LazyDictionaryError.noResult
+                    throw DictionaryError.noResult
                 }
             }
             .eraseToAnyPublisher()
@@ -87,7 +92,7 @@ class URLTask {
         case ta
     }
     
-    enum LazyDictionaryError: Error {
+    enum DictionaryError: Error {
         case noResult
         case badRequest
     }

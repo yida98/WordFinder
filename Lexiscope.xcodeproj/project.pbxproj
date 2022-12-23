@@ -22,6 +22,9 @@
 		E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE2294A76450076824C /* DefinitionViewModel.swift */; };
 		E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE4294ACAEB0076824C /* URLTask.swift */; };
 		E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE6294BD7110076824C /* DictionaryViewModel.swift */; };
+		E475BFEC294EE7710076824C /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFEB294EE7710076824C /* AppData.swift */; };
+		E475BFFA294FE8A30076824C /* OxfordEntryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E475BFF8294FE8A30076824C /* OxfordEntryModel.xcdatamodeld */; };
+		E475BFFC294FF6C30076824C /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFFB294FF6C30076824C /* DataManager.swift */; };
 		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */; };
 		E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */; };
@@ -56,6 +59,9 @@
 		E475BFE2294A76450076824C /* DefinitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewModel.swift; sourceTree = "<group>"; };
 		E475BFE4294ACAEB0076824C /* URLTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTask.swift; sourceTree = "<group>"; };
 		E475BFE6294BD7110076824C /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
+		E475BFEB294EE7710076824C /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		E475BFF9294FE8A30076824C /* OxfordEntryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OxfordEntryModel.xcdatamodel; sourceTree = "<group>"; };
+		E475BFFB294FF6C30076824C /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCellClusterView.swift; sourceTree = "<group>"; };
 		E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
@@ -126,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				E4DCC21E287D3A0B00F1495A /* Entry.swift */,
+				E475BFFB294FF6C30076824C /* DataManager.swift */,
+				E475BFF8294FE8A30076824C /* OxfordEntryModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -161,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				E4F362282821D46C0078721F /* LexiscopeApp.swift */,
+				E475BFEB294EE7710076824C /* AppData.swift */,
 				E4F362362821D5210078721F /* Views */,
 				E4DCC21C287D39B400F1495A /* Model */,
 				E4DCC21D287D39BE00F1495A /* Helper */,
@@ -291,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */,
+				E475BFFC294FF6C30076824C /* DataManager.swift in Sources */,
 				E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */,
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
 				E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */,
@@ -299,11 +309,13 @@
 				E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */,
 				E467D5F628DBD0920005480D /* SearchIconView.swift in Sources */,
 				E4F3623A2821ED500078721F /* CameraView.swift in Sources */,
+				E475BFFA294FE8A30076824C /* OxfordEntryModel.xcdatamodeld in Sources */,
 				E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */,
 				E467D5F028DBB9260005480D /* SearchView.swift in Sources */,
 				E467D5EB28D87AF60005480D /* DefinitionView.swift in Sources */,
 				E4DCC2132876890A00F1495A /* AlertView.swift in Sources */,
 				E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */,
+				E475BFEC294EE7710076824C /* AppData.swift in Sources */,
 				E4F3623F2821F6990078721F /* Constant.swift in Sources */,
 				E467D5ED28DBB8F30005480D /* SearchStyleToggleView.swift in Sources */,
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
@@ -523,6 +535,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E475BFF8294FE8A30076824C /* OxfordEntryModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E475BFF9294FE8A30076824C /* OxfordEntryModel.xcdatamodel */,
+			);
+			currentVersion = E475BFF9294FE8A30076824C /* OxfordEntryModel.xcdatamodel */;
+			path = OxfordEntryModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E4F3621D2821D46C0078721F /* Project object */;
 }

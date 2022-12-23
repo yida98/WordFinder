@@ -10,7 +10,7 @@ import Combine
 
 class DefinitionViewModel: ObservableObject {
     
-    @Published var headwordEntry: OxfordEntry.HeadwordEntry?
+    @Published var headwordEntry: HeadwordEntry?
     
     init() {
         wordStreamSubscriber = Set<AnyCancellable>()

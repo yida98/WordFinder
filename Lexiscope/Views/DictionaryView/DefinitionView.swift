@@ -11,7 +11,7 @@ struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false, content: {
+        ScrollView(.vertical, showsIndicators: false) {
             HStack {
                 Text(viewModel.headwordEntry?.word ?? "")
                 Spacer()
@@ -34,7 +34,7 @@ struct DefinitionView: View {
                     }
                 }
             }
-        })
+        }
     }
     
     struct Style: ViewStyleSheet {
@@ -45,12 +45,12 @@ struct DefinitionView: View {
     }
     
     // MARK: - Entry functions
-    private static func phoneticString(for word: OxfordEntry.HeadwordEntry) -> String {
+    private static func phoneticString(for word: HeadwordEntry) -> String {
         let phoneticSet = phoneticSet(for: word)
         return "/  \(Array(phoneticSet).joined(separator: ", "))  /"
     }
     
-    private static func phoneticSet(for word: OxfordEntry.HeadwordEntry) -> Set<String> {
+    private static func phoneticSet(for word: HeadwordEntry) -> Set<String> {
         var phoneticSet = Set<String>()
         let entries = word.lexicalEntries.flatMap { $0.entries }
         for entry in entries {
@@ -75,14 +75,14 @@ protocol ViewStyleSheet {
     var highlightColor: Color? { get }
 }
 
-extension OxfordEntry.Sense: Identifiable {
+extension Sense: Identifiable {
     var hasDefinitions: Bool {
         return self.definitions == nil
     }
 }
 
-extension OxfordEntry.LexicalEntry {
-    func allSenses() -> [OxfordEntry.Sense] {
+extension LexicalEntry {
+    func allSenses() -> [Sense] {
         return self.entries.compactMap { $0.senses }.flatMap { $0 }
     }
 }

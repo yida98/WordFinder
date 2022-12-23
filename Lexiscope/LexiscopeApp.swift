@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct LexiscopeApp: App {
+    @StateObject private var appData = AppData()
+    
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: ContentViewModel())
