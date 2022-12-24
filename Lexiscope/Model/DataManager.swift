@@ -41,12 +41,29 @@ class DataManager {
         saveContext()
     }
     
+    func deleteAllUsers() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "User")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: getContext())
+        } catch let error as NSError {
+            // TODO: handle the error
+            debugPrint("error")
+            return
+        }
+    }
+    
+    var user: NSManagedObject?
+    
     func retrieveUser() -> NSManagedObject? {
+        if user != nil { return self.user }
         let managedContext = getContext()
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         do {
-            let results = try managedContext.fetch(fetchRequest) as! [NSManagedObject]
-            if results.count > 0 {
+            let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
+            if let results = results, results.count > 0 {
+                self.user = results[0]
                 return results[0]
             } else {
                 return nil
@@ -56,38 +73,41 @@ class DataManager {
         }
     }
     
-    func retrieveEntries() -> [String: HeadwordEntry]? {
+    func retrieveEntries() -> [String: Data]? {
         guard let user = retrieveUser() else { return nil }
         
         let entryKey = "oxfordEntries"
         
-        if let entries = user.value(forKey: entryKey) as? [String: HeadwordEntry] {
+        if let entries = user.value(forKey: entryKey) as? [String: Data] {
             return entries
         }
         
         return nil
     }
     
-    func retrieveEntry(_ word: String) -> HeadwordEntry? {
+    func retrieveEntry(_ key: String) -> Data? {
         /// Assuming there is only one user.
         guard let entries = retrieveEntries() else { return nil }
         
-        var entry: HeadwordEntry?
-        if entries.contains(where: { $0.key == word }) {
-            entry = entries[word]
+        var entry: Data?
+        if entries.contains(where: { $0.key.lowercased() == key.lowercased() }) {
+            entry = entries[key.lowercased()]
         }
         
         return entry
     }
     
-    func saveEntry(_ entry: HeadwordEntry) {
+    func saveEntry(_ key: String, _ value: Data) {
         /// Assuming there is only one user.
-        guard let user = retrieveUser() else { return }
-        let entryKey = "oxfordEntries"
-        var entries = retrieveEntries() ?? [String: HeadwordEntry]()
-        entries[entry.word] = entry
+        guard let user = retrieveUser() else {
+            print("Unable to retrieve user.")
+            return
+        }
+        let attributeKey = "oxfordEntries"
+        var entries = retrieveEntries() ?? [String: Data]()
+        entries[key.lowercased()] = value
         
-        user.setValue(entries, forKey: entryKey)
+        user.setValue(entries, forKey: attributeKey)
         
         saveContext()
     }

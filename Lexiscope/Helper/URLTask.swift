@@ -25,8 +25,15 @@ class URLTask {
                 strictMatch: Bool = false) -> AnyPublisher<HeadwordEntry?, Error> {
         let trimmedWord = word.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if let entry = DataManager.shared.retrieveEntry(trimmedWord) {
-            return Just(entry).setFailureType(to: Error.self).eraseToAnyPublisher()
+        if let retrieveEntryData = DataManager.shared.retrieveEntry(trimmedWord) {
+            do {
+                let retrieveEntry = try JSONDecoder().decode(RetrieveEntry.self, from: retrieveEntryData)
+                if let results = retrieveEntry.results, let headwordEntry = results.first {
+                    return Just(headwordEntry).setFailureType(to: Error.self).eraseToAnyPublisher()
+                }
+            } catch {
+                fatalError("Unable to decode \(trimmedWord). \(error)")
+            }
         }
         
         guard let requestURL = URLTask.requestURL(for: trimmedWord, in: language, fields: fields, strictMatch: strictMatch) else {
@@ -49,6 +56,7 @@ class URLTask {
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap {
                 if $0.response is HTTPURLResponse {
+                    DataManager.shared.saveEntry(word, $0.data)
                     return $0.data
                 } else {
                     print("[ERROR] bad response")
@@ -58,7 +66,6 @@ class URLTask {
             .decode(type: RetrieveEntry.self, decoder: decoder)
             .tryMap {
                 if let result = $0.results, let firstResult = result.first {
-                    DataManager.shared.saveEntry(firstResult)
                     return firstResult
                 } else {
                     print("[ERROR] no result")

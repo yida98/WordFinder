@@ -61,8 +61,8 @@ public class HeadwordEntry: NSObject, Codable, NSSecureCoding, Identifiable {
     public required init?(coder: NSCoder) {
         guard let id = coder.decodeObject(of: NSString.self, forKey: HeadwordEntry.Keys.id.rawValue) as? String,
               let language = coder.decodeObject(of: NSString.self, forKey: HeadwordEntry.Keys.language.rawValue) as? String,
-              let lexicalEntries = coder.decodeObject(of: NSArray.self, forKey: HeadwordEntry.Keys.lexicalEntries.rawValue) as? Array<LexicalEntry>,
-              let pronunciations = coder.decodeObject(of: NSArray.self, forKey: HeadwordEntry.Keys.pronunciations.rawValue) as? PronunciationsList?,
+              let lexicalEntries = coder.decodeObject(of: [LexicalEntry.self], forKey: HeadwordEntry.Keys.lexicalEntries.rawValue) as? Array<LexicalEntry>,
+              let pronunciations = coder.decodeObject(of: [InlineModel1.self], forKey: HeadwordEntry.Keys.pronunciations.rawValue) as? PronunciationsList?,
               let type = coder.decodeObject(of: NSString.self, forKey: HeadwordEntry.Keys.type.rawValue) as String?,
               let word = coder.decodeObject(of: NSString.self, forKey: HeadwordEntry.Keys.word.rawValue) as? String else {
             fatalError("Issue decoding HeadwordEntry")
@@ -103,7 +103,6 @@ class LexicalEntry: NSObject, Codable, NSSecureCoding, Identifiable {
     public static var supportsSecureCoding: Bool = true
     
     func encode(with coder: NSCoder) {
-        coder.encode(id, forKey: LexicalEntry.Keys.id.rawValue)
         coder.encode(entries, forKey: LexicalEntry.Keys.entries.rawValue)
         coder.encode(language, forKey: LexicalEntry.Keys.language.rawValue)
         coder.encode(lexicalCategory, forKey: LexicalEntry.Keys.lexicalCategory.rawValue)
@@ -113,10 +112,10 @@ class LexicalEntry: NSObject, Codable, NSSecureCoding, Identifiable {
     }
     
     required init?(coder: NSCoder) {
-        guard let entries = coder.decodeObject(of: NSArray.self, forKey: LexicalEntry.Keys.entries.rawValue) as? Array<Entry>,
+        guard let entries = coder.decodeObject(of: [Entry.self], forKey: LexicalEntry.Keys.entries.rawValue) as? Array<Entry>,
               let language = coder.decodeObject(of: NSString.self, forKey: LexicalEntry.Keys.language.rawValue) as? String,
               let lexicalCategory = coder.decodeObject(of: LexicalCategory.self, forKey: LexicalEntry.Keys.lexicalCategory.rawValue),
-              let pronunciations = coder.decodeObject(of: NSArray.self, forKey: LexicalEntry.Keys.pronunciations.rawValue) as? PronunciationsList?,
+              let pronunciations = coder.decodeObject(of: [InlineModel1.self], forKey: LexicalEntry.Keys.pronunciations.rawValue) as? PronunciationsList?,
               let root = coder.decodeObject(of: NSString.self, forKey: LexicalEntry.Keys.root.rawValue) as String?,
               let text = coder.decodeObject(of: NSString.self, forKey: LexicalEntry.Keys.text.rawValue) as? String else {
             fatalError("Issue decoding LexicalEntry")
@@ -180,16 +179,16 @@ class Entry: NSObject, Codable, NSSecureCoding, Identifiable {
     }
     
     required init?(coder: NSCoder) {
-        guard let crossReferenceMarkers = coder.decodeObject(of: NSArray.self, forKey: Keys.crossReferenceMarkers.rawValue) as? Array<String>?,
-              let crossReferences = coder.decodeObject(of: NSArray.self, forKey: Keys.crossReferences.rawValue) as? CrossReferencesList?,
-              let etymologies = coder.decodeObject(of: NSArray.self, forKey: Keys.etymologies.rawValue) as? Array<String>?,
-              let grammaticalFeatures = coder.decodeObject(of: NSArray.self, forKey: Keys.grammaticalFeatures.rawValue) as? GrammaticalFeaturesList?,
+        guard let crossReferenceMarkers = coder.decodeObject(of: [NSString.self], forKey: Keys.crossReferenceMarkers.rawValue) as? Array<String>?,
+              let crossReferences = coder.decodeObject(of: [InlineModel6.self], forKey: Keys.crossReferences.rawValue) as? CrossReferencesList?,
+              let etymologies = coder.decodeObject(of: [NSString.self], forKey: Keys.etymologies.rawValue) as? Array<String>?,
+              let grammaticalFeatures = coder.decodeObject(of: [InlineModel3.self], forKey: Keys.grammaticalFeatures.rawValue) as? GrammaticalFeaturesList?,
               let homographNumber = coder.decodeObject(of: NSString.self, forKey: Keys.homographNumber.rawValue) as String?,
-              let inflections = coder.decodeObject(of: NSArray.self, forKey: Keys.inflections.rawValue) as? Array<InflectedForm>?,
-              let notes = coder.decodeObject(of: NSArray.self, forKey: Keys.notes.rawValue) as? CategorizedTextList?,
-              let pronunciations = coder.decodeObject(of: NSArray.self, forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
-              let senses = coder.decodeObject(of: NSArray.self, forKey: Keys.senses.rawValue) as? Array<Sense>?,
-              let variantForms = coder.decodeObject(of: NSArray.self, forKey: Keys.variantForms.rawValue) as? VariantFormsList? else {
+              let inflections = coder.decodeObject(of: [InflectedForm.self], forKey: Keys.inflections.rawValue) as? Array<InflectedForm>?,
+              let notes = coder.decodeObject(of: [InlineModel4.self], forKey: Keys.notes.rawValue) as? CategorizedTextList?,
+              let pronunciations = coder.decodeObject(of: [InlineModel1.self], forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
+              let senses = coder.decodeObject(of: [Sense.self], forKey: Keys.senses.rawValue) as? Array<Sense>?,
+              let variantForms = coder.decodeObject(of: [InlineModel5.self], forKey: Keys.variantForms.rawValue) as? VariantFormsList? else {
             fatalError("Issue decoding Entry")
         }
         
@@ -276,13 +275,13 @@ class InflectedForm: NSObject, Codable, NSSecureCoding {
     }
     
     required init?(coder: NSCoder) {
-        guard let domains = coder.decodeObject(of: NSArray.self, forKey: Keys.domains.rawValue) as? domainsList?,
-                let grammaticalFeatures = coder.decodeObject(of: NSArray.self, forKey: Keys.grammaticalFeatures.rawValue) as? GrammaticalFeaturesList?,
+        guard let domains = coder.decodeObject(of: [InlineModel9.self], forKey: Keys.domains.rawValue) as? domainsList?,
+                let grammaticalFeatures = coder.decodeObject(of: [InlineModel3.self], forKey: Keys.grammaticalFeatures.rawValue) as? GrammaticalFeaturesList?,
                 let inflectionForm = coder.decodeObject(of: NSString.self, forKey: Keys.inflectedForm.rawValue) as? String,
                 let lexicalCategory = coder.decodeObject(of: LexicalCategory.self, forKey: Keys.lexicalCategory.rawValue) as LexicalCategory?,
-                let pronunciations = coder.decodeObject(of: NSArray.self, forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
-                let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-                let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList? else {
+                let pronunciations = coder.decodeObject(of: [InlineModel1.self], forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
+                let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+                let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList? else {
             fatalError("Issue decoding InflectedForm")
         }
         
@@ -375,26 +374,26 @@ class Sense: NSObject, Codable, NSSecureCoding {
     
     required init?(coder: NSCoder) {
         guard let antonyms = coder.decodeObject(of: InlineModel10.self, forKey: Keys.antonyms.rawValue) as SynonymsAntonyms?,
-              let constructions = coder.decodeObject(of: NSArray.self, forKey: Keys.constructions.rawValue) as? Array<inline_model_2>?,
-              let crossReferenceMarkers = coder.decodeObject(of: NSArray.self, forKey: Keys.crossReferenceMarkers.rawValue) as? Array<String>?,
-              let crossReferences = coder.decodeObject(of: NSArray.self, forKey: Keys.crossReferences.rawValue) as? CrossReferencesList?,
-              let definitions = coder.decodeObject(of: NSArray.self, forKey: Keys.definitions.rawValue) as? Array<String>?,
-              let domainClasses = coder.decodeObject(of: NSArray.self, forKey: Keys.domainClasses.rawValue) as? domainClassesList?,
-              let domains = coder.decodeObject(of: NSArray.self, forKey: Keys.domains.rawValue) as? domainsList?,
-              let etymologies = coder.decodeObject(of: NSArray.self, forKey: Keys.etymologies.rawValue) as? Array<String>?,
-              let examples = coder.decodeObject(of: NSArray.self, forKey: Keys.examples.rawValue) as? ExamplesList?,
+              let constructions = coder.decodeObject(of: [inline_model_2.self], forKey: Keys.constructions.rawValue) as? Array<inline_model_2>?,
+              let crossReferenceMarkers = coder.decodeObject(of: [NSString.self], forKey: Keys.crossReferenceMarkers.rawValue) as? Array<String>?,
+              let crossReferences = coder.decodeObject(of: [InlineModel6.self], forKey: Keys.crossReferences.rawValue) as? CrossReferencesList?,
+              let definitions = coder.decodeObject(of: [NSString.self], forKey: Keys.definitions.rawValue) as? Array<String>?,
+              let domainClasses = coder.decodeObject(of: [InlineModel11.self], forKey: Keys.domainClasses.rawValue) as? domainClassesList?,
+              let domains = coder.decodeObject(of: [InlineModel9.self], forKey: Keys.domains.rawValue) as? domainsList?,
+              let etymologies = coder.decodeObject(of: [NSString.self], forKey: Keys.etymologies.rawValue) as? Array<String>?,
+              let examples = coder.decodeObject(of: [InlineModel12.self], forKey: Keys.examples.rawValue) as? ExamplesList?,
               let id = coder.decodeObject(of: NSString.self, forKey: Keys.id.rawValue) as String?,
-              let inflections = coder.decodeObject(of: NSArray.self, forKey: Keys.inflections.rawValue) as? Array<InflectedForm>?,
-              let notes = coder.decodeObject(of: NSArray.self, forKey: Keys.notes.rawValue) as? CategorizedTextList?,
-              let pronunciations = coder.decodeObject(of: NSArray.self, forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
-              let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-              let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList?,
-              let semanticClasses = coder.decodeObject(of: NSArray.self, forKey: Keys.semanticClasses.rawValue) as? semanticClassesList?,
-              let shortDefinitions = coder.decodeObject(of: NSArray.self, forKey: Keys.shortDefinitions.rawValue) as? Array<String>?,
-              let subsenses = coder.decodeObject(of: NSArray.self, forKey: Keys.subsenses.rawValue) as? Array<Sense>?,
+              let inflections = coder.decodeObject(of: [InflectedForm.self], forKey: Keys.inflections.rawValue) as? Array<InflectedForm>?,
+              let notes = coder.decodeObject(of: [InlineModel4.self], forKey: Keys.notes.rawValue) as? CategorizedTextList?,
+              let pronunciations = coder.decodeObject(of: [InlineModel1.self], forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
+              let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+              let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList?,
+              let semanticClasses = coder.decodeObject(of: [InlineModel13.self], forKey: Keys.semanticClasses.rawValue) as? semanticClassesList?,
+              let shortDefinitions = coder.decodeObject(of: [NSString.self], forKey: Keys.shortDefinitions.rawValue) as? Array<String>?,
+              let subsenses = coder.decodeObject(of: [Sense.self], forKey: Keys.subsenses.rawValue) as? Array<Sense>?,
               let synonyms = coder.decodeObject(of: InlineModel10.self, forKey: Keys.synonyms.rawValue) as SynonymsAntonyms?,
-              let thesaurusLinks = coder.decodeObject(of: NSArray.self, forKey: Keys.thesaurusLinks.rawValue) as? Array<thesaurusLink>?,
-              let variantForms = coder.decodeObject(of: NSArray.self, forKey: Keys.variantForms.rawValue) as? VariantFormsList? else {
+              let thesaurusLinks = coder.decodeObject(of: [thesaurusLink.self], forKey: Keys.thesaurusLinks.rawValue) as? Array<thesaurusLink>?,
+              let variantForms = coder.decodeObject(of: [InlineModel5.self], forKey: Keys.variantForms.rawValue) as? VariantFormsList? else {
             fatalError("Issue decoding Sense")
         }
         
@@ -508,11 +507,11 @@ class InlineModel1: NSObject, Codable, NSSecureCoding {
     
     required init?(coder: NSCoder) {
         guard let audioFile = coder.decodeObject(of: NSString.self, forKey: Keys.audioFile.rawValue) as String?,
-              let dialects = coder.decodeObject(of: NSArray.self, forKey: Keys.dialects.rawValue) as? Array<String>?,
+              let dialects = coder.decodeObject(of: [NSString.self], forKey: Keys.dialects.rawValue) as? Array<String>?,
               let phoneticNotation = coder.decodeObject(of: NSString.self, forKey: Keys.phoneticNotion.rawValue) as String?,
               let phoneticSpelling = coder.decodeObject(of: NSString.self, forKey: Keys.phoneticSpelling.rawValue) as String?,
-              let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-              let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList? else {
+              let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+              let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList? else {
             fatalError("Issue decoding InlineModel1")
         }
         
@@ -561,11 +560,11 @@ class InlineModel2: NSObject, Codable, NSSecureCoding {
     }
     
     required init?(coder: NSCoder) {
-        guard let domains = coder.decodeObject(of: NSArray.self, forKey: Keys.domains.rawValue) as? domainsList?,
+        guard let domains = coder.decodeObject(of: [InlineModel9.self], forKey: Keys.domains.rawValue) as? domainsList?,
               let id = coder.decodeObject(of: NSString.self, forKey: Keys.id.rawValue) as? String,
               let language = coder.decodeObject(of: NSString.self, forKey: Keys.language.rawValue) as? String,
-              let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-              let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList?,
+              let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+              let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList?,
               let text = coder.decodeObject(of: NSString.self, forKey: Keys.text.rawValue) as? String else {
             fatalError("Issue decoding InlineModel2")
         }
@@ -611,11 +610,11 @@ class inline_model_2: NSObject, Codable, NSSecureCoding {
     }
     
     required init?(coder: NSCoder) {
-        guard let domains = coder.decodeObject(of: NSArray.self, forKey: Keys.domains.rawValue) as? domainsList?,
-              let examples = coder.decodeObject(of: NSArray.self, forKey: Keys.examples.rawValue) as? Array<ExampleText>?,
-              let notes = coder.decodeObject(of: NSArray.self, forKey: Keys.notes.rawValue) as? CategorizedTextList?,
-              let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-              let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList?,
+        guard let domains = coder.decodeObject(of: [InlineModel9.self], forKey: Keys.domains.rawValue) as? domainsList?,
+              let examples = coder.decodeObject(of: [NSString.self], forKey: Keys.examples.rawValue) as? Array<ExampleText>?,
+              let notes = coder.decodeObject(of: [InlineModel4.self], forKey: Keys.notes.rawValue) as? CategorizedTextList?,
+              let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+              let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList?,
               let text = coder.decodeObject(of: NSString.self, forKey: Keys.text.rawValue) as? String else {
             fatalError("Issue decoding InlineModel2")
         }
@@ -735,11 +734,11 @@ class InlineModel5: NSObject, Codable, NSSecureCoding {
     }
 
     required init?(coder: NSCoder) {
-        guard let domains = coder.decodeObject(of: NSArray.self, forKey: Keys.domains.rawValue) as? domainsList?,
-              let notes = coder.decodeObject(of: NSString.self, forKey: Keys.notes.rawValue) as? CategorizedTextList?,
-              let pronunciations = coder.decodeObject(of: NSArray.self, forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
-              let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-              let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList?,
+        guard let domains = coder.decodeObject(of: [InlineModel9.self], forKey: Keys.domains.rawValue) as? domainsList?,
+              let notes = coder.decodeObject(of: [InlineModel4.self], forKey: Keys.notes.rawValue) as? CategorizedTextList?,
+              let pronunciations = coder.decodeObject(of: [InlineModel1.self], forKey: Keys.pronunciations.rawValue) as? PronunciationsList?,
+              let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+              let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList?,
               let text = coder.decodeObject(of: NSString.self, forKey: Keys.text.rawValue) as? String else {
             fatalError("Issue decoding InlineModel5")
         }
@@ -909,11 +908,11 @@ class InlineModel10: NSObject, Codable, NSSecureCoding {
     }
     
     required init?(coder: NSCoder) {
-        guard let domains = coder.decodeObject(of: NSArray.self, forKey: Keys.domains.rawValue) as? domainsList?,
+        guard let domains = coder.decodeObject(of: [InlineModel9.self], forKey: Keys.domains.rawValue) as? domainsList?,
               let id = coder.decodeObject(of: NSString.self, forKey: Keys.id.rawValue) as String?,
               let language = coder.decodeObject(of: NSString.self, forKey: Keys.language.rawValue) as String?,
-              let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-              let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList?,
+              let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+              let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList?,
               let text = coder.decodeObject(of: NSString.self, forKey: Keys.text.rawValue) as? String else {
             fatalError("Issue decoding InlineModel10")
         }
@@ -994,12 +993,12 @@ class InlineModel12: NSObject, Codable, NSSecureCoding {
     }
     
     required init?(coder: NSCoder) {
-        guard let definitions = coder.decodeObject(of: NSArray.self, forKey: Keys.definitions.rawValue) as? Array<String>,
-              let domains = coder.decodeObject(of: NSString.self, forKey: Keys.domains.rawValue) as? domainsList?,
-              let notes = coder.decodeObject(of: NSString.self, forKey: Keys.notes.rawValue) as? CategorizedTextList?,
-              let regions = coder.decodeObject(of: NSArray.self, forKey: Keys.regions.rawValue) as? regionsList?,
-              let registers = coder.decodeObject(of: NSArray.self, forKey: Keys.registers.rawValue) as? registersList?,
-              let senseIds = coder.decodeObject(of: NSArray.self, forKey: Keys.senseIds.rawValue) as? Array<String>,
+        guard let definitions = coder.decodeObject(of: [NSString.self], forKey: Keys.definitions.rawValue) as? Array<String>,
+              let domains = coder.decodeObject(of: [InlineModel9.self], forKey: Keys.domains.rawValue) as? domainsList?,
+              let notes = coder.decodeObject(of: [InlineModel4.self], forKey: Keys.notes.rawValue) as? CategorizedTextList?,
+              let regions = coder.decodeObject(of: [InlineModel7.self], forKey: Keys.regions.rawValue) as? regionsList?,
+              let registers = coder.decodeObject(of: [InlineModel8.self], forKey: Keys.registers.rawValue) as? registersList?,
+              let senseIds = coder.decodeObject(of: [NSString.self], forKey: Keys.senseIds.rawValue) as? Array<String>,
               let text = coder.decodeObject(of: NSString.self, forKey: Keys.text.rawValue) as? String else {
             fatalError("Issue decoding InlineModel12")
         }
