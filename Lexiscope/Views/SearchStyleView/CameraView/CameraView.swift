@@ -24,11 +24,14 @@ struct CameraView: View {
                         Image(uiImage: capturedImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+//                            .blur(radius: viewModel.shouldScan ? 0 : 5)
                     }
                 }
-                ScannerView(viewModel: viewModel.getScannerModel())
-                    .frame(width: viewModel.cameraViewportSize.width,
-                           height: viewModel.cameraViewportSize.height)
+                if viewModel.searchOpen ?? false {
+                    ScannerView(viewModel: viewModel.getScannerModel())
+                        .frame(width: viewModel.cameraViewportSize.width,
+                               height: viewModel.cameraViewportSize.height)
+                }
             }
             .onTapGesture(coordinateSpace: .local) { location in
                 viewModel.handleCameraViewTap(at: location)

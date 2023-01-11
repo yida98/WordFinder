@@ -25,14 +25,20 @@ class SearchViewModel: ObservableObject {
     var cameraViewportSize: CGSize
     var wordStreamSubscriber: Set<AnyCancellable>
     private var selectedWordPublisher: PassthroughSubject<String, Never>
+    
+    var searchingToggle: AnyPublisher<Bool, Never>
+    
     private var cameraViewModel: CameraViewModel
     
-    init(cameraViewportSize: CGSize) {
+    init(cameraViewportSize: CGSize, searchOpen: AnyPublisher<Bool, Never>) {
+        debugPrint("SearchViewModel init")
         self.cameraSearch = true
         self.cameraViewportSize = cameraViewportSize
         self.wordStreamSubscriber = Set<AnyCancellable>()
         self.selectedWordPublisher = PassthroughSubject<String, Never>()
-        self.cameraViewModel = CameraViewModel(cameraViewportSize: cameraViewportSize)
+        self.searchingToggle = searchOpen
+        self.cameraViewModel = CameraViewModel(cameraViewportSize: cameraViewportSize, searchOpenPublisher: searchOpen)
+                
         WordSearchRequestManager.shared.clusterStream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
         WordSearchRequestManager.shared.addPublisher(selectedWordPublisher.eraseToAnyPublisher())
     }
@@ -92,4 +98,9 @@ extension String {
         }
         return false
     }
+}
+
+protocol SearchingViewModel {
+    var searchOpenSubscriber: AnyCancellable? { get }
+    func searchingToggled(_ value: Bool)
 }

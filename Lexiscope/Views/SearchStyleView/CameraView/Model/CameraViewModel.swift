@@ -17,19 +17,27 @@ class CameraViewModel: NSObject,
                        ROIDelegate {
     
     @Published var allowsCameraUsage: Bool = true
+    var searchOpenPublisher: AnyPublisher<Bool, Never>
     
     var cameraSizePublisher: CurrentValueSubject<CGSize, Never> = CurrentValueSubject<CGSize, Never>(.zero)
     var cameraViewportSize: CGSize
     private var locationOfInterest: CGPoint
     
+    var searchOpenSubscriber: AnyCancellable?
+    
     convenience override init() {
-        self.init(cameraViewportSize: .zero)
+        self.init(cameraViewportSize: .zero, searchOpenPublisher: Just(true).eraseToAnyPublisher())
     }
     
-    init(cameraViewportSize: CGSize) {
+    init(cameraViewportSize: CGSize, searchOpenPublisher: AnyPublisher<Bool, Never>) {
+        debugPrint("CameraViewModel init")
         self.cameraViewportSize = cameraViewportSize
         self.locationOfInterest = .zero
+        self.searchOpenPublisher = searchOpenPublisher
         super.init()
+        self.searchOpenSubscriber = searchOpenPublisher.sink { [weak self] value in
+            self?.searchingToggled(value)
+        }
         CameraViewModel.requestCameraAccess { success in
             Just(success)
                 .receive(on: RunLoop.main)
@@ -48,12 +56,29 @@ class CameraViewModel: NSObject,
         }
     }
     
+    @Published var searchOpen: Bool?
+    
+    func searchingToggled(_ value: Bool) {
+        searchOpen = value
+        capturedImage = nil
+        debugPrint("Sending from CameraViewModel...")
+//        self.objectWillChange.send()
+        if value {
+            // TODO: TRUE - take a photo > Disallow more photo taking > terminate camera session
+            startCamera()
+        } else {
+            // TODO: FALSE - restart camera session > remove photo
+            closeSearch()
+        }
+    }
+    
     // MARK: - Text Detection
     
     private var scannerViewModel: ScannerViewModel?
     
     private func makeScannerModel() -> ScannerViewModel {
         return ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
+                                shouldScanDelegate: self,
                                 regionOfInterestDelegate: self)
     }
     
@@ -135,9 +160,18 @@ class CameraViewModel: NSObject,
         }
     }
     
+    func closeSearch() {
+        takePhoto()
+        scrapCamera()
+    }
+    
     func startCamera() {
         camera = TextDetectionCameraModel(sessionPreset: sessionPreset)
         camera?.startRunning()
+    }
+    
+    func scrapCamera() {
+        camera = nil
     }
     
     private func resumeCamera() {
@@ -158,6 +192,12 @@ class CameraViewModel: NSObject,
         let cameraSize = CGSize(width: cameraViewportSize.width,
                                 height: cameraViewportSize.width * bufferRatio)
         cameraSizePublisher.send(cameraSize)
+    }
+}
+
+extension CameraViewModel: ScannerShouldScanDelegate {
+    func shouldScan() -> Bool {
+        return searchOpen ?? false
     }
 }
 

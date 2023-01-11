@@ -50,7 +50,9 @@ class TextDetectionCameraModel {
     }
     
     func startRunning() {
-        self.session.startRunning()
+        DispatchQueue.global().async {
+            self.session.startRunning()
+        }
     }
     
     func capturePhoto(with settings: AVCapturePhotoSettings, delegate: AVCapturePhotoCaptureDelegate) {

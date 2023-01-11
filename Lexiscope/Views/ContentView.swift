@@ -26,12 +26,9 @@ struct ContentView: View {
                     }
                     .shadow(radius: 4)
             }
+            Button("Tap me") {
+                viewModel.searchOpen.toggle()
+            }
         }.ignoresSafeArea()
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(viewModel: ContentViewModel())
     }
 }
