@@ -66,6 +66,7 @@ class CameraScannerView: UIView {
                 self.invalidateIntrinsicContentSize()
             }
         }
+        viewModel.makeCamera()
         if let previewLayer = viewModel.cameraPreviewLayer() {
             DispatchQueue.main.async {
                 previewLayer.frame = self.frame

@@ -18,10 +18,11 @@ struct SearchView: View {
                 } else {
                     AudioView()
                 }
-                 
+                
                 HStack {
                     Spacer()
                     SearchStyleToggleView(viewModel: viewModel)
+                        .offset(y: viewModel.cameraViewportSize.height / 3)
                 }
             }
             .frame(height: viewModel.cameraViewportSize.height)

@@ -21,22 +21,16 @@ class ScannerViewModel: ObservableObject, VNTextDetectorDelegate {
     private var resultCluster: PassthroughSubject<String, Never>
     private var inputSubscriber: AnyCancellable?
     
-    var shouldScanDelegate: ScannerShouldScanDelegate?
-    
     var regionOfInterestDelegate: ROIDelegate?
     
-    init(input: AnyPublisher<UIImage?, Never>, shouldScanDelegate: ScannerShouldScanDelegate, regionOfInterestDelegate: ROIDelegate) {
+    init(input: AnyPublisher<UIImage?, Never>, regionOfInterestDelegate: ROIDelegate) {
         self.resultCluster = PassthroughSubject<String, Never>()
         self.regionOfInterestDelegate = regionOfInterestDelegate
-        self.shouldScanDelegate = shouldScanDelegate
         
         textDetector.delegate = self
         self.inputSubscriber = input.sink(receiveValue: { [weak self] uiImage in
             if let image = uiImage,
-                let cgImage = image.cgImage,
-                let strongSelf = self,
-                let shouldScanDelegate = strongSelf.shouldScanDelegate,
-                shouldScanDelegate.shouldScan() {
+                let cgImage = image.cgImage {
                 self?.textDetector.detect(from: cgImage)
             }
         })
@@ -97,8 +91,4 @@ protocol ROIDelegate {
     func getRegionOfInterest() -> CGRect
     func getRealRegionOfInterest() -> CGRect
     func getLocationOfInterest() -> CGPoint
-}
-
-protocol ScannerShouldScanDelegate {
-    func shouldScan() -> Bool
 }

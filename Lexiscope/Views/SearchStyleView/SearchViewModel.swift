@@ -27,24 +27,32 @@ class SearchViewModel: ObservableObject {
     private var selectedWordPublisher: PassthroughSubject<String, Never>
     
     var searchingToggle: AnyPublisher<Bool, Never>
+    var searchingToggleSubscriber: AnyCancellable?
     
-    private var cameraViewModel: CameraViewModel
+    private var cameraViewModel: CameraViewModel?
     
     init(cameraViewportSize: CGSize, searchOpen: AnyPublisher<Bool, Never>) {
-        debugPrint("SearchViewModel init")
         self.cameraSearch = true
         self.cameraViewportSize = cameraViewportSize
         self.wordStreamSubscriber = Set<AnyCancellable>()
         self.selectedWordPublisher = PassthroughSubject<String, Never>()
         self.searchingToggle = searchOpen
-        self.cameraViewModel = CameraViewModel(cameraViewportSize: cameraViewportSize, searchOpenPublisher: searchOpen)
-                
+        
+        self.searchingToggleSubscriber = searchingToggle.sink(receiveValue: toggleSearch(_:))
         WordSearchRequestManager.shared.clusterStream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
         WordSearchRequestManager.shared.addPublisher(selectedWordPublisher.eraseToAnyPublisher())
     }
     
+    func makeCameraViewModel() -> CameraViewModel {
+        return CameraViewModel(cameraViewportSize: cameraViewportSize, cameraOn: searchingToggle)
+    }
+    
     func getCameraViewModel() -> CameraViewModel {
-        return cameraViewModel
+        if cameraViewModel != nil {
+            return cameraViewModel!
+        }
+        cameraViewModel = makeCameraViewModel()
+        return cameraViewModel!
     }
     
     func handleNewRequest(_ resultCluster: String?) {
@@ -74,6 +82,14 @@ class SearchViewModel: ObservableObject {
     func handleTap(at index: Int) {
         selectedWordIndex = index
     }
+    
+    func toggleSearch(_ value: Bool) {
+        if value {
+            cameraViewModel?.resumeCamera()
+        } else {
+            cameraViewModel?.stopCamera()
+        }
+    }
 }
 
 extension String {
@@ -98,9 +114,4 @@ extension String {
         }
         return false
     }
-}
-
-protocol SearchingViewModel {
-    var searchOpenSubscriber: AnyCancellable? { get }
-    func searchingToggled(_ value: Bool)
 }

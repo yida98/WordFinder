@@ -17,27 +17,24 @@ class CameraViewModel: NSObject,
                        ROIDelegate {
     
     @Published var allowsCameraUsage: Bool = true
-    var searchOpenPublisher: AnyPublisher<Bool, Never>
+    
+    @Published var cameraOn: Bool
+    var cameraOnSubscriber: AnyCancellable?
     
     var cameraSizePublisher: CurrentValueSubject<CGSize, Never> = CurrentValueSubject<CGSize, Never>(.zero)
     var cameraViewportSize: CGSize
     private var locationOfInterest: CGPoint
     
-    var searchOpenSubscriber: AnyCancellable?
-    
     convenience override init() {
-        self.init(cameraViewportSize: .zero, searchOpenPublisher: Just(true).eraseToAnyPublisher())
+        self.init(cameraViewportSize: .zero, cameraOn: Just(false).eraseToAnyPublisher())
     }
     
-    init(cameraViewportSize: CGSize, searchOpenPublisher: AnyPublisher<Bool, Never>) {
-        debugPrint("CameraViewModel init")
+    init(cameraViewportSize: CGSize, cameraOn: AnyPublisher<Bool, Never>) {
+        self.cameraOn = false
         self.cameraViewportSize = cameraViewportSize
         self.locationOfInterest = .zero
-        self.searchOpenPublisher = searchOpenPublisher
         super.init()
-        self.searchOpenSubscriber = searchOpenPublisher.sink { [weak self] value in
-            self?.searchingToggled(value)
-        }
+        self.cameraOnSubscriber = cameraOn.assign(to: \.cameraOn, on: self)
         CameraViewModel.requestCameraAccess { success in
             Just(success)
                 .receive(on: RunLoop.main)
@@ -56,29 +53,12 @@ class CameraViewModel: NSObject,
         }
     }
     
-    @Published var searchOpen: Bool?
-    
-    func searchingToggled(_ value: Bool) {
-        searchOpen = value
-        capturedImage = nil
-        debugPrint("Sending from CameraViewModel...")
-//        self.objectWillChange.send()
-        if value {
-            // TODO: TRUE - take a photo > Disallow more photo taking > terminate camera session
-            startCamera()
-        } else {
-            // TODO: FALSE - restart camera session > remove photo
-            closeSearch()
-        }
-    }
-    
     // MARK: - Text Detection
     
     private var scannerViewModel: ScannerViewModel?
     
     private func makeScannerModel() -> ScannerViewModel {
         return ScannerViewModel(input: $capturedImage.eraseToAnyPublisher(),
-                                shouldScanDelegate: self,
                                 regionOfInterestDelegate: self)
     }
     
@@ -145,7 +125,7 @@ class CameraViewModel: NSObject,
     func handleCameraViewTap(at location: CGPoint) {
         locationOfInterest = location
         if (capturedImage != nil) {
-            resumeCamera()
+            resetCamera()
         } else {
             takePhoto()
         }
@@ -160,21 +140,20 @@ class CameraViewModel: NSObject,
         }
     }
     
-    func closeSearch() {
-        takePhoto()
-        scrapCamera()
+    func makeCamera() {
+        camera = TextDetectionCameraModel(sessionPreset: sessionPreset)
+        resumeCamera()
     }
     
-    func startCamera() {
-        camera = TextDetectionCameraModel(sessionPreset: sessionPreset)
+    func resumeCamera() {
         camera?.startRunning()
     }
     
-    func scrapCamera() {
-        camera = nil
+    func stopCamera() {
+        camera?.stopRunning()
     }
     
-    private func resumeCamera() {
+    private func resetCamera() {
         capturedImage = nil
         locationOfInterest = .zero
         scannerViewModel?.coordinates = .zero
@@ -192,12 +171,6 @@ class CameraViewModel: NSObject,
         let cameraSize = CGSize(width: cameraViewportSize.width,
                                 height: cameraViewportSize.width * bufferRatio)
         cameraSizePublisher.send(cameraSize)
-    }
-}
-
-extension CameraViewModel: ScannerShouldScanDelegate {
-    func shouldScan() -> Bool {
-        return searchOpen ?? false
     }
 }
 

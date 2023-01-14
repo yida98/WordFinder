@@ -20,14 +20,15 @@ struct CameraView: View {
                 ZStack {
                     CameraViewRepresentable(viewModel: viewModel)
                         .fixedSize(horizontal: false, vertical: true)
+                        .blur(radius: viewModel.cameraOn ? 0 : 5)
                     if let capturedImage = viewModel.capturedImage {
                         Image(uiImage: capturedImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-//                            .blur(radius: viewModel.shouldScan ? 0 : 5)
+                            .blur(radius: viewModel.cameraOn ? 0 : 5)
                     }
                 }
-                if viewModel.searchOpen ?? false {
+                if viewModel.cameraOn {
                     ScannerView(viewModel: viewModel.getScannerModel())
                         .frame(width: viewModel.cameraViewportSize.width,
                                height: viewModel.cameraViewportSize.height)
