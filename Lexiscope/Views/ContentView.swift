@@ -25,6 +25,9 @@ struct ContentView: View {
                         RoundedRectangle(cornerRadius: 20)
                     }
                     .shadow(radius: 4)
+                    .onTapGesture {
+                        /// This allows the inside `ScrollView` drag gestures to co-exist with this `DragGesture`
+                    }
                     .gesture(
                         DragGesture(minimumDistance: 0, coordinateSpace: .global)
                             .onChanged({ dragValue in
