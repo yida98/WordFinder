@@ -27,7 +27,7 @@ class DefinitionViewModel: ObservableObject {
         URLTask.shared.define(word: word)
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
-                debugPrint("completed")
+                debugPrint("completed \(word)")
             }, receiveValue: { entry in
                 self.headwordEntry = entry
             })

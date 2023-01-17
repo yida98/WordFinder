@@ -18,16 +18,31 @@ struct ContentView: View {
             }
             VStack {
                 Spacer()
-                    .frame(height: viewModel.searchViewOffset)
+                    .frame(height: viewModel.searchViewActiveOffset)
                 DictionaryView()
                     .background(.white)
                     .mask {
                         RoundedRectangle(cornerRadius: 20)
                     }
                     .shadow(radius: 4)
-            }
-            Button("Tap me") {
-                viewModel.searchOpen.toggle()
+                    .gesture(
+                        DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                            .onChanged({ dragValue in
+                                let yTouchOffset = dragValue.location.y - dragValue.startLocation.y
+                                let yMoveModifier = viewModel.offsetMoveModifier(for: yTouchOffset)
+                                let yMovement = (yTouchOffset * yMoveModifier) + viewModel.getCurrentStaticOffset()
+                                viewModel.searchViewActiveOffset = yMovement > 0 ? yMovement : 0
+                            })
+                            .onEnded({ dragValue in
+                                withAnimation {
+                                    if viewModel.shouldToggle(dragValue.translation.height) {
+                                        viewModel.searchOpen.toggle()
+                                    } else {
+                                        viewModel.resetOffset()
+                                    }
+                                }
+                            })
+                    )
             }
         }.ignoresSafeArea()
     }

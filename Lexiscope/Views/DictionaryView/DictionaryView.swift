@@ -14,6 +14,7 @@ struct DictionaryView: View {
     var body: some View {
         VStack {
             DefinitionView(viewModel: viewModel.getDefinitionViewModel())
+                .padding()
             Spacer()
         }
     }
