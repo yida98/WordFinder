@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 struct Constant {
     static let screenBounds: CGRect = UIWindow().screen.bounds
@@ -25,4 +26,11 @@ class Application {
     func openSettings() {
         
     }
+}
+
+prefix func !(value: Binding<Bool>) -> Binding<Bool> {
+    Binding<Bool>(
+            get: { !value.wrappedValue },
+            set: { value.wrappedValue = !$0 }
+        )
 }

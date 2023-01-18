@@ -12,10 +12,19 @@ struct DictionaryView: View {
     @StateObject var viewModel: DictionaryViewModel = DictionaryViewModel()
     
     var body: some View {
-        VStack {
+        TabView(selection: $viewModel.showingVocabulary) {
+            SavedWordsView()
+                .padding(70)
+                .padding(.bottom, -40)
+                .tag(true)
+            
             DefinitionView(viewModel: viewModel.getDefinitionViewModel())
-                .padding()
-            Spacer()
+                .padding(70)
+                .padding(.bottom, -40)
+                .tag(false)
         }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        .padding(.bottom, 20)
     }
 }

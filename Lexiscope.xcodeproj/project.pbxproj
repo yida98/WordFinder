@@ -28,6 +28,9 @@
 		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */; };
 		E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */; };
+		E4DBE91A297724B7006D4730 /* SavedWordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBE919297724B7006D4730 /* SavedWordsView.swift */; };
+		E4DBE91C297725DF006D4730 /* SavedWordsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBE91B297725DF006D4730 /* SavedWordsCell.swift */; };
+		E4DBE92029774559006D4730 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBE91F29774559006D4730 /* TabCell.swift */; };
 		E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC210287688AC00F1495A /* DictionaryView.swift */; };
 		E4DCC2132876890A00F1495A /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2122876890A00F1495A /* AlertView.swift */; };
 		E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2162878038E00F1495A /* Color_ext.swift */; };
@@ -65,6 +68,9 @@
 		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCellClusterView.swift; sourceTree = "<group>"; };
 		E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
+		E4DBE919297724B7006D4730 /* SavedWordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedWordsView.swift; sourceTree = "<group>"; };
+		E4DBE91B297725DF006D4730 /* SavedWordsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedWordsCell.swift; sourceTree = "<group>"; };
+		E4DBE91F29774559006D4730 /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		E4DCC210287688AC00F1495A /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
 		E4DCC2122876890A00F1495A /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		E4DCC2162878038E00F1495A /* Color_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_ext.swift; sourceTree = "<group>"; };
@@ -98,8 +104,9 @@
 				E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */,
 				E4DCC210287688AC00F1495A /* DictionaryView.swift */,
 				E475BFE6294BD7110076824C /* DictionaryViewModel.swift */,
-				E467D5EA28D87AF60005480D /* DefinitionView.swift */,
-				E475BFE2294A76450076824C /* DefinitionViewModel.swift */,
+				E4DBE91F29774559006D4730 /* TabCell.swift */,
+				E4DBE91E29774544006D4730 /* Definition */,
+				E4DBE91D29772609006D4730 /* SavedWords */,
 			);
 			path = DictionaryView;
 			sourceTree = "<group>";
@@ -126,6 +133,24 @@
 				E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */,
 			);
 			path = SearchViewComponents;
+			sourceTree = "<group>";
+		};
+		E4DBE91D29772609006D4730 /* SavedWords */ = {
+			isa = PBXGroup;
+			children = (
+				E4DBE919297724B7006D4730 /* SavedWordsView.swift */,
+				E4DBE91B297725DF006D4730 /* SavedWordsCell.swift */,
+			);
+			path = SavedWords;
+			sourceTree = "<group>";
+		};
+		E4DBE91E29774544006D4730 /* Definition */ = {
+			isa = PBXGroup;
+			children = (
+				E467D5EA28D87AF60005480D /* DefinitionView.swift */,
+				E475BFE2294A76450076824C /* DefinitionViewModel.swift */,
+			);
+			path = Definition;
 			sourceTree = "<group>";
 		};
 		E4DCC21C287D39B400F1495A /* Model */ = {
@@ -301,6 +326,7 @@
 			files = (
 				E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */,
 				E475BFFC294FF6C30076824C /* DataManager.swift in Sources */,
+				E4DBE92029774559006D4730 /* TabCell.swift in Sources */,
 				E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */,
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
 				E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */,
@@ -325,10 +351,12 @@
 				E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */,
 				E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */,
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
+				E4DBE91A297724B7006D4730 /* SavedWordsView.swift in Sources */,
 				E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */,
 				E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */,
 				E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */,
 				E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */,
+				E4DBE91C297725DF006D4730 /* SavedWordsCell.swift in Sources */,
 				E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */,
 				E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */,
 			);
