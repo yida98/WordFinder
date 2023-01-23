@@ -12,9 +12,10 @@ import SwiftUI
 class DictionaryViewModel: ObservableObject {
     @Published var showingVocabulary: Bool
     private var definitionViewModel: DefinitionViewModel?
+    private var savedWordsViewModel: SavedWordsViewModel?
     
     var wordStreamSubscriber: Set<AnyCancellable>
-    var searchingHeadwordEntry: HeadwordEntry?
+    var searchingVocabularyEntry: VocabularyEntry?
     
     init() {
         self.showingVocabulary = true
@@ -29,6 +30,13 @@ class DictionaryViewModel: ObservableObject {
         return definitionViewModel!
     }
     
+    func getSavedWordsViewModel() -> SavedWordsViewModel {
+        if savedWordsViewModel == nil {
+            savedWordsViewModel = SavedWordsViewModel()
+        }
+        return savedWordsViewModel!
+    }
+    
     func subscribeToWordRequestStream() {
         WordSearchRequestManager.shared.stream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
     }
@@ -40,9 +48,11 @@ class DictionaryViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 debugPrint("completed \(word)")
             }, receiveValue: { [weak self] entry in
-                self?.searchingHeadwordEntry = entry
-                self?.showingVocabulary = false
-                self?.definitionViewModel?.headwordEntry = entry
+                if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: word) as? VocabularyEntry {
+                    self?.searchingVocabularyEntry = vocabularyEntry
+                    self?.showingVocabulary = false
+                    self?.definitionViewModel?.vocabularyEntry = vocabularyEntry
+                }
             })
             .store(in: &wordStreamSubscriber)
     }

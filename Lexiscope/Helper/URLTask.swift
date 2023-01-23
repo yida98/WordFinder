@@ -22,15 +22,13 @@ class URLTask {
     func define(word: String,
                 language: URLTask.Language = URLTask.default_language,
                 fields: Array<String> = ["definitions", "pronunciations"],
-                strictMatch: Bool = false) -> AnyPublisher<HeadwordEntry?, Error> {
+                strictMatch: Bool = false) -> AnyPublisher<RetrieveEntry?, Error> {
         let trimmedWord = word.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if let retrieveEntryData = DataManager.shared.retrieveEntry(trimmedWord) {
+        if let managedVocabularyObject = DataManager.shared.fetchVocabularyEntry(for: trimmedWord), let retrieveEntryData = managedVocabularyObject.value(forKey: "retrieveEntry") as? Data {
             do {
                 let retrieveEntry = try JSONDecoder().decode(RetrieveEntry.self, from: retrieveEntryData)
-                if let results = retrieveEntry.results, let headwordEntry = results.first {
-                    return Just(headwordEntry).setFailureType(to: Error.self).eraseToAnyPublisher()
-                }
+                    return Just(retrieveEntry).setFailureType(to: Error.self).eraseToAnyPublisher()
             } catch {
                 fatalError("Unable to decode \(trimmedWord). \(error)")
             }
@@ -55,8 +53,8 @@ class URLTask {
         
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap {
-                if $0.response is HTTPURLResponse {
-                    DataManager.shared.saveEntry(word, $0.data)
+                if let response = $0.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
+                    DataManager.shared.saveVocabularyEntryEntity(retrieveEntry: $0.data, word: word)
                     return $0.data
                 } else {
                     print("[ERROR] bad response")
@@ -64,14 +62,7 @@ class URLTask {
                 }
             }
             .decode(type: RetrieveEntry.self, decoder: decoder)
-            .tryMap {
-                if let result = $0.results, let firstResult = result.first {
-                    return firstResult
-                } else {
-                    print("[ERROR] no result")
-                    throw DictionaryError.noResult
-                }
-            }
+            .map { $0 }
             .eraseToAnyPublisher()
 
     }
@@ -118,4 +109,8 @@ extension String {
     func decodeUrl() -> String? {
         return self.removingPercentEncoding
     }
+}
+
+enum HTTPStatusCode: Int {
+    case OK = 200
 }

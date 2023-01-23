@@ -8,18 +8,12 @@
 import SwiftUI
 
 struct SavedWordsCell: View {
-    var word: String
+    var vocabularyEntry: VocabularyEntry
     var body: some View {
         NavigationLink {
-            DefinitionView(viewModel: DefinitionViewModel())
+            DefinitionView(viewModel: DefinitionViewModel(vocabularyEntry: vocabularyEntry))
         } label: {
-            Text(word)
+            Text(vocabularyEntry.word ?? "")
         }
-    }
-}
-
-struct SavedWordsCell_Previews: PreviewProvider {
-    static var previews: some View {
-        SavedWordsCell(word: "blood")
     }
 }

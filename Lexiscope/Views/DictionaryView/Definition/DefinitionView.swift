@@ -11,25 +11,26 @@ struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
     
     var body: some View {
-        if let headwordEntry = viewModel.headwordEntry {
+        if let retrieveEntry = viewModel.retrieveEntry, let headwordEntries = retrieveEntry.results {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
-                    HStack {
-                        Text(headwordEntry.word)
-                        Spacer()
-                    }
-                    Text(Self.phoneticString(for: headwordEntry))
-                    VStack {
-                        ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
-                            
-                            Text(lexicalEntry.lexicalCategory.text.capitalized)
-                            ForEach(lexicalEntry.allSenses()) { sense in
-                                if sense.definitions != nil {
-                                    ForEach(sense.definitions!, id: \.self) { definition in
-                                        Text("\(definition)")
+                    ForEach(headwordEntries) { headwordEntry in
+                        HStack {
+                            Text(headwordEntry.word)
+                            Spacer()
+                        }
+                        Text(Self.phoneticString(for: headwordEntry))
+                        VStack {
+                            ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
+                                Text(lexicalEntry.lexicalCategory.text.capitalized)
+                                ForEach(lexicalEntry.allSenses()) { sense in
+                                    if sense.definitions != nil {
+                                        ForEach(sense.definitions!, id: \.self) { definition in
+                                            Text("\(definition)")
+                                        }
+                                    } else {
+                                        EmptyView()
                                     }
-                                } else { /// The `else` block is required to silence the excessive compile time warning
-                                    EmptyView()
                                 }
                             }
                         }
@@ -38,14 +39,14 @@ struct DefinitionView: View {
                 HStack {
                     Spacer()
                     Button {
-                        
+                        viewModel.bookmarkWord()
                     } label: {
                         Image(systemName: "rectangle.stack.badge.plus")
                             .frame(width: 40)
                             .foregroundColor(.black.opacity(0.4))
                     }
                     Button {
-                        
+                        viewModel.unbookmarkWord()
                     } label: {
                         Image(systemName: "rectangle.stack.badge.minus")
                             .frame(width: 40)
@@ -54,6 +55,7 @@ struct DefinitionView: View {
                 }
             }
         } else {
+            // TODO: Placeholder view
             Spacer()
         }
     }

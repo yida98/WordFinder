@@ -8,19 +8,18 @@
 import SwiftUI
 
 struct SavedWordsView: View {
+    @ObservedObject var viewModel: SavedWordsViewModel
     
-    var list: [String] = ["a", "b", "c"]
     var body: some View {
         ScrollView {
-            ForEach(list, id: \.self) { word in
-                SavedWordsCell(word: word)
+            if viewModel.vocabulary == nil {
+                Image(systemName: "text.book.closed")
+                    .opacity(0.5)
+            } else {
+                ForEach(viewModel.vocabulary!) { vocabularyEntry in
+                    SavedWordsCell(vocabularyEntry: vocabularyEntry)
+                }
             }
         }
-    }
-}
-
-struct SavedWordsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SavedWordsView()
     }
 }

@@ -25,7 +25,15 @@ class DataManager {
     
     private lazy var userEntity: NSEntityDescription = {
         let managedContext = getContext()
-        guard let entity = NSEntityDescription.entity(forEntityName: "User", in: managedContext) else {
+        guard let entity = NSEntityDescription.entity(forEntityName: EntityName.user.rawValue, in: managedContext) else {
+            fatalError()
+        }
+        return entity
+    }()
+    
+    private lazy var vocabularyEntryEntity: NSEntityDescription = {
+        let managedContext = getContext()
+        guard let entity = NSEntityDescription.entity(forEntityName: EntityName.vocabularyEntry.rawValue, in: managedContext) else {
             fatalError()
         }
         return entity
@@ -35,6 +43,8 @@ class DataManager {
         return persistentContainer.viewContext
     }
     
+    // MARK: - Users
+    
     func createUser() {
         let context = getContext()
         let _ = NSManagedObject(entity: userEntity, insertInto: context)
@@ -42,7 +52,7 @@ class DataManager {
     }
     
     func deleteAllUsers() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "User")
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: EntityName.user.rawValue)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         do {
@@ -59,7 +69,7 @@ class DataManager {
     func retrieveUser() -> NSManagedObject? {
         if user != nil { return self.user }
         let managedContext = getContext()
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.user.rawValue)
         do {
             let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
             if let results = results, results.count > 0 {
@@ -73,43 +83,107 @@ class DataManager {
         }
     }
     
-    func retrieveEntries() -> [String: Data]? {
-        guard let user = retrieveUser() else { return nil }
+    // MARK: - Entries
+    
+    private let vocabularyAttributeKey = "vocabulary"
+    
+    func fetchCache() -> [NSManagedObject]? {
+        let managedContext = getContext()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.vocabularyEntry.rawValue)
+        let sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        fetchRequest.sortDescriptors = sortDescriptors
         
-        let entryKey = "oxfordEntries"
-        
-        if let entries = user.value(forKey: entryKey) as? [String: Data] {
-            return entries
+        do {
+            let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
+            if let results = results, results.count > 0 {
+                return results
+            } else {
+                return nil
+            }
+        } catch {
+            fatalError("Unable to fetch vocabulary. \(error)")
         }
+    }
+    
+    func fetchSavedVocabulary() -> [NSManagedObject]? {
+        let managedContext = getContext()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.vocabularyEntry.rawValue)
+        let predicate = NSPredicate(format: "saved == YES")
+        fetchRequest.predicate = predicate
+        let sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        fetchRequest.sortDescriptors = sortDescriptors
         
+        do {
+            let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
+            if let results = results, results.count > 0 {
+                return results
+            } else {
+                return nil
+            }
+        } catch {
+            fatalError("Unable to fetch vocabulary. \(error)")
+        }
+    }
+    
+    func fetchVocabularyEntry(for word: String) -> NSManagedObject? {
+        let managedContext = getContext()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.vocabularyEntry.rawValue)
+        let predicate = NSPredicate(format: "word == %@", word.lowercased())
+        fetchRequest.predicate = predicate
+        
+        let results = try? managedContext.fetch(fetchRequest) as? [NSManagedObject]
+        if let results = results, results.count > 0 {
+            return results[0]
+        }
         return nil
     }
     
-    func retrieveEntry(_ key: String) -> Data? {
-        /// Assuming there is only one user.
-        guard let entries = retrieveEntries() else { return nil }
-        
-        var entry: Data?
-        if entries.contains(where: { $0.key.lowercased() == key.lowercased() }) {
-            entry = entries[key.lowercased()]
+    func saveVocabularyEntryEntity(retrieveEntry: Data, date: Date = Date(), saved: Bool = false, word: String) {
+        if fetchVocabularyEntry(for: word) == nil {
+            let context = getContext()
+            let entity = NSManagedObject(entity: vocabularyEntryEntity, insertInto: context)
+            entity.setValue(retrieveEntry, forKey: "retrieveEntry")
+            entity.setValue(date, forKey: "date")
+            entity.setValue(saved, forKey: "saved")
+            entity.setValue(word, forKey: "word")
+            
+            saveContext()
         }
-        
-        return entry
     }
     
-    func saveEntry(_ key: String, _ value: Data) {
-        /// Assuming there is only one user.
-        guard let user = retrieveUser() else {
-            print("Unable to retrieve user.")
+    // TODO: Remove
+    func eraseCache() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: EntityName.vocabularyEntry.rawValue)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: getContext())
+        } catch let error as NSError {
+            // TODO: handle the error
+            debugPrint("error")
             return
         }
-        let attributeKey = "oxfordEntries"
-        var entries = retrieveEntries() ?? [String: Data]()
-        entries[key.lowercased()] = value
-        
-        user.setValue(entries, forKey: attributeKey)
-        
+    }
+    
+    private func setSaved(_ saved: Bool, for entry: NSManagedObject) {
+        entry.setValue(saved, forKey: "saved")
         saveContext()
+    }
+    
+    func bookmarkNewWord(_ word: String) {
+        guard let entry = fetchVocabularyEntry(for: word.lowercased()) else {
+            debugPrint("The word \(word) is not in the cache.")
+            return
+        }
+        setSaved(true, for: entry)
+    }
+    
+    func unbookmarkWord(_ word: String) {
+        guard let entry = fetchVocabularyEntry(for: word.lowercased()) else {
+            debugPrint("The word \(word) is not in the cache.")
+            return
+        }
+        setSaved(false, for: entry)
     }
     
     func saveContext() {
@@ -121,6 +195,22 @@ class DataManager {
                 // TODO: Handle error
                 fatalError("Unable to save due to \(error)")
             }
+        }
+    }
+    
+    enum EntityName: String {
+        typealias RawValue = String
+        
+        case user = "User"
+        case vocabularyEntry = "VocabularyEntry"
+    }
+    
+    static func decodedRetrieveEntryData(_ data: Data) -> RetrieveEntry {
+        do {
+            let entry = try JSONDecoder().decode(RetrieveEntry.self, from: data)
+            return entry
+        } catch {
+            fatalError("Unable to decode RetrieveEntry from \(data)")
         }
     }
 }
