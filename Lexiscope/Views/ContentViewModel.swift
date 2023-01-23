@@ -10,7 +10,6 @@ import Foundation
 class ContentViewModel: ObservableObject {
     private var searchViewModel: SearchViewModel?
     private var cameraViewportSize: CGSize
-    private var searchToolbarHeight: CGFloat
     private var searchViewMaxHeight: CGFloat
     private var searchViewMinHeight: CGFloat
     @Published var searchViewActiveOffset: CGFloat
@@ -24,8 +23,7 @@ class ContentViewModel: ObservableObject {
         let cameraViewportHeight = Constant.screenBounds.height / 3
         self.cameraViewportSize = CGSize(width: Constant.screenBounds.width,
                                          height: cameraViewportHeight)
-        self.searchToolbarHeight = 40
-        self.searchViewMaxHeight = cameraViewportHeight + searchToolbarHeight
+        self.searchViewMaxHeight = cameraViewportHeight
         self.searchViewMinHeight = searchViewMaxHeight * 0.35
         self.searchViewActiveOffset = searchViewMaxHeight
         self.searchOpen = true
