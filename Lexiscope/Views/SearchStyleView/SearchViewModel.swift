@@ -10,7 +10,6 @@ import Combine
 
 class SearchViewModel: ObservableObject {
     // TODO: Persist default
-    @Published var cameraSearch: Bool
     @Published var individualWords: [String]?
     @Published var selectedWordIndex: Int? {
         didSet {
@@ -32,7 +31,6 @@ class SearchViewModel: ObservableObject {
     private var cameraViewModel: CameraViewModel?
     
     init(cameraViewportSize: CGSize, searchOpen: AnyPublisher<Bool, Never>) {
-        self.cameraSearch = true
         self.cameraViewportSize = cameraViewportSize
         self.wordStreamSubscriber = Set<AnyCancellable>()
         self.selectedWordPublisher = PassthroughSubject<String, Never>()

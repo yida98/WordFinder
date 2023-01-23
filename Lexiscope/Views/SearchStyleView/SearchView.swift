@@ -13,17 +13,7 @@ struct SearchView: View {
     var body: some View {
         VStack {
             ZStack {
-                if viewModel.cameraSearch {
-                    CameraView(viewModel: viewModel.getCameraViewModel())
-                } else {
-                    AudioView()
-                }
-                
-                HStack {
-                    Spacer()
-                    SearchStyleToggleView(viewModel: viewModel)
-                        .offset(y: viewModel.cameraViewportSize.height / 3)
-                }
+                CameraView(viewModel: viewModel.getCameraViewModel())
             }
             .frame(height: viewModel.cameraViewportSize.height)
             .contentShape(Rectangle())
