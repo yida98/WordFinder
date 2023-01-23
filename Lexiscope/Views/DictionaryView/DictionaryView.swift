@@ -15,12 +15,10 @@ struct DictionaryView: View {
         TabView(selection: $viewModel.showingVocabulary) {
             SavedWordsView(viewModel: viewModel.getSavedWordsViewModel())
                 .padding(60)
-                .padding(.bottom, -30)
                 .tag(true)
             
             DefinitionView(viewModel: viewModel.getDefinitionViewModel())
-                .padding(50)
-                .padding(.bottom, -30)
+                .padding(60)
                 .tag(false)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))

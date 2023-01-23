@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class DataManager {
+class DataManager: ObservableObject {
     static let shared = DataManager()
     
     private init() {}
@@ -196,6 +196,7 @@ class DataManager {
                 fatalError("Unable to save due to \(error)")
             }
         }
+        self.objectWillChange.send()
     }
     
     enum EntityName: String {
