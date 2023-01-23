@@ -71,6 +71,7 @@ class CameraScannerView: UIView {
             DispatchQueue.main.async {
                 previewLayer.frame = self.frame
                 self.layer.insertSublayer(previewLayer, at: 0)
+                viewModel.resumeCamera()
             }
         }
     }

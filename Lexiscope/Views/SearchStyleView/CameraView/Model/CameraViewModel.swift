@@ -142,7 +142,6 @@ class CameraViewModel: NSObject,
     
     func makeCamera() {
         camera = TextDetectionCameraModel(sessionPreset: sessionPreset)
-        resumeCamera()
     }
     
     func resumeCamera() {
