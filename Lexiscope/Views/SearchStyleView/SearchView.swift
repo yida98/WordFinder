@@ -11,15 +11,15 @@ struct SearchView: View {
     @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ZStack {
                 CameraView(viewModel: viewModel.getCameraViewModel())
             }
             .frame(height: viewModel.cameraViewportSize.height)
             .contentShape(Rectangle())
-            .clipped()
 
             SearchToolbar(viewModel: viewModel)
+                .background(.ultraThinMaterial)
         }
         .frame(width: viewModel.cameraViewportSize.width)
         .background(Color.boyBlue)
