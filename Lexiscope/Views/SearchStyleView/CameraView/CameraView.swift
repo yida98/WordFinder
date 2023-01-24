@@ -20,12 +20,14 @@ struct CameraView: View {
                 ZStack {
                     CameraViewRepresentable(viewModel: viewModel)
                         .fixedSize(horizontal: false, vertical: true)
-                        .blur(radius: viewModel.cameraOn ? 0 : 5)
                     if let capturedImage = viewModel.capturedImage {
                         Image(uiImage: capturedImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .blur(radius: viewModel.cameraOn ? 0 : 5)
+                    }
+                    if !viewModel.cameraOn {
+                        Rectangle()
+                            .background(.ultraThinMaterial)
                     }
                 }
                 if viewModel.cameraOn {
