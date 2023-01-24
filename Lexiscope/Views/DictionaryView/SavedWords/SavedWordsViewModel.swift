@@ -12,6 +12,7 @@ import Combine
 class SavedWordsViewModel: ObservableObject {
     
     @Published var vocabulary: [VocabularyEntry]?
+    @Published var expanded: Bool = false
     var dataManager: DataManager
     var dataManagerSubscriber: AnyCancellable?
     

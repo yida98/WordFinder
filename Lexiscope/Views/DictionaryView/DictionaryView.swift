@@ -17,7 +17,7 @@ struct DictionaryView: View {
                 .padding(70)
                 .tag(true)
             
-            DefinitionView(viewModel: viewModel.getDefinitionViewModel())
+            DefinitionView(viewModel: viewModel.getDefinitionViewModel(), expanded: $viewModel.expanded)
                 .padding(70)
                 .tag(false)
         }

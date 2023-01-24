@@ -11,6 +11,7 @@ import SwiftUI
 
 class DictionaryViewModel: ObservableObject {
     @Published var showingVocabulary: Bool
+    @Published var expanded: Bool
     private var definitionViewModel: DefinitionViewModel?
     private var savedWordsViewModel: SavedWordsViewModel?
     
@@ -19,6 +20,7 @@ class DictionaryViewModel: ObservableObject {
     
     init() {
         self.showingVocabulary = true
+        self.expanded = true
         self.wordStreamSubscriber = Set<AnyCancellable>()
         subscribeToWordRequestStream()
     }

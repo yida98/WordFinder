@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
+    @Binding var expanded: Bool
     
     var body: some View {
         if let retrieveEntry = viewModel.retrieveEntry, let headwordEntries = retrieveEntry.results {
@@ -20,19 +21,29 @@ struct DefinitionView: View {
                             Spacer()
                         }
                         Text(Self.phoneticString(for: headwordEntry))
-                        VStack {
+                        if expanded {
                             ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
-                                Text(lexicalEntry.lexicalCategory.text.capitalized)
-                                ForEach(lexicalEntry.allSenses()) { sense in
-                                    if sense.definitions != nil {
-                                        ForEach(sense.definitions!, id: \.self) { definition in
-                                            Text("\(definition)")
+                                Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
+                                ForEach(lexicalEntry.allSenses().indices) { senseIndex in
+                                    HStack {
+                                        VStack {
+                                            Text("\(senseIndex + 1)")
+                                            Spacer()
                                         }
-                                    } else {
-                                        EmptyView()
+                                        if lexicalEntry.allSenses()[senseIndex].definitions != nil {
+                                            ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
+                                                Text("\(definition)")
+                                            }
+                                        } else {
+                                            EmptyView()
+                                        }
+                                        Spacer()
                                     }
                                 }
                             }
+                        } else {
+                            Text(collapsedLexicalCategory(for: headwordEntry))
+                            Text(collapsedDefinition(for: headwordEntry))
                         }
                     }
                 }
@@ -53,6 +64,12 @@ struct DefinitionView: View {
                             .foregroundColor(.black.opacity(0.4))
                     }
                 }
+            }
+            .animation(.default, value: 0.5)
+            .padding()
+            .background(Color(white: 0.9))
+            .mask {
+                RoundedRectangle(cornerRadius: 10)
             }
         } else {
             // TODO: Placeholder view
@@ -87,6 +104,14 @@ struct DefinitionView: View {
             }
         }
         return phoneticSet
+    }
+    
+    private func collapsedLexicalCategory(for headwordEntry: HeadwordEntry) -> String {
+        return headwordEntry.lexicalEntries[0].lexicalCategory.text.capitalized
+    }
+    
+    private func collapsedDefinition(for headwordEntry: HeadwordEntry) -> String {
+        return headwordEntry.lexicalEntries[0].allSenses()[0].definitions![0]
     }
     
 }
