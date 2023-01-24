@@ -32,8 +32,6 @@ struct SavedWordsView: View {
     
     private func handleTap(on vocabularyEntry: VocabularyEntry, scrollProxy: ScrollViewProxy) {
         viewModel.expanded.toggle()
-        withAnimation {
-            scrollProxy.scrollTo(vocabularyEntry.word, anchor: .top)
-        }
+        scrollProxy.scrollTo(vocabularyEntry.word, anchor: .top)
     }
 }
