@@ -23,7 +23,9 @@ class URLTask {
                 language: URLTask.Language = URLTask.default_language,
                 fields: Array<String> = ["definitions", "pronunciations"],
                 strictMatch: Bool = false) -> AnyPublisher<RetrieveEntry?, Error> {
-        let trimmedWord = word.trimmingCharacters(in: .whitespacesAndNewlines)
+        var trimmedWord = word.trimmingCharacters(in: .whitespacesAndNewlines)
+        trimmedWord = trimmedWord.lowercased()
+        debugPrint(trimmedWord)
         
         if let managedVocabularyObject = DataManager.shared.fetchVocabularyEntry(for: trimmedWord), let retrieveEntryData = managedVocabularyObject.value(forKey: "retrieveEntry") as? Data {
             do {
@@ -54,7 +56,7 @@ class URLTask {
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap {
                 if let response = $0.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
-                    DataManager.shared.saveVocabularyEntryEntity(retrieveEntry: $0.data, word: word)
+                    DataManager.shared.saveVocabularyEntryEntity(retrieveEntry: $0.data, word: trimmedWord)
                     return $0.data
                 } else {
                     print("[ERROR] bad response")
