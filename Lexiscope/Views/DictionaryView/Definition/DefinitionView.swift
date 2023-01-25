@@ -37,7 +37,7 @@ struct DefinitionView: View {
                                     .italic()
                                     .foregroundColor(Color(white: 0.8))
                                 Spacer()
-                            }g
+                            }
                             ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
                                 HStack {
                                     if lexicalEntry.allSenses()[senseIndex].definitions != nil {
