@@ -29,15 +29,17 @@ struct DefinitionView: View {
                     if expanded {
                         ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
                             Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
-                            ForEach(lexicalEntry.allSenses().indices) { senseIndex in
+                            ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
                                 HStack {
-                                    if lexicalEntry.allSenses().count > 1 {
-                                        VStack {
-                                            Text("\(senseIndex + 1)")
-                                            Spacer()
-                                        }
-                                    }
                                     if lexicalEntry.allSenses()[senseIndex].definitions != nil {
+                                        if lexicalEntry.allSenses()[senseIndex].definitions!.count > 1 {
+                                            VStack {
+                                                Text("\(senseIndex + 1)")
+                                                Spacer()
+                                            }
+                                        } else {
+                                            EmptyView()
+                                        }
                                         ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
                                             Text("\(definition)")
                                         }
