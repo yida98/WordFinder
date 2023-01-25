@@ -10,13 +10,18 @@ import Combine
 
 class DefinitionViewModel: ObservableObject {
     
-    @Published var vocabularyEntry: VocabularyEntry?
+    @Published var vocabularyEntry: VocabularyEntry? {
+        didSet {
+            if let vocabularyEntry = vocabularyEntry {
+                self.saved = vocabularyEntry.saved
+            }
+        }
+    }
     @Published var saved: Bool?
     
     init(vocabularyEntry: VocabularyEntry? = nil) {
         if let vocabularyEntry = vocabularyEntry {
             self.vocabularyEntry = vocabularyEntry
-            self.saved = vocabularyEntry.saved
         }
     }
     
