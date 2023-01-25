@@ -26,22 +26,34 @@ struct DefinitionView: View {
                 }
                 ScrollView(.vertical, showsIndicators: false) {
                     Text(Self.phoneticString(for: headwordEntry))
+                        .font(.caption2)
+                        .foregroundColor(Color(white: 0.4))
                     if expanded {
                         ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
-                            Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
+                            HStack {
+                                Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
+                                    .font(.caption)
+                                    .italic()
+                                    .foregroundColor(Color(white: 0.8))
+                                Spacer()
+                            }
                             ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
                                 HStack {
                                     if lexicalEntry.allSenses()[senseIndex].definitions != nil {
-                                        if lexicalEntry.allSenses()[senseIndex].definitions!.count > 1 {
-                                            VStack {
-                                                Text("\(senseIndex + 1)")
-                                                Spacer()
-                                            }
-                                        } else {
-                                            EmptyView()
-                                        }
                                         ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
+                                            if lexicalEntry.allSenses().count > 1 {
+                                                VStack {
+                                                    Text("\(senseIndex + 1)")
+                                                        .font(.subheadline)
+                                                        .foregroundColor(Color(white: 0.6))
+                                                    Spacer()
+                                                }
+                                            } else {
+                                                EmptyView()
+                                            }
                                             Text("\(definition)")
+                                                .font(.subheadline)
+                                                .foregroundColor(Color(white: 0.6))
                                         }
                                     } else {
                                         EmptyView()
@@ -51,8 +63,21 @@ struct DefinitionView: View {
                             }
                         }
                     } else {
-                        Text(collapsedLexicalCategory(for: headwordEntry))
-                        Text(collapsedDefinition(for: headwordEntry))
+                        VStack {
+                            HStack {
+                                Text(collapsedLexicalCategory(for: headwordEntry))
+                                    .font(.caption)
+                                    .italic()
+                                    .foregroundColor(Color(white: 0.8))
+                                Spacer()
+                            }
+                            HStack {
+                                Text(collapsedDefinition(for: headwordEntry))
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(white: 0.6))
+                                Spacer()
+                            }
+                        }
                     }
                 }
             }
@@ -78,7 +103,8 @@ struct DefinitionView: View {
     // MARK: - Entry functions
     private static func phoneticString(for word: HeadwordEntry) -> String {
         let phoneticSet = phoneticSet(for: word)
-        return "/  \(Array(phoneticSet).joined(separator: ", "))  /"
+        let phoneticList = Array(phoneticSet).sorted()
+        return "/  \(Array(phoneticList).joined(separator: ", "))  /"
     }
     
     private static func phoneticSet(for word: HeadwordEntry) -> Set<String> {
