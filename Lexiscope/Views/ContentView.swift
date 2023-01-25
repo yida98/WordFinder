@@ -13,7 +13,19 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             VStack {
-                SearchView(viewModel: viewModel.getSearchViewModel())
+                ZStack {
+                    SearchView(viewModel: viewModel.getSearchViewModel())
+
+                    if !(viewModel.searchOpen)  {
+                        Rectangle()
+                            .background(.ultraThinMaterial)
+                            .onTapGesture {
+                                withAnimation {
+                                    viewModel.searchOpen = true
+                                }
+                            }
+                    }
+                }
                 Spacer()
             }.ignoresSafeArea()
             VStack {

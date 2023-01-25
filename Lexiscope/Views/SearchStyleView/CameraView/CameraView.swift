@@ -25,10 +25,6 @@ struct CameraView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     }
-                    if !viewModel.cameraOn {
-                        Rectangle()
-                            .background(.ultraThinMaterial)
-                    }
                 }
                 if viewModel.cameraOn {
                     ScannerView(viewModel: viewModel.getScannerModel())
