@@ -84,7 +84,7 @@ struct DefinitionView: View {
             }
             .animation(.default, value: 0.5)
             .padding(30)
-            .background(Color(white: 0.9))
+            .background(Color(white: 0.95))
             .mask {
                 RoundedRectangle(cornerRadius: 10)
             }

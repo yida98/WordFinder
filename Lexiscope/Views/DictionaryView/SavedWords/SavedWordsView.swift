@@ -40,7 +40,7 @@ struct SavedWordsView: View {
                         }
                     }
                 }
-                .padding(70)
+                .padding(50)
                 HStack {
                     Spacer()
                     if viewModel.sectionTitles != nil {
