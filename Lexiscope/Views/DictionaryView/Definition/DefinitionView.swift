@@ -12,56 +12,45 @@ struct DefinitionView: View {
     @Binding var expanded: Bool
     
     var body: some View {
-        if let retrieveEntry = viewModel.retrieveEntry, let headwordEntries = retrieveEntry.results {
+        if let retrieveEntry = viewModel.retrieveEntry, let headwordEntries = retrieveEntry.results, let headwordEntry = headwordEntries.first {
             VStack {
-                ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(headwordEntries) { headwordEntry in
-                        HStack {
-                            Text(headwordEntry.word)
-                            Spacer()
-                        }
-                        Text(Self.phoneticString(for: headwordEntry))
-                        if expanded {
-                            ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
-                                Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
-                                ForEach(lexicalEntry.allSenses().indices) { senseIndex in
-                                    HStack {
-                                        VStack {
-                                            Text("\(senseIndex + 1)")
-                                            Spacer()
-                                        }
-                                        if lexicalEntry.allSenses()[senseIndex].definitions != nil {
-                                            ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
-                                                Text("\(definition)")
-                                            }
-                                        } else {
-                                            EmptyView()
-                                        }
-                                        Spacer()
-                                    }
-                                }
-                            }
-                        } else {
-                            Text(collapsedLexicalCategory(for: headwordEntry))
-                            Text(collapsedDefinition(for: headwordEntry))
-                        }
-                    }
-                }
                 HStack {
+                    Text(headwordEntry.word)
                     Spacer()
                     Button {
                         viewModel.bookmarkWord()
                     } label: {
-                        Image(systemName: "rectangle.stack.badge.plus")
+                        Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
                             .frame(width: 40)
-                            .foregroundColor(.black.opacity(0.4))
                     }
-                    Button {
-                        viewModel.unbookmarkWord()
-                    } label: {
-                        Image(systemName: "rectangle.stack.badge.minus")
-                            .frame(width: 40)
-                            .foregroundColor(.black.opacity(0.4))
+                }
+                ScrollView(.vertical, showsIndicators: false) {
+                    Text(Self.phoneticString(for: headwordEntry))
+                    if expanded {
+                        ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
+                            Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
+                            ForEach(lexicalEntry.allSenses().indices) { senseIndex in
+                                HStack {
+                                    if lexicalEntry.allSenses().count > 1 {
+                                        VStack {
+                                            Text("\(senseIndex + 1)")
+                                            Spacer()
+                                        }
+                                    }
+                                    if lexicalEntry.allSenses()[senseIndex].definitions != nil {
+                                        ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
+                                            Text("\(definition)")
+                                        }
+                                    } else {
+                                        EmptyView()
+                                    }
+                                    Spacer()
+                                }
+                            }
+                        }
+                    } else {
+                        Text(collapsedLexicalCategory(for: headwordEntry))
+                        Text(collapsedDefinition(for: headwordEntry))
                     }
                 }
             }

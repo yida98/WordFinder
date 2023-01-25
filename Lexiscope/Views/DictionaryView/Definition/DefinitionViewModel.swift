@@ -11,10 +11,12 @@ import Combine
 class DefinitionViewModel: ObservableObject {
     
     @Published var vocabularyEntry: VocabularyEntry?
+    @Published var saved: Bool?
     
     init(vocabularyEntry: VocabularyEntry? = nil) {
         if let vocabularyEntry = vocabularyEntry {
             self.vocabularyEntry = vocabularyEntry
+            self.saved = vocabularyEntry.saved
         }
     }
     
@@ -27,14 +29,12 @@ class DefinitionViewModel: ObservableObject {
     
     func bookmarkWord() {
         if let vocabularyEntry = vocabularyEntry, let currWord = vocabularyEntry.word {
-            DataManager.shared.bookmarkNewWord(currWord)
+            if vocabularyEntry.saved {
+                DataManager.shared.unbookmarkWord(currWord)
+            } else {
+                DataManager.shared.bookmarkNewWord(currWord)
+            }
+            saved = vocabularyEntry.saved
         }
-    }
-    
-    func unbookmarkWord() {
-        if let vocabularyEntry = vocabularyEntry, let currWord = vocabularyEntry.word {
-            DataManager.shared.unbookmarkWord(currWord)
-        }
-        DataManager.shared.eraseCache()
     }
 }
