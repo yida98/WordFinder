@@ -27,7 +27,7 @@ struct SectionedScrollView: View {
                     }
             }
         }
-        .gesture(
+        .highPriorityGesture(
             DragGesture(minimumDistance: 0, coordinateSpace: .global)
                 .updating($dragLocation, body: { value, state, transaction in
                     state = value.location

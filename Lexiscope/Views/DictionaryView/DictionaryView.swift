@@ -17,7 +17,7 @@ struct DictionaryView: View {
                 .tag(true)
             
             DefinitionView(viewModel: viewModel.getDefinitionViewModel(), expanded: $viewModel.expanded)
-                .padding(70)
+                .padding(50)
                 .tag(false)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
