@@ -21,6 +21,6 @@ struct SearchToolbar: View {
                     }
                 }
             }
-        }.padding(.vertical, 14)
+        }.padding(.vertical, 6)
     }
 }

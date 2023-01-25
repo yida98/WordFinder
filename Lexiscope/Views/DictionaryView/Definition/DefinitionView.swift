@@ -28,7 +28,6 @@ struct DefinitionView: View {
                     Text(Self.phoneticString(for: headwordEntry))
                         .font(.caption2)
                         .foregroundColor(.moodPurple)
-                        .padding(.vertical, 4)
                     if expanded {
                         ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
                             HStack {
@@ -83,7 +82,7 @@ struct DefinitionView: View {
                 }
             }
             .animation(.default, value: 0.5)
-            .padding(30)
+            .padding(20)
             .background(Color(white: 0.95))
             .mask {
                 RoundedRectangle(cornerRadius: 10)
