@@ -27,7 +27,8 @@ struct DefinitionView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     Text(Self.phoneticString(for: headwordEntry))
                         .font(.caption2)
-                        .foregroundColor(Color(white: 0.4))
+                        .foregroundColor(.moodPurple)
+                        .padding(.vertical, 4)
                     if expanded {
                         ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
                             HStack {
@@ -36,7 +37,7 @@ struct DefinitionView: View {
                                     .italic()
                                     .foregroundColor(Color(white: 0.8))
                                 Spacer()
-                            }
+                            }g
                             ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
                                 HStack {
                                     if lexicalEntry.allSenses()[senseIndex].definitions != nil {
@@ -44,7 +45,7 @@ struct DefinitionView: View {
                                             if lexicalEntry.allSenses().count > 1 {
                                                 VStack {
                                                     Text("\(senseIndex + 1)")
-                                                        .font(.subheadline)
+                                                        .font(.caption)
                                                         .foregroundColor(Color(white: 0.6))
                                                     Spacer()
                                                 }
@@ -82,7 +83,7 @@ struct DefinitionView: View {
                 }
             }
             .animation(.default, value: 0.5)
-            .padding()
+            .padding(30)
             .background(Color(white: 0.9))
             .mask {
                 RoundedRectangle(cornerRadius: 10)

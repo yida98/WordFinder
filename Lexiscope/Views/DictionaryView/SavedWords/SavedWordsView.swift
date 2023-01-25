@@ -31,6 +31,9 @@ struct SavedWordsView: View {
                             } header: {
                                 HStack {
                                     Text("\(key.uppercased())")
+                                        .font(.footnote)
+                                        .bold()
+                                        .foregroundColor(.thistle)
                                     Spacer()
                                 }
                             }.id(key)

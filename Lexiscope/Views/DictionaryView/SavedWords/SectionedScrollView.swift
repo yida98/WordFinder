@@ -14,20 +14,25 @@ struct SectionedScrollView: View {
     var scrollProxy: ScrollViewProxy
     
     var body: some View {
-        VStack(spacing: 10) {
+        VStack {
             ForEach(sectionTitles, id: \.self) { title in
                 Text(String(title).uppercased())
                     .font(.caption)
                     .bold()
+                    .frame(width: 40, height: 14)
                     .background(dragObserver(title: title))
+                    .foregroundColor(.thistle)
+                    .onTapGesture {
+                        scroll(to: title)
+                    }
             }
-        }.padding()
-            .gesture(
-                DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                    .updating($dragLocation, body: { value, state, transaction in
-                        state = value.location
-                    })
-            )
+        }
+        .gesture(
+            DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                .updating($dragLocation, body: { value, state, transaction in
+                    state = value.location
+                })
+        )
     }
     
     func dragObserver(title: String) -> some View {
@@ -39,14 +44,18 @@ struct SectionedScrollView: View {
     private func dragObserver(geometry: GeometryProxy, title: String) -> some View {
         if geometry.frame(in: .global).contains(dragLocation) {
             if viewModel.previousTitle != title {
-                DispatchQueue.main.async {
-                    scrollProxy.scrollTo(title, anchor: .top)
-                    let impactHeptic = UIImpactFeedbackGenerator(style: .medium)
-                    impactHeptic.impactOccurred()
-                    viewModel.previousTitle = title
-                }
+                scroll(to: title)
             }
         }
         return Rectangle().fill(Color.clear)
       }
+    
+    private func scroll(to title: String) {
+        DispatchQueue.main.async {
+            scrollProxy.scrollTo(title, anchor: .top)
+            let impactHeptic = UIImpactFeedbackGenerator(style: .light)
+            impactHeptic.impactOccurred()
+            viewModel.previousTitle = title
+        }
+    }
 }
