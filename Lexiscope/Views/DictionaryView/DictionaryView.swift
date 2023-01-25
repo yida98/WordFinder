@@ -14,7 +14,6 @@ struct DictionaryView: View {
     var body: some View {
         TabView(selection: $viewModel.showingVocabulary) {
             SavedWordsView(viewModel: viewModel.getSavedWordsViewModel())
-                .padding(70)
                 .tag(true)
             
             DefinitionView(viewModel: viewModel.getDefinitionViewModel(), expanded: $viewModel.expanded)

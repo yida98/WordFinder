@@ -30,6 +30,7 @@
 		E4DBE91C297725DF006D4730 /* SavedWordsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBE91B297725DF006D4730 /* SavedWordsCell.swift */; };
 		E4DBE92029774559006D4730 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBE91F29774559006D4730 /* TabCell.swift */; };
 		E4DBE9222977C7A2006D4730 /* SavedWordsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBE9212977C7A2006D4730 /* SavedWordsViewModel.swift */; };
+		E4DBE9242980A71D006D4730 /* SectionedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBE9232980A71D006D4730 /* SectionedScrollView.swift */; };
 		E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC210287688AC00F1495A /* DictionaryView.swift */; };
 		E4DCC2132876890A00F1495A /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2122876890A00F1495A /* AlertView.swift */; };
 		E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DCC2162878038E00F1495A /* Color_ext.swift */; };
@@ -69,6 +70,7 @@
 		E4DBE91B297725DF006D4730 /* SavedWordsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedWordsCell.swift; sourceTree = "<group>"; };
 		E4DBE91F29774559006D4730 /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		E4DBE9212977C7A2006D4730 /* SavedWordsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedWordsViewModel.swift; sourceTree = "<group>"; };
+		E4DBE9232980A71D006D4730 /* SectionedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedScrollView.swift; sourceTree = "<group>"; };
 		E4DCC210287688AC00F1495A /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
 		E4DCC2122876890A00F1495A /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		E4DCC2162878038E00F1495A /* Color_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_ext.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				E4DBE919297724B7006D4730 /* SavedWordsView.swift */,
 				E4DBE9212977C7A2006D4730 /* SavedWordsViewModel.swift */,
 				E4DBE91B297725DF006D4730 /* SavedWordsCell.swift */,
+				E4DBE9232980A71D006D4730 /* SectionedScrollView.swift */,
 			);
 			path = SavedWords;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
 				E467D5F228DBC4CE0005480D /* AudioView.swift in Sources */,
 				E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */,
+				E4DBE9242980A71D006D4730 /* SectionedScrollView.swift in Sources */,
 				E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */,
 				E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */,
 				E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */,
