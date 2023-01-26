@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SavedWordsView: View {
     @ObservedObject var viewModel: SavedWordsViewModel
+    @Binding var text: String
     
     var body: some View {
         ScrollViewReader { reader in
@@ -18,9 +19,9 @@ struct SavedWordsView: View {
                         Image(systemName: "text.book.closed")
                             .opacity(0.5)
                     } else {
-                        ForEach(viewModel.sectionTitles!, id: \.self) { key in
+                        ForEach(filteredSectionsDisplay(), id: \.self) { key in
                             Section {
-                                ForEach(viewModel.vocabularyDictionary![key]!) { entry in
+                                ForEach(filteredDisplay(at: key)) { entry in
                                     DefinitionView(viewModel: DefinitionViewModel(vocabularyEntry: entry),
                                                    expanded: $viewModel.expanded)
                                     .id(entry.word)
@@ -41,11 +42,10 @@ struct SavedWordsView: View {
                     }
                 }
                 .padding(50)
+                .padding(.top, -50)
                 HStack {
                     Spacer()
-                    if viewModel.sectionTitles != nil {
-                        SectionedScrollView(viewModel: viewModel, sectionTitles: viewModel.sectionTitles!, scrollProxy: reader)
-                    }
+                    SectionedScrollView(viewModel: viewModel, sectionTitles: filteredSectionsDisplay(), scrollProxy: reader)
                 }
             }
         }
@@ -54,5 +54,23 @@ struct SavedWordsView: View {
     private func handleTap(on vocabularyEntry: VocabularyEntry, scrollProxy: ScrollViewProxy) {
         viewModel.expanded.toggle()
         scrollProxy.scrollTo(vocabularyEntry.word, anchor: .top)
+    }
+    
+    private func filteredDisplay(at key: String) -> [VocabularyEntry] {
+        let filteredEntries = viewModel.vocabularyDictionary![key]!.filter {
+            if let word = $0.word {
+                return word.lowercased().hasPrefix(text.lowercased())
+            }
+            return false
+        }
+        return filteredEntries
+    }
+    
+    private func filteredSectionsDisplay() -> [String] {
+        var filteredSections = viewModel.sectionTitles ?? [String]()
+        if let sectionTitles = viewModel.sectionTitles, text.count > 0 {
+            filteredSections = sectionTitles.filter { text.lowercased().hasPrefix($0) }
+        }
+        return filteredSections
     }
 }

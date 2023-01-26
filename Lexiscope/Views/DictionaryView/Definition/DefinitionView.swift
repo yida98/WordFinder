@@ -134,7 +134,7 @@ struct DefinitionView: View {
     }
     
     private func collapsedDefinition(for headwordEntry: HeadwordEntry) -> String {
-        return headwordEntry.lexicalEntries[0].allSenses()[0].definitions![0]
+        return headwordEntry.lexicalEntries.first?.allSenses().first?.definitions?.first ?? ""
     }
     
 }

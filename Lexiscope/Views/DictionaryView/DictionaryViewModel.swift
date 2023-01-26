@@ -27,6 +27,7 @@ class DictionaryViewModel: ObservableObject {
         self.expanded = true
         self.wordStreamSubscriber = Set<AnyCancellable>()
         subscribeToWordRequestStream()
+        getDefinitionViewModel()
     }
     
     func getDefinitionViewModel() -> DefinitionViewModel {
@@ -64,8 +65,11 @@ class DictionaryViewModel: ObservableObject {
             .store(in: &wordStreamSubscriber)
     }
     
-    func searchWord(_ word: String?) {
-        handleNewRequest(word)
+    func searchWord(_ word: String) {
+        let result = DataManager.shared.fetchVocabularyEntry(for: word) as? VocabularyEntry
+        if result == nil || result?.saved == false {
+            handleNewRequest(word)
+        }
     }
     
     private func endEditing() {
