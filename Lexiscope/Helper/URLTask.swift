@@ -79,6 +79,12 @@ class URLTask {
         return "\(URLTask.urlBase)\(language.rawValue)/\(encodedURL)?fields=\(fields.joined(separator: "%2C"))&strictMatch=\(strictMatch)"
     }
     
+    func downloadAudioFileData(from url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let urlRequest = URLRequest(url: url)
+        let dataTask = URLSession.shared.dataTask(with: urlRequest, completionHandler: completionHandler)
+        dataTask.resume()
+    }
+    
     enum Language: String {
         case en_us = "en-us"
         case en_gb = "en-gb"

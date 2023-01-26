@@ -147,8 +147,31 @@ class DataManager: ObservableObject {
             entity.setValue(saved, forKey: "saved")
             entity.setValue(word, forKey: "word")
             
+            if let url = pronunciationURL(for: DataManager.decodedRetrieveEntryData(retrieveEntry)) {
+                URLTask.shared.downloadAudioFileData(from: url) { [weak self] data, response, error in
+                    if let pronuncation = data {
+                        entity.setValue(pronuncation, forKey: "pronunciation")
+                        self?.saveContext()
+                    }
+                }
+            }
             saveContext()
         }
+    }
+    
+    func pronunciationURL(for retrieveEntry: RetrieveEntry) -> URL? {
+        guard let results = retrieveEntry.results, let headwordEntry = results.first else { return nil }
+        let entries = headwordEntry.lexicalEntries.flatMap { $0.entries }
+        for entry in entries {
+            if let pronunciations = entry.pronunciations {
+                for pronunciation in pronunciations {
+                    if let audioFile = pronunciation.audioFile, let url = URL(string: audioFile) {
+                        return url
+                    }
+                }
+            }
+        }
+        return nil
     }
     
     // TODO: Remove

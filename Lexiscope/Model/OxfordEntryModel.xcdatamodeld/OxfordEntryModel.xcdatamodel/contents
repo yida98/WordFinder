@@ -7,6 +7,7 @@
     </entity>
     <entity name="VocabularyEntry" representedClassName="VocabularyEntry" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="pronunciation" optional="YES" attributeType="Binary"/>
         <attribute name="retrieveEntry" optional="YES" attributeType="Binary"/>
         <attribute name="saved" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="word" optional="YES" attributeType="String"/>

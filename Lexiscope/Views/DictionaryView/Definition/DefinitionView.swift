@@ -16,6 +16,12 @@ struct DefinitionView: View {
             VStack {
                 HStack {
                     Text(headwordEntry.word)
+                    Button {
+                        viewModel.pronounce()
+                    } label: {
+                        Image(systemName: "speaker.wave.3.fill")
+                            .frame(width: 40)
+                    }
                     Spacer()
                     Button {
                         viewModel.bookmarkWord()

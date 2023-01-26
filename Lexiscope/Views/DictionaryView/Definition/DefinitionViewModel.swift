@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import AVFoundation
 
 class DefinitionViewModel: ObservableObject {
     
@@ -40,6 +41,24 @@ class DefinitionViewModel: ObservableObject {
                 DataManager.shared.bookmarkNewWord(currWord)
             }
             saved = vocabularyEntry.saved
+        }
+    }
+    
+    private var soundPlayer: AVAudioPlayer?
+    
+    func pronounce() {
+        guard let vocabularyEntry = vocabularyEntry, let pronunciationData = vocabularyEntry.pronunciation else { return }
+        playSound(from: pronunciationData)
+    }
+    
+    private func playSound(from data: Data) {
+        do {
+            soundPlayer = try AVAudioPlayer(data: data)
+            soundPlayer?.prepareToPlay()
+            soundPlayer?.volume = 1
+            soundPlayer?.play()
+        } catch let error {
+            debugPrint(error.localizedDescription)
         }
     }
 }
