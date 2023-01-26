@@ -10,6 +10,7 @@ import SwiftUI
 struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
     @Binding var expanded: Bool
+    @Binding var focusedWord: String?
     
     var body: some View {
         if let retrieveEntry = viewModel.retrieveEntry, let headwordEntries = retrieveEntry.results, let headwordEntry = headwordEntries.first {
@@ -20,14 +21,12 @@ struct DefinitionView: View {
                         viewModel.pronounce()
                     } label: {
                         Image(systemName: "speaker.wave.3.fill")
-                            .frame(width: 40)
                     }
                     Spacer()
                     Button {
                         viewModel.bookmarkWord()
                     } label: {
                         Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
-                            .frame(width: 40)
                     }
                 }
                 ScrollView(.vertical, showsIndicators: false) {
@@ -86,13 +85,19 @@ struct DefinitionView: View {
                         }
                     }
                 }
+                .onTapGesture {
+                    expanded.toggle()
+                    focusedWord = headwordEntry.word
+                }
             }
             .animation(.default, value: 0.5)
-            .padding(20)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
             .background(Color(white: 0.95))
             .mask {
                 RoundedRectangle(cornerRadius: 10)
             }
+            .animation(.spring(response: 0.4, dampingFraction: 0.825), value: expanded)
         } else {
             // TODO: Placeholder view
             Spacer()

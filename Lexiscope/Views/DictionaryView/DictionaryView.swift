@@ -33,7 +33,7 @@ struct DictionaryView: View {
                 }
             }
             .padding(.horizontal, 20)
-            .padding(.vertical, 12)
+            .padding(.vertical, 10)
             .background(searchIsFocused ? Color.boyBlue.opacity(0.05) : Color(white: 0.99))
             .mask {
                 RoundedRectangle(cornerRadius: 16)
@@ -42,7 +42,7 @@ struct DictionaryView: View {
                 searchIsFocused = true
                 viewModel.showingVocabulary = true
             }
-            .padding(.horizontal, 50)
+            .padding(.horizontal, 30)
             .padding(.top, 20)
             TabView(selection: $viewModel.showingVocabulary) {
                 SavedWordsView(viewModel: viewModel.getSavedWordsViewModel(), text: $text)
@@ -54,8 +54,7 @@ struct DictionaryView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .animation(.easeIn(duration: 0.5), value: viewModel.showingVocabulary)
-            .padding(.bottom, 16)
-            .ignoresSafeArea()
+            .ignoresSafeArea(.keyboard)
         }
     }
 }

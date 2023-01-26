@@ -9,12 +9,15 @@ import SwiftUI
 
 struct SearchInputView: View {
     @ObservedObject var viewModel: DictionaryViewModel
+    @State var currentWord: String?
     
     var body: some View {
         VStack {
-            DefinitionView(viewModel: viewModel.getDefinitionViewModel(), expanded: $viewModel.expanded)
+            DefinitionView(viewModel: viewModel.getDefinitionViewModel(),
+                           expanded: $viewModel.expanded,
+                           focusedWord: $currentWord)
         }
-        .padding(50)
-        .padding(.top, -50)
+        .padding(.horizontal, 40)
+        .padding(.bottom, 50)
     }
 }

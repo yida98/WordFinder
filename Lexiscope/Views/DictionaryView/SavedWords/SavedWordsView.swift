@@ -10,6 +10,7 @@ import SwiftUI
 struct SavedWordsView: View {
     @ObservedObject var viewModel: SavedWordsViewModel
     @Binding var text: String
+    @State var currentWord: String? = nil
     
     var body: some View {
         ScrollViewReader { reader in
@@ -23,11 +24,9 @@ struct SavedWordsView: View {
                             Section {
                                 ForEach(filteredDisplay(at: key)) { entry in
                                     DefinitionView(viewModel: DefinitionViewModel(vocabularyEntry: entry),
-                                                   expanded: $viewModel.expanded)
+                                                   expanded: $viewModel.expanded,
+                                                   focusedWord: $currentWord)
                                     .id(entry.word)
-                                    .onTapGesture(perform: {
-                                        handleTap(on: entry, scrollProxy: reader)
-                                    })
                                 }
                             } header: {
                                 HStack {
@@ -41,8 +40,11 @@ struct SavedWordsView: View {
                         }
                     }
                 }
-                .padding(50)
-                .padding(.top, -50)
+                .padding(.horizontal, 40)
+                .padding(.bottom, 50)
+                .onChange(of: viewModel.expanded) { newValue in
+                    handleTap(on: currentWord, scrollProxy: reader)
+                }
                 HStack {
                     Spacer()
                     SectionedScrollView(viewModel: viewModel, sectionTitles: filteredSectionsDisplay(), scrollProxy: reader)
@@ -51,9 +53,10 @@ struct SavedWordsView: View {
         }
     }
     
-    private func handleTap(on vocabularyEntry: VocabularyEntry, scrollProxy: ScrollViewProxy) {
-        viewModel.expanded.toggle()
-        scrollProxy.scrollTo(vocabularyEntry.word, anchor: .top)
+    private func handleTap(on word: String?, scrollProxy: ScrollViewProxy) {
+        if let word = word {
+            scrollProxy.scrollTo(word, anchor: .top)
+        }
     }
     
     private func filteredDisplay(at key: String) -> [VocabularyEntry] {
