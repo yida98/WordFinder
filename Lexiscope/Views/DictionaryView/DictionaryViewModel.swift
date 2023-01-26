@@ -48,7 +48,7 @@ class DictionaryViewModel: ObservableObject {
         WordSearchRequestManager.shared.stream().sink(receiveValue: handleNewRequest(_:)).store(in: &wordStreamSubscriber)
     }
     
-    private func handleNewRequest(_ word: String?) {
+    func handleNewRequest(_ word: String?) {
         endEditing()
         guard let word = word, word.count > 0 else { return }
         URLTask.shared.define(word: word)
@@ -56,20 +56,13 @@ class DictionaryViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 debugPrint("completed \(word)")
             }, receiveValue: { [weak self] entry in
-                if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: word) as? VocabularyEntry {
+                if let entryWord = entry.0, let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: entryWord) as? VocabularyEntry {
                     self?.searchingVocabularyEntry = vocabularyEntry
                     self?.showingVocabulary = false
                     self?.definitionViewModel?.vocabularyEntry = vocabularyEntry
                 }
             })
             .store(in: &wordStreamSubscriber)
-    }
-    
-    func searchWord(_ word: String) {
-        let result = DataManager.shared.fetchVocabularyEntry(for: word) as? VocabularyEntry
-        if result == nil || result?.saved == false {
-            handleNewRequest(word)
-        }
     }
     
     private func endEditing() {

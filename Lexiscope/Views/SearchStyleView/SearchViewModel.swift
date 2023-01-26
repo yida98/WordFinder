@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import NaturalLanguage
 
 class SearchViewModel: ObservableObject {
     // TODO: Persist default
@@ -54,9 +55,15 @@ class SearchViewModel: ObservableObject {
     }
     
     func handleNewRequest(_ resultCluster: String?) {
-        guard let resultCluster = resultCluster else { return }
-        individualWords = resultCluster.split(usingRegex: "[^A-Za-zÀ-ÖØ-öø-ÿ-]")
-        individualWords = individualWords?.filter { $0.hasAtLeastOneChar() }
+        guard let resultCluster = resultCluster, let range = Range(NSRange(location: 0, length: resultCluster.count), in: resultCluster) else { return }
+        
+        let options: NLTagger.Options = [.omitWhitespace, .omitPunctuation, .joinNames, .joinContractions, .omitOther]
+        let tagger = NLTagger(tagSchemes: [.lexicalClass])
+        tagger.string = resultCluster
+        let lexicalClasses = tagger.tags(in: range, unit: .word, scheme: .lexicalClass, options: options)
+        let wordsFromResult = lexicalClasses.compactMap { String(resultCluster[$0.1]) }
+
+        individualWords = wordsFromResult
         selectedWordIndex = estimatedSelectionIndex()
     }
     
@@ -91,21 +98,6 @@ class SearchViewModel: ObservableObject {
 }
 
 extension String {
-    func split(usingRegex pattern: String) -> [String] {
-        let regex = try? NSRegularExpression(pattern: pattern)
-        guard let regex = regex else { return [] }
-        let matches = regex.matches(in: self, range: NSRange(startIndex..., in: self))
-        var result = [String]()
-        var position = startIndex
-        for match in matches {
-            guard let range = Range(match.range, in: self) else { return result }
-            result.append(String(self[position..<range.lowerBound]))
-            position = range.upperBound
-        }
-        result.append(String(self[position..<endIndex]))
-        return result.filter { !$0.isEmpty }
-    }
-    
     func hasAtLeastOneChar() -> Bool {
         if self.range(of: "[A-Za-zÀ-ÖØ-öø-ÿ]+", options: .regularExpression) != nil {
             return true

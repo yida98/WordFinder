@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import NaturalLanguage
 
 class URLTask {
     static let shared = URLTask()
@@ -22,14 +23,14 @@ class URLTask {
     func define(word: String,
                 language: URLTask.Language = URLTask.default_language,
                 fields: Array<String> = ["definitions", "pronunciations"],
-                strictMatch: Bool = false) -> AnyPublisher<RetrieveEntry?, Error> {
-        let trimmedWord = sanitizeInput(word)
+                strictMatch: Bool = false) -> AnyPublisher<(String?, RetrieveEntry?), Error> {
+        let trimmedWord = URLTask.sanitizeInput(word)
         debugPrint(trimmedWord)
         
         if let managedVocabularyObject = DataManager.shared.fetchVocabularyEntry(for: trimmedWord), let retrieveEntryData = managedVocabularyObject.value(forKey: "retrieveEntry") as? Data {
             do {
                 let retrieveEntry = try JSONDecoder().decode(RetrieveEntry.self, from: retrieveEntryData)
-                    return Just(retrieveEntry).setFailureType(to: Error.self).eraseToAnyPublisher()
+                    return Just((trimmedWord, retrieveEntry)).setFailureType(to: Error.self).eraseToAnyPublisher()
             } catch {
                 fatalError("Unable to decode \(trimmedWord). \(error)")
             }
@@ -50,7 +51,7 @@ class URLTask {
         request.addValue(URLTask.appId, forHTTPHeaderField: "app_id")
         request.addValue(URLTask.appKey, forHTTPHeaderField: "app_key")
         
-        var decoder = JSONDecoder()
+        let decoder = JSONDecoder()
         
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap {
@@ -63,14 +64,23 @@ class URLTask {
                 }
             }
             .decode(type: RetrieveEntry.self, decoder: decoder)
-            .map { $0 }
+            .map { (trimmedWord, $0) }
             .eraseToAnyPublisher()
 
     }
     
-    private func sanitizeInput(_ input: String) -> String {
+    static func sanitizeInput(_ input: String) -> String {
         var stem: String = input.lowercased()
         stem = stem.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let range = Range(NSRange(location: 0, length: input.count), in: input) {
+            let options: NLTagger.Options = [.omitWhitespace, .omitPunctuation, .joinNames, .joinContractions, .omitOther]
+            let tagger = NLTagger(tagSchemes: [.lemma])
+            tagger.string = stem
+            let lemma = tagger.tags(in: range, unit: .word, scheme: .lemma, options: options)
+            if let firstTag = lemma.first, let tagValue = firstTag.0 {
+                stem = tagValue.rawValue
+            }
+        }
         return stem
     }
     

@@ -17,7 +17,7 @@ struct DictionaryView: View {
         VStack {
             HStack {
                 TextField("Search", text: $text) {
-                    viewModel.searchWord(text)
+                    viewModel.handleNewRequest(text)
                     text = ""
                 }
                 .focused($searchIsFocused)
