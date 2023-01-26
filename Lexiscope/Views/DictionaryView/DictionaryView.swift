@@ -16,8 +16,7 @@ struct DictionaryView: View {
             SavedWordsView(viewModel: viewModel.getSavedWordsViewModel())
                 .tag(true)
             
-            DefinitionView(viewModel: viewModel.getDefinitionViewModel(), expanded: $viewModel.expanded)
-                .padding(50)
+            SearchInputView(viewModel: viewModel)
                 .tag(false)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))

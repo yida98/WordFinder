@@ -132,6 +132,7 @@ class CameraViewModel: NSObject,
     }
     
     private func takePhoto() {
+        UIApplication.shared.endEditing()
         var photoSettings = AVCapturePhotoSettings()
         if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first,
             let camera = camera {

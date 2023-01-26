@@ -10,7 +10,11 @@ import Combine
 import SwiftUI
 
 class DictionaryViewModel: ObservableObject {
-    @Published var showingVocabulary: Bool
+    @Published var showingVocabulary: Bool {
+        willSet {
+            endEditing()
+        }
+    }
     @Published var expanded: Bool
     private var definitionViewModel: DefinitionViewModel?
     private var savedWordsViewModel: SavedWordsViewModel?
@@ -44,7 +48,8 @@ class DictionaryViewModel: ObservableObject {
     }
     
     private func handleNewRequest(_ word: String?) {
-        guard let word = word else { return }
+        endEditing()
+        guard let word = word, word.count > 0 else { return }
         URLTask.shared.define(word: word)
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
@@ -57,5 +62,19 @@ class DictionaryViewModel: ObservableObject {
                 }
             })
             .store(in: &wordStreamSubscriber)
+    }
+    
+    func searchWord(_ word: String?) {
+        handleNewRequest(word)
+    }
+    
+    private func endEditing() {
+        UIApplication.shared.endEditing()
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
