@@ -1,0 +1,16 @@
+PODS:
+  - PorterStemmer2 (0.1.0)
+
+DEPENDENCIES:
+  - PorterStemmer2
+
+SPEC REPOS:
+  trunk:
+    - PorterStemmer2
+
+SPEC CHECKSUMS:
+  PorterStemmer2: 6df20d36f522f863cff899190db0100ccc08205e
+
+PODFILE CHECKSUM: a3712389f2d51914594e51972aa7452bb7b41011
+
+COCOAPODS: 1.11.3

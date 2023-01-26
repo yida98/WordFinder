@@ -23,8 +23,7 @@ class URLTask {
                 language: URLTask.Language = URLTask.default_language,
                 fields: Array<String> = ["definitions", "pronunciations"],
                 strictMatch: Bool = false) -> AnyPublisher<RetrieveEntry?, Error> {
-        var trimmedWord = word.trimmingCharacters(in: .whitespacesAndNewlines)
-        trimmedWord = trimmedWord.lowercased()
+        let trimmedWord = sanitizeInput(word)
         debugPrint(trimmedWord)
         
         if let managedVocabularyObject = DataManager.shared.fetchVocabularyEntry(for: trimmedWord), let retrieveEntryData = managedVocabularyObject.value(forKey: "retrieveEntry") as? Data {
@@ -67,6 +66,12 @@ class URLTask {
             .map { $0 }
             .eraseToAnyPublisher()
 
+    }
+    
+    private func sanitizeInput(_ input: String) -> String {
+        var stem: String = input.lowercased()
+        stem = stem.trimmingCharacters(in: .whitespacesAndNewlines)
+        return stem
     }
     
     private static func requestURL(for word_id: String,

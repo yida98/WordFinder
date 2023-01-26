@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB2C77ED5F03CDED011A5600 /* Pods_Lexiscope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD63407A293CBFB6F38B2784 /* Pods_Lexiscope.framework */; };
 		E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */; };
 		E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */; };
 		E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */; };
@@ -48,6 +49,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49B7C796BF9E3FAA8E4C20E6 /* Pods-Lexiscope.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lexiscope.release.xcconfig"; path = "Target Support Files/Pods-Lexiscope/Pods-Lexiscope.release.xcconfig"; sourceTree = "<group>"; };
+		BD63407A293CBFB6F38B2784 /* Pods_Lexiscope.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lexiscope.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetectionCameraModel.swift; sourceTree = "<group>"; };
@@ -87,6 +90,7 @@
 		E4F362392821ED500078721F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		E4F3623C2821EE610078721F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		E4F3623E2821F6990078721F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		FE902ECBDF162C6718CCB706 /* Pods-Lexiscope.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lexiscope.debug.xcconfig"; path = "Target Support Files/Pods-Lexiscope/Pods-Lexiscope.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,12 +98,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB2C77ED5F03CDED011A5600 /* Pods_Lexiscope.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F1F91430351084AAA546408 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FE902ECBDF162C6718CCB706 /* Pods-Lexiscope.debug.xcconfig */,
+				49B7C796BF9E3FAA8E4C20E6 /* Pods-Lexiscope.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DA44C35488E8C8C5F11AEA56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BD63407A293CBFB6F38B2784 /* Pods_Lexiscope.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E433FD852876868800FE7D4C /* DictionaryView */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +205,8 @@
 			children = (
 				E4F362272821D46C0078721F /* Lexiscope */,
 				E4F362262821D46C0078721F /* Products */,
+				6F1F91430351084AAA546408 /* Pods */,
+				DA44C35488E8C8C5F11AEA56 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -264,9 +289,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E4F362332821D46E0078721F /* Build configuration list for PBXNativeTarget "Lexiscope" */;
 			buildPhases = (
+				17A28B8867FC40DDECBCA5EC /* [CP] Check Pods Manifest.lock */,
 				E4F362212821D46C0078721F /* Sources */,
 				E4F362222821D46C0078721F /* Frameworks */,
 				E4F362232821D46C0078721F /* Resources */,
+				286877947B1BD647A61A725B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -321,6 +348,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		17A28B8867FC40DDECBCA5EC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Lexiscope-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		286877947B1BD647A61A725B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Lexiscope/Pods-Lexiscope-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Lexiscope/Pods-Lexiscope-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Lexiscope/Pods-Lexiscope-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E4F362212821D46C0078721F /* Sources */ = {
@@ -485,6 +554,7 @@
 		};
 		E4F362342821D46E0078721F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE902ECBDF162C6718CCB706 /* Pods-Lexiscope.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -516,6 +586,7 @@
 		};
 		E4F362352821D46E0078721F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 49B7C796BF9E3FAA8E4C20E6 /* Pods-Lexiscope.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
