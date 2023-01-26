@@ -54,6 +54,8 @@ struct DictionaryView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .animation(.easeIn(duration: 0.5), value: viewModel.showingVocabulary)
+            .padding(.bottom, 16)
+            .ignoresSafeArea()
         }
     }
 }
