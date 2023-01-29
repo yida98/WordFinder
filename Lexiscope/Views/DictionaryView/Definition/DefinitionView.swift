@@ -24,6 +24,9 @@ struct DefinitionView: View {
             }
             HStack {
                 Text("/")
+                    .font(.caption2)
+                    .foregroundColor(.moodPurple)
+                    .padding(.vertical, 4)
                 ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
                     Button {
                         viewModel.pronounce(pronunciation.audioFile)
@@ -32,11 +35,14 @@ struct DefinitionView: View {
                             .font(.caption2)
                             .foregroundColor(.moodPurple)
                             .padding(4)
-                            .background(Color.boyBlue.opacity(0.4))
+                            .background(pronunciation.hasAudio ? Color.boyBlue.opacity(0.4) : Color.clear)
                             .cornerRadius(4)
                     }
                 }
                 Text("/")
+                    .font(.caption2)
+                    .foregroundColor(.moodPurple)
+                    .padding(.vertical, 4)
             }
             ScrollView(showsIndicators: false) {
                 ForEach(viewModel.headwordEntry.lexicalEntries) { lexicalEntry in

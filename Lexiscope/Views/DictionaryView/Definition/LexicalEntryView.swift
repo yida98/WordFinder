@@ -17,7 +17,7 @@ struct LexicalEntryView: View {
                 .italic()
                 .foregroundColor(Color(white: 0.8))
             
-            ForEach(lexicalEntry.allSenses().indices) { senseIndex in
+            ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
                 HStack {
                     if lexicalEntry.allSenses().count > 1 {
                         VStack {
@@ -34,6 +34,7 @@ struct LexicalEntryView: View {
                         .font(.subheadline)
                         .italic()
                         .foregroundColor(Color(white: 0.4))
+                    Spacer()
                 }
             }
         }

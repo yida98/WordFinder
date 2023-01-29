@@ -29,6 +29,7 @@ class DefinitionViewModel: ObservableObject {
                 if !uniquePronunciationStrings.contains(pronunciation.phoneticSpelling!) {
                     uniquePronunciations.append(pronunciation)
                 }
+                uniquePronunciationStrings.insert(pronunciation.phoneticSpelling!)
             }
             uniquePronunciations.sort(by: { $0.phoneticSpelling! < $1.phoneticSpelling! })
             return uniquePronunciations
@@ -48,6 +49,14 @@ class DefinitionViewModel: ObservableObject {
         do {
             let headwordData = try encoder.encode(headwordEntry)
             DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word)
+            
+            for url in headwordEntry.allPronunciationURLs() {
+                URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in
+                    if let data = data {
+                        DataManager.shared.savePronunciation(url: url as NSURL, pronunciation: data)
+                    }
+                }
+            }
         } catch {
             fatalError("Cannot encode \(headwordEntry) entry into data.")
         }
@@ -62,7 +71,11 @@ class DefinitionViewModel: ObservableObject {
     
     func pronounce(url: URL) {
         guard let pronunciation = DataManager.shared.fetchPronunciation(for: url as NSURL) as? Pronunciation, let pronunciationData = pronunciation.pronunciation else {
-            debugPrint("Pronunciation at \(url) does not exist.")
+            URLTask.shared.downloadAudioFileData(from: url) { [weak self] data, urlResponse, error in
+                if let data = data {
+                    self?.playSound(from: data)
+                }
+            }
             return
         }
         playSound(from: pronunciationData)
@@ -106,5 +119,11 @@ extension HeadwordEntry {
         }.flatMap { $0 }
         
         return phoneticSpellings.count > 0 ? phoneticSpellings : nil
+    }
+}
+
+extension InlineModel1 {
+    var hasAudio: Bool {
+        return self.audioFile != nil
     }
 }

@@ -13,8 +13,8 @@ struct SearchInputView: View {
     
     var body: some View {
         VStack {
-            ForEach(viewModel.retrieveEntryResults()) { headwordEntry in
-                DefinitionView(viewModel: DefinitionViewModel(headwordEntry: headwordEntry),
+            ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
+                DefinitionView(viewModel: DefinitionViewModel(headwordEntry: viewModel.retrieveEntryResults()[headwordEntryIndex]),
                                focusedWord: $currentWord)
             }
         }
