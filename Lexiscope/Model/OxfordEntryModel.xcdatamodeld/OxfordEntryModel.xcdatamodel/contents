@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Dummy" representedClassName="Dummy" syncable="YES" codeGenerationType="class"/>
+    <entity name="Pronunciation" representedClassName="Pronunciation" syncable="YES" codeGenerationType="class">
+        <attribute name="pronunciation" optional="YES" attributeType="Binary"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+    </entity>
+    <entity name="Retrieve" representedClassName="Retrieve" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Binary"/>
+        <attribute name="word" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="oxfordEntries" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String:Data]"/>
         <relationship name="vocabulary" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="VocabularyEntry"/>
     </entity>
     <entity name="VocabularyEntry" representedClassName="VocabularyEntry" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="pronunciation" optional="YES" attributeType="Binary"/>
-        <attribute name="retrieveEntry" optional="YES" attributeType="Binary"/>
-        <attribute name="saved" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="headwordEntry" optional="YES" attributeType="Binary"/>
         <attribute name="word" optional="YES" attributeType="String"/>
     </entity>
 </model>

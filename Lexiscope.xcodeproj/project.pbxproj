@@ -24,6 +24,7 @@
 		E475BFEC294EE7710076824C /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFEB294EE7710076824C /* AppData.swift */; };
 		E475BFFA294FE8A30076824C /* OxfordEntryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E475BFF8294FE8A30076824C /* OxfordEntryModel.xcdatamodeld */; };
 		E475BFFC294FF6C30076824C /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFFB294FF6C30076824C /* DataManager.swift */; };
+		E4859F18298651AC008AB85B /* LexicalEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F17298651AC008AB85B /* LexicalEntryView.swift */; };
 		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */; };
 		E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */; };
@@ -67,6 +68,7 @@
 		E475BFEB294EE7710076824C /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		E475BFF9294FE8A30076824C /* OxfordEntryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OxfordEntryModel.xcdatamodel; sourceTree = "<group>"; };
 		E475BFFB294FF6C30076824C /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		E4859F17298651AC008AB85B /* LexicalEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexicalEntryView.swift; sourceTree = "<group>"; };
 		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCellClusterView.swift; sourceTree = "<group>"; };
 		E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
@@ -111,7 +113,6 @@
 				FE902ECBDF162C6718CCB706 /* Pods-Lexiscope.debug.xcconfig */,
 				49B7C796BF9E3FAA8E4C20E6 /* Pods-Lexiscope.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -175,6 +176,7 @@
 			children = (
 				E467D5EA28D87AF60005480D /* DefinitionView.swift */,
 				E475BFE2294A76450076824C /* DefinitionViewModel.swift */,
+				E4859F17298651AC008AB85B /* LexicalEntryView.swift */,
 			);
 			path = Definition;
 			sourceTree = "<group>";
@@ -417,6 +419,7 @@
 				E475BFEC294EE7710076824C /* AppData.swift in Sources */,
 				E4F3623F2821F6990078721F /* Constant.swift in Sources */,
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
+				E4859F18298651AC008AB85B /* LexicalEntryView.swift in Sources */,
 				E467D5F228DBC4CE0005480D /* AudioView.swift in Sources */,
 				E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */,
 				E4DBE9242980A71D006D4730 /* SectionedScrollView.swift in Sources */,

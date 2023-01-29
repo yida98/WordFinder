@@ -13,9 +13,10 @@ struct SearchInputView: View {
     
     var body: some View {
         VStack {
-            DefinitionView(viewModel: viewModel.getDefinitionViewModel(),
-                           expanded: $viewModel.expanded,
-                           focusedWord: $currentWord)
+            ForEach(viewModel.retrieveEntryResults()) { headwordEntry in
+                DefinitionView(viewModel: DefinitionViewModel(headwordEntry: headwordEntry),
+                               focusedWord: $currentWord)
+            }
         }
         .padding(.horizontal, 40)
         .padding(.bottom, 50)

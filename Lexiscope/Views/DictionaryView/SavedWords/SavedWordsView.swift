@@ -23,8 +23,7 @@ struct SavedWordsView: View {
                         ForEach(filteredSectionsDisplay(), id: \.self) { key in
                             Section {
                                 ForEach(filteredDisplay(at: key)) { entry in
-                                    DefinitionView(viewModel: DefinitionViewModel(vocabularyEntry: entry),
-                                                   expanded: $viewModel.expanded,
+                                    DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry()),
                                                    focusedWord: $currentWord)
                                     .id(entry.word)
                                 }
@@ -42,9 +41,6 @@ struct SavedWordsView: View {
                 }
                 .padding(.horizontal, 40)
                 .padding(.bottom, 50)
-                .onChange(of: viewModel.expanded) { newValue in
-                    handleTap(on: currentWord, scrollProxy: reader)
-                }
                 HStack {
                     Spacer()
                     SectionedScrollView(viewModel: viewModel, sectionTitles: filteredSectionsDisplay(), scrollProxy: reader)
@@ -75,5 +71,11 @@ struct SavedWordsView: View {
             filteredSections = sectionTitles.filter { text.lowercased().hasPrefix($0) }
         }
         return filteredSections
+    }
+}
+
+extension VocabularyEntry {
+    func getHeadwordEntry() -> HeadwordEntry {
+        DataManager.decodedHeadwordEntryData(self.headwordEntry!)
     }
 }

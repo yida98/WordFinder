@@ -27,13 +27,10 @@ class URLTask {
         let trimmedWord = URLTask.sanitizeInput(word)
         debugPrint(trimmedWord)
         
-        if let managedVocabularyObject = DataManager.shared.fetchVocabularyEntry(for: trimmedWord), let retrieveEntryData = managedVocabularyObject.value(forKey: "retrieveEntry") as? Data {
-            do {
-                let retrieveEntry = try JSONDecoder().decode(RetrieveEntry.self, from: retrieveEntryData)
-                    return Just((trimmedWord, retrieveEntry)).setFailureType(to: Error.self).eraseToAnyPublisher()
-            } catch {
-                fatalError("Unable to decode \(trimmedWord). \(error)")
-            }
+        if let managedRetrieveObject = DataManager.shared.fetchRetrieve(for: trimmedWord) as? Retrieve,
+            let data = managedRetrieveObject.value(forKey: "data") as? Data {
+            let retrieveEntry = DataManager.decodedRetrieveEntryData(data)
+            return Just((trimmedWord, retrieveEntry)).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
         
         guard let requestURL = URLTask.requestURL(for: trimmedWord, in: language, fields: fields, strictMatch: strictMatch) else {
@@ -56,7 +53,7 @@ class URLTask {
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap {
                 if let response = $0.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
-                    DataManager.shared.saveVocabularyEntryEntity(retrieveEntry: $0.data, word: trimmedWord)
+                    DataManager.shared.saveRetrieve($0.data, for: trimmedWord)
                     return $0.data
                 } else {
                     print("[ERROR] bad response")

@@ -9,99 +9,119 @@ import SwiftUI
 
 struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
-    @Binding var expanded: Bool
     @Binding var focusedWord: String?
     
     var body: some View {
-        if let retrieveEntry = viewModel.retrieveEntry, let headwordEntries = retrieveEntry.results, let headwordEntry = headwordEntries.first {
-            VStack {
-                HStack {
-                    Text(headwordEntry.word)
-                    Button {
-                        viewModel.pronounce()
-                    } label: {
-                        Image(systemName: "speaker.wave.3.fill")
-                    }
-                    Spacer()
-                    Button {
-                        viewModel.bookmarkWord()
-                    } label: {
-                        Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
-                    }
-                }
-                ScrollView(.vertical, showsIndicators: false) {
-                    Text(Self.phoneticString(for: headwordEntry))
-                        .font(.caption2)
-                        .foregroundColor(.moodPurple)
-                    if expanded {
-                        ForEach(headwordEntry.lexicalEntries) { lexicalEntry in
-                            HStack {
-                                Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
-                                    .font(.caption)
-                                    .italic()
-                                    .foregroundColor(Color(white: 0.8))
-                                Spacer()
-                            }
-                            ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
-                                HStack {
-                                    if lexicalEntry.allSenses()[senseIndex].definitions != nil {
-                                        ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
-                                            if lexicalEntry.allSenses().count > 1 {
-                                                VStack {
-                                                    Text("\(senseIndex + 1)")
-                                                        .font(.caption)
-                                                        .foregroundColor(Color(white: 0.6))
-                                                    Spacer()
-                                                }
-                                            } else {
-                                                EmptyView()
-                                            }
-                                            Text("\(definition)")
-                                                .font(.subheadline)
-                                                .foregroundColor(Color(white: 0.6))
-                                        }
-                                    } else {
-                                        EmptyView()
-                                    }
-                                    Spacer()
-                                }
-                            }
-                        }
-                    } else {
-                        VStack {
-                            HStack {
-                                Text(collapsedLexicalCategory(for: headwordEntry))
-                                    .font(.caption)
-                                    .italic()
-                                    .foregroundColor(Color(white: 0.8))
-                                Spacer()
-                            }
-                            HStack {
-                                Text(collapsedDefinition(for: headwordEntry))
-                                    .font(.subheadline)
-                                    .foregroundColor(Color(white: 0.6))
-                                Spacer()
-                            }
-                        }
-                    }
-                }
-                .onTapGesture {
-                    expanded.toggle()
-                    focusedWord = headwordEntry.word
+        VStack {
+            HStack {
+                Text(viewModel.headwordEntry.word)
+                Spacer()
+                Button {
+                    viewModel.bookmarkWord()
+                } label: {
+                    Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
                 }
             }
-            .animation(.default, value: 0.5)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .background(Color(white: 0.95))
-            .mask {
-                RoundedRectangle(cornerRadius: 10)
+            HStack {
+                Text("/")
+                ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
+                    Button {
+                        viewModel.pronounce(pronunciation.audioFile)
+                    } label: {
+                        Text(pronunciation.phoneticSpelling!)
+                            .font(.caption2)
+                            .foregroundColor(.moodPurple)
+                            .padding(4)
+                            .background(Color.boyBlue.opacity(0.4))
+                            .cornerRadius(4)
+                    }
+                }
+                Text("/")
             }
-            .animation(.spring(response: 0.4, dampingFraction: 0.825), value: expanded)
-        } else {
-            // TODO: Placeholder view
-            Spacer()
+            ScrollView(showsIndicators: false) {
+                ForEach(viewModel.headwordEntry.lexicalEntries) { lexicalEntry in
+                    LexicalEntryView(lexicalEntry: lexicalEntry)
+                }
+            }
         }
+        .animation(.default, value: 0.5)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
+        .background(Color(white: 0.95))
+        .mask {
+            RoundedRectangle(cornerRadius: 10)
+        }
+//                ForEach(headwordEntries, id: \.self) { headwordEntry in
+//                    HStack {
+//                        Text(headwordEntry.word)
+//                        Spacer()
+//                        Button {
+//                            viewModel.bookmarkWord()
+//                        } label: {
+//                            Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
+//                        }
+//                    }
+//                    ScrollView(.vertical, showsIndicators: false) {
+//                        Text(Self.phoneticString(for: headwordEntry))
+//                            .font(.caption2)
+//                            .foregroundColor(.moodPurple)
+//                        if viewModel.expanded { // TODO: Remove
+//                            ForEach(viewModel.lexicalEntries(for: headwordEntry)) { lexicalEntry in
+//                                HStack {
+//                                    Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
+//                                        .font(.caption)
+//                                        .italic()
+//                                        .foregroundColor(Color(white: 0.8))
+//                                    Spacer()
+//                                }
+//                                ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
+//                                    HStack {
+//                                        if lexicalEntry.allSenses()[senseIndex].definitions != nil {
+//                                            ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
+//                                                if lexicalEntry.allSenses().count > 1 {
+//                                                    VStack {
+//                                                        Text("\(senseIndex + 1)")
+//                                                            .font(.caption)
+//                                                            .foregroundColor(Color(white: 0.6))
+//                                                        Spacer()
+//                                                    }
+//                                                } else {
+//                                                    EmptyView()
+//                                                }
+//                                                Text("\(definition)")
+//                                                    .font(.subheadline)
+//                                                    .foregroundColor(Color(white: 0.6))
+//                                            }
+//                                        } else {
+//                                            EmptyView()
+//                                        }
+//                                        Spacer()
+//                                    }
+//                                }
+//                            }
+//                        } else {
+//                            VStack {
+//                                HStack {
+//                                    Text(collapsedLexicalCategory(for: headwordEntry))
+//                                        .font(.caption)
+//                                        .italic()
+//                                        .foregroundColor(Color(white: 0.8))
+//                                    Spacer()
+//                                }
+//                                HStack {
+//                                    Text(collapsedDefinition(for: headwordEntry))
+//                                        .font(.subheadline)
+//                                        .foregroundColor(Color(white: 0.6))
+//                                    Spacer()
+//                                }
+//                            }
+//                        }
+//                    }
+//                    .onTapGesture {
+//                        viewModel.expanded.toggle()
+//                        focusedWord = headwordEntry.word
+//                    }
+//                }
     }
     
     struct Style: ViewStyleSheet {
@@ -154,11 +174,5 @@ protocol ViewStyleSheet {
 extension Sense: Identifiable {
     var hasDefinitions: Bool {
         return self.definitions == nil
-    }
-}
-
-extension LexicalEntry {
-    func allSenses() -> [Sense] {
-        return self.entries.compactMap { $0.senses }.flatMap { $0 }
     }
 }

@@ -14,7 +14,6 @@ class SavedWordsViewModel: ObservableObject {
     @Published var vocabulary: [[VocabularyEntry]]?
     @Published var sectionTitles: [String]?
     @Published var vocabularyDictionary: [String: [VocabularyEntry]]?
-    @Published var expanded: Bool = false
     @Published var previousTitle: String
     var dataManager: DataManager
     var dataManagerSubscriber: AnyCancellable?
@@ -29,7 +28,7 @@ class SavedWordsViewModel: ObservableObject {
     }
     
     func fetchVocabList() {
-        if let savedVocabulary = DataManager.shared.fetchSavedVocabulary() as? [VocabularyEntry] {
+        if let savedVocabulary = DataManager.shared.fetchVocabulary() as? [VocabularyEntry] {
             DispatchQueue.main.async { [weak self] in
                 self?.vocabularyDictionary = SavedWordsViewModel.alphabetizedDictionary(for: savedVocabulary)
                 self?.vocabulary = SavedWordsViewModel.alphabetizedVocabulary(for: savedVocabulary)

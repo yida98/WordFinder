@@ -15,26 +15,19 @@ class DictionaryViewModel: ObservableObject {
             endEditing()
         }
     }
-    @Published var expanded: Bool
-    private var definitionViewModel: DefinitionViewModel?
     private var savedWordsViewModel: SavedWordsViewModel?
     
     var wordStreamSubscriber: Set<AnyCancellable>
-    var searchingVocabularyEntry: VocabularyEntry?
+    @Published var retrieveEntry: RetrieveEntry?
     
     init() {
         self.showingVocabulary = true
-        self.expanded = true
         self.wordStreamSubscriber = Set<AnyCancellable>()
         subscribeToWordRequestStream()
-        getDefinitionViewModel()
     }
     
-    func getDefinitionViewModel() -> DefinitionViewModel {
-        if definitionViewModel == nil {
-            definitionViewModel = DefinitionViewModel()
-        }
-        return definitionViewModel!
+    func makeDefinitionViewModel(with headwordEntry: HeadwordEntry) -> DefinitionViewModel {
+        DefinitionViewModel(headwordEntry: headwordEntry)
     }
     
     func getSavedWordsViewModel() -> SavedWordsViewModel {
@@ -55,14 +48,15 @@ class DictionaryViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 debugPrint("completed \(word)")
-            }, receiveValue: { [weak self] entry in
-                if let entryWord = entry.0, let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: entryWord) as? VocabularyEntry {
-                    self?.searchingVocabularyEntry = vocabularyEntry
-                    self?.showingVocabulary = false
-                    self?.definitionViewModel?.vocabularyEntry = vocabularyEntry
-                }
+            }, receiveValue: { [weak self] retrieveEntry in
+                self?.retrieveEntry = retrieveEntry.1
+                self?.showingVocabulary = false
             })
             .store(in: &wordStreamSubscriber)
+    }
+    
+    func retrieveEntryResults() -> [HeadwordEntry] {
+        return self.retrieveEntry?.results ?? []
     }
     
     private func endEditing() {
