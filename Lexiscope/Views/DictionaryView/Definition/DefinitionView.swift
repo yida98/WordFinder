@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
-    @Binding var focusedWord: String?
     
     var body: some View {
         VStack(spacing: 3) {

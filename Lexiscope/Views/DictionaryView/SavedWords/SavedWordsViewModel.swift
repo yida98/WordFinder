@@ -16,6 +16,7 @@ class SavedWordsViewModel: ObservableObject {
     @Published var vocabularyDictionary: [String: [VocabularyEntry]]?
     var dataManager: DataManager
     var dataManagerSubscriber: AnyCancellable?
+    var presentingVocabularyEntry: VocabularyEntry?
     
     init() {
         self.dataManager = DataManager.shared

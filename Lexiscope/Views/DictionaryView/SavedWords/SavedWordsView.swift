@@ -10,8 +10,8 @@ import SwiftUI
 struct SavedWordsView: View {
     @ObservedObject var viewModel: SavedWordsViewModel
     @Binding var text: String
-    @State var currentWord: String? = nil
     @State var previousTitle: String = ""
+    @State var isPresenting: Bool = false
     
     var body: some View {
         ScrollViewReader { reader in
@@ -26,8 +26,11 @@ struct SavedWordsView: View {
                                 ForEach(filteredDisplay(at: key)) { entry in
                                     DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
                                                                                   saved: true,
-                                                                                  expanded: false),
-                                                   focusedWord: $currentWord)
+                                                                                  expanded: false))
+                                    .onTapGesture {
+                                        viewModel.presentingVocabularyEntry = entry
+                                        isPresenting = true
+                                    }
                                     .id(entry.word)
                                 }
                             } header: {
@@ -49,6 +52,15 @@ struct SavedWordsView: View {
                     SectionedScrollView(sectionTitles: filteredSectionsDisplay(), scrollProxy: reader, previousTitle: $previousTitle)
                 }
             }
+            .sheet(isPresented: $isPresenting, content: {
+                if let entry = viewModel.presentingVocabularyEntry {
+                    FullSavedWordView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
+                                                                     saved: true,
+                                                                     expanded: true))
+                } else {
+                    EmptyView()
+                }
+            })
         }
     }
     

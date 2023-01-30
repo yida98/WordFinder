@@ -25,6 +25,7 @@
 		E475BFFA294FE8A30076824C /* OxfordEntryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E475BFF8294FE8A30076824C /* OxfordEntryModel.xcdatamodeld */; };
 		E475BFFC294FF6C30076824C /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFFB294FF6C30076824C /* DataManager.swift */; };
 		E4859F18298651AC008AB85B /* LexicalEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F17298651AC008AB85B /* LexicalEntryView.swift */; };
+		E4859F1B2987D002008AB85B /* FullSavedWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F1A2987D002008AB85B /* FullSavedWordView.swift */; };
 		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */; };
 		E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */; };
@@ -69,6 +70,7 @@
 		E475BFF9294FE8A30076824C /* OxfordEntryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OxfordEntryModel.xcdatamodel; sourceTree = "<group>"; };
 		E475BFFB294FF6C30076824C /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E4859F17298651AC008AB85B /* LexicalEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexicalEntryView.swift; sourceTree = "<group>"; };
+		E4859F1A2987D002008AB85B /* FullSavedWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSavedWordView.swift; sourceTree = "<group>"; };
 		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCellClusterView.swift; sourceTree = "<group>"; };
 		E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				E4DBE919297724B7006D4730 /* SavedWordsView.swift */,
+				E4859F1A2987D002008AB85B /* FullSavedWordView.swift */,
 				E4DBE9212977C7A2006D4730 /* SavedWordsViewModel.swift */,
 				E4DBE91B297725DF006D4730 /* SavedWordsCell.swift */,
 				E4DBE9232980A71D006D4730 /* SectionedScrollView.swift */,
@@ -435,6 +438,7 @@
 				E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */,
 				E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */,
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
+				E4859F1B2987D002008AB85B /* FullSavedWordView.swift in Sources */,
 				E4DBE91A297724B7006D4730 /* SavedWordsView.swift in Sources */,
 				E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */,
 				E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */,

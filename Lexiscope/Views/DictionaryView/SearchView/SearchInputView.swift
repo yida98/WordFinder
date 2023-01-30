@@ -17,8 +17,7 @@ struct SearchInputView: View {
             ZStack {
                 ScrollView(showsIndicators: false) {
                     ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
-                        DefinitionView(viewModel: viewModel.makeDefinitionViewModel(with: viewModel.retrieveEntryResults()[headwordEntryIndex]),
-                                       focusedWord: $currentWord)
+                        DefinitionView(viewModel: viewModel.makeDefinitionViewModel(with: viewModel.retrieveEntryResults()[headwordEntryIndex]))
                         .id(String(headwordEntryIndex + 1))
                     }
                 }
