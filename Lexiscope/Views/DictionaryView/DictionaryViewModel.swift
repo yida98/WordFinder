@@ -27,8 +27,12 @@ class DictionaryViewModel: ObservableObject {
     }
     
     func makeDefinitionViewModel(with headwordEntry: HeadwordEntry) -> DefinitionViewModel {
-        let saved = DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) != nil
-        return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
+        if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) as? VocabularyEntry {
+            let fetchedHeadwordEntry = DataManager.decodedHeadwordEntryData(vocabularyEntry.headwordEntry!)
+            let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: headwordEntry)
+            return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
+        }
+        return DefinitionViewModel(headwordEntry: headwordEntry, saved: false, expanded: true)
     }
     
     func getSavedWordsViewModel() -> SavedWordsViewModel {
@@ -68,5 +72,28 @@ class DictionaryViewModel: ObservableObject {
 extension UIApplication {
     func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+extension HeadwordEntry {
+    static func areSame(lhs: HeadwordEntry, rhs: HeadwordEntry) -> Bool {
+        if lhs.lexicalEntries.count != rhs.lexicalEntries.count { return false }
+        var lexicalIndex = 0
+        var sensesIndex = 0
+        
+        while lexicalIndex < lhs.lexicalEntries.count {
+            let lhsSenses = lhs.lexicalEntries[lexicalIndex].allSenses()
+            let rhsSenses = rhs.lexicalEntries[lexicalIndex].allSenses()
+            if lhsSenses.count != rhsSenses.count { return false }
+            while sensesIndex < lhsSenses.count {
+                if lhsSenses[sensesIndex].id != rhsSenses[sensesIndex].id {
+                    return false
+                }
+                sensesIndex += 1
+            }
+            lexicalIndex += 1
+        }
+        
+        return true
     }
 }

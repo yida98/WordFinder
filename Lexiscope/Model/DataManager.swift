@@ -125,18 +125,6 @@ class DataManager: ObservableObject {
         }
     }
     
-//    func fetchSavedVocabulary() -> [NSManagedObject]? {
-//        let predicate = NSPredicate(format: "saved == YES")
-//        let sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-//        let results = fetch(entity: .vocabularyEntry, with: predicate, sortDescriptors: sortDescriptors)
-//        switch results {
-//        case .success(let objects):
-//            return objects
-//        default:
-//            return nil
-//        }
-//    }
-    
     func fetchVocabularyEntry(for word: String) -> NSManagedObject? {
         let predicate = NSPredicate(format: "word == %@", word.lowercased())
         let results = fetch(entity: .vocabularyEntry, with: predicate)

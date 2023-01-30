@@ -17,7 +17,6 @@ struct SearchInputView: View {
                 ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
                     DefinitionView(viewModel: viewModel.makeDefinitionViewModel(with: viewModel.retrieveEntryResults()[headwordEntryIndex]),
                                    focusedWord: $currentWord)
-                    .frame(maxHeight: proxy.size.height / 2)
                 }
             }
             .padding(.horizontal, 40)
