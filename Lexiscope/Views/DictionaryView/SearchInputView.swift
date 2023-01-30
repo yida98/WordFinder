@@ -12,13 +12,16 @@ struct SearchInputView: View {
     @State var currentWord: String?
     
     var body: some View {
-        VStack {
-            ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
-                DefinitionView(viewModel: viewModel.makeDefinitionViewModel(with: viewModel.retrieveEntryResults()[headwordEntryIndex]),
-                               focusedWord: $currentWord)
+        GeometryReader { proxy in
+            ScrollView(showsIndicators: false) {
+                ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
+                    DefinitionView(viewModel: viewModel.makeDefinitionViewModel(with: viewModel.retrieveEntryResults()[headwordEntryIndex]),
+                                   focusedWord: $currentWord)
+                    .frame(maxHeight: proxy.size.height / 2)
+                }
             }
+            .padding(.horizontal, 40)
+            .padding(.bottom, 50)
         }
-        .padding(.horizontal, 40)
-        .padding(.bottom, 50)
     }
 }

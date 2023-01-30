@@ -12,7 +12,7 @@ struct DefinitionView: View {
     @Binding var focusedWord: String?
     
     var body: some View {
-        VStack {
+        VStack(spacing: 3) {
             HStack {
                 Text(viewModel.headwordEntry.word)
                     .foregroundColor(.moodPurple)
@@ -28,7 +28,7 @@ struct DefinitionView: View {
                 Text("/")
                     .font(.caption2)
                     .foregroundColor(.moodPurple)
-                    .padding(.vertical, 4)
+                    .padding(.vertical, 2)
                 ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
                     Button {
                         viewModel.pronounce(pronunciation.audioFile)
@@ -36,7 +36,7 @@ struct DefinitionView: View {
                         Text(pronunciation.phoneticSpelling!)
                             .font(.caption2)
                             .foregroundColor(.moodPurple)
-                            .padding(4)
+                            .padding(2)
                             .background(pronunciation.hasAudio ? Color.boyBlue.opacity(0.4) : Color.clear)
                             .cornerRadius(4)
                     }
@@ -44,7 +44,8 @@ struct DefinitionView: View {
                 Text("/")
                     .font(.caption2)
                     .foregroundColor(.moodPurple)
-                    .padding(.vertical, 4)
+                    .padding(.vertical, 2)
+                Spacer()
             }
             ScrollView(showsIndicators: false) {
                 ForEach(viewModel.lexicalEntries()) { lexicalEntry in

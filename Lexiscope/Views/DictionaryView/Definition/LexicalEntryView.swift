@@ -13,10 +13,13 @@ struct LexicalEntryView: View {
     
     var body: some View {
         VStack {
-            Text(lexicalEntry.lexicalCategory.text.capitalized)
-                .font(.caption)
-                .italic()
-                .foregroundColor(Color(white: 0.8))
+            HStack {
+                Text(lexicalEntry.lexicalCategory.text.capitalized)
+                    .font(.caption)
+                    .italic()
+                    .foregroundColor(Color(white: 0.8))
+                Spacer()
+            }
             
             ForEach(senses().indices, id: \.self) { senseIndex in
                 HStack {
