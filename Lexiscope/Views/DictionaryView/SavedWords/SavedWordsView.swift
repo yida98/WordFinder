@@ -24,7 +24,8 @@ struct SavedWordsView: View {
                             Section {
                                 ForEach(filteredDisplay(at: key)) { entry in
                                     DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
-                                                                                  saved: true),
+                                                                                  saved: true,
+                                                                                  expanded: false),
                                                    focusedWord: $currentWord)
                                     .id(entry.word)
                                 }

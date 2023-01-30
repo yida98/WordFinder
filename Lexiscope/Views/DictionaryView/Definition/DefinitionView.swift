@@ -47,8 +47,8 @@ struct DefinitionView: View {
                     .padding(.vertical, 4)
             }
             ScrollView(showsIndicators: false) {
-                ForEach(viewModel.headwordEntry.lexicalEntries) { lexicalEntry in
-                    LexicalEntryView(lexicalEntry: lexicalEntry)
+                ForEach(viewModel.lexicalEntries()) { lexicalEntry in
+                    LexicalEntryView(lexicalEntry: lexicalEntry, expanded: $viewModel.expanded)
                 }
             }
         }

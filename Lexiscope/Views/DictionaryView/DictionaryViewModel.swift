@@ -28,7 +28,7 @@ class DictionaryViewModel: ObservableObject {
     
     func makeDefinitionViewModel(with headwordEntry: HeadwordEntry) -> DefinitionViewModel {
         let saved = DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) != nil
-        return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved)
+        return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
     }
     
     func getSavedWordsViewModel() -> SavedWordsViewModel {

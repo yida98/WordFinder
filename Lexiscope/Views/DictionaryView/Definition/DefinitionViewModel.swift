@@ -14,10 +14,12 @@ class DefinitionViewModel: ObservableObject {
     
     @Published var headwordEntry: HeadwordEntry
     @Published var saved: Bool?
+    @Published var expanded: Bool
     
-    init(headwordEntry: HeadwordEntry, saved: Bool) {
+    init(headwordEntry: HeadwordEntry, saved: Bool, expanded: Bool) {
         self.headwordEntry = headwordEntry
         self.saved = saved
+        self.expanded = expanded
     }
     
     var allSortedPronunciations: [InlineModel1] {
@@ -38,7 +40,7 @@ class DefinitionViewModel: ObservableObject {
         return []
     }
     
-    func lexicalEntries(for headwordEntry: HeadwordEntry) -> [LexicalEntry]? {
+    func lexicalEntries() -> [LexicalEntry] {
         return headwordEntry.lexicalEntries
     }
     

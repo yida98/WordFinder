@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LexicalEntryView: View {
     var lexicalEntry: LexicalEntry
+    @Binding var expanded: Bool
     
     var body: some View {
         VStack {
@@ -17,9 +18,9 @@ struct LexicalEntryView: View {
                 .italic()
                 .foregroundColor(Color(white: 0.8))
             
-            ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
+            ForEach(senses().indices, id: \.self) { senseIndex in
                 HStack {
-                    if lexicalEntry.allSenses().count > 1 {
+                    if senses().count > 1 {
                         VStack {
                             Text("\(senseIndex + 1)")
                                 .font(.subheadline)
@@ -27,16 +28,25 @@ struct LexicalEntryView: View {
                             Spacer()
                         }
                     }
-                    Text("\(lexicalEntry.allSenses()[senseIndex].definitions?.first ?? "")")
+                    Text("\(senses()[senseIndex].definitions?.first ?? "")")
                         .font(.subheadline)
                         .foregroundColor(Color(white: 0.6))
-                    Text("\(lexicalEntry.allSenses()[senseIndex].examples?.first?.text ?? "")")
+                    Text("\(senses()[senseIndex].examples?.first?.text ?? "")")
                         .font(.subheadline)
                         .italic()
                         .foregroundColor(Color(white: 0.4))
                     Spacer()
                 }
             }
+        }
+    }
+    
+    private func senses() -> [Sense] {
+        if expanded {
+            return lexicalEntry.allSenses()
+        } else {
+            if let firstSense = lexicalEntry.allSenses().first { return [firstSense] }
+            else { return [] }
         }
     }
 }
