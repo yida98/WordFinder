@@ -15,11 +15,13 @@ struct DefinitionView: View {
         VStack {
             HStack {
                 Text(viewModel.headwordEntry.word)
+                    .foregroundColor(.moodPurple)
                 Spacer()
                 Button {
                     viewModel.bookmarkWord()
                 } label: {
                     Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
+                        .foregroundColor(Color.boyBlue)
                 }
             }
             HStack {
@@ -57,77 +59,6 @@ struct DefinitionView: View {
         .mask {
             RoundedRectangle(cornerRadius: 10)
         }
-//                ForEach(headwordEntries, id: \.self) { headwordEntry in
-//                    HStack {
-//                        Text(headwordEntry.word)
-//                        Spacer()
-//                        Button {
-//                            viewModel.bookmarkWord()
-//                        } label: {
-//                            Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
-//                        }
-//                    }
-//                    ScrollView(.vertical, showsIndicators: false) {
-//                        Text(Self.phoneticString(for: headwordEntry))
-//                            .font(.caption2)
-//                            .foregroundColor(.moodPurple)
-//                        if viewModel.expanded { // TODO: Remove
-//                            ForEach(viewModel.lexicalEntries(for: headwordEntry)) { lexicalEntry in
-//                                HStack {
-//                                    Text(lexicalEntry.lexicalCategory.text.capitalized) /// e.g. preposition, adjective, verb
-//                                        .font(.caption)
-//                                        .italic()
-//                                        .foregroundColor(Color(white: 0.8))
-//                                    Spacer()
-//                                }
-//                                ForEach(lexicalEntry.allSenses().indices, id: \.self) { senseIndex in
-//                                    HStack {
-//                                        if lexicalEntry.allSenses()[senseIndex].definitions != nil {
-//                                            ForEach(lexicalEntry.allSenses()[senseIndex].definitions!, id: \.self) { definition in
-//                                                if lexicalEntry.allSenses().count > 1 {
-//                                                    VStack {
-//                                                        Text("\(senseIndex + 1)")
-//                                                            .font(.caption)
-//                                                            .foregroundColor(Color(white: 0.6))
-//                                                        Spacer()
-//                                                    }
-//                                                } else {
-//                                                    EmptyView()
-//                                                }
-//                                                Text("\(definition)")
-//                                                    .font(.subheadline)
-//                                                    .foregroundColor(Color(white: 0.6))
-//                                            }
-//                                        } else {
-//                                            EmptyView()
-//                                        }
-//                                        Spacer()
-//                                    }
-//                                }
-//                            }
-//                        } else {
-//                            VStack {
-//                                HStack {
-//                                    Text(collapsedLexicalCategory(for: headwordEntry))
-//                                        .font(.caption)
-//                                        .italic()
-//                                        .foregroundColor(Color(white: 0.8))
-//                                    Spacer()
-//                                }
-//                                HStack {
-//                                    Text(collapsedDefinition(for: headwordEntry))
-//                                        .font(.subheadline)
-//                                        .foregroundColor(Color(white: 0.6))
-//                                    Spacer()
-//                                }
-//                            }
-//                        }
-//                    }
-//                    .onTapGesture {
-//                        viewModel.expanded.toggle()
-//                        focusedWord = headwordEntry.word
-//                    }
-//                }
     }
     
     struct Style: ViewStyleSheet {

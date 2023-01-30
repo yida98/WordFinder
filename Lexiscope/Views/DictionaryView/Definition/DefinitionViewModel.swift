@@ -15,8 +15,9 @@ class DefinitionViewModel: ObservableObject {
     @Published var headwordEntry: HeadwordEntry
     @Published var saved: Bool?
     
-    init(headwordEntry: HeadwordEntry) {
+    init(headwordEntry: HeadwordEntry, saved: Bool) {
         self.headwordEntry = headwordEntry
+        self.saved = saved
     }
     
     var allSortedPronunciations: [InlineModel1] {
@@ -43,22 +44,25 @@ class DefinitionViewModel: ObservableObject {
     
     func bookmarkWord() {
         if DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) != nil {
+            saved = false
             DataManager.shared.deleteVocabularyEntry(for: headwordEntry.word)
-        }
-        let encoder = JSONEncoder()
-        do {
-            let headwordData = try encoder.encode(headwordEntry)
-            DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word)
-            
-            for url in headwordEntry.allPronunciationURLs() {
-                URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in
-                    if let data = data {
-                        DataManager.shared.savePronunciation(url: url as NSURL, pronunciation: data)
+        } else {
+            saved = true
+            let encoder = JSONEncoder()
+            do {
+                let headwordData = try encoder.encode(headwordEntry)
+                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word)
+                
+                for url in headwordEntry.allPronunciationURLs() {
+                    URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in
+                        if let data = data {
+                            DataManager.shared.savePronunciation(url: url as NSURL, pronunciation: data)
+                        }
                     }
                 }
+            } catch {
+                fatalError("Cannot encode \(headwordEntry) entry into data.")
             }
-        } catch {
-            fatalError("Cannot encode \(headwordEntry) entry into data.")
         }
     }
     
