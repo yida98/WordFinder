@@ -136,6 +136,17 @@ class DataManager: ObservableObject {
         }
     }
     
+    func fetchDateOrderedVocabularyEntries(ascending: Bool) -> [NSManagedObject]? {
+        let sortDescriptors = [NSSortDescriptor(key: "date", ascending: ascending)]
+        let results = fetch(entity: .vocabularyEntry, sortDescriptors: sortDescriptors)
+        switch results {
+        case .success(let objects):
+            return objects
+        default:
+            return nil
+        }
+    }
+    
     func saveVocabularyEntryEntity(headwordEntry: Data, date: Date = Date(), word: String) {
         if fetchVocabularyEntry(for: word) == nil {
             let context = getContext()

@@ -10,20 +10,36 @@ import SwiftUI
 struct QuizView: View {
     
     @StateObject var viewModel = QuizViewModel()
+    @State var choice: Int?
     
     var body: some View {
-        VStack {
-            Text("Question")
+        if let question = viewModel.question {
             VStack {
-                HStack {
-                    Text("1")
-                    Text("2")
+                Text("\(question.text)")
+                VStack {
+                    HStack {
+                        QuizOptionCell(text: viewModel.option(0, for: question), id: 0, choice: $choice)
+                        QuizOptionCell(text: viewModel.option(1, for: question), id: 1, choice: $choice)
+                    }
+                    HStack {
+                        QuizOptionCell(text: viewModel.option(2, for: question), id: 2, choice: $choice)
+                        QuizOptionCell(text: viewModel.option(3, for: question), id: 3, choice: $choice)
+                    }
                 }
-                HStack {
-                    Text("3")
-                    Text("4")
+                Button {
+                    let result = viewModel.validate(choice)
+                    switch result {
+                    case .success(let success):
+                        print("\(success)")
+                    case .failure(let failure):
+                        print("wrong")
+                    }
+                } label: {
+                    Text("Submit")
                 }
             }
+        } else {
+            Text("placeholder view")
         }
     }
 }
