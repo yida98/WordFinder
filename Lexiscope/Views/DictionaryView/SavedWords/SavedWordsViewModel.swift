@@ -14,6 +14,7 @@ class SavedWordsViewModel: ObservableObject {
     @Published var vocabulary: [[VocabularyEntry]]?
     @Published var sectionTitles: [String]?
     @Published var vocabularyDictionary: [String: [VocabularyEntry]]?
+    @Published var isPresenting: Bool = false
     var dataManager: DataManager
     var dataManagerSubscriber: AnyCancellable?
     var presentingVocabularyEntry: VocabularyEntry?
@@ -21,6 +22,7 @@ class SavedWordsViewModel: ObservableObject {
     init() {
         self.dataManager = DataManager.shared
         dataManagerSubscriber = dataManager.objectWillChange.sink { [weak self] _ in
+            self?.isPresenting = false
             self?.fetchVocabList()
         }
         fetchVocabList()

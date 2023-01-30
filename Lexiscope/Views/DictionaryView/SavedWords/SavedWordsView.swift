@@ -11,7 +11,6 @@ struct SavedWordsView: View {
     @ObservedObject var viewModel: SavedWordsViewModel
     @Binding var text: String
     @State var previousTitle: String = ""
-    @State var isPresenting: Bool = false
     
     var body: some View {
         ScrollViewReader { reader in
@@ -29,7 +28,7 @@ struct SavedWordsView: View {
                                                                                   expanded: false))
                                     .onTapGesture {
                                         viewModel.presentingVocabularyEntry = entry
-                                        isPresenting = true
+                                        viewModel.isPresenting = true
                                     }
                                     .id(entry.word)
                                 }
@@ -52,7 +51,7 @@ struct SavedWordsView: View {
                     SectionedScrollView(sectionTitles: filteredSectionsDisplay(), scrollProxy: reader, previousTitle: $previousTitle)
                 }
             }
-            .sheet(isPresented: $isPresenting, content: {
+            .sheet(isPresented: $viewModel.isPresenting, content: {
                 if let entry = viewModel.presentingVocabularyEntry {
                     FullSavedWordView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
                                                                      saved: true,
