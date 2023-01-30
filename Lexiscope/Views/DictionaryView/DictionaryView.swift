@@ -60,18 +60,25 @@ struct DictionaryView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Text("Familiarity: \(viewModel.vocabularySize)")
-                        .padding(4)
-                        .padding(.horizontal, 5)
-                        .background(Color.boyBlue)
-                        .cornerRadius(10)
-                        .font(.footnote)
-                        .foregroundColor(.babyPowder)
+                    Button {
+                        viewModel.openQuiz()
+                    } label: {
+                        Text("Familiarity: \(viewModel.vocabularySize)")
+                            .padding(4)
+                            .padding(.horizontal, 5)
+                            .background(Color.boyBlue)
+                            .cornerRadius(10)
+                            .font(.footnote)
+                            .foregroundColor(.babyPowder)
+                    }
                     Spacer()
                 }
             }
             .padding(.leading, 40)
             .padding(.bottom, 15)
+            .sheet(isPresented: $viewModel.isPresentingQuiz) {
+                QuizView()
+            }
         }
     }
 }
