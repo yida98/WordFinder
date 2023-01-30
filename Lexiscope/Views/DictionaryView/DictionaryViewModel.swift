@@ -19,10 +19,12 @@ class DictionaryViewModel: ObservableObject {
     
     var wordStreamSubscriber: Set<AnyCancellable>
     @Published var retrieveEntry: RetrieveEntry?
+    @Published var vocabularySize: Int
     
     init() {
         self.showingVocabulary = true
         self.wordStreamSubscriber = Set<AnyCancellable>()
+        self.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
         subscribeToWordRequestStream()
     }
     

@@ -131,7 +131,7 @@
 				E4DCC210287688AC00F1495A /* DictionaryView.swift */,
 				E475BFE6294BD7110076824C /* DictionaryViewModel.swift */,
 				E4DBE91F29774559006D4730 /* TabCell.swift */,
-				E4DBE9252981F940006D4730 /* SearchInputView.swift */,
+				E4859F192987C5DC008AB85B /* SearchView */,
 				E4DBE91E29774544006D4730 /* Definition */,
 				E4DBE91D29772609006D4730 /* SavedWords */,
 			);
@@ -158,6 +158,14 @@
 				E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */,
 			);
 			path = SearchViewComponents;
+			sourceTree = "<group>";
+		};
+		E4859F192987C5DC008AB85B /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				E4DBE9252981F940006D4730 /* SearchInputView.swift */,
+			);
+			path = SearchView;
 			sourceTree = "<group>";
 		};
 		E4DBE91D29772609006D4730 /* SavedWords */ = {
