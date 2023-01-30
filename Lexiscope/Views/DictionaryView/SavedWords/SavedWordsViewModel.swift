@@ -14,13 +14,11 @@ class SavedWordsViewModel: ObservableObject {
     @Published var vocabulary: [[VocabularyEntry]]?
     @Published var sectionTitles: [String]?
     @Published var vocabularyDictionary: [String: [VocabularyEntry]]?
-    @Published var previousTitle: String
     var dataManager: DataManager
     var dataManagerSubscriber: AnyCancellable?
     
     init() {
         self.dataManager = DataManager.shared
-        self.previousTitle = ""
         dataManagerSubscriber = dataManager.objectWillChange.sink { [weak self] _ in
             self?.fetchVocabList()
         }

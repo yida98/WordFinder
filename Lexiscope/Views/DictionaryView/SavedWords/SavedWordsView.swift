@@ -11,6 +11,7 @@ struct SavedWordsView: View {
     @ObservedObject var viewModel: SavedWordsViewModel
     @Binding var text: String
     @State var currentWord: String? = nil
+    @State var previousTitle: String = ""
     
     var body: some View {
         ScrollViewReader { reader in
@@ -45,7 +46,7 @@ struct SavedWordsView: View {
                 .padding(.bottom, 50)
                 HStack {
                     Spacer()
-                    SectionedScrollView(viewModel: viewModel, sectionTitles: filteredSectionsDisplay(), scrollProxy: reader)
+                    SectionedScrollView(sectionTitles: filteredSectionsDisplay(), scrollProxy: reader, previousTitle: $previousTitle)
                 }
             }
         }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SectionedScrollView: View {
-    @ObservedObject var viewModel: SavedWordsViewModel
     var sectionTitles: [String]
     @GestureState var dragLocation: CGPoint = .zero
     var scrollProxy: ScrollViewProxy
+    @Binding var previousTitle: String
     
     var body: some View {
         VStack {
@@ -43,7 +43,7 @@ struct SectionedScrollView: View {
     
     private func dragObserver(geometry: GeometryProxy, title: String) -> some View {
         if geometry.frame(in: .global).contains(dragLocation) {
-            if viewModel.previousTitle != title {
+            if previousTitle != title {
                 scroll(to: title)
             }
         }
@@ -55,7 +55,7 @@ struct SectionedScrollView: View {
             scrollProxy.scrollTo(title, anchor: .top)
             let impactHeptic = UIImpactFeedbackGenerator(style: .light)
             impactHeptic.impactOccurred()
-            viewModel.previousTitle = title
+            previousTitle = title
         }
     }
 }

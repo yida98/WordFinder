@@ -67,6 +67,14 @@ class DictionaryViewModel: ObservableObject {
     private func endEditing() {
         UIApplication.shared.endEditing()
     }
+    
+    func retrieveEntryResultSectionTitles() -> [String] {
+        var result = [String]()
+        for entryIndex in retrieveEntryResults().indices {
+            result.append(String(entryIndex + 1))
+        }
+        return result
+    }
 }
 
 extension UIApplication {
