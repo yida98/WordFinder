@@ -15,11 +15,7 @@ extension Color {
     // MARK: Blue
     static let babyPowder: Color = Color(red: 252/255, green: 251/255, blue: 247/255)
     static let blueCrayola: Color = Color(red: 22/255, green: 115/255, blue: 255/255)
-    static let periwinkleCrayola: Color = Color(red: 194/255, green: 218/255, blue: 255/255)
-    static let greyPeriwinkleCrayola: Color = Color(red: 209/255, green: 227/255, blue: 255/255)
     static let boyBlue: Color = Color(red: 95/255, green: 159/255, blue: 255/255)
-    static let darkBoyBlue: Color = Color(red: 88/255, green: 152/255, blue: 248/255)
-    static let frenchSkyBlue: Color = Color(red: 130/255, green: 180/255, blue: 255/255)
     static let darkSkyBlue: Color = Color(red: 116/255, green: 179/255, blue: 206/255)
     static let magnolia: Color = Color(red: 248/255, green: 242/255, blue: 252/255)
     static let moodPurple: Color = Color(red: 130/255, green: 119/255, blue: 137/255)
