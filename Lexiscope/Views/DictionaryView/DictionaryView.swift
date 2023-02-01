@@ -12,6 +12,7 @@ struct DictionaryView: View {
     @StateObject var viewModel: DictionaryViewModel = DictionaryViewModel()
     @State private var text: String = ""
     @FocusState private var searchIsFocused: Bool
+    @StateObject var quizViewModel = QuizViewModel()
     
     var body: some View {
         ZStack {
@@ -77,7 +78,7 @@ struct DictionaryView: View {
             .padding(.leading, 40)
             .padding(.bottom, 15)
             .sheet(isPresented: $viewModel.isPresentingQuiz) {
-                QuizView()
+                QuizView(viewModel: quizViewModel)
             }
         }
     }

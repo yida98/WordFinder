@@ -96,21 +96,18 @@ struct Quiz {
         private var topic: VocabularyEntry
         private var options: [VocabularyEntry]
         
+        var text: String
+        /// Always has 4
+        var choices: [Sense?]
+        
         init(topic: VocabularyEntry, options: [VocabularyEntry]) {
             self.topic = topic
             self.options = options
+            self.text = topic.word!
+            self.choices = Quiz.Entry.makeOptions(for: topic, from: options)
         }
         
-        var text: String {
-            topic.word!
-        }
-        
-        /// Always has 4
-        var choices: [Sense?] {
-            makeOptions()
-        }
-        
-        private func makeOptions() -> [Sense?] {
+        private static func makeOptions(for topic: VocabularyEntry, from options: [VocabularyEntry]) -> [Sense?] {
             var allAnswers = options.shuffled()
             guard let answer = [0,1,2,3].randomElement() else { fatalError("Cannot get a random location") }
             if allAnswers.count < 3 {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct QuizView: View {
     
-    @StateObject var viewModel = QuizViewModel()
+    @ObservedObject var viewModel: QuizViewModel
     @State var choice: Int?
     @State var canSubmit: Bool = false
     
