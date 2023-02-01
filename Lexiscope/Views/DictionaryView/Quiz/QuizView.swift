@@ -11,19 +11,15 @@ struct QuizView: View {
     
     @StateObject var viewModel = QuizViewModel()
     @State var choice: Int?
+    @State var canSubmit: Bool = false
     
     var body: some View {
         if let question = viewModel.question {
-            VStack {
+            VStack(spacing: 20) {
                 Text("\(question.text)")
                 VStack {
-                    HStack {
-                        QuizOptionCell(text: viewModel.option(0, for: question), id: 0, choice: $choice)
-                        QuizOptionCell(text: viewModel.option(1, for: question), id: 1, choice: $choice)
-                    }
-                    HStack {
-                        QuizOptionCell(text: viewModel.option(2, for: question), id: 2, choice: $choice)
-                        QuizOptionCell(text: viewModel.option(3, for: question), id: 3, choice: $choice)
+                    ForEach(0..<4) { id in
+                        QuizOptionCell(text: viewModel.option(id, for: question), id: id, choice: $choice)
                     }
                 }
                 Button {
@@ -37,6 +33,15 @@ struct QuizView: View {
                 } label: {
                     Text("Submit")
                 }
+                .disabled(!canSubmit)
+                .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 20),
+                                             primaryColor: canSubmit ? .yellowGreenCrayola : .init(white: 0.95),
+                                             secondaryColor: canSubmit ? .darkSeaGreen : .init(white: 0.85),
+                                             disabled: !canSubmit))
+            }
+            .background(Color.babyPowder)
+            .onChange(of: choice) { newValue in
+                canSubmit = newValue != nil
             }
         } else {
             Text("placeholder view")

@@ -12,10 +12,10 @@ struct QuizOptionCell: View {
     var id: Int
     @Binding var choice: Int?
     var body: some View {
-        Button {
-            choice = id
-        } label: {
+        let binding = Binding<Bool>(get: { id == choice }, set: { _ in choice = id } )
+        Toggle(isOn: binding) {
             Text(text)
         }
+        .toggleStyle(QuizToggleStyle(shape: RoundedRectangle(cornerRadius: 20), primaryColor: .magnolia, secondaryColor: .lavendarGray))
     }
 }

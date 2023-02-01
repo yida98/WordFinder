@@ -29,6 +29,7 @@
 		E4859F1D2987D66A008AB85B /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F1C2987D66A008AB85B /* QuizView.swift */; };
 		E4859F202987D73F008AB85B /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F1F2987D73F008AB85B /* QuizViewModel.swift */; };
 		E4859F2229887CBA008AB85B /* QuizOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F2129887CBA008AB85B /* QuizOptionCell.swift */; };
+		E4859F262989C092008AB85B /* QuizButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F252989C092008AB85B /* QuizButtonStyle.swift */; };
 		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */; };
 		E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */; };
@@ -77,6 +78,7 @@
 		E4859F1C2987D66A008AB85B /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		E4859F1F2987D73F008AB85B /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		E4859F2129887CBA008AB85B /* QuizOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizOptionCell.swift; sourceTree = "<group>"; };
+		E4859F252989C092008AB85B /* QuizButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizButtonStyle.swift; sourceTree = "<group>"; };
 		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCellClusterView.swift; sourceTree = "<group>"; };
 		E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 			children = (
 				E4F3622A2821D46C0078721F /* ContentView.swift */,
 				E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */,
+				E4859F252989C092008AB85B /* QuizButtonStyle.swift */,
 				E433FD852876868800FE7D4C /* DictionaryView */,
 				E467D5EE28DBB90B0005480D /* SearchStyleView */,
 			);
@@ -458,6 +461,7 @@
 				E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */,
 				E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */,
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
+				E4859F262989C092008AB85B /* QuizButtonStyle.swift in Sources */,
 				E4859F1B2987D002008AB85B /* FullSavedWordView.swift in Sources */,
 				E4DBE91A297724B7006D4730 /* SavedWordsView.swift in Sources */,
 				E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */,
