@@ -56,8 +56,8 @@ struct QuizView: View {
                     }
                     .disabled(!canSubmit)
                     .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 16),
-                                                 primaryColor: canSubmit ? .yellowGreenCrayola : .init(white: 0.95),
-                                                 secondaryColor: canSubmit ? .darkSeaGreen : .init(white: 0.85),
+                                                 primaryColor: getPrimarySubmitButtonColor(),
+                                                 secondaryColor: getSecondarySubmitButtonColor(),
                                                  disabled: !canSubmit))
                     Spacer()
                 }
@@ -87,5 +87,17 @@ struct QuizView: View {
         case .match:
             return "Match the definition:"
         }
+    }
+    
+    private func getPrimarySubmitButtonColor() -> Color {
+        guard canSubmit else { return .init(white: 0.95) }
+        guard let validation = validation, let choice = choice, !validation[choice] else { return .yellowGreenCrayola }
+        return .red
+    }
+    
+    private func getSecondarySubmitButtonColor() -> Color {
+        guard canSubmit else { return .init(white: 0.85) }
+        guard let validation = validation, let choice = choice, !validation[choice] else { return .darkSeaGreen }
+        return .redwood
     }
 }

@@ -30,4 +30,7 @@ extension Color {
     static let hunterGreen: Color = Color(red: 69/255, green: 107/255, blue: 76/255)
     static let morningBlue: Color = Color(red: 130/255, green: 158/255, blue: 135/255)
     static let darkSeaGreen: Color = Color(red: 156/255, green: 186/255, blue: 141/255)
+    
+    // MARK: Red
+    static let redwood: Color = Color(red: 158/255, green: 83/255, blue: 70/255)
 }
