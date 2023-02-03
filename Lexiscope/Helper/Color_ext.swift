@@ -17,6 +17,8 @@ extension Color {
     static let blueCrayola: Color = Color(red: 22/255, green: 115/255, blue: 255/255)
     static let boyBlue: Color = Color(red: 95/255, green: 159/255, blue: 255/255)
     static let darkSkyBlue: Color = Color(red: 116/255, green: 179/255, blue: 206/255)
+    static let uranianBlue: Color = Color(red: 186/255, green: 222/255, blue: 255/255)
+    static let beauBlue: Color = Color(red: 182/255, green: 204/255, blue: 224/255)
     static let magnolia: Color = Color(red: 248/255, green: 242/255, blue: 252/255)
     static let lavendarGray: Color = Color(red: 193/255, green: 185/255, blue: 201/255)
     static let moodPurple: Color = Color(red: 130/255, green: 119/255, blue: 137/255)

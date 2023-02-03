@@ -78,7 +78,7 @@ struct DictionaryView: View {
             .padding(.leading, 40)
             .padding(.bottom, 15)
             .sheet(isPresented: $viewModel.isPresentingQuiz) {
-                QuizView(viewModel: quizViewModel)
+                QuizView(viewModel: QuizViewModel())
             }
         }
     }

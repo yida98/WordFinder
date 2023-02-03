@@ -11,11 +11,33 @@ struct QuizOptionCell: View {
     var text: String
     var id: Int
     @Binding var choice: Int?
+    var validation: [Bool]?
+    
     var body: some View {
-        let binding = Binding<Bool>(get: { id == choice }, set: { _ in choice = id } )
+        let binding = Binding<Bool>(get: { id == choice || validation != nil }, set: { _ in choice = id } )
         Toggle(isOn: binding) {
             Text(text)
         }
-        .toggleStyle(QuizToggleStyle(shape: RoundedRectangle(cornerRadius: 20), primaryColor: .magnolia, secondaryColor: .lavendarGray))
+        .toggleStyle(QuizToggleStyle(shape: RoundedRectangle(cornerRadius: 16),
+                                     primaryColor: getPrimaryColor(),
+                                     secondaryColor: getSecondaryColor()))
+        .allowsHitTesting(validation == nil)
+    }
+    
+    /// fill
+    private func getPrimaryColor() -> Color {
+        guard let validation = validation else { return .magnolia }
+        if choice == id {
+            return validation[id] ? .yellowGreenCrayola : .red
+        }
+        return .white
+    }
+    
+    private func getSecondaryColor() -> Color {
+        guard let validation = validation else { return .lavendarGray }
+        if choice == id {
+            return .white
+        }
+        return validation[id] ? .darkSeaGreen : .red
     }
 }

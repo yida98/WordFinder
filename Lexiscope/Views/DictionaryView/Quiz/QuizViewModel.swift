@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class QuizViewModel: ObservableObject {
     
@@ -20,7 +21,7 @@ class QuizViewModel: ObservableObject {
         self.question = newQuestion()
     }
     
-    func newQuestion() -> Quiz.Entry? {
+    private func newQuestion() -> Quiz.Entry? {
         quiz.getNewQuestion()
     }
     
@@ -29,14 +30,37 @@ class QuizViewModel: ObservableObject {
         return definition
     }
     
-//    func submit(_ option: Int?) -> Result<Bool, Error> {
-//        
-//    }
+    func submit(_ option: Int?) -> [Bool] {
+        var results = [Bool]()
+        for index in 0..<4 {
+            switch validate(index) {
+            case .success(let value):
+                results.append(value)
+            default:
+                results.append(false)
+            }
+        }
+        return results
+    }
     
-    func validate(_ option: Int?) -> Result<Bool, Error> {
+    private func validate(_ option: Int?) -> Result<Bool, Error> {
         guard let question = question, let option = option else { return .failure(QuizError.noInput) }
         return .success(question.validate(sense: question.choices[option]))
         
+    }
+    
+    func nextQuestion() {
+        self.question = newQuestion()
+    }
+    
+    func feedback(for validation: Bool?) {
+        let haptic = UINotificationFeedbackGenerator()
+        guard let validation = validation else { haptic.notificationOccurred(.success); return }
+        if validation {
+            haptic.notificationOccurred(.error)
+        } else {
+            haptic.notificationOccurred(.success)
+        }
     }
     
     enum QuizError: Error {
@@ -92,7 +116,7 @@ struct Quiz {
         return shuffledSenses.last
     }
     
-    struct Entry {
+    struct Entry: Equatable {
         private var topic: VocabularyEntry
         private var options: [VocabularyEntry]
         

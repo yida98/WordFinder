@@ -44,7 +44,7 @@ struct QuizToggleStyle<S: Shape>: ToggleStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.caption)
+            .font(.callout)
             .onTapGesture {
                 configuration.isOn.toggle()
             }
@@ -73,7 +73,7 @@ struct CartoonShadowBackground<S: Shape>: View {
                 .fill(shadowColor)
             shape
                 .fill(selected ? selectionColor : buttonDefaultColor)
-                .overlay(shape.stroke(shadowColor, lineWidth: -1))
+                .overlay(shape.stroke(shadowColor, lineWidth: 2))
                 .offset(y: selected ? 0 : -7)
         }
     }
