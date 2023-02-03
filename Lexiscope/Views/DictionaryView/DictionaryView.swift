@@ -9,10 +9,9 @@ import Foundation
 import SwiftUI
 
 struct DictionaryView: View {
-    @StateObject var viewModel: DictionaryViewModel = DictionaryViewModel()
+    @ObservedObject var viewModel: DictionaryViewModel
     @State private var text: String = ""
     @FocusState private var searchIsFocused: Bool
-    @StateObject var quizViewModel = QuizViewModel()
     
     var body: some View {
         ZStack {
@@ -57,28 +56,6 @@ struct DictionaryView: View {
                 .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 .animation(.easeIn(duration: 0.5), value: viewModel.showingVocabulary)
                 .ignoresSafeArea(.keyboard)
-            }
-            VStack {
-                Spacer()
-                HStack {
-                    Button {
-                        viewModel.openQuiz()
-                    } label: {
-                        Text("Familiarity: \(viewModel.vocabularySize)")
-                            .padding(4)
-                            .padding(.horizontal, 5)
-                            .background(Color.boyBlue)
-                            .cornerRadius(10)
-                            .font(.footnote)
-                            .foregroundColor(.babyPowder)
-                    }
-                    Spacer()
-                }
-            }
-            .padding(.leading, 40)
-            .padding(.bottom, 15)
-            .sheet(isPresented: $viewModel.isPresentingQuiz) {
-                QuizView(viewModel: QuizViewModel())
             }
         }
     }

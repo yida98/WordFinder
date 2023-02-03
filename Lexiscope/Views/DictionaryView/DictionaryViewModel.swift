@@ -22,13 +22,10 @@ class DictionaryViewModel: ObservableObject {
     @Published var vocabularySize: Int
     var dataManagerSubscriber: AnyCancellable?
     
-    @Published var isPresentingQuiz: Bool
-    
     init() {
         self.showingVocabulary = true
         self.wordStreamSubscriber = Set<AnyCancellable>()
         self.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
-        self.isPresentingQuiz = false
         self.dataManagerSubscriber = DataManager.shared.objectWillChange.sink { [weak self] _ in
             self?.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
         }
@@ -83,10 +80,6 @@ class DictionaryViewModel: ObservableObject {
             result.append(String(entryIndex + 1))
         }
         return result
-    }
-    
-    func openQuiz() {
-        isPresentingQuiz = true
     }
 }
 

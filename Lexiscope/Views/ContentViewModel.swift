@@ -8,6 +8,7 @@
 import Foundation
 
 class ContentViewModel: ObservableObject {
+    private var dictionaryViewModel: DictionaryViewModel?
     private var searchViewModel: SearchViewModel?
     private var cameraViewportSize: CGSize
     private var searchViewMaxHeight: CGFloat
@@ -16,6 +17,23 @@ class ContentViewModel: ObservableObject {
     @Published var searchOpen: Bool {
         didSet {
             searchViewActiveOffset = searchOpen ? searchViewMaxHeight : searchViewMinHeight
+            fogCamera = !searchOpen
+        }
+    }
+    
+    @Published var fogCamera: Bool {
+        didSet {
+            if fogCamera {
+                getSearchViewModel().getCameraViewModel().stopCamera()
+            } else {
+                getSearchViewModel().getCameraViewModel().resumeCamera()
+            }
+        }
+    }
+    
+    @Published var isPresentingQuiz: Bool {
+        didSet {
+            fogCamera = isPresentingQuiz
         }
     }
     
@@ -27,6 +45,15 @@ class ContentViewModel: ObservableObject {
         self.searchViewMinHeight = searchViewMaxHeight * 0.25
         self.searchViewActiveOffset = searchViewMaxHeight
         self.searchOpen = true
+        self.fogCamera = false
+        self.isPresentingQuiz = false
+    }
+    
+    func getDictionaryViewModel() -> DictionaryViewModel {
+        if dictionaryViewModel == nil {
+            dictionaryViewModel = DictionaryViewModel()
+        }
+        return dictionaryViewModel!
     }
     
     func getSearchViewModel() -> SearchViewModel {
@@ -113,5 +140,11 @@ class ContentViewModel: ObservableObject {
     
     func resetOffset() {
         searchViewActiveOffset = getCurrentStaticOffset()
+    }
+    
+    // MARK: - Quiz
+    
+    func openQuiz() {
+        isPresentingQuiz = true
     }
 }

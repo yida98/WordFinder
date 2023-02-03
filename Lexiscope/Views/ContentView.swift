@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
+    @StateObject var quizViewModel = QuizViewModel()
     
     var body: some View {
         ZStack {
@@ -16,7 +17,7 @@ struct ContentView: View {
                 ZStack {
                     SearchView(viewModel: viewModel.getSearchViewModel())
 
-                    if !(viewModel.searchOpen)  {
+                    if (viewModel.fogCamera)  {
                         Rectangle()
                             .background(.ultraThinMaterial)
                             .onTapGesture {
@@ -38,7 +39,7 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .shadow(radius: 4)
                         .ignoresSafeArea()
-                    DictionaryView()
+                    DictionaryView(viewModel: viewModel.getDictionaryViewModel())
                         .onTapGesture {
                             /// This allows the inside `ScrollView` drag gestures to co-exist with this `DragGesture`
                         }
@@ -60,6 +61,29 @@ struct ContentView: View {
                                     }
                                 })
                         )
+                        .sheet(isPresented: $viewModel.isPresentingQuiz) {
+                            QuizView(viewModel: QuizViewModel())
+                        }
+                    
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Button {
+                                viewModel.openQuiz()
+                            } label: {
+                                Text("Familiarity: \(viewModel.getDictionaryViewModel().vocabularySize)")
+                                    .padding(4)
+                                    .padding(.horizontal, 5)
+                                    .background(Color.boyBlue)
+                                    .cornerRadius(10)
+                                    .font(.footnote)
+                                    .foregroundColor(.babyPowder)
+                            }
+                            Spacer()
+                        }
+                    }
+                    .padding(.leading, 40)
+                    .padding(.bottom, 15)
                 }
             }
         }

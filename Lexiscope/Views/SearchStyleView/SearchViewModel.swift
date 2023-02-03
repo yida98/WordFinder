@@ -89,11 +89,11 @@ class SearchViewModel: ObservableObject {
     }
     
     func toggleSearch(_ value: Bool) {
-        if value {
-            cameraViewModel?.resumeCamera()
-        } else {
-            cameraViewModel?.stopCamera()
-        }
+//        if value {
+//            cameraViewModel?.resumeCamera()
+//        } else {
+//            cameraViewModel?.stopCamera()
+//        }
     }
 }
 
