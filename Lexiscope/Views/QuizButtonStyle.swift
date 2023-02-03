@@ -44,7 +44,7 @@ struct QuizToggleStyle<S: Shape>: ToggleStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.callout)
+            .font(.footnote)
             .onTapGesture {
                 configuration.isOn.toggle()
             }

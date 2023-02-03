@@ -18,22 +18,27 @@ struct QuizView: View {
         if let question = viewModel.question {
             HStack {
                 Spacer()
-                VStack(spacing: 20) {
+                VStack(spacing: 60) {
                     Spacer()
-                    Text("\(question.text)")
-                        .font(.title)
-                        .foregroundColor(Color(white: 0.4))
-                    Spacer()
+                    VStack(spacing: 20) {
+                        HStack {
+                            Text("\(queryTitle())")
+                                .font(.headline)
+                                .foregroundColor(Color(white: 0.7))
+                            Spacer()
+                        }
+                        Text("\(question.getQuestionDisplayString())")
+                            .font(.title)
+                            .foregroundColor(Color(white: 0.4))
+                    }
                     VStack(spacing: 20) {
                         ForEach(0..<4) { id in
                             QuizOptionCell(text: viewModel.option(id, for: question),
                                            id: id,
                                            choice: $choice,
                                            validation: validation)
-                                .frame(maxWidth: Constant.screenBounds.width - 60)
                         }
                     }
-                    Spacer()
                     Button {
                         viewModel.feedback(for: validation?[choice!])
                         if validation == nil {
@@ -56,6 +61,7 @@ struct QuizView: View {
                                                  disabled: !canSubmit))
                     Spacer()
                 }
+                .frame(maxWidth: Constant.screenBounds.width - 80)
                 Spacer()
             }
             .background(Color.white)
@@ -72,5 +78,14 @@ struct QuizView: View {
         choice = nil
         canSubmit = false
         validation = nil
+    }
+    
+    private func queryTitle() -> String {
+        switch viewModel.queryType {
+        case .define:
+            return "Define the following:"
+        case .match:
+            return "Match the definition:"
+        }
     }
 }

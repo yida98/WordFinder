@@ -13,21 +13,23 @@ class QuizViewModel: ObservableObject {
     private var quiz: Quiz
     @Published var question: Quiz.Entry?
     
+    var queryType: Quiz.Entry.QueryType
+    
     init() {
         self.quiz = Quiz(dateOrderedVocabulary: [])
-        if let dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: true) as? [VocabularyEntry] {
+        if let dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] {
             self.quiz = Quiz(dateOrderedVocabulary: dateOrderedVocabularyEntries)
         }
+        self.queryType = .define
         self.question = newQuestion()
     }
     
     private func newQuestion() -> Quiz.Entry? {
-        quiz.getNewQuestion()
+        quiz.getNewQuestion(for: queryType)
     }
     
     func option(_ option: Int, for entry: Quiz.Entry) -> String {
-        guard let sense = entry.choices[option], let definitions = sense.definitions, let definition = definitions.first else { return "" }
-        return definition
+        entry.getDisplayString(for: option)
     }
     
     func submit(_ option: Int?) -> [Bool] {
@@ -45,8 +47,7 @@ class QuizViewModel: ObservableObject {
     
     private func validate(_ option: Int?) -> Result<Bool, Error> {
         guard let question = question, let option = option else { return .failure(QuizError.noInput) }
-        return .success(question.validate(sense: question.choices[option]))
-        
+        return .success(question.validate(vocabularyEntry: question.choices[option]))
     }
     
     func nextQuestion() {
@@ -68,27 +69,35 @@ class QuizViewModel: ObservableObject {
     }
 }
 
-struct Quiz {
+class Quiz {
     /// Descending
     private var dateOrderedVocabulary: [VocabularyEntry]
+    private var currentIndex: Int
     
     init(dateOrderedVocabulary: [VocabularyEntry]) {
         self.dateOrderedVocabulary = dateOrderedVocabulary
+        self.currentIndex = 0
     }
     
-    mutating func getNewQuestion() -> Entry? {
-        if let question = dateOrderedVocabulary.popLast() {
-            return makeQuizEntry(topic: question, allOtherOptions: dateOrderedVocabulary)
+    func getNewQuestion(for queryType: Quiz.Entry.QueryType) -> Entry? {
+        if currentIndex < dateOrderedVocabulary.count {
+            let question = dateOrderedVocabulary[currentIndex]
+            incramentIndex()
+            return makeQuizEntry(topic: question, allOtherOptions: dateOrderedVocabulary, queryType: queryType)
         }
         return nil
     }
     
-    private func makeQuizEntry(topic: VocabularyEntry, allOtherOptions: [VocabularyEntry]) -> Entry {
-        let options = Quiz.randomOptions(from: allOtherOptions)
-        return Entry(topic: topic, options: options)
+    private func incramentIndex() {
+        currentIndex += 1
     }
     
-    private static func makeOptions(from existingEntries: [VocabularyEntry]) -> [Sense] {
+    private func makeQuizEntry(topic: VocabularyEntry, allOtherOptions: [VocabularyEntry], queryType: Quiz.Entry.QueryType) -> Entry {
+        let options = Quiz.randomOptions(from: allOtherOptions)
+        return Entry(topic: topic, options: options, queryType: queryType)
+    }
+    
+    private static func makeOptions(from existingEntries: [VocabularyEntry], queryType: Entry.QueryType) -> [Sense] {
         let shuffledEntries = existingEntries.filter { $0.getHeadwordEntry().hasSense() }.shuffled()
         var results = [Sense]()
         for index in 0..<3 {
@@ -109,7 +118,7 @@ struct Quiz {
         return results
     }
     
-    private static func randomSense(from vocabulary: VocabularyEntry) -> Sense? {
+    static func randomSense(from vocabulary: VocabularyEntry) -> Sense? {
         let headwordEntry = vocabulary.getHeadwordEntry()
         let allSenses = headwordEntry.lexicalEntries.compactMap { $0.allSenses() }.flatMap { $0 }
         let shuffledSenses = allSenses.shuffled()
@@ -120,18 +129,37 @@ struct Quiz {
         private var topic: VocabularyEntry
         private var options: [VocabularyEntry]
         
-        var text: String
         /// Always has 4
-        var choices: [Sense?]
+        var choices: [VocabularyEntry]
+        private var choiceStrings: [String]
+        private var topicString: String
         
-        init(topic: VocabularyEntry, options: [VocabularyEntry]) {
+        init(topic: VocabularyEntry, options: [VocabularyEntry], queryType: QueryType) {
             self.topic = topic
             self.options = options
-            self.text = topic.word!
-            self.choices = Quiz.Entry.makeOptions(for: topic, from: options)
+            
+            let randomizedOptions = Quiz.Entry.makeOptions(for: topic, from: options)
+            self.choices = randomizedOptions
+            switch queryType {
+            case .define:
+                self.topicString = topic.word ?? ""
+                self.choiceStrings = randomizedOptions.compactMap { Quiz.randomSense(from: $0)?.definitions?.first }
+            case .match:
+                self.topicString = Quiz.randomSense(from: topic)?.definitions?.first ?? ""
+                self.choiceStrings = randomizedOptions.compactMap { $0.word }
+            }
         }
         
-        private static func makeOptions(for topic: VocabularyEntry, from options: [VocabularyEntry]) -> [Sense?] {
+        func getDisplayString(for index: Int) -> String {
+            guard index < choiceStrings.count else { return "" }
+            return choiceStrings[index]
+        }
+        
+        func getQuestionDisplayString() -> String {
+            topicString
+        }
+        
+        private static func makeOptions(for topic: VocabularyEntry, from options: [VocabularyEntry]) -> [VocabularyEntry] {
             var allAnswers = options.shuffled()
             guard let answer = [0,1,2,3].randomElement() else { fatalError("Cannot get a random location") }
             if allAnswers.count < 3 {
@@ -140,12 +168,17 @@ struct Quiz {
                 }
             }
             allAnswers.insert(topic, at: answer)
-            return allAnswers.map { Quiz.randomSense(from: $0) }
+            return allAnswers
         }
         
-        func validate(sense: Sense?) -> Bool {
-            guard let sense = sense else { return false }
-            return !topic.getHeadwordEntry().allSenses().filter { $0.id == sense.id }.isEmpty
+        func validate(vocabularyEntry: VocabularyEntry?) -> Bool {
+            guard let vocabularyEntry = vocabularyEntry else { return false }
+            return topic.word == vocabularyEntry.word
+        }
+        
+        enum QueryType {
+            case define
+            case match
         }
     }
 }
