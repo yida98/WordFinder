@@ -123,6 +123,8 @@ class Quiz {
             lhs.topic.word == rhs.topic.word
         }
         
+        var id: UUID
+        
         private var topic: VocabularyEntry
         private var options: [VocabularyEntry]
         
@@ -133,6 +135,7 @@ class Quiz {
         private var queryType: QueryType
         
         init(topic: VocabularyEntry, options: [VocabularyEntry], queryType: QueryType) {
+            self.id = UUID()
             self.topic = topic
             self.options = options
             

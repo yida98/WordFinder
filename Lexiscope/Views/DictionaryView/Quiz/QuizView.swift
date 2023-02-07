@@ -19,12 +19,12 @@ struct QuizView: View {
         VStack {
             if let dataSource = viewModel.dataSource {
                 HStack(spacing: 0) {
-                    ForEach(dataSource.indices, id: \.self) { index in
-                        if index < dataSource.count, let question = dataSource[index] {
+                    ForEach(dataSource, id: \.?.id) { quiz in
+                        if let question = quiz {
                             QuestionView(viewModel: viewModel, question: question, submission: submission)
                                 .frame(minWidth: Constant.screenBounds.width)
                         } else {
-                            Text("placeholder view")
+                            Text("Progress View")
                                 .frame(minWidth: Constant.screenBounds.width)
                         }
                     }
