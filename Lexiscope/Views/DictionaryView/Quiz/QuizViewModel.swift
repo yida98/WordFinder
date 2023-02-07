@@ -7,11 +7,12 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 class QuizViewModel: ObservableObject {
     
     private var quiz: Quiz
-    @Published var question: Quiz.Entry?
+    @Published var dataSource: [Quiz.Entry?]?
     
     var queryType: Quiz.Entry.QueryType
     
@@ -21,15 +22,11 @@ class QuizViewModel: ObservableObject {
             self.quiz = Quiz(dateOrderedVocabulary: dateOrderedVocabularyEntries)
         }
         self.queryType = .define
-        self.question = newQuestion()
+        self.dataSource = [newQuestion()]
     }
     
-    private func newQuestion() -> Quiz.Entry? {
+    func newQuestion() -> Quiz.Entry? {
         quiz.getNewQuestion(for: queryType)
-    }
-    
-    func option(_ option: Int, for entry: Quiz.Entry) -> String {
-        entry.getDisplayString(for: option)
     }
     
     func submit(_ option: Int?) -> [Bool] {
@@ -46,12 +43,8 @@ class QuizViewModel: ObservableObject {
     }
     
     private func validate(_ option: Int?) -> Result<Bool, Error> {
-        guard let question = question, let option = option else { return .failure(QuizError.noInput) }
+        guard let dataSource = dataSource, let lastQuestion = dataSource.last, let question = lastQuestion, let option = option else { return .failure(QuizError.noInput) }
         return .success(question.validate(vocabularyEntry: question.choices[option]))
-    }
-    
-    func nextQuestion() {
-        self.question = newQuestion()
     }
     
     func feedback(for validation: Bool?) {
@@ -125,7 +118,11 @@ class Quiz {
         return shuffledSenses.last
     }
     
-    struct Entry: Equatable {
+    class Entry: Equatable {
+        static func == (lhs: Quiz.Entry, rhs: Quiz.Entry) -> Bool {
+            lhs.topic.word == rhs.topic.word
+        }
+        
         private var topic: VocabularyEntry
         private var options: [VocabularyEntry]
         
@@ -133,6 +130,7 @@ class Quiz {
         var choices: [VocabularyEntry]
         private var choiceStrings: [String]
         private var topicString: String
+        private var queryType: QueryType
         
         init(topic: VocabularyEntry, options: [VocabularyEntry], queryType: QueryType) {
             self.topic = topic
@@ -140,6 +138,7 @@ class Quiz {
             
             let randomizedOptions = Quiz.Entry.makeOptions(for: topic, from: options)
             self.choices = randomizedOptions
+            self.queryType = queryType
             switch queryType {
             case .define:
                 self.topicString = topic.word ?? ""
@@ -157,6 +156,15 @@ class Quiz {
         
         func getQuestionDisplayString() -> String {
             topicString
+        }
+        
+        func getQueryTitle() -> String {
+            switch queryType {
+            case .define:
+                return "Define the following:"
+            case .match:
+                return "Match the definition:"
+            }
         }
         
         private static func makeOptions(for topic: VocabularyEntry, from options: [VocabularyEntry]) -> [VocabularyEntry] {

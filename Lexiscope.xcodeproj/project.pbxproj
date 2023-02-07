@@ -18,6 +18,8 @@
 		E467D5F228DBC4CE0005480D /* AudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F128DBC4CE0005480D /* AudioView.swift */; };
 		E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F328DBC6810005480D /* SearchViewModel.swift */; };
 		E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467D5F728DC1C850005480D /* SearchToolbar.swift */; };
+		E46E096F298DC11500C212D3 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E096E298DC11500C212D3 /* QuestionView.swift */; };
+		E46E09712991D6F400C212D3 /* QuizAnimationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E09702991D6F400C212D3 /* QuizAnimationModifier.swift */; };
 		E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE2294A76450076824C /* DefinitionViewModel.swift */; };
 		E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE4294ACAEB0076824C /* URLTask.swift */; };
 		E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE6294BD7110076824C /* DictionaryViewModel.swift */; };
@@ -67,6 +69,8 @@
 		E467D5F128DBC4CE0005480D /* AudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioView.swift; sourceTree = "<group>"; };
 		E467D5F328DBC6810005480D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E467D5F728DC1C850005480D /* SearchToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchToolbar.swift; sourceTree = "<group>"; };
+		E46E096E298DC11500C212D3 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		E46E09702991D6F400C212D3 /* QuizAnimationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizAnimationModifier.swift; sourceTree = "<group>"; };
 		E475BFE2294A76450076824C /* DefinitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewModel.swift; sourceTree = "<group>"; };
 		E475BFE4294ACAEB0076824C /* URLTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTask.swift; sourceTree = "<group>"; };
 		E475BFE6294BD7110076824C /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				E4859F1C2987D66A008AB85B /* QuizView.swift */,
+				E46E096E298DC11500C212D3 /* QuestionView.swift */,
 				E4859F2129887CBA008AB85B /* QuizOptionCell.swift */,
 				E4859F1F2987D73F008AB85B /* QuizViewModel.swift */,
 			);
@@ -278,6 +283,7 @@
 				E4F3622A2821D46C0078721F /* ContentView.swift */,
 				E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */,
 				E4859F252989C092008AB85B /* QuizButtonStyle.swift */,
+				E46E09702991D6F400C212D3 /* QuizAnimationModifier.swift */,
 				E433FD852876868800FE7D4C /* DictionaryView */,
 				E467D5EE28DBB90B0005480D /* SearchStyleView */,
 			);
@@ -434,6 +440,7 @@
 				E4DBE9222977C7A2006D4730 /* SavedWordsViewModel.swift in Sources */,
 				E4859F202987D73F008AB85B /* QuizViewModel.swift in Sources */,
 				E4DBE92029774559006D4730 /* TabCell.swift in Sources */,
+				E46E096F298DC11500C212D3 /* QuestionView.swift in Sources */,
 				E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */,
 				E4DBE9262981F940006D4730 /* SearchInputView.swift in Sources */,
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
@@ -454,6 +461,7 @@
 				E4F3623F2821F6990078721F /* Constant.swift in Sources */,
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
 				E4859F18298651AC008AB85B /* LexicalEntryView.swift in Sources */,
+				E46E09712991D6F400C212D3 /* QuizAnimationModifier.swift in Sources */,
 				E467D5F228DBC4CE0005480D /* AudioView.swift in Sources */,
 				E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */,
 				E4DBE9242980A71D006D4730 /* SectionedScrollView.swift in Sources */,

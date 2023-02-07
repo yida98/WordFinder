@@ -10,94 +10,45 @@ import SwiftUI
 struct QuizView: View {
     
     @ObservedObject var viewModel: QuizViewModel
-    @State private var choice: Int?
-    @State private var canSubmit: Bool = false
-    @State private var validation: [Bool]?
+    
+    @State private var counter1: Int = 0
+    @State private var counter2: Int = 0
+    @State private var offset: CGFloat = 0
     
     var body: some View {
-        if let question = viewModel.question {
-            HStack {
-                Spacer()
-                VStack(spacing: 60) {
-                    Spacer()
-                    VStack(spacing: 20) {
-                        HStack {
-                            Text("\(queryTitle())")
-                                .font(.headline)
-                                .foregroundColor(Color(white: 0.7))
-                            Spacer()
-                        }
-                        Text("\(question.getQuestionDisplayString())")
-                            .font(.title)
-                            .foregroundColor(Color(white: 0.4))
-                    }
-                    VStack(spacing: 20) {
-                        ForEach(0..<4) { id in
-                            QuizOptionCell(text: viewModel.option(id, for: question),
-                                           id: id,
-                                           choice: $choice,
-                                           validation: validation)
-                        }
-                    }
-                    Button {
-                        viewModel.feedback(for: validation?[choice!])
-                        if validation == nil {
-                            validation = viewModel.submit(choice)
+        VStack {
+            if let dataSource = viewModel.dataSource {
+                HStack(spacing: 0) {
+                    ForEach(dataSource.indices, id: \.self) { index in
+                        if index < dataSource.count, let question = dataSource[index] {
+                            QuestionView(viewModel: viewModel, question: question, submission: submission)
+                                .frame(minWidth: Constant.screenBounds.width)
                         } else {
-                            viewModel.nextQuestion()
-                            resetQuiz()
-                        }
-                    } label: {
-                        if validation == nil {
-                            Text("Submit")
-                        } else {
-                            Text("Next →")
+                            Text("placeholder view")
+                                .frame(minWidth: Constant.screenBounds.width)
                         }
                     }
-                    .disabled(!canSubmit)
-                    .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 16),
-                                                 primaryColor: getPrimarySubmitButtonColor(),
-                                                 secondaryColor: getSecondarySubmitButtonColor(),
-                                                 disabled: !canSubmit))
-                    Spacer()
+                    .animation(nil, value: dataSource)
+                    .animation(.linear, value: offset)
+                    .offset(x: offset)
                 }
-                .frame(maxWidth: Constant.screenBounds.width - 80)
-                Spacer()
             }
-            .background(Color.white)
-            .onChange(of: choice) { newValue in
-                canSubmit = newValue != nil
-            }
-            .animation(.linear, value: viewModel.question)
-        } else {
-            Text("placeholder view")
         }
     }
     
-    private func resetQuiz() {
-        choice = nil
-        canSubmit = false
-        validation = nil
-    }
-    
-    private func queryTitle() -> String {
-        switch viewModel.queryType {
-        case .define:
-            return "Define the following:"
-        case .match:
-            return "Match the definition:"
+    private func submission() {
+        if let dataSource = viewModel.dataSource {
+            if counter1 == counter2 {
+                if dataSource.count > 1 {
+                    viewModel.dataSource?.remove(at: 0)
+                }
+                viewModel.dataSource?.append(viewModel.newQuestion())
+                offset = CGFloat((viewModel.dataSource?.count ?? 1) - 1) * (Constant.screenBounds.width / 2)
+                counter1 += 1
+            } else {
+                offset = CGFloat(dataSource.count - 1) * -(Constant.screenBounds.width / 2)
+                counter2 += 1
+            }
         }
-    }
-    
-    private func getPrimarySubmitButtonColor() -> Color {
-        guard canSubmit else { return .init(white: 0.95) }
-        guard let validation = validation, let choice = choice, !validation[choice] else { return .yellowGreenCrayola }
-        return .red
-    }
-    
-    private func getSecondarySubmitButtonColor() -> Color {
-        guard canSubmit else { return .init(white: 0.85) }
-        guard let validation = validation, let choice = choice, !validation[choice] else { return .darkSeaGreen }
-        return .redwood
     }
 }
