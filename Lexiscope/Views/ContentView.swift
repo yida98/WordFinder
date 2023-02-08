@@ -62,7 +62,7 @@ struct ContentView: View {
                                 })
                         )
                         .sheet(isPresented: $viewModel.isPresentingQuiz) {
-                            QuizView(viewModel: QuizViewModel())
+                            QuizView(viewModel: QuizViewModel(), isPresenting: $viewModel.isPresentingQuiz)
                         }
                     
                     VStack {

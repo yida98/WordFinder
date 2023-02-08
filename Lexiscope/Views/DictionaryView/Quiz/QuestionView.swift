@@ -16,52 +16,51 @@ struct QuestionView: View {
     var submission: () -> Void
     
     var body: some View {
-        HStack {
-            Spacer()
-            VStack(spacing: 60) {
-                Spacer()
-                VStack(spacing: 20) {
-                    HStack {
-                        Text("\(question.getQueryTitle())")
-                            .font(.headline)
-                            .foregroundColor(Color(white: 0.7))
-                        Spacer()
-                    }
-                    Text("\(question.getQuestionDisplayString())")
-                        .font(.title)
-                        .foregroundColor(Color(white: 0.4))
+        VStack(spacing: 60) {
+            VStack(spacing: 20) {
+                HStack {
+                    Text("\(question.getQueryTitle())")
+                        .font(.headline)
+                        .foregroundColor(Color(white: 0.7))
+                    Spacer()
                 }
-                VStack(spacing: 20) {
-                    ForEach(0..<4) { id in
-                        QuizOptionCell(text: question.getDisplayString(for: id),
-                                       id: id,
-                                       choice: $choice,
-                                       validation: validation)
-                    }
-                }
-                Button {
-                    viewModel.feedback(for: validation?[choice!])
-                    if validation == nil {
-                        validation = viewModel.submit(choice)
-                    }
-                    submission()
-                } label: {
-                    if validation == nil {
-                        Text("Submit")
-                    } else {
-                        Text("Next →")
-                    }
-                }
-                .disabled(!canSubmit)
-                .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 16),
-                                             primaryColor: getPrimarySubmitButtonColor(),
-                                             secondaryColor: getSecondarySubmitButtonColor(),
-                                             disabled: !canSubmit))
-                Spacer()
+                Text("\(question.getQuestionDisplayString())")
+                    .font(.title)
+                    .foregroundColor(Color(white: 0.4))
             }
-            .frame(maxWidth: Constant.screenBounds.width - 80)
+            VStack(spacing: 20) {
+                ForEach(0..<4) { id in
+                    QuizOptionCell(text: question.getDisplayString(for: id),
+                                   id: id,
+                                   choice: $choice,
+                                   validation: validation)
+                }
+            }
+            Button {
+                viewModel.feedback(for: validation?[choice!])
+                if validation == nil {
+                    validation = viewModel.submit(choice)
+                } else {
+                    if viewModel.dataSource?.last == .some(nil) {
+                        viewModel.quizDidFinish = true
+                    }
+                }
+                submission()
+            } label: {
+                if validation == nil {
+                    Text("Submit")
+                } else {
+                    Text("Next →")
+                }
+            }
+            .disabled(!canSubmit)
+            .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 16),
+                                         primaryColor: getPrimarySubmitButtonColor(),
+                                         secondaryColor: getSecondarySubmitButtonColor(),
+                                         disabled: !canSubmit))
             Spacer()
         }
+        .frame(maxWidth: Constant.screenBounds.width - 80)
         .onChange(of: choice) { newValue in
             canSubmit = newValue != nil
         }

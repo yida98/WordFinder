@@ -16,6 +16,8 @@ class QuizViewModel: ObservableObject {
     
     var queryType: Quiz.Entry.QueryType
     
+    @Published var quizDidFinish: Bool = false
+    
     init() {
         self.quiz = Quiz(dateOrderedVocabulary: [])
         if let dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] {

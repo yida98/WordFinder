@@ -11,12 +11,23 @@ struct QuizView: View {
     
     @ObservedObject var viewModel: QuizViewModel
     
+    @Binding var isPresenting: Bool
+    
     @State private var counter1: Int = 0
     @State private var counter2: Int = 0
     @State private var offset: CGFloat = 0
     
     var body: some View {
         VStack {
+            HStack {
+                Button {
+                    isPresenting = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.gray)
+                }.buttonStyle(.plain)
+                Spacer()
+            }.padding(30)
             if let dataSource = viewModel.dataSource {
                 HStack(spacing: 0) {
                     ForEach(dataSource, id: \.?.id) { quiz in
@@ -33,7 +44,7 @@ struct QuizView: View {
                     .offset(x: offset)
                 }
             }
-        }
+        }.interactiveDismissDisabled(!viewModel.quizDidFinish)
     }
     
     private func submission() {
