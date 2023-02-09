@@ -19,15 +19,16 @@ struct QuizView: View {
     
     var body: some View {
         VStack {
-            HStack {
+            HStack(spacing: 20) {
+                ProgressBar(numerator: viewModel.currentQuestionIndex + 1, denominator: viewModel.totalQuestions, height: 14)
                 Button {
                     isPresenting = false
                 } label: {
-                    Image(systemName: "xmark")
-                        .foregroundColor(.gray)
-                }.buttonStyle(.plain)
-                Spacer()
-            }.padding(30)
+                    Text("END")
+                }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .morningDustBlue))
+            }
+            .frame(height: 20)
+            .padding(30)
             if let dataSource = viewModel.dataSource {
                 HStack(spacing: 0) {
                     ForEach(dataSource, id: \.?.id) { quiz in

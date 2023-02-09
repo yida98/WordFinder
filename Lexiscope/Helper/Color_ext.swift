@@ -29,7 +29,9 @@ extension Color {
     static let yellowGreenCrayola: Color = Color(red: 181/255, green: 239/255, blue: 138/255)
     static let hunterGreen: Color = Color(red: 69/255, green: 107/255, blue: 76/255)
     static let morningBlue: Color = Color(red: 130/255, green: 158/255, blue: 135/255)
+    static let morningDustBlue: Color = Color(red: 192/255, green: 206/255, blue: 195/255)
     static let darkSeaGreen: Color = Color(red: 156/255, green: 186/255, blue: 141/255)
+    static let commonGreen: Color = Color(red: 125/255, green: 219/255, blue: 134/255)
     
     // MARK: Red
     static let redwood: Color = Color(red: 158/255, green: 83/255, blue: 70/255)

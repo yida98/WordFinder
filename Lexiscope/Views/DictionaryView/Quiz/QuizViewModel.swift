@@ -17,21 +17,27 @@ class QuizViewModel: ObservableObject {
     var queryType: Quiz.Entry.QueryType
     
     @Published var quizDidFinish: Bool = false
+    var totalQuestions: Int
+    @Published var currentQuestionIndex: Int
     
     init() {
-        self.quiz = Quiz(dateOrderedVocabulary: [])
+        self.quiz = Quiz(orderedVocabulary: [])
+        self.totalQuestions = 0
+        self.currentQuestionIndex = 0
         if let dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] {
-            self.quiz = Quiz(dateOrderedVocabulary: dateOrderedVocabularyEntries)
+            self.quiz = Quiz(orderedVocabulary: dateOrderedVocabularyEntries)
+            self.totalQuestions = dateOrderedVocabularyEntries.count
         }
         self.queryType = .define
         self.dataSource = [newQuestion()]
     }
     
     func newQuestion() -> Quiz.Entry? {
-        quiz.getNewQuestion(for: queryType)
+        quiz.getNewQuestion(for: queryType, at: currentQuestionIndex)
     }
     
     func submit(_ option: Int?) -> [Bool] {
+        currentQuestionIndex += 1
         var results = [Bool]()
         for index in 0..<4 {
             switch validate(index) {
@@ -66,25 +72,18 @@ class QuizViewModel: ObservableObject {
 
 class Quiz {
     /// Descending
-    private var dateOrderedVocabulary: [VocabularyEntry]
-    private var currentIndex: Int
+    private var orderedVocabulary: [VocabularyEntry]
     
-    init(dateOrderedVocabulary: [VocabularyEntry]) {
-        self.dateOrderedVocabulary = dateOrderedVocabulary
-        self.currentIndex = 0
+    init(orderedVocabulary: [VocabularyEntry]) {
+        self.orderedVocabulary = orderedVocabulary
     }
     
-    func getNewQuestion(for queryType: Quiz.Entry.QueryType) -> Entry? {
-        if currentIndex < dateOrderedVocabulary.count {
-            let question = dateOrderedVocabulary[currentIndex]
-            incramentIndex()
-            return makeQuizEntry(topic: question, allOtherOptions: dateOrderedVocabulary, queryType: queryType)
+    func getNewQuestion(for queryType: Quiz.Entry.QueryType, at index: Int) -> Entry? {
+        if index < orderedVocabulary.count {
+            let question = orderedVocabulary[index]
+            return makeQuizEntry(topic: question, allOtherOptions: orderedVocabulary, queryType: queryType)
         }
         return nil
-    }
-    
-    private func incramentIndex() {
-        currentIndex += 1
     }
     
     private func makeQuizEntry(topic: VocabularyEntry, allOtherOptions: [VocabularyEntry], queryType: Quiz.Entry.QueryType) -> Entry {
