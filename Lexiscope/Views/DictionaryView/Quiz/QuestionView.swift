@@ -41,9 +41,7 @@ struct QuestionView: View {
                 if validation == nil {
                     validation = viewModel.submit(choice)
                 } else {
-                    if viewModel.dataSource?.last == .some(nil) {
-                        viewModel.quizDidFinish = true
-                    }
+                    viewModel.next()
                 }
                 submission()
             } label: {

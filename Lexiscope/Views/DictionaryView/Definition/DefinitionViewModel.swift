@@ -53,7 +53,7 @@ class DefinitionViewModel: ObservableObject {
             let encoder = JSONEncoder()
             do {
                 let headwordData = try encoder.encode(headwordEntry)
-                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word)
+                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word, recallDates: nil)
                 
                 for url in headwordEntry.allPronunciationURLs() {
                     URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in

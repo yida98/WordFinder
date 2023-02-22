@@ -12,19 +12,23 @@ struct ProgressBar: View {
     var denominator: Int
     var height: CGFloat
     private var padding: CGFloat
+    private var primaryColor: Color
+    private var secondaryColor: Color
     
-    init(numerator: Int, denominator: Int, height: CGFloat) {
+    init(numerator: Int, denominator: Int, height: CGFloat, primaryColor: Color = .commonGreen, secondaryColor: Color = .morningDustBlue) {
         self.numerator = numerator
         self.denominator = denominator
         self.height = height
         self.padding = 4
+        self.primaryColor = primaryColor
+        self.secondaryColor = secondaryColor
     }
     
     var body: some View {
         GeometryReader { proxy in
             HStack {
                 Capsule()
-                    .fill(Color.commonGreen)
+                    .fill(primaryColor)
                     .frame(height: height)
                 if getWidth(proxy: proxy) >= 0 {
                     Spacer()
@@ -35,9 +39,9 @@ struct ProgressBar: View {
             .padding(padding)
             .overlay {
                 Capsule()
-                    .stroke(Color.morningDustBlue, lineWidth: 2)
+                    .stroke(secondaryColor, lineWidth: 2)
             }
-        }
+        }.frame(height: height + (padding * 2) + 1)
     }
     
     private func getWidth(proxy: GeometryProxy) -> CGFloat {

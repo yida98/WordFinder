@@ -21,6 +21,8 @@
 		E46E09712991D6F400C212D3 /* QuizAnimationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E09702991D6F400C212D3 /* QuizAnimationModifier.swift */; };
 		E46E0975299470BF00C212D3 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0974299470BF00C212D3 /* ProgressBar.swift */; };
 		E46E097729949E4500C212D3 /* QuizUtilityButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E097629949E4500C212D3 /* QuizUtilityButtonStyle.swift */; };
+		E46E09792994CFFB00C212D3 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E09782994CFFB00C212D3 /* ProgressView.swift */; };
+		E46E097C2995AFF200C212D3 /* ProgressVocabularyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E097B2995AFF200C212D3 /* ProgressVocabularyCell.swift */; };
 		E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE2294A76450076824C /* DefinitionViewModel.swift */; };
 		E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE4294ACAEB0076824C /* URLTask.swift */; };
 		E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE6294BD7110076824C /* DictionaryViewModel.swift */; };
@@ -71,6 +73,8 @@
 		E46E09702991D6F400C212D3 /* QuizAnimationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizAnimationModifier.swift; sourceTree = "<group>"; };
 		E46E0974299470BF00C212D3 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		E46E097629949E4500C212D3 /* QuizUtilityButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUtilityButtonStyle.swift; sourceTree = "<group>"; };
+		E46E09782994CFFB00C212D3 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		E46E097B2995AFF200C212D3 /* ProgressVocabularyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressVocabularyCell.swift; sourceTree = "<group>"; };
 		E475BFE2294A76450076824C /* DefinitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewModel.swift; sourceTree = "<group>"; };
 		E475BFE4294ACAEB0076824C /* URLTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTask.swift; sourceTree = "<group>"; };
 		E475BFE6294BD7110076824C /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
@@ -190,6 +194,16 @@
 			path = HelperView;
 			sourceTree = "<group>";
 		};
+		E46E097A2994CFFF00C212D3 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				E46E0974299470BF00C212D3 /* ProgressBar.swift */,
+				E46E09782994CFFB00C212D3 /* ProgressView.swift */,
+				E46E097B2995AFF200C212D3 /* ProgressVocabularyCell.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
 		E4859F192987C5DC008AB85B /* SearchView */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,7 +219,7 @@
 				E46E096E298DC11500C212D3 /* QuestionView.swift */,
 				E4859F2129887CBA008AB85B /* QuizOptionCell.swift */,
 				E4859F1F2987D73F008AB85B /* QuizViewModel.swift */,
-				E46E0974299470BF00C212D3 /* ProgressBar.swift */,
+				E46E097A2994CFFF00C212D3 /* Progress */,
 				E46E097229931D8400C212D3 /* HelperView */,
 			);
 			path = Quiz;
@@ -443,6 +457,7 @@
 				E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */,
 				E475BFFC294FF6C30076824C /* DataManager.swift in Sources */,
 				E4DBE9222977C7A2006D4730 /* SavedWordsViewModel.swift in Sources */,
+				E46E097C2995AFF200C212D3 /* ProgressVocabularyCell.swift in Sources */,
 				E4859F202987D73F008AB85B /* QuizViewModel.swift in Sources */,
 				E46E096F298DC11500C212D3 /* QuestionView.swift in Sources */,
 				E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */,
@@ -461,6 +476,7 @@
 				E4859F1D2987D66A008AB85B /* QuizView.swift in Sources */,
 				E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */,
 				E475BFEC294EE7710076824C /* AppData.swift in Sources */,
+				E46E09792994CFFB00C212D3 /* ProgressView.swift in Sources */,
 				E4859F2229887CBA008AB85B /* QuizOptionCell.swift in Sources */,
 				E4F3623F2821F6990078721F /* Constant.swift in Sources */,
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,

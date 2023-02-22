@@ -147,13 +147,14 @@ class DataManager: ObservableObject {
         }
     }
     
-    func saveVocabularyEntryEntity(headwordEntry: Data, date: Date = Date(), word: String) {
+    func saveVocabularyEntryEntity(headwordEntry: Data, date: Date = Date(), word: String, recallDates: [Date]?) {
         if fetchVocabularyEntry(for: word) == nil {
             let context = getContext()
             let entity = NSManagedObject(entity: vocabularyEntryEntity, insertInto: context)
             entity.setValue(headwordEntry, forKey: "headwordEntry")
             entity.setValue(date, forKey: "date")
             entity.setValue(word, forKey: "word")
+            entity.setValue(recallDates, forKey: "recallDates")
             
             saveContext()
         }
