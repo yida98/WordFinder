@@ -57,12 +57,10 @@ struct CompletionBadgeView: View {
 
 struct ProgressRing: Shape {
     var step: Double
-    var percentage: CGFloat
     let paddingRadians: CGFloat
     
     init(step: Double = 4, paddingPercentage: Double = 10) {
         self.step = step
-        self.percentage = step * 0.25
         self.paddingRadians = Double.pi / paddingPercentage
     }
     
@@ -163,28 +161,11 @@ fileprivate extension Double {
         return newValue
     }
 }
-
-extension Bool {
-    static func ^ (left: Bool, right: Bool) -> Bool {
-        return left != right
-    }
-}
-
 extension CGRect {
     var centre: CGPoint {
         .init(x: self.midX, y: self.midY)
     }
     var top: CGPoint {
         .init(x: self.midX, y: self.minY)
-    }
-    
-    func arcSlope(startingPoint: CGPoint, radius: CGFloat, radiansRemoved: CGFloat) -> CGPoint {
-        let m: CGFloat = radiansRemoved / 2
-        let triangleBase: CGFloat = (sin(m) * radius) * 2
-        
-        let x = cos(m) * triangleBase
-        let y = sin(m) * triangleBase
-        
-        return CGPoint(x: x, y: y)
     }
 }
