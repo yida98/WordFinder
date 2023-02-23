@@ -13,14 +13,14 @@ struct ProgressView: View {
     private static let colorSet2: ColorSet = .init(primaryFill: .yellow, secondaryFill: .white, shadowFill: .darkSeaGreen, primaryHighlight: .hunterGreen)
     private var colorSet: ColorSet = ProgressView.colorSet1
     
-    @State var step: Double = 1
+    @State var step: Double = 4
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
                 HStack(spacing: 90) {
                     HStack {
-                        CompletionBadgeView(step: $step, color: ProgressView.progressGradient[Int(step)])
+                        CompletionBadgeView(step: $step, fillColor: ProgressView.progressGradient[Int(step)])
                             .frame(width: 20, height: 20)
                         Text("Page")
                             .font(.callout.bold())
@@ -30,7 +30,7 @@ struct ProgressView: View {
         }
     }
     
-    private static let progressGradient: [Color] = [.orange, .yellow, .green, .boyBlue]
+    private static let progressGradient: [Color] = [.red, .orange, .sunglow, .green, .boyBlue]
 }
 
 struct ProgressView_Previews: PreviewProvider {
@@ -41,25 +41,38 @@ struct ProgressView_Previews: PreviewProvider {
 
 struct CompletionBadgeView: View {
     @Binding var step: Double
-    var color: Color
+    var fillColor: Color
     
     var body: some View {
         GeometryReader { proxy in
             ZStack {
                 ZStack {
                     Circle()
-                        .fill(Color.orange)
+                        .fill(fillColor)
                         .frame(width: proxy.size.width * 2/3,
                                height: proxy.size.height * 2/3)
-                    Checkmark()
-                        .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
-                        .frame(width: proxy.size.width * 1/4,
-                               height: proxy.size.height * 1/4)
+                    if step == 0 {
+                        Xmark()
+                            .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                            .frame(width: proxy.size.width * 1/4,
+                                   height: proxy.size.height * 1/4)
+                    } else if step == 4 {
+                        Star(cornerRadius: 0.5)
+                            .fill(Color.white)
+                            .frame(width: proxy.size.width * 1/2,
+                                   height: proxy.size.height * 1/2)
+                    } else {
+                        Checkmark()
+                            .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                            .frame(width: proxy.size.width * 1/4,
+                                   height: proxy.size.height * 1/4)
+                        
+                    }
                 }
                 ProgressRing()
                     .fill(Color.morningDustBlue)
                 ProgressRing(step: step)
-                    .fill(Color.orange)
+                    .fill(fillColor)
             }
         }
     }
@@ -92,6 +105,49 @@ struct Xmark: Shape {
         
         return path
     }
+}
+
+struct Star: Shape {
+    var cornerRadius: CGFloat
+    
+    var animatableData: CGFloat {
+        get { return cornerRadius }
+        set { cornerRadius = newValue }
+    }
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
+        let r = rect.width / 2
+        let rc = cornerRadius
+        let rn = r * 0.95 - rc
+        
+        // start angle at -18 degrees so that it points up
+        var cangle = -18.0
+        
+        for i in 1 ... 5 {
+            // compute center point of tip arc
+            let cc = CGPoint(x: center.x + rn * CGFloat(cos(Angle(degrees: cangle).radians)), y: center.y + rn * CGFloat(sin(Angle(degrees: cangle).radians)))
+
+            // compute tangent point along tip arc
+            let p = CGPoint(x: cc.x + rc * CGFloat(cos(Angle(degrees: cangle - 72).radians)), y: cc.y + rc * CGFloat(sin(Angle(degrees: (cangle - 72)).radians)))
+
+            if i == 1 {
+                path.move(to: p)
+            } else {
+                path.addLine(to: p)
+            }
+
+            // add 144 degree arc to draw the corner
+            path.addArc(center: cc, radius: rc, startAngle: Angle(degrees: cangle - 72), endAngle: Angle(degrees: cangle + 72), clockwise: false)
+
+            // Move 144 degrees to the next point in the star
+            cangle += 144
+        }
+
+        return path
+    }
+
 }
 
 struct ProgressRing: Shape {

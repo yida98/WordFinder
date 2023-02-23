@@ -41,6 +41,9 @@ extension Color {
     
     // MARK: Red
     static let redwood: Color = Color(red: 158/255, green: 83/255, blue: 70/255)
+    
+    // MARK: Yellow
+    static let sunglow: Color = Color(red: 255/255, green: 202/255, blue: 58/255)
 }
 
 struct ColorSet {
