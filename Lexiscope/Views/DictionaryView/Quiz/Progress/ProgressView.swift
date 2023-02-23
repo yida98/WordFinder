@@ -12,23 +12,25 @@ struct ProgressView: View {
     private static let colorSet1: ColorSet = .init(primaryFill: .yellowGreenCrayola, secondaryFill: .white, shadowFill: .darkSeaGreen, primaryHighlight: .hunterGreen)
     private static let colorSet2: ColorSet = .init(primaryFill: .yellow, secondaryFill: .white, shadowFill: .darkSeaGreen, primaryHighlight: .hunterGreen)
     private var colorSet: ColorSet = ProgressView.colorSet1
+    
+    @State var step: Double = 1
+    
     var body: some View {
-        HStack(spacing: 90) {
-            HStack {
-                CompletionBadgeView()
-                    .frame(width: 20, height: 20)
-                Text("Page")
-                    .font(.caption.bold())
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack {
+                HStack(spacing: 90) {
+                    HStack {
+                        CompletionBadgeView(step: $step, color: ProgressView.progressGradient[Int(step)])
+                            .frame(width: 20, height: 20)
+                        Text("Page")
+                            .font(.callout.bold())
+                    }
+                }
             }
         }
     }
     
-    struct ColorSet {
-        var primaryFill: Color
-        var secondaryFill: Color
-        var shadowFill: Color
-        var primaryHighlight: Color
-    }
+    private static let progressGradient: [Color] = [.orange, .yellow, .green, .boyBlue]
 }
 
 struct ProgressView_Previews: PreviewProvider {
@@ -38,20 +40,57 @@ struct ProgressView_Previews: PreviewProvider {
 }
 
 struct CompletionBadgeView: View {
+    @Binding var step: Double
+    var color: Color
     
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                Circle()
-                    .fill(.green)
-                    .frame(width: proxy.size.width * 2/3,
-                           height: proxy.size.height * 2/3)
+                ZStack {
+                    Circle()
+                        .fill(Color.orange)
+                        .frame(width: proxy.size.width * 2/3,
+                               height: proxy.size.height * 2/3)
+                    Checkmark()
+                        .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                        .frame(width: proxy.size.width * 1/4,
+                               height: proxy.size.height * 1/4)
+                }
                 ProgressRing()
                     .fill(Color.morningDustBlue)
-                ProgressRing(step: 1.5)
-                    .fill(Color.green)
+                ProgressRing(step: step)
+                    .fill(Color.orange)
             }
         }
+    }
+}
+
+struct Checkmark: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        let startPoint = CGPoint(x: rect.minX, y: rect.maxY - (rect.height * (1.3 / 3)))
+        let midPoint = CGPoint(x: rect.minX + (rect.width * (1.3 / 3)), y: rect.maxY)
+        let endPoint = CGPoint(x: rect.maxX, y: rect.minY)
+        path.move(to: startPoint)
+        path.addLine(to: midPoint)
+        path.addLine(to: endPoint)
+        
+        return path
+    }
+}
+
+struct Xmark: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        path.move(to: rect.topLeading)
+        path.addLine(to: rect.bottomTrailing)
+        
+        path.move(to: rect.topTrailing)
+        path.addLine(to: rect.bottomLeading)
+        
+        return path
     }
 }
 
@@ -167,5 +206,17 @@ extension CGRect {
     }
     var top: CGPoint {
         .init(x: self.midX, y: self.minY)
+    }
+    var topLeading: CGPoint {
+        .init(x: self.minX, y: self.minY)
+    }
+    var topTrailing: CGPoint {
+        .init(x: self.maxX, y: self.minY)
+    }
+    var bottomLeading: CGPoint {
+        .init(x: self.minX, y: self.maxY)
+    }
+    var bottomTrailing: CGPoint {
+        .init(x: self.maxX, y: self.maxY)
     }
 }

@@ -20,12 +20,14 @@ class QuizViewModel: ObservableObject {
     @Published var quizDidFinish: Bool = false
     var totalQuestions: Int
     @Published var currentQuestionIndex: Int
+    var quizResults: [Bool]
     
     init() {
         self.quiz = Quiz(orderedVocabulary: [])
         self.vocabularyEntries = []
         self.totalQuestions = 0
         self.currentQuestionIndex = 0
+        self.quizResults = [Bool]()
         if var dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] {
             dateOrderedVocabularyEntries.sort { lhs, rhs in
                 if let lhsDates = lhs.recallDates, let rhsDates = rhs.recallDates {
@@ -63,7 +65,7 @@ class QuizViewModel: ObservableObject {
         // TODO: Move to the end
         if let option = option, option < results.count {
             let validity = results[option]
-            updateRecallDates(validity: validity)
+            quizResults.append(validity)
         }
         currentQuestionIndex += 1
         return results

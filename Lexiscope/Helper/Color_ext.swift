@@ -32,7 +32,21 @@ extension Color {
     static let morningDustBlue: Color = Color(red: 192/255, green: 206/255, blue: 195/255)
     static let darkSeaGreen: Color = Color(red: 156/255, green: 186/255, blue: 141/255)
     static let commonGreen: Color = Color(red: 125/255, green: 219/255, blue: 134/255)
+    static let teaGreen: Color = Color(red: 194/255, green: 233/255, blue: 190/255)
+    static let mantis: Color = Color(red: 116/255, green: 205/255, blue: 106/255)
+    static let forestGreen: Color = Color(red: 54/255, green: 134/255, blue: 45/255)
+    static let hunterGreen2: Color = Color(red: 38/255, green: 96/255, blue: 32/255)
+    
+    static let greenGradientSet: [Color] = [.teaGreen, .mantis, .forestGreen, .hunterGreen2]
     
     // MARK: Red
     static let redwood: Color = Color(red: 158/255, green: 83/255, blue: 70/255)
+}
+
+struct ColorSet {
+    var primaryFill: Color
+    var secondaryFill: Color
+    var shadowFill: Color
+    var primaryHighlight: Color
+    var secondaryHighlight: Color?
 }

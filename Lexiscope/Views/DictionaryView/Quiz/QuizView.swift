@@ -34,12 +34,11 @@ struct QuizView: View {
                     ForEach(dataSource, id: \.?.id) { quiz in
                         if let question = quiz {
                             QuestionView(viewModel: viewModel, question: question, submission: submission)
-                                .frame(minWidth: Constant.screenBounds.width)
                         } else {
-                            Text("Progress View")
-                                .frame(minWidth: Constant.screenBounds.width)
+                            ProgressView()
                         }
                     }
+                    .frame(minWidth: Constant.screenBounds.width)
                     .animation(nil, value: dataSource)
                     .animation(.linear, value: offset)
                     .offset(x: offset)
