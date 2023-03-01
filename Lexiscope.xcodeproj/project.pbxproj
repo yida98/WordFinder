@@ -24,6 +24,7 @@
 		E46E09792994CFFB00C212D3 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E09782994CFFB00C212D3 /* ProgressView.swift */; };
 		E46E097C2995AFF200C212D3 /* ProgressVocabularyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E097B2995AFF200C212D3 /* ProgressVocabularyCell.swift */; };
 		E46E097E29AFF09E00C212D3 /* CompletionBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E097D29AFF09E00C212D3 /* CompletionBadgeView.swift */; };
+		E46E098029AFF18B00C212D3 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E097F29AFF18B00C212D3 /* Quiz.swift */; };
 		E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE2294A76450076824C /* DefinitionViewModel.swift */; };
 		E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE4294ACAEB0076824C /* URLTask.swift */; };
 		E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE6294BD7110076824C /* DictionaryViewModel.swift */; };
@@ -77,6 +78,7 @@
 		E46E09782994CFFB00C212D3 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		E46E097B2995AFF200C212D3 /* ProgressVocabularyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressVocabularyCell.swift; sourceTree = "<group>"; };
 		E46E097D29AFF09E00C212D3 /* CompletionBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionBadgeView.swift; sourceTree = "<group>"; };
+		E46E097F29AFF18B00C212D3 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		E475BFE2294A76450076824C /* DefinitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewModel.swift; sourceTree = "<group>"; };
 		E475BFE4294ACAEB0076824C /* URLTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTask.swift; sourceTree = "<group>"; };
 		E475BFE6294BD7110076824C /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				E46E096E298DC11500C212D3 /* QuestionView.swift */,
 				E4859F2129887CBA008AB85B /* QuizOptionCell.swift */,
 				E4859F1F2987D73F008AB85B /* QuizViewModel.swift */,
+				E46E097F29AFF18B00C212D3 /* Quiz.swift */,
 				E46E097A2994CFFF00C212D3 /* Progress */,
 				E46E097229931D8400C212D3 /* HelperView */,
 			);
@@ -495,6 +498,7 @@
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
 				E4859F262989C092008AB85B /* QuizButtonStyle.swift in Sources */,
 				E4859F1B2987D002008AB85B /* FullSavedWordView.swift in Sources */,
+				E46E098029AFF18B00C212D3 /* Quiz.swift in Sources */,
 				E46E0975299470BF00C212D3 /* ProgressBar.swift in Sources */,
 				E4DBE91A297724B7006D4730 /* SavedWordsView.swift in Sources */,
 				E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */,
