@@ -9,12 +9,6 @@ import SwiftUI
 
 struct ProgressView: View {
     @ObservedObject var viewModel: ProgressViewModel
-    private static let colorSet1: ColorSet = .init(primaryFill: .yellowGreenCrayola, secondaryFill: .white, shadowFill: .darkSeaGreen, primaryHighlight: .hunterGreen)
-    private static let colorSet2: ColorSet = .init(primaryFill: .yellow, secondaryFill: .white, shadowFill: .darkSeaGreen, primaryHighlight: .hunterGreen)
-    private var colorSet: ColorSet = ProgressView.colorSet1
-    
-    @State var step: Double = 3
-    private var thing: [(String, Double)] = [("ace", 1), ("base", 0), ("case", 2), ("dance", 4), ("ece", 3)]
     
     init(viewModel: ProgressViewModel) {
         self.viewModel = viewModel
@@ -54,7 +48,6 @@ struct ProgressView: View {
                             .background(progressColor(for: entry.step).opacity(0.1))
                             .clipped()
                             .progressCellAnimation(with: entry.step)
-//                            .animation(.easeIn(duration: 0.5), value: entry.step)
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                 }

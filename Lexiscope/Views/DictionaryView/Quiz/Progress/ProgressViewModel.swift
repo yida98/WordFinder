@@ -16,7 +16,6 @@ class ProgressViewModel: ObservableObject {
     }
     
     func didEnterView() {
-        debugPrint("ProgressViewModel didEnterView")
         for entryIndex in 0..<progressEntries.count {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
                 self?.progressEntries[entryIndex].step += 1
