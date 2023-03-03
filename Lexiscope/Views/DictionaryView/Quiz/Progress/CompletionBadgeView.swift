@@ -10,6 +10,7 @@ import SwiftUI
 struct CompletionBadgeView: View {
     var step: Double
     var fillColor: Color
+    var validated: Bool?
     
     var body: some View {
         GeometryReader { proxy in
@@ -19,28 +20,36 @@ struct CompletionBadgeView: View {
                         .fill(fillColor)
                         .frame(width: proxy.size.width * 2/3,
                                height: proxy.size.height * 2/3)
-                    if step == 0 {
-                        Xmark()
-                            .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
-                            .frame(width: proxy.size.width * 1/4,
-                                   height: proxy.size.height * 1/4)
-                    } else if step == 4 {
-                        Star(cornerRadius: 0.5)
-                            .fill(Color.white)
-                            .frame(width: proxy.size.width * 1/2,
-                                   height: proxy.size.height * 1/2)
+                        .progressCellAnimation(with: step)
+                    if validated != nil {
+                        if !validated! {
+                            Xmark()
+                                .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                                .frame(width: proxy.size.width * 1/4,
+                                       height: proxy.size.height * 1/4)
+                        } else {
+                            if step == 4 {
+                                Star(cornerRadius: 0.5)
+                                    .fill(Color.white)
+                                    .frame(width: proxy.size.width * 1/2,
+                                           height: proxy.size.height * 1/2)
+                            } else {
+                                Checkmark()
+                                    .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                                    .frame(width: proxy.size.width * 1/4,
+                                           height: proxy.size.height * 1/4)
+                                
+                            }
+                        }
                     } else {
-                        Checkmark()
-                            .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
-                            .frame(width: proxy.size.width * 1/4,
-                                   height: proxy.size.height * 1/4)
-                        
+                        EmptyView()
                     }
                 }
                 ProgressRing()
                     .fill(Color.morningDustBlue)
                 ProgressRing(step: step)
                     .fill(fillColor)
+                    .progressCellAnimation(with: step)
             }
         }
     }

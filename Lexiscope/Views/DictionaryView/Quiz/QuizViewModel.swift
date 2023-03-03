@@ -113,4 +113,21 @@ class QuizViewModel: ObservableObject {
     enum QuizError: Error {
         case noInput
     }
+    
+    private var progressViewModel: ProgressViewModel?
+    
+    func getProgressViewModel() -> ProgressViewModel {
+        if progressViewModel == nil {
+            self.progressViewModel = ProgressViewModel(vocabulary: vocabularyEntries, validationStamps: quizResults)
+        }
+        return self.progressViewModel!
+    }
+    
+    var progressFirstAppearance: Bool = false
+    func progressViewIsInView() {
+        if !progressFirstAppearance {
+            progressFirstAppearance = true
+            progressViewModel?.didEnterView()
+        }
+    }
 }

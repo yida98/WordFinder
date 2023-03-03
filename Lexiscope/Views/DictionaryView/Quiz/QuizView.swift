@@ -35,7 +35,9 @@ struct QuizView: View {
                         if let question = quiz {
                             QuestionView(viewModel: viewModel, question: question, submission: submission)
                         } else {
-                            ProgressView()
+                            GeometryReader { proxy in
+                                proxyTrigger(proxy)
+                            }
                         }
                     }
                     .frame(minWidth: Constant.screenBounds.width)
@@ -45,6 +47,14 @@ struct QuizView: View {
                 }
             }
         }.interactiveDismissDisabled(!viewModel.quizDidFinish)
+    }
+    
+    private func proxyTrigger(_ proxy: GeometryProxy) -> some View {
+        let frame = proxy.frame(in: .global)
+        if frame.minX == 0 {
+            viewModel.progressViewIsInView()
+        }
+        return ProgressView(viewModel: viewModel.getProgressViewModel())
     }
     
     private func submission() {
