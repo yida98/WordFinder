@@ -19,7 +19,12 @@ class QuizViewModel: ObservableObject {
     
     @Published var quizDidFinish: Bool = false
     var totalQuestions: Int
-    @Published var currentQuestionIndex: Int
+    @Published var currentQuestionIndex: Int {
+        didSet {
+            self.progression = CGFloat(currentQuestionIndex) / CGFloat(totalQuestions)
+        }
+    }
+    @Published var progression: CGFloat
     var quizResults: [Bool]
     
     init() {
@@ -27,6 +32,7 @@ class QuizViewModel: ObservableObject {
         self.vocabularyEntries = []
         self.totalQuestions = 0
         self.currentQuestionIndex = 0
+        self.progression = 0
         self.quizResults = [Bool]()
         if var dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] {
             dateOrderedVocabularyEntries.sort { lhs, rhs in

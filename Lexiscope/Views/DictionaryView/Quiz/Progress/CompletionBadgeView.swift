@@ -10,6 +10,7 @@ import SwiftUI
 struct CompletionBadgeView: View {
     var step: Double
     var fillColor: Color
+    var strokeColor: Color?
     var validated: Bool?
     
     var body: some View {
@@ -24,18 +25,18 @@ struct CompletionBadgeView: View {
                     if validated != nil {
                         if !validated! {
                             Xmark()
-                                .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                                .stroke(strokeColor ?? .white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
                                 .frame(width: proxy.size.width * 1/4,
                                        height: proxy.size.height * 1/4)
                         } else {
                             if step == 4 {
                                 Star(cornerRadius: 0.5)
-                                    .fill(Color.white)
+                                    .fill(strokeColor ?? .white)
                                     .frame(width: proxy.size.width * 1/2,
                                            height: proxy.size.height * 1/2)
                             } else {
                                 Checkmark()
-                                    .stroke(Color.white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                                    .stroke(strokeColor ?? .white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
                                     .frame(width: proxy.size.width * 1/4,
                                            height: proxy.size.height * 1/4)
                                 

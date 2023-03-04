@@ -20,7 +20,10 @@ struct QuizView: View {
     var body: some View {
         VStack {
             HStack(spacing: 20) {
-                ProgressBar(numerator: viewModel.currentQuestionIndex + 1, denominator: viewModel.totalQuestions, height: 14)
+                ProgressBar(progression: viewModel.progression)
+                    .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen)
+                    .frame(height: 14)
+                    .animation(.easeIn, value: viewModel.progression)
                 Button {
                     isPresenting = false
                 } label: {
@@ -54,7 +57,7 @@ struct QuizView: View {
         if frame.minX == 0 {
             viewModel.progressViewIsInView()
         }
-        return ProgressView(viewModel: viewModel.getProgressViewModel())
+        return ReportView(viewModel: viewModel.getProgressViewModel())
     }
     
     private func submission() {
