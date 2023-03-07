@@ -160,6 +160,19 @@ class DataManager: ObservableObject {
         }
     }
     
+    func resaveVocabularyEntry(_ vocabularyEntry: VocabularyEntry) {
+        if vocabularyEntry.word != nil, fetchVocabularyEntry(for: vocabularyEntry.word!) == nil {
+            let context = getContext()
+            let entity = NSManagedObject(entity: vocabularyEntryEntity, insertInto: context)
+            entity.setValue(vocabularyEntry.headwordEntry, forKey: "headwordEntry")
+            entity.setValue(vocabularyEntry.date, forKey: "date")
+            entity.setValue(vocabularyEntry.word, forKey: "word")
+            entity.setValue(vocabularyEntry.recallDates, forKey: "recallDates")
+            
+            saveContext()
+        }
+    }
+    
     func deleteVocabularyEntry(for word: String) {
         guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: word) else { return }
         let context = getContext()

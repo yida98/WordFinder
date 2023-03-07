@@ -31,10 +31,27 @@ public protocol BoxStyle {
 
 public struct DefaultBoxStyle: BoxStyle {
     public func makeBody(configuration: Configuration) -> some View {
-        GeometryReader { proxy in
-            configuration.label
-                .padding()
+        ZStack {
+            VStack {
+                configuration.label
+                    .padding()
+                    .background(
+                        roundedBackgroundView()
+                            .fill(.white)
+                    ).clipShape(roundedBackgroundView())
+                Spacer()
+                    .frame(height: 4)
+            }
         }
+        .background(
+            roundedBackgroundView()
+                .fill(.gray.opacity(0.4))
+        )
+        .clipShape(roundedBackgroundView())
+    }
+    
+    private func roundedBackgroundView() -> some Shape {
+        RoundedRectangle(cornerRadius: 10)
     }
 }
 

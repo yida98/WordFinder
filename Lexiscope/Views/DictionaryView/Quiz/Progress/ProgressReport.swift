@@ -8,45 +8,44 @@
 import SwiftUI
 
 struct ProgressReport: View {
+    var totalFamiliar: Int
+    var percent: Double
+    
     var body: some View {
         HStack {
             Box {
                 VStack {
-                    HStack {
-                        Text("4/5")
+                    HStack(spacing: 14) {
+                        VStack {
+                            Text("New familiars")
+                                .font(.caption)
+                            Text("\(totalFamiliar)")
+                                .font(.subheadline.bold())
+                                .foregroundColor(.ultraViolet)
+                        }
+                        
+                        VStack {
+                            Text("Total familiar")
+                                .font(.caption)
+                            Text("\(totalFamiliar)")
+                                .font(.subheadline.bold())
+                                .foregroundColor(.ultraViolet)
+                        }
                     }
-                    ProgressBar(progression: 0.2)
-                        .progressBarStyle(DefaultProgressBarStyle(), fillColor: .white)
-                        .frame(height: 8)
+                    
+                    HStack {
+                        ProgressBar(progression: CGFloat(percent))
+                            .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen)
+                            .frame(height: 8)
+                        Text("\(percentage())%")
+                            .font(.caption)
+                    }
                 }
-            }
-            .boxStyle(ColouredBoxStyle(color: Color.green))
-            Box {
-                HStack {
-                    Image(systemName: "clock.fill")
-                    Text("5:40\"")
-                }
-            }
-            .boxStyle(ColouredBoxStyle(color: Color.red))
-            Box {
-                HStack {
-                    CompletionBadgeView(step: 4, fillColor: .white, strokeColor: .boyBlue, validated: true)
-                        .frame(width: 20, height: 20)
-                    Text("8")
-                }
-            }
-            .boxStyle(ColouredBoxStyle(color: Color.boyBlue))
+            }.boxStyle(DefaultBoxStyle())
         }
     }
     
-    private enum ResultCategory: CaseIterable {
-        case validRatio, time, familiarityCount
-    }
-    
-}
-
-struct ProgressReport_Previews: PreviewProvider {
-    static var previews: some View {
-        ProgressReport()
+    private func percentage() -> String {
+        String(format: "%.1f", percent * 100)
     }
 }

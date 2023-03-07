@@ -15,8 +15,9 @@ struct ReportView: View {
     }
     
     var body: some View {
-        VStack {
-            ProgressReport()
+        VStack(spacing: 30) {
+            ProgressReport(totalFamiliar: viewModel.getTotalFamiliar(), percent: viewModel.getPercentGrade())
+            
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 10) {
                     ForEach(viewModel.progressEntries, id: \.self.title) { entry in
@@ -55,7 +56,7 @@ struct ReportView: View {
                     }
                 }
             }
-        }.padding(50)
+        }.padding(.horizontal, 50)
     }
     
     private static let progressGradient: [Color] = [.bittersweet, .orange, .mikadoYellow, .green, .boyBlue]

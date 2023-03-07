@@ -24,6 +24,7 @@ extension Color {
     static let moodPurple: Color = Color(red: 130/255, green: 119/255, blue: 137/255)
     static let sonicSilver: Color = Color(red: 127/255, green: 121/255, blue: 121/255)
     static let thistle: Color = Color(red: 213/255, green: 197/255, blue: 227/255)
+    static let ultraViolet: Color = Color(red: 106/255, green: 76/255, blue: 147/255)
     
     // MARK: Green
     static let yellowGreenCrayola: Color = Color(red: 181/255, green: 239/255, blue: 138/255)

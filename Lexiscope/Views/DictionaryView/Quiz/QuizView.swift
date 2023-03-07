@@ -18,7 +18,7 @@ struct QuizView: View {
     @State private var offset: CGFloat = 0
     
     var body: some View {
-        VStack {
+        VStack(spacing: 50) {
             HStack(spacing: 20) {
                 ProgressBar(progression: viewModel.progression)
                     .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen)
@@ -31,7 +31,6 @@ struct QuizView: View {
                 }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .morningDustBlue))
             }
             .frame(height: 20)
-            .padding(30)
             if let dataSource = viewModel.dataSource {
                 HStack(spacing: 0) {
                     ForEach(dataSource, id: \.?.id) { quiz in
@@ -49,7 +48,9 @@ struct QuizView: View {
                     .offset(x: offset)
                 }
             }
-        }.interactiveDismissDisabled(!viewModel.quizDidFinish)
+        }
+        .padding(30)
+        .interactiveDismissDisabled(!viewModel.quizDidFinish)
     }
     
     private func proxyTrigger(_ proxy: GeometryProxy) -> some View {

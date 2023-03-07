@@ -23,12 +23,7 @@ struct CompletionBadgeView: View {
                                height: proxy.size.height * 2/3)
                         .progressCellAnimation(with: step)
                     if validated != nil {
-                        if !validated! {
-                            Xmark()
-                                .stroke(strokeColor ?? .white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
-                                .frame(width: proxy.size.width * 1/4,
-                                       height: proxy.size.height * 1/4)
-                        } else {
+                        if validated! {
                             if step == 4 {
                                 Star(cornerRadius: 0.5)
                                     .fill(strokeColor ?? .white)
@@ -41,6 +36,11 @@ struct CompletionBadgeView: View {
                                            height: proxy.size.height * 1/4)
                                 
                             }
+                        } else {
+                            Xmark()
+                                .stroke(strokeColor ?? .white, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                                .frame(width: proxy.size.width * 1/4,
+                                       height: proxy.size.height * 1/4)
                         }
                     } else {
                         EmptyView()
