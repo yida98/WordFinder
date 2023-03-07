@@ -10,6 +10,9 @@ import SwiftUI
 struct ReportView: View {
     @ObservedObject var viewModel: ProgressViewModel
     
+    @State var isPresenting = false
+    @State var presentingEntry: HeadwordEntry?
+    
     init(viewModel: ProgressViewModel) {
         self.viewModel = viewModel
     }
@@ -17,10 +20,13 @@ struct ReportView: View {
     var body: some View {
         VStack(spacing: 0) {
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 10) {
+                VStack(spacing: 0) {
                     ForEach(viewModel.progressEntries, id: \.self.title) { entry in
                         Button {
-                            
+                            presentingEntry = entry.vocabulary.getHeadwordEntry()
+                            if presentingEntry != nil {
+                                isPresenting = true
+                            }
                         } label: {
                             HStack(spacing: 8) {
                                 VStack {
@@ -61,6 +67,15 @@ struct ReportView: View {
                            percent: viewModel.percentGrade)
         }
         .padding(.horizontal, 60)
+        .sheet(isPresented: $isPresenting, content: {
+            if let entry = presentingEntry {
+                FullSavedWordView(viewModel: DefinitionViewModel(headwordEntry: entry,
+                                                                 saved: true,
+                                                                 expanded: true))
+            } else {
+                EmptyView()
+            }
+        })
     }
     
     private static let progressGradient: [Color] = [.bittersweet, .orange, .sunglow, .green, .boyBlue]
