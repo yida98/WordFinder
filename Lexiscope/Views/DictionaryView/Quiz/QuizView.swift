@@ -27,7 +27,7 @@ struct QuizView: View {
                     .opacity(viewModel.quizDidFinish ? 0 : 1)
                     .animation(.linear(duration: 0.2), value: viewModel.quizDidFinish)
                 Button {
-                    if viewModel.progressFirstAppearance {
+                    if viewModel.progressFirstAppearance || viewModel.quizResults.count == 0 {
                         isPresenting = false
                     } else {
                         endQuiz()
