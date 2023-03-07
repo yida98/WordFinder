@@ -28,7 +28,9 @@ struct SavedWordsView: View {
                                                                                   expanded: false))
                                     .onTapGesture {
                                         viewModel.presentingVocabularyEntry = entry
-                                        viewModel.isPresenting = true
+                                        if viewModel.presentingVocabularyEntry != nil {
+                                            viewModel.isPresenting = true
+                                        }
                                     }
                                     .id(entry.word)
                                 }

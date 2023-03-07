@@ -27,7 +27,11 @@ struct QuizView: View {
                     .opacity(viewModel.quizDidFinish ? 0 : 1)
                     .animation(.linear(duration: 0.2), value: viewModel.quizDidFinish)
                 Button {
-                    isPresenting = false
+                    if viewModel.progressFirstAppearance {
+                        isPresenting = false
+                    } else {
+                        endQuiz()
+                    }
                 } label: {
                     Text("END")
                 }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .celadon))
@@ -57,10 +61,12 @@ struct QuizView: View {
     
     private func proxyTrigger(_ proxy: GeometryProxy) -> some View {
         let frame = proxy.frame(in: .global)
+        /// Make sure the progressViewModel is created before calling progressViewIsInView
+        let progressViewModel = viewModel.getProgressViewModel()
         if frame.minX == 0 {
             viewModel.progressViewIsInView()
         }
-        return ReportView(viewModel: viewModel.getProgressViewModel())
+        return ReportView(viewModel: progressViewModel)
     }
     
     private func submission() {
@@ -76,6 +82,14 @@ struct QuizView: View {
                 offset = CGFloat(dataSource.count - 1) * -(Constant.screenBounds.width / 2)
                 counter2 += 1
             }
+        }
+    }
+    
+    private func endQuiz() {
+        viewModel.endQuiz()
+        if let dataSource = viewModel.dataSource {
+            offset = CGFloat(dataSource.count - 1) * -(Constant.screenBounds.width / 2)
+            counter2 += 1
         }
     }
 }

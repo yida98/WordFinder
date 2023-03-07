@@ -77,24 +77,6 @@ class QuizViewModel: ObservableObject {
         return results
     }
     
-    /// This happens before the currentQuestionIndex increments
-    private func updateRecallDates(validity: Bool) {
-        // 1-2-3-7
-        let currentVocabulary = vocabularyEntries[currentQuestionIndex]
-        let currentRecallDates = currentVocabulary.recallDates
-        
-        // If the prev dates follow the pattern of 1-2-3 then, just append
-        // If the appending the new date won't follow the 1-2-3-7 pattern, reset
-        // If new date is 1-2-3-4, remove 1 and add 4
-        // If new date is earlier
-        // If achieved 1-2-3-7, just keep adding
-        
-        guard let currentWord = currentVocabulary.word, let vocabularyManagedObject = DataManager.shared.fetchVocabularyEntry(for: currentWord.lowercased()) else {
-            return
-        }
-        
-    }
-    
     func next() {
         if dataSource?.last == .some(nil) {
             quizDidFinish = true
@@ -135,5 +117,12 @@ class QuizViewModel: ObservableObject {
             progressFirstAppearance = true
             progressViewModel?.didEnterView()
         }
+    }
+    
+    func endQuiz() {
+        quiz.updateQuizSource(at: currentQuestionIndex)
+        vocabularyEntries = Array(vocabularyEntries[0..<currentQuestionIndex])
+        dataSource = [dataSource?[0], nil]
+        next()
     }
 }

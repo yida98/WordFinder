@@ -15,6 +15,10 @@ class Quiz {
         self.orderedVocabulary = orderedVocabulary
     }
     
+    func updateQuizSource(at index: Int) {
+        self.orderedVocabulary = Array(orderedVocabulary[0..<index])
+    }
+    
     func getNewQuestion(for queryType: Quiz.Entry.QueryType, at index: Int) -> Entry? {
         if index < orderedVocabulary.count {
             let question = orderedVocabulary[index]
