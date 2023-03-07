@@ -15,44 +15,55 @@ struct ReportView: View {
     }
     
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 0) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 10) {
                     ForEach(viewModel.progressEntries, id: \.self.title) { entry in
-                        HStack(spacing: 8) {
-                            VStack {
-                                CompletionBadgeView(step: entry.step, fillColor: progressColor(for: entry.step), validated: entry.valid)
-                                    .frame(width: 20, height: 20)
-                                if showSummary(for: entry) {
-                                    Spacer()
+                        Button {
+                            
+                        } label: {
+                            HStack(spacing: 8) {
+                                VStack {
+                                    CompletionBadgeView(step: entry.step, fillColor: progressColor(for: entry.step), validated: entry.valid)
+                                        .frame(width: 20, height: 20)
+                                    if showSummary(for: entry) {
+                                        Spacer()
+                                    }
                                 }
-                            }
-                            VStack {
-                                HStack {
-                                    Text(entry.title)
-                                        .font(.callout.bold())
-                                        .foregroundColor(progressColor(for: entry.step))
-                                        .progressCellAnimation(with: entry.step)
-                                    Spacer()
-                                }
-                                if showSummary(for: entry) {
-                                    Text(entry.summary ?? "")
-                                        .font(.footnote)
-                                        .foregroundColor(.gray)
+                                VStack {
+                                    HStack {
+                                        Text(entry.title)
+                                            .font(.callout.bold())
+                                            .foregroundColor(progressColor(for: entry.step))
+                                            .progressCellAnimation(with: entry.step)
+                                        Spacer()
+                                    }
+                                    if showSummary(for: entry) {
+                                        Text(entry.summary ?? "")
+                                            .font(.footnote)
+                                            .foregroundColor(.gray)
+                                    }
                                 }
                             }
                         }
-                        .padding()
+                        .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 20),
+                                                     primaryColor: .verdigrisLight,
+                                                     secondaryColor: .verdigrisDark,
+                                                     highlight: .verdigrisDark,
+                                                     disabled: false))
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 4)
                     }
                 }
             }
             ProgressReport(newFamiliars: viewModel.newFamiliars,
                            totalFamiliar: viewModel.totalFamiliar,
                            percent: viewModel.percentGrade)
-        }.padding(.horizontal, 50)
+        }
+        .padding(.horizontal, 60)
     }
     
-    private static let progressGradient: [Color] = [.bittersweet, .orange, .mikadoYellow, .green, .boyBlue]
+    private static let progressGradient: [Color] = [.bittersweet, .orange, .sunglow, .green, .boyBlue]
     
     private func progressColor(for step: Double) -> Color {
         ReportView.progressGradient[Int(step.truncatingRemainder(dividingBy: 4))]

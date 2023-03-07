@@ -21,14 +21,16 @@ struct QuizView: View {
         VStack(spacing: 50) {
             HStack(spacing: 20) {
                 ProgressBar(progression: viewModel.progression)
-                    .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen)
+                    .progressBarStyle(DefaultProgressBarStyle(), fillColor: .celadon)
                     .frame(height: 14)
                     .animation(.easeIn, value: viewModel.progression)
+                    .opacity(viewModel.quizDidFinish ? 0 : 1)
+                    .animation(.linear(duration: 0.2), value: viewModel.quizDidFinish)
                 Button {
                     isPresenting = false
                 } label: {
                     Text("END")
-                }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .morningDustBlue))
+                }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .celadon))
             }
             .frame(height: 20)
             if let dataSource = viewModel.dataSource {

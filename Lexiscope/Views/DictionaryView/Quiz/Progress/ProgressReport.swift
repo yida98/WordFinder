@@ -20,18 +20,20 @@ struct ProgressReport: View {
                         VStack {
                             Text("New familiars")
                                 .font(.caption)
+                                .foregroundColor(.verdigrisLight)
                             Text("\(newFamiliars)")
                                 .font(.subheadline.bold())
-                                .foregroundColor(.ultraViolet)
+                                .foregroundColor(.verdigrisLight)
                                 .animation(.linear, value: newFamiliars)
                         }
                         
                         VStack {
                             Text("Total familiar")
                                 .font(.caption)
+                                .foregroundColor(.verdigrisLight)
                             Text("\(totalFamiliar)")
                                 .font(.subheadline.bold())
-                                .foregroundColor(.ultraViolet)
+                                .foregroundColor(.verdigrisLight)
                                 .animation(.linear, value: totalFamiliar)
                         }
                     }
@@ -43,10 +45,11 @@ struct ProgressReport: View {
                             .animation(.linear, value: percent)
                         Text("\(percentage())%")
                             .font(.caption)
+                            .foregroundColor(.verdigrisLight)
                             .animation(.linear, value: percent)
                     }
                 }
-            }.boxStyle(DefaultBoxStyle())
+            }//.boxStyle(DefaultBoxStyle())
         }
     }
     

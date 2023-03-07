@@ -27,23 +27,23 @@ struct QuizOptionCell: View {
     
     /// fill
     private func getPrimaryColor() -> Color {
-        guard let validation = validation else { return .magnolia }
+        guard let validation = validation else { return .verdigrisLight }
         if choice == id {
-            return validation[id] ? .yellowGreenCrayola : .red
+            return validation[id] ? .commonGreen : .red
         }
-        return .white
+        return .verdigrisLight
     }
     
     private func getSecondaryColor() -> Color {
-        guard let validation = validation else { return .lavendarGray }
+        guard let validation = validation else { return .verdigrisDark }
         if choice == id {
-            return .white
+            return .verdigrisLight
         }
-        return validation[id] ? .darkSeaGreen : .red
+        return validation[id] ? .pineGreen : .red
     }
     
     private func getHighlightColor() -> Color {
-        guard let validation = validation else { return .lavendarGray }
-        return validation[id] ? .darkSeaGreen : .red
+        guard let validation = validation else { return .verdigrisDark }
+        return validation[id] ? .pineGreen : .red
     }
 }

@@ -14,10 +14,10 @@ struct QuizUtilityButtonStyle: ButtonStyle {
         configuration.label
             .font(.caption.bold())
             .foregroundColor(configuration.isPressed ? .white : buttonColor)
-            .padding(6)
+            .padding(4)
             .padding(.horizontal, 4)
-            .background(configuration.isPressed ? buttonColor : .white)
-            .cornerRadius(8)
+            .background(configuration.isPressed ? buttonColor : .clear)
+            .cornerRadius(6)
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(buttonColor, lineWidth: 2)

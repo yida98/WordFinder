@@ -21,13 +21,13 @@ struct QuestionView: View {
             VStack(spacing: 20) {
                 HStack {
                     Text("\(question.getQueryTitle())")
-                        .font(.headline)
-                        .foregroundColor(Color(white: 0.7))
+                        .font(.headline.bold())
+                        .foregroundColor(Color.pineGreen)
                     Spacer()
                 }
                 Text("\(question.getQuestionDisplayString())")
                     .font(.title)
-                    .foregroundColor(Color(white: 0.4))
+                    .foregroundColor(.verdigrisLight)
             }
             VStack(spacing: 20) {
                 ForEach(0..<4) { id in
@@ -78,14 +78,14 @@ struct QuestionView: View {
     }
     
     private func getPrimarySubmitButtonColor() -> Color {
-        guard canSubmit else { return .init(white: 0.95) }
-        guard let validation = validation, let choice = choice, !validation[choice] else { return .yellowGreenCrayola }
+        guard canSubmit else { return .init(white: 0.85) }
+        guard let validation = validation, let choice = choice, !validation[choice] else { return .commonGreen }
         return .red
     }
     
     private func getSecondarySubmitButtonColor() -> Color {
-        guard canSubmit else { return .init(white: 0.85) }
-        guard let validation = validation, let choice = choice, !validation[choice] else { return .darkSeaGreen }
+        guard canSubmit else { return .init(white: 0.65) }
+        guard let validation = validation, let choice = choice, !validation[choice] else { return .pineGreen }
         return .redwood
     }
 }

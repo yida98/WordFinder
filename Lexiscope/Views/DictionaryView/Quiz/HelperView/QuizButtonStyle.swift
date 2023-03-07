@@ -54,7 +54,7 @@ struct QuizToggleStyle<S: Shape>: ToggleStyle {
             .padding()
             .offset(y: configuration.isOn ? 0 : -7)
             .background(
-                CartoonShadowBackground(shape: shape, selectionColor: primaryColor, shadowColor: secondaryColor, buttonDefaultColor: .white, highlight: highlight, selected: configuration.isOn)
+                CartoonShadowBackground(shape: shape, selectionColor: primaryColor, shadowColor: secondaryColor, buttonDefaultColor: primaryColor, highlight: highlight, selected: configuration.isOn)
             )
             .animation(.easeOut(duration: 0.2), value: configuration.isOn)
     }

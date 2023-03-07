@@ -63,7 +63,7 @@ struct ContentView: View {
                         )
                         .sheet(isPresented: $viewModel.isPresentingQuiz) {
                             QuizView(viewModel: QuizViewModel(), isPresenting: $viewModel.isPresentingQuiz)
-                                .background(Color.init(white: 0.97))
+                                .background(Color.verdigris)
                         }
                     
                     VStack {
