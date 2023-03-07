@@ -147,6 +147,19 @@ class DataManager: ObservableObject {
         }
     }
     
+    func fetchAllFamiliar() -> [VocabularyEntry]? {
+        guard let savedVocabulary = DataManager.shared.fetchVocabulary() as? [VocabularyEntry] else {
+            return nil
+        }
+        
+        let results = savedVocabulary.filter { vocabulary in
+            guard let dates = vocabulary.recallDates else { return false }
+            return dates.count >= 4
+        }
+        
+        return results
+    }
+    
     func saveVocabularyEntryEntity(headwordEntry: Data, date: Date = Date(), word: String, recallDates: [Date]?) {
         if fetchVocabularyEntry(for: word) == nil {
             let context = getContext()

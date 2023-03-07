@@ -11,23 +11,38 @@ import SwiftUI
 class ProgressViewModel: ObservableObject {
     @Published var progressEntries: [ProgressEntry]
     private let validationStamps: [Bool]
+    @Published var newFamiliars: Int
+    @Published var totalFamiliar: Int
+    @Published var percentGrade: Double
     
     init(vocabulary: [VocabularyEntry], validationStamps: [Bool]) {
         self.progressEntries = vocabulary.indices.map { ProgressEntry.makeProgressEntry(from: vocabulary[$0], valid: validationStamps[$0]) }
         self.validationStamps = validationStamps
+        self.newFamiliars = 0
+        self.totalFamiliar = ProgressViewModel.getTotalFamiliar()
+        self.percentGrade = 0.0
     }
     
     func didEnterView() {
         for entryIndex in 0..<progressEntries.count {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-                self?.progressEntries[entryIndex].step = self?.getCurrentStep(forVocabularyEntryAt: entryIndex) ?? 0.0
+                if let strongSelf = self {
+                    strongSelf.progressEntries[entryIndex].step = strongSelf.getCurrentStep(forVocabularyEntryAt: entryIndex)
+                    strongSelf.percentGrade = strongSelf.getPercentGrade()
+                    if strongSelf.progressEntries[entryIndex].step >= 4 {
+                        strongSelf.newFamiliars += 1
+                        strongSelf.totalFamiliar += 1
+                    }
+                }
             }
         }
     }
     
-    func getTotalFamiliar() -> Int {
-        
-        return .zero
+    private static func getTotalFamiliar() -> Int {
+        guard let allFamiliar = DataManager.shared.fetchAllFamiliar() else {
+            return .zero
+        }
+        return allFamiliar.count
     }
     
     func getPercentGrade() -> Double {
@@ -35,7 +50,7 @@ class ProgressViewModel: ObservableObject {
             partialResult += stamp ? 1 : 0
         }
         
-        return Double(validCount / validationStamps.count)
+        return Double(validCount) / Double(validationStamps.count)
     }
     
     private func getCurrentStep(forVocabularyEntryAt index: Int) -> Double {

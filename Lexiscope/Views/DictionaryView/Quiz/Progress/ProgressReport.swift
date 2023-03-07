@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProgressReport: View {
+    var newFamiliars: Int
     var totalFamiliar: Int
     var percent: Double
     
@@ -19,9 +20,10 @@ struct ProgressReport: View {
                         VStack {
                             Text("New familiars")
                                 .font(.caption)
-                            Text("\(totalFamiliar)")
+                            Text("\(newFamiliars)")
                                 .font(.subheadline.bold())
                                 .foregroundColor(.ultraViolet)
+                                .animation(.linear, value: newFamiliars)
                         }
                         
                         VStack {
@@ -30,6 +32,7 @@ struct ProgressReport: View {
                             Text("\(totalFamiliar)")
                                 .font(.subheadline.bold())
                                 .foregroundColor(.ultraViolet)
+                                .animation(.linear, value: totalFamiliar)
                         }
                     }
                     
@@ -37,8 +40,10 @@ struct ProgressReport: View {
                         ProgressBar(progression: CGFloat(percent))
                             .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen)
                             .frame(height: 8)
+                            .animation(.linear, value: percent)
                         Text("\(percentage())%")
                             .font(.caption)
+                            .animation(.linear, value: percent)
                     }
                 }
             }.boxStyle(DefaultBoxStyle())
