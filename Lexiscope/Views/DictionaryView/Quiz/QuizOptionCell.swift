@@ -20,7 +20,8 @@ struct QuizOptionCell: View {
         }
         .toggleStyle(QuizToggleStyle(shape: RoundedRectangle(cornerRadius: 16),
                                      primaryColor: getPrimaryColor(),
-                                     secondaryColor: getSecondaryColor()))
+                                     secondaryColor: getSecondaryColor(),
+                                     highlight: getHighlightColor()))
         .allowsHitTesting(validation == nil)
     }
     
@@ -38,6 +39,11 @@ struct QuizOptionCell: View {
         if choice == id {
             return .white
         }
+        return validation[id] ? .darkSeaGreen : .red
+    }
+    
+    private func getHighlightColor() -> Color {
+        guard let validation = validation else { return .lavendarGray }
         return validation[id] ? .darkSeaGreen : .red
     }
 }

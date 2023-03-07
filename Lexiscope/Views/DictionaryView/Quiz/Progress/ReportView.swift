@@ -43,14 +43,6 @@ struct ReportView: View {
                             }
                         }
                         .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(progressColor(for: entry.step).opacity(0.3), lineWidth: 4)
-                                .background(progressColor(for: entry.step).opacity(0.1))
-                                .clipped()
-                                .progressCellAnimation(with: entry.step)
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 30))
                     }
                 }
             }

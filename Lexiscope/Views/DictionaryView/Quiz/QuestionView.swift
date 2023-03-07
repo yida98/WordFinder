@@ -61,6 +61,7 @@ struct QuestionView: View {
             .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 16),
                                          primaryColor: getPrimarySubmitButtonColor(),
                                          secondaryColor: getSecondarySubmitButtonColor(),
+                                         highlight: getSecondarySubmitButtonColor(),
                                          disabled: !canSubmit))
             Spacer()
         }
