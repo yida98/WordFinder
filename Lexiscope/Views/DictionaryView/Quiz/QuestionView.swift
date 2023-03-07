@@ -11,6 +11,7 @@ struct QuestionView: View {
     @ObservedObject var viewModel: QuizViewModel
     @State private var choice: Int?
     @State private var canSubmit: Bool = false
+    @State private var temporarySubmissionBlock: Bool = false
     @State private var validation: [Bool]?
     var question: Quiz.Entry
     var submission: () -> Void
@@ -38,12 +39,16 @@ struct QuestionView: View {
             }
             Button {
                 viewModel.feedback(for: validation?[choice!])
+                temporarySubmissionBlock = true
                 if validation == nil {
                     validation = viewModel.submit(choice)
                 } else {
                     viewModel.next()
                 }
                 submission()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.temporarySubmissionBlock = false
+                }
             } label: {
                 if validation == nil {
                     Text("Submit")
@@ -52,6 +57,7 @@ struct QuestionView: View {
                 }
             }
             .disabled(!canSubmit)
+            .disabled(temporarySubmissionBlock)
             .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 16),
                                          primaryColor: getPrimarySubmitButtonColor(),
                                          secondaryColor: getSecondarySubmitButtonColor(),
