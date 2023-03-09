@@ -10,9 +10,10 @@ import SwiftUI
 struct LexicalEntryView: View {
     var lexicalEntry: LexicalEntry
     @Binding var expanded: Bool
+    var spacing: CGFloat
     
     var body: some View {
-        VStack {
+        VStack(spacing: spacing) {
             HStack {
                 Text(lexicalEntry.lexicalCategory.text.capitalized)
                     .font(.caption)
@@ -26,8 +27,9 @@ struct LexicalEntryView: View {
                     if senses().count > 1 {
                         VStack {
                             Text("\(senseIndex + 1)")
-                                .font(.subheadline)
-                                .foregroundColor(.moodPurple)
+                                .font(.caption)
+                                .foregroundColor(.verdigris)
+                                .padding(.vertical, 2)
                             Spacer()
                         }
                     }

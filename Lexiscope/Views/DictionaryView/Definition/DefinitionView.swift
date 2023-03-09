@@ -9,9 +9,10 @@ import SwiftUI
 
 struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
+    var spacing: CGFloat
     
     var body: some View {
-        VStack(spacing: 3) {
+        VStack(spacing: spacing) {
             HStack {
                 Text(viewModel.headwordEntry.word)
                     .foregroundColor(.moodPurple)
@@ -48,16 +49,9 @@ struct DefinitionView: View {
             }
             ScrollView(showsIndicators: false) {
                 ForEach(viewModel.lexicalEntries()) { lexicalEntry in
-                    LexicalEntryView(lexicalEntry: lexicalEntry, expanded: $viewModel.expanded)
+                    LexicalEntryView(lexicalEntry: lexicalEntry, expanded: $viewModel.expanded, spacing: spacing)
                 }
             }
-        }
-        .animation(.default, value: 0.5)
-        .padding(.horizontal, 20)
-        .padding(.vertical, 10)
-        .background(Color(white: 0.95))
-        .mask {
-            RoundedRectangle(cornerRadius: 10)
         }
     }
     
@@ -111,5 +105,24 @@ protocol ViewStyleSheet {
 extension Sense: Identifiable {
     var hasDefinitions: Bool {
         return self.definitions == nil
+    }
+}
+
+struct DefinitionCard: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .animation(.default, value: 0.5)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .background(Color(white: 0.95))
+            .mask {
+                RoundedRectangle(cornerRadius: 10)
+            }
+    }
+}
+
+extension DefinitionView {
+    func definitionCard() -> some View {
+        modifier(DefinitionCard())
     }
 }

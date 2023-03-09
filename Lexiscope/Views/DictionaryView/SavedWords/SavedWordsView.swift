@@ -25,7 +25,9 @@ struct SavedWordsView: View {
                                 ForEach(filteredDisplay(at: key)) { entry in
                                     DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
                                                                                   saved: true,
-                                                                                  expanded: false))
+                                                                                  expanded: false),
+                                                   spacing: 3)
+                                    .definitionCard()
                                     .onTapGesture {
                                         viewModel.presentingVocabularyEntry = entry
                                         if viewModel.presentingVocabularyEntry != nil {
