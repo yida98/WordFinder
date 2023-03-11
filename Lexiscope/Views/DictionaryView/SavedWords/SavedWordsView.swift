@@ -57,9 +57,8 @@ struct SavedWordsView: View {
             }
             .sheet(isPresented: $viewModel.isPresenting, content: {
                 if let entry = viewModel.presentingVocabularyEntry {
-                    FullSavedWordView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
-                                                                     saved: true,
-                                                                     expanded: true))
+                    FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(),
+                                                                     saved: true))
                 } else {
                     EmptyView()
                 }

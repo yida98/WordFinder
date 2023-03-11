@@ -40,6 +40,7 @@
 		E4859F202987D73F008AB85B /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F1F2987D73F008AB85B /* QuizViewModel.swift */; };
 		E4859F2229887CBA008AB85B /* QuizOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F2129887CBA008AB85B /* QuizOptionCell.swift */; };
 		E4859F262989C092008AB85B /* QuizButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4859F252989C092008AB85B /* QuizButtonStyle.swift */; };
+		E48D676329BA0634009157DC /* FullSavedWordNotesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48D676229BA0634009157DC /* FullSavedWordNotesEditor.swift */; };
 		E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */; };
 		E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */; };
 		E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */; };
@@ -97,6 +98,7 @@
 		E4859F1F2987D73F008AB85B /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		E4859F2129887CBA008AB85B /* QuizOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizOptionCell.swift; sourceTree = "<group>"; };
 		E4859F252989C092008AB85B /* QuizButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizButtonStyle.swift; sourceTree = "<group>"; };
+		E48D676229BA0634009157DC /* FullSavedWordNotesEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSavedWordNotesEditor.swift; sourceTree = "<group>"; };
 		E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchRequestManager.swift; sourceTree = "<group>"; };
 		E4BDCB2A2945A5C50023C2D3 /* WordCellClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCellClusterView.swift; sourceTree = "<group>"; };
 		E4BDCB2C2945A6AF0023C2D3 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				E4DBE919297724B7006D4730 /* SavedWordsView.swift */,
 				E4859F1A2987D002008AB85B /* FullSavedWordView.swift */,
+				E48D676229BA0634009157DC /* FullSavedWordNotesEditor.swift */,
 				E4DBE9212977C7A2006D4730 /* SavedWordsViewModel.swift */,
 			);
 			path = SavedWords;
@@ -500,6 +503,7 @@
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
 				E4859F18298651AC008AB85B /* LexicalEntryView.swift in Sources */,
 				E46E09712991D6F400C212D3 /* QuizAnimationModifier.swift in Sources */,
+				E48D676329BA0634009157DC /* FullSavedWordNotesEditor.swift in Sources */,
 				E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */,
 				E4DBE9242980A71D006D4730 /* SectionedScrollView.swift in Sources */,
 				E4DCC211287688AC00F1495A /* DictionaryView.swift in Sources */,

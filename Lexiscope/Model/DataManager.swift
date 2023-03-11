@@ -160,30 +160,30 @@ class DataManager: ObservableObject {
         return results
     }
     
-    func saveVocabularyEntryEntity(headwordEntry: Data, date: Date = Date(), word: String, recallDates: [Date]?) {
-        if fetchVocabularyEntry(for: word) == nil {
+    func saveVocabularyEntryEntity(headwordEntry: Data?, date: Date? = Date(), word: String?, notes: String?, recallDates: [Date]?) {
+        guard let word = word else { return }
+        
+        if let entry = fetchVocabularyEntry(for: word) {
+            entry.setValue(headwordEntry, forKey: "headwordEntry")
+            entry.setValue(date, forKey: "date")
+            entry.setValue(word, forKey: "word")
+            entry.setValue(recallDates, forKey: "recallDates")
+            entry.setValue(notes, forKey: "notes")
+        } else {
             let context = getContext()
             let entity = NSManagedObject(entity: vocabularyEntryEntity, insertInto: context)
             entity.setValue(headwordEntry, forKey: "headwordEntry")
             entity.setValue(date, forKey: "date")
             entity.setValue(word, forKey: "word")
             entity.setValue(recallDates, forKey: "recallDates")
-            
-            saveContext()
+            entity.setValue(notes, forKey: "notes")
         }
+        
+        saveContext()
     }
     
     func resaveVocabularyEntry(_ vocabularyEntry: VocabularyEntry) {
-        if vocabularyEntry.word != nil, fetchVocabularyEntry(for: vocabularyEntry.word!) == nil {
-            let context = getContext()
-            let entity = NSManagedObject(entity: vocabularyEntryEntity, insertInto: context)
-            entity.setValue(vocabularyEntry.headwordEntry, forKey: "headwordEntry")
-            entity.setValue(vocabularyEntry.date, forKey: "date")
-            entity.setValue(vocabularyEntry.word, forKey: "word")
-            entity.setValue(vocabularyEntry.recallDates, forKey: "recallDates")
-            
-            saveContext()
-        }
+        saveVocabularyEntryEntity(headwordEntry: vocabularyEntry.headwordEntry, date: vocabularyEntry.date, word: vocabularyEntry.word, notes: vocabularyEntry.notes, recallDates: vocabularyEntry.recallDates)
     }
     
     func deleteVocabularyEntry(for word: String) {

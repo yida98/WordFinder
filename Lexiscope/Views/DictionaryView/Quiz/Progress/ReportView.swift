@@ -69,9 +69,8 @@ struct ReportView: View {
         .padding(.horizontal, 60)
         .sheet(isPresented: $isPresenting, content: {
             if let entry = presentingEntry {
-                FullSavedWordView(viewModel: DefinitionViewModel(headwordEntry: entry,
-                                                                 saved: true,
-                                                                 expanded: true))
+                FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry,
+                                                                 saved: true))
             } else {
                 EmptyView()
             }

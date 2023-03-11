@@ -27,7 +27,9 @@ class DictionaryViewModel: ObservableObject {
         self.wordStreamSubscriber = Set<AnyCancellable>()
         self.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
         self.dataManagerSubscriber = DataManager.shared.objectWillChange.sink { [weak self] _ in
-            self?.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
+            DispatchQueue.main.async {
+                self?.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
+            }
         }
         subscribeToWordRequestStream()
     }

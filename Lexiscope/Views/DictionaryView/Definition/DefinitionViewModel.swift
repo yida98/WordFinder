@@ -45,15 +45,16 @@ class DefinitionViewModel: ObservableObject {
     }
     
     func bookmarkWord() {
-        if DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) != nil {
+        let word = headwordEntry.word
+        if DataManager.shared.fetchVocabularyEntry(for: word) != nil {
             saved = false
-            DataManager.shared.deleteVocabularyEntry(for: headwordEntry.word)
+            DataManager.shared.deleteVocabularyEntry(for: word)
         } else {
             saved = true
             let encoder = JSONEncoder()
             do {
                 let headwordData = try encoder.encode(headwordEntry)
-                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word, recallDates: nil)
+                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word, notes: nil, recallDates: nil)
                 
                 for url in headwordEntry.allPronunciationURLs() {
                     URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Dummy" representedClassName="Dummy" syncable="YES" codeGenerationType="class"/>
     <entity name="Pronunciation" representedClassName="Pronunciation" syncable="YES" codeGenerationType="class">
         <attribute name="pronunciation" optional="YES" attributeType="Binary"/>
@@ -16,6 +16,7 @@
     <entity name="VocabularyEntry" representedClassName="VocabularyEntry" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="headwordEntry" optional="YES" attributeType="Binary"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="recallDates" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Date]"/>
         <attribute name="word" optional="YES" attributeType="String"/>
     </entity>

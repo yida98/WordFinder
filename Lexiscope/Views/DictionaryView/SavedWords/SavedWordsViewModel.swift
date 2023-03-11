@@ -22,7 +22,9 @@ class SavedWordsViewModel: ObservableObject {
     init() {
         self.dataManager = DataManager.shared
         dataManagerSubscriber = dataManager.objectWillChange.sink { [weak self] _ in
-            self?.isPresenting = false
+            DispatchQueue.main.async {
+                self?.isPresenting = false
+            }
             self?.fetchVocabList()
         }
         fetchVocabList()
