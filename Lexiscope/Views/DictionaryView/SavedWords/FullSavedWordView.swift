@@ -12,7 +12,6 @@ struct FullSavedWordView: View {
     @ObservedObject var viewModel: FullSavedWordViewModel
     
     @State private var textEditorHeight : CGFloat = 1
-    @State private var presentNotesEditor: Bool = false
     
     var body: some View {
         Group {
@@ -71,12 +70,12 @@ struct FullSavedWordView: View {
                     .onPreferenceChange(ViewHeightKey.self) { textEditorHeight = $0 }
                 }
                 .onTapGesture {
-                    presentNotesEditor = true
+                    viewModel.presentNotesEditor = true
                 }
             }
             .padding(50)
         }
-        .sheet(isPresented: $presentNotesEditor, onDismiss: {
+        .sheet(isPresented: $viewModel.presentNotesEditor, onDismiss: {
             viewModel.saveVocabulary()
         }, content: {
             FullSavedWordNotesEditor(text: $viewModel.notes)
@@ -118,7 +117,7 @@ class FullSavedWordViewModel: DefinitionViewModel {
     @Published var notes: String
     @Published var familiarity: Int
     @Published var date: Date
-    private var subscribers = Set<AnyCancellable>()
+    @Published var presentNotesEditor: Bool = false
         
     init(headwordEntry: HeadwordEntry, saved: Bool) {
         self.notes = FullSavedWordViewModel.getNotes(for: headwordEntry.word)
@@ -126,13 +125,6 @@ class FullSavedWordViewModel: DefinitionViewModel {
         self.date = Date()
 
         super.init(headwordEntry: headwordEntry, saved: saved, expanded: true)
-        
-        $notes
-            .debounce(for: .seconds(5), scheduler: DispatchQueue.main)
-            .sink { [weak self] output in
-                self?.saveVocabulary()
-            }
-            .store(in: &subscribers)
     }
     
     override func bookmarkWord() {
@@ -145,7 +137,6 @@ class FullSavedWordViewModel: DefinitionViewModel {
     func saveVocabulary() {
         if let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) as? VocabularyEntry {
             vocabulary.notes = notes
-            DataManager.shared.resaveVocabularyEntry(vocabulary)
         }
     }
     

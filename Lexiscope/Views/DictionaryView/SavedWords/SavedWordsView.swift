@@ -55,7 +55,11 @@ struct SavedWordsView: View {
                     SectionedScrollView(sectionTitles: filteredSectionsDisplay(), scrollProxy: reader, previousTitle: $previousTitle)
                 }
             }
-            .sheet(isPresented: $viewModel.isPresenting, content: {
+            .sheet(isPresented: $viewModel.isPresenting, onDismiss: {
+                if let entry = viewModel.presentingVocabularyEntry {
+                    DataManager.shared.resaveVocabularyEntry(entry)
+                }
+            }, content: {
                 if let entry = viewModel.presentingVocabularyEntry {
                     FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(),
                                                                      saved: true))
