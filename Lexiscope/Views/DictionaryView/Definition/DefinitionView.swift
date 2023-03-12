@@ -15,19 +15,19 @@ struct DefinitionView: View {
         VStack(spacing: spacing) {
             HStack {
                 Text(viewModel.headwordEntry.word)
-                    .foregroundColor(.moodPurple)
+                    .foregroundColor(.verdigrisDark) // primaryDark
                 Spacer()
                 Button {
                     viewModel.bookmarkWord()
                 } label: {
                     Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
-                        .foregroundColor(Color.boyBlue)
+                        .foregroundColor(Color.verdigris) // primary
                 }
             }
             HStack {
                 Text("/")
                     .font(.caption2)
-                    .foregroundColor(.moodPurple)
+                    .foregroundColor(.init(white: 0.5)) // neutral
                     .padding(.vertical, 2)
                 ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
                     Button {
@@ -35,15 +35,15 @@ struct DefinitionView: View {
                     } label: {
                         Text(pronunciation.phoneticSpelling!)
                             .font(.caption2)
-                            .foregroundColor(.moodPurple)
+                            .foregroundColor(.init(white: 0.5)) // neutral
                             .padding(2)
-                            .background(pronunciation.hasAudio ? Color.boyBlue.opacity(0.4) : Color.clear)
+                            .background(pronunciation.hasAudio ? Color.verdigris.opacity(0.4) : Color.clear) // primary
                             .cornerRadius(4)
                     }
                 }
                 Text("/")
                     .font(.caption2)
-                    .foregroundColor(.moodPurple)
+                    .foregroundColor(.init(white: 0.5)) // neutral
                     .padding(.vertical, 2)
                 Spacer()
             }
@@ -114,7 +114,7 @@ struct DefinitionCard: ViewModifier {
             .animation(.default, value: 0.5)
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
-            .background(Color(white: 0.95))
+            .background(Color(white: 0.97))
             .mask {
                 RoundedRectangle(cornerRadius: 10)
             }

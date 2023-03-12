@@ -41,7 +41,7 @@ struct SavedWordsView: View {
                                     Text("\(key.uppercased())")
                                         .font(.footnote)
                                         .bold()
-                                        .foregroundColor(.thistle)
+                                        .foregroundColor(.verdigris) // primary
                                     Spacer()
                                 }
                             }.id(key)

@@ -21,7 +21,7 @@ struct SectionedScrollView: View {
                     .bold()
                     .frame(width: 40, height: 14)
                     .background(dragObserver(title: title))
-                    .foregroundColor(.thistle)
+                    .foregroundColor(.verdigris) // primary
                     .onTapGesture {
                         scroll(to: title)
                     }

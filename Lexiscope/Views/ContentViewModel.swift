@@ -41,8 +41,8 @@ class ContentViewModel: ObservableObject {
         let cameraViewportHeight = Constant.screenBounds.height / 4
         self.cameraViewportSize = CGSize(width: Constant.screenBounds.width,
                                          height: cameraViewportHeight)
-        self.searchViewMaxHeight = cameraViewportHeight - 18
-        self.searchViewMinHeight = searchViewMaxHeight * 0.25
+        self.searchViewMaxHeight = cameraViewportHeight - 10
+        self.searchViewMinHeight = searchViewMaxHeight * 0.2
         self.searchViewActiveOffset = searchViewMaxHeight
         self.searchOpen = true
         self.fogCamera = false

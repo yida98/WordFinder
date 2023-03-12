@@ -22,7 +22,7 @@ struct SearchView: View {
                 .background(.ultraThinMaterial)
         }
         .frame(width: viewModel.cameraViewportSize.width)
-        .background(Color.boyBlue)
+        .background(Color.verdigrisDark) // primaryDark
         .clipped()
     }
 }

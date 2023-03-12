@@ -29,7 +29,7 @@ struct DictionaryView: View {
                             text = ""
                         } label: {
                             Image(systemName: "xmark")
-                                .foregroundColor(.thistle)
+                                .foregroundColor(.verdigris) // primary
                         }
                     }
                 }

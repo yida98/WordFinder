@@ -16,7 +16,7 @@ struct WordCell: View {
             .fixedSize(horizontal: true, vertical: true)
             .padding(2)
             .padding(.horizontal, 3)
-            .background(selected ? Color.blueCrayola.opacity(0.3) : .clear)
+            .background(selected ? Color.verdigris.opacity(0.3) : .clear) // primary
             .cornerRadius(5)
     }
 }
