@@ -77,10 +77,15 @@ struct ReportView: View {
         })
     }
     
-    private static let progressGradient: [Color] = [.bittersweet, .orange, .sunglow, .green, .boyBlue]
-    
     private func progressColor(for step: Double) -> Color {
-        ReportView.progressGradient[Int(step.truncatingRemainder(dividingBy: 4))]
+        let progressGradient: [Color] = [.orange, .sunglow, .green, .boyBlue]
+        if step == 0 {
+            return .bittersweet
+        } else if step < 4 {
+            return progressGradient[Int(step)]
+        } else {
+            return .boyBlue
+        }
     }
     
     private func showSummary(for entry: ProgressEntry) -> Bool {
