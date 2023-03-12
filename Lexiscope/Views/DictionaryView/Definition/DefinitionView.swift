@@ -10,6 +10,7 @@ import SwiftUI
 struct DefinitionView: View {
     @ObservedObject var viewModel: DefinitionViewModel
     var spacing: CGFloat
+    var familiar: Bool = false
     
     var body: some View {
         VStack(spacing: spacing) {
@@ -20,8 +21,14 @@ struct DefinitionView: View {
                 Button {
                     viewModel.bookmarkWord()
                 } label: {
-                    Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
-                        .foregroundColor(Color.verdigris) // primary
+                    if familiar {
+                        Star(cornerRadius: 1)
+                            .fill(Color.verdigris)
+                            .frame(width: 16, height: 16)
+                    } else {
+                        Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
+                            .foregroundColor(Color.verdigris) // primary
+                    }
                 }
             }
             HStack {
@@ -109,20 +116,23 @@ extension Sense: Identifiable {
 }
 
 struct DefinitionCard: ViewModifier {
+    var familiar: Bool = false
     func body(content: Content) -> some View {
         content
             .animation(.default, value: 0.5)
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
-            .background(Color(white: 0.97))
-            .mask {
+            .background(
                 RoundedRectangle(cornerRadius: 10)
-            }
+                    .stroke(familiar ? Color.verdigris : .clear, lineWidth: 3)
+                    .background(Color(white: 0.97))
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
 extension DefinitionView {
-    func definitionCard() -> some View {
-        modifier(DefinitionCard())
+    func definitionCard(familiar: Bool = false) -> some View {
+        modifier(DefinitionCard(familiar: familiar))
     }
 }

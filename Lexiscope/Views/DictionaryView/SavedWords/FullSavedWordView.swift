@@ -14,9 +14,12 @@ struct FullSavedWordView: View {
     @State private var textEditorHeight : CGFloat = 1
     
     var body: some View {
-        Group {
+        VStack(spacing: -10) {
+            Rectangle()
+                .fill(viewModel.familiarity >= 4 ? Color.verdigrisDark : .white)
+                .frame(height: 20)
             VStack {
-                DefinitionView(viewModel: viewModel, spacing: 10)
+                DefinitionView(viewModel: viewModel, spacing: 10, familiar: viewModel.familiarity >= 4)
                 HStack {
                     Text("Familiarity:")
                         .fullSavedWordSectionTitle()
@@ -74,6 +77,8 @@ struct FullSavedWordView: View {
                 }
             }
             .padding(50)
+            .background(RoundedRectangle(cornerRadius: 10).fill(.white))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
         .sheet(isPresented: $viewModel.presentNotesEditor, onDismiss: {
             viewModel.saveVocabulary()

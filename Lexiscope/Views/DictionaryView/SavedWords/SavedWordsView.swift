@@ -26,8 +26,9 @@ struct SavedWordsView: View {
                                     DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
                                                                                   saved: true,
                                                                                   expanded: false),
-                                                   spacing: 3)
-                                    .definitionCard()
+                                                   spacing: 3,
+                                                   familiar: entry.recallDates?.count ?? 0 >= 4)
+                                    .definitionCard(familiar: entry.recallDates?.count ?? 0 >= 4)
                                     .onTapGesture {
                                         viewModel.presentingVocabularyEntry = entry
                                         if viewModel.presentingVocabularyEntry != nil {
