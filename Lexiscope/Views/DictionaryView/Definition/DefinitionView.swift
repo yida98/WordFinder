@@ -24,7 +24,7 @@ struct DefinitionView: View {
                     if familiar {
                         Star(cornerRadius: 1)
                             .fill(Color.verdigris)
-                            .frame(width: 16, height: 16)
+                            .frame(width: 20, height: 20)
                     } else {
                         Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
                             .foregroundColor(Color.verdigris) // primary
