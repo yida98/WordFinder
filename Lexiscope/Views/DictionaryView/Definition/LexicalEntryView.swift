@@ -24,7 +24,7 @@ struct LexicalEntryView: View {
             
             ForEach(senses().indices, id: \.self) { senseIndex in
                 HStack {
-                    if senses().count > 1 {
+                    if senses().count > 1 && expanded {
                         VStack {
                             Text("\(senseIndex + 1)")
                                 .font(.caption)
@@ -33,13 +33,23 @@ struct LexicalEntryView: View {
                             Spacer()
                         }
                     }
-                    Text("\(senses()[senseIndex].definitions?.first ?? "")")
-                        .font(.subheadline)
-                        .foregroundColor(Color(white: 0.6))
-                    Text("\(senses()[senseIndex].examples?.first?.text ?? "")")
-                        .font(.subheadline)
-                        .italic()
-                        .foregroundColor(Color(white: 0.4))
+                    VStack {
+                        HStack {
+                            Text("\(senses()[senseIndex].definitions?.first ?? "")")
+                                .font(.subheadline)
+                                .foregroundColor(Color(white: 0.6))
+                            Spacer()
+                        }
+                        if expanded {
+                            HStack {
+                                Text("\(senses()[senseIndex].examples?.first?.text ?? "")")
+                                    .font(.caption)
+                                    .italic()
+                                    .foregroundColor(Color(white: 0.7))
+                                Spacer()
+                            }
+                        }
+                    }
                     Spacer()
                 }
             }

@@ -22,7 +22,7 @@ class URLTask {
     
     func define(word: String,
                 language: URLTask.Language = URLTask.default_language,
-                fields: Array<String> = ["definitions", "pronunciations"],
+                fields: Array<String> = ["definitions", "examples", "pronunciations"],
                 strictMatch: Bool = false) -> AnyPublisher<(String?, RetrieveEntry?), Error> {
         let trimmedWord = URLTask.sanitizeInput(word)
         debugPrint(trimmedWord)

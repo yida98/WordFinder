@@ -126,7 +126,7 @@ class DataManager: ObservableObject {
     }
     
     func fetchVocabularyEntry(for word: String) -> NSManagedObject? {
-        let predicate = NSPredicate(format: "word == %@", word.lowercased())
+        let predicate = NSPredicate(format: "word == %@", word)
         let results = fetch(entity: .vocabularyEntry, with: predicate)
         switch results {
         case .success(let objects):
@@ -314,7 +314,7 @@ class DataManager: ObservableObject {
             let entry = try JSONDecoder().decode(RetrieveEntry.self, from: data)
             return entry
         } catch {
-            fatalError("Unable to decode HeadwordEntry from \(data)")
+            fatalError("Unable to decode RetrieveEntry from \(data)")
         }
     }
     

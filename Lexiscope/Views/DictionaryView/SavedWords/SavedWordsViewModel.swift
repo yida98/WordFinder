@@ -41,13 +41,14 @@ class SavedWordsViewModel: ObservableObject {
     }
     
     static func alphabetizedDictionary(for vocabulary: [VocabularyEntry]) -> [String: [VocabularyEntry]] {
+        /// Vocabulary entry's word can be both capitalized or not
         var dict = [String: [VocabularyEntry]]()
         for vocabularyEntry in vocabulary {
-            let firstLetter = String(vocabularyEntry.word!.first!)
+            let firstLetter = String(vocabularyEntry.word!.lowercased().first!)
             if dict.keys.contains(firstLetter) {
                 var array = dict[firstLetter]
                 array!.append(vocabularyEntry)
-                array!.sort(by: { $0.word! < $1.word! })
+                array!.sort(by: { $0.word!.lowercased() < $1.word!.lowercased() })
                 dict[firstLetter] = array
             } else {
                 dict[firstLetter] = [vocabularyEntry]

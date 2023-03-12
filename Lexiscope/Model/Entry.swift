@@ -968,7 +968,7 @@ class InlineModel11: NSObject, Codable, NSSecureCoding {
 
 class InlineModel12: NSObject, Codable, NSSecureCoding {
     /// A list of statements of the exact meaning of a word.
-    var definitions: Array<String>
+    var definitions: Array<String>?
     /// A subject, discipline, or branch of knowledge particular to the Sense.
     var domains: domainsList?
     var notes: CategorizedTextList?
@@ -977,7 +977,7 @@ class InlineModel12: NSObject, Codable, NSSecureCoding {
     /// A level of language usage, typically with respect to formality. e.g. 'offensive', 'informal'.
     var registers: registersList?
     /// The list of sense identifiers related to the example. Provided in the sentences endpoint only.
-    var senseIds: Array<String>
+    var senseIds: Array<String>?
     var text: String
     
     public static var supportsSecureCoding: Bool = true
