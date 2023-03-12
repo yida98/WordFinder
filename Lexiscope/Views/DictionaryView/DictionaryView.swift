@@ -12,6 +12,7 @@ struct DictionaryView: View {
     @ObservedObject var viewModel: DictionaryViewModel
     @State private var text: String = ""
     @FocusState private var searchIsFocused: Bool
+    @Binding var searchOpen: Bool
     
     var body: some View {
         ZStack {
@@ -33,14 +34,15 @@ struct DictionaryView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 10)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
                 .background(searchIsFocused ? Color.boyBlue.opacity(0.05) : Color(white: 0.99))
                 .mask {
                     RoundedRectangle(cornerRadius: 16)
                 }
                 .onTapGesture {
                     searchIsFocused = true
+                    searchOpen = false
                     viewModel.showingVocabulary = true
                 }
                 .padding(.horizontal, 30)

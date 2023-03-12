@@ -39,7 +39,7 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .shadow(radius: 4)
                         .ignoresSafeArea()
-                    DictionaryView(viewModel: viewModel.getDictionaryViewModel())
+                    DictionaryView(viewModel: viewModel.getDictionaryViewModel(), searchOpen: $viewModel.searchOpen)
                         .onTapGesture {
                             /// This allows the inside `ScrollView` drag gestures to co-exist with this `DragGesture`
                         }
@@ -61,6 +61,7 @@ struct ContentView: View {
                                     }
                                 })
                         )
+                        .animation(.easeInOut, value: viewModel.searchOpen)
                         .sheet(isPresented: $viewModel.isPresentingQuiz) {
                             QuizView(viewModel: QuizViewModel(), isPresenting: $viewModel.isPresentingQuiz)
                                 .background(Color.verdigris)
