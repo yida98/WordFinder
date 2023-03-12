@@ -15,6 +15,8 @@ class ProgressViewModel: ObservableObject {
     @Published var totalFamiliar: Int
     @Published var percentGrade: Double
     
+    @Published var presentingEntry: HeadwordEntry?
+    
     init(vocabulary: [VocabularyEntry], validationStamps: [Bool]) {
         self.progressEntries = vocabulary.indices.map { ProgressEntry.makeProgressEntry(from: vocabulary[$0], valid: validationStamps[$0]) }
         self.validationStamps = validationStamps

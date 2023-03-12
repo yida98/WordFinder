@@ -11,7 +11,6 @@ struct ReportView: View {
     @ObservedObject var viewModel: ProgressViewModel
     
     @State var isPresenting = false
-    @State var presentingEntry: HeadwordEntry?
     
     init(viewModel: ProgressViewModel) {
         self.viewModel = viewModel
@@ -23,8 +22,8 @@ struct ReportView: View {
                 VStack(spacing: 0) {
                     ForEach(viewModel.progressEntries, id: \.self.title) { entry in
                         Button {
-                            presentingEntry = entry.vocabulary.getHeadwordEntry()
-                            if presentingEntry != nil {
+                            viewModel.presentingEntry = entry.vocabulary.getHeadwordEntry()
+                            if viewModel.presentingEntry != nil {
                                 isPresenting = true
                             }
                         } label: {
@@ -67,8 +66,10 @@ struct ReportView: View {
                            percent: viewModel.percentGrade)
         }
         .padding(.horizontal, 60)
-        .sheet(isPresented: $isPresenting, content: {
-            if let entry = presentingEntry {
+        .sheet(isPresented: $isPresenting, onDismiss: {
+            viewModel.presentingEntry = nil
+        }, content: {
+            if let entry = viewModel.presentingEntry {
                 FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry,
                                                                  saved: true))
             } else {
