@@ -22,7 +22,8 @@ class Quiz {
     func getNewQuestion(for queryType: Quiz.Entry.QueryType, at index: Int) -> Entry? {
         if index < orderedVocabulary.count {
             let question = orderedVocabulary[index]
-            return makeQuizEntry(topic: question, allOtherOptions: orderedVocabulary, queryType: queryType)
+            let allOtherOptions = orderedVocabulary.filter { $0.word != orderedVocabulary[index].word } 
+            return makeQuizEntry(topic: question, allOtherOptions: allOtherOptions, queryType: queryType)
         }
         return nil
     }
@@ -45,7 +46,7 @@ class Quiz {
     private static func randomOptions(from existingEntries: [VocabularyEntry]) -> [VocabularyEntry] {
         let shuffledEntries = existingEntries.filter { $0.getHeadwordEntry().hasSense() }.shuffled()
         var results = [VocabularyEntry]()
-        for index in 0..<2 {
+        for index in 0...2 {
             if index < shuffledEntries.count {
                 results.append(shuffledEntries[index])
             }
