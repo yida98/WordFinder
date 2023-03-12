@@ -31,7 +31,6 @@ class ProgressViewModel: ObservableObject {
                     strongSelf.percentGrade = strongSelf.getPercentGrade()
                     if strongSelf.progressEntries[entryIndex].step >= 4 {
                         strongSelf.newFamiliars += 1
-                        strongSelf.totalFamiliar += 1
                     }
                 }
             }
