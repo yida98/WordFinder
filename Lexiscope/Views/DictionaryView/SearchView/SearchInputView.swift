@@ -17,9 +17,16 @@ struct SearchInputView: View {
             ZStack {
                 ScrollView(showsIndicators: false) {
                     ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
-                        DefinitionView(viewModel: viewModel.makeDefinitionViewModel(with: viewModel.retrieveEntryResults()[headwordEntryIndex]), spacing: 3)
-                            .definitionCard()
-                            .id(String(headwordEntryIndex + 1))
+                        if let definitionViewModel = definitionViewModel(at: headwordEntryIndex) {
+                            DefinitionView(viewModel: definitionViewModel, spacing: 3)
+                                .definitionCard()
+                                .onTapGesture {
+                                    viewModel.toggleExpanded(at: headwordEntryIndex)
+                                }
+                                .id(String(headwordEntryIndex + 1))
+                        } else {
+                            EmptyView()
+                        }
                     }
                 }
                 .padding(.horizontal, 40)
@@ -32,5 +39,12 @@ struct SearchInputView: View {
                 }
             }
         }
+    }
+    
+    private func definitionViewModel(at index: Int) -> DefinitionViewModel? {
+        if index < viewModel.retrieveResultsDefinitionVMs.count {
+            return viewModel.retrieveResultsDefinitionVMs[index]
+        }
+        return nil
     }
 }

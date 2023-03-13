@@ -32,6 +32,8 @@ class DictionaryViewModel: ObservableObject {
         self.filterFamiliar = false
         self.textFilter = ""
         
+        self.retrieveResultsDefinitionVMs = [DefinitionViewModel]()
+        
         self.dataManagerSubscriber = DataManager.shared.objectWillChange.sink { [weak self] _ in
             DispatchQueue.main.async {
                 self?.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
@@ -39,6 +41,8 @@ class DictionaryViewModel: ObservableObject {
         }
         subscribeToWordRequestStream()
     }
+    
+    var retrieveResultsDefinitionVMs: [DefinitionViewModel]
     
     func makeDefinitionViewModel(with headwordEntry: HeadwordEntry) -> DefinitionViewModel {
         if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) as? VocabularyEntry {
@@ -68,10 +72,23 @@ class DictionaryViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 debugPrint("completed \(word)")
             }, receiveValue: { [weak self] retrieveEntry in
-                self?.retrieveEntry = retrieveEntry.1
-                self?.showingVocabulary = false
+                guard let strongSelf = self else { return }
+                strongSelf.retrieveEntry = retrieveEntry.1
+                strongSelf.makeViewModels(for: strongSelf.retrieveEntryResults())
+                strongSelf.showingVocabulary = false
             })
             .store(in: &wordStreamSubscriber)
+    }
+    
+    private func makeViewModels(for headwordEntries: [HeadwordEntry]) {
+        for headwordEntry in headwordEntries {
+            retrieveResultsDefinitionVMs.append( makeDefinitionViewModel(with: headwordEntry))
+        }
+    }
+    
+    func toggleExpanded(at index: Int) {
+        guard index < retrieveResultsDefinitionVMs.count else { return }
+        retrieveResultsDefinitionVMs[index].expanded.toggle()
     }
     
     func retrieveEntryResults() -> [HeadwordEntry] {
