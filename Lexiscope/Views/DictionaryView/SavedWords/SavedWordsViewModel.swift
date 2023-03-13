@@ -25,6 +25,8 @@ class SavedWordsViewModel: ObservableObject {
     
     private var dataSubscribers = Set<AnyCancellable>()
     
+    var savedWordsVocabularyDelegate: SavedWordsVocabularyDelegate?
+    
     init(filterFamiliarPublisher: AnyPublisher<Bool, Never>, shouldFilterFamiliar: Bool, textFilterPublisher: AnyPublisher<String, Never>, textFilter: String) {
         self.dataManager = DataManager.shared
         self.filterFamiliarPublisher = filterFamiliarPublisher
@@ -89,6 +91,9 @@ class SavedWordsViewModel: ObservableObject {
             self?.vocabularyDictionary = SavedWordsViewModel.alphabetizedDictionary(for: vocabulary)
             self?.vocabulary = SavedWordsViewModel.alphabetizedVocabulary(for: vocabulary)
             self?.sectionTitles = SavedWordsViewModel.alphabetizedKeys(for: vocabulary).map { String($0) }
+            if let delegate = self?.savedWordsVocabularyDelegate {
+                delegate.vocabularyDidUpdate(vocabulary)
+            }
         }
     }
     

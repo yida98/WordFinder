@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-class DictionaryViewModel: ObservableObject {
+class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     @Published var showingVocabulary: Bool {
         willSet {
             endEditing()
@@ -56,6 +56,7 @@ class DictionaryViewModel: ObservableObject {
     func getSavedWordsViewModel() -> SavedWordsViewModel {
         if savedWordsViewModel == nil {
             savedWordsViewModel = SavedWordsViewModel(filterFamiliarPublisher: $filterFamiliar.eraseToAnyPublisher(), shouldFilterFamiliar: filterFamiliar, textFilterPublisher: $textFilter.eraseToAnyPublisher(), textFilter: textFilter)
+            savedWordsViewModel?.savedWordsVocabularyDelegate = self
         }
         return savedWordsViewModel!
     }
@@ -106,6 +107,14 @@ class DictionaryViewModel: ObservableObject {
         }
         return result
     }
+    
+    func vocabularyDidUpdate(_ vocabulary: [VocabularyEntry]) {
+        vocabularySize = vocabulary.flatMap { $0 }.count
+    }
+}
+
+protocol SavedWordsVocabularyDelegate {
+    func vocabularyDidUpdate(_ vocabulary: [VocabularyEntry])
 }
 
 extension UIApplication {
