@@ -22,10 +22,16 @@ class DictionaryViewModel: ObservableObject {
     @Published var vocabularySize: Int
     var dataManagerSubscriber: AnyCancellable?
     
+    @Published var filterFamiliar: Bool
+    @Published var textFilter: String
+    
     init() {
         self.showingVocabulary = true
         self.wordStreamSubscriber = Set<AnyCancellable>()
         self.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
+        self.filterFamiliar = false
+        self.textFilter = ""
+        
         self.dataManagerSubscriber = DataManager.shared.objectWillChange.sink { [weak self] _ in
             DispatchQueue.main.async {
                 self?.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
@@ -45,7 +51,7 @@ class DictionaryViewModel: ObservableObject {
     
     func getSavedWordsViewModel() -> SavedWordsViewModel {
         if savedWordsViewModel == nil {
-            savedWordsViewModel = SavedWordsViewModel()
+            savedWordsViewModel = SavedWordsViewModel(filterFamiliarPublisher: $filterFamiliar.eraseToAnyPublisher(), shouldFilterFamiliar: filterFamiliar, textFilterPublisher: $textFilter.eraseToAnyPublisher(), textFilter: textFilter)
         }
         return savedWordsViewModel!
     }

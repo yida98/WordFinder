@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SavedWordsView: View {
     @ObservedObject var viewModel: SavedWordsViewModel
-    @Binding var text: String
     @State var previousTitle: String = ""
     
     var body: some View {
@@ -20,9 +19,9 @@ struct SavedWordsView: View {
                         Image(systemName: "text.book.closed")
                             .opacity(0.5)
                     } else {
-                        ForEach(filteredSectionsDisplay(), id: \.self) { key in
+                        ForEach(viewModel.sectionTitles ?? [String](), id: \.self) { key in
                             Section {
-                                ForEach(filteredDisplay(at: key)) { entry in
+                                ForEach(display(at: key)) { entry in
                                     DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
                                                                                   saved: true,
                                                                                   expanded: false),
@@ -53,7 +52,7 @@ struct SavedWordsView: View {
                 .padding(.bottom, 50)
                 HStack {
                     Spacer()
-                    SectionedScrollView(sectionTitles: filteredSectionsDisplay(), scrollProxy: reader, previousTitle: $previousTitle)
+                    SectionedScrollView(sectionTitles: viewModel.sectionTitles ?? [String](), scrollProxy: reader, previousTitle: $previousTitle)
                 }
             }
             .sheet(isPresented: $viewModel.isPresenting, onDismiss: {
@@ -77,22 +76,11 @@ struct SavedWordsView: View {
         }
     }
     
-    private func filteredDisplay(at key: String) -> [VocabularyEntry] {
-        let filteredEntries = viewModel.vocabularyDictionary![key]!.filter {
-            if let word = $0.word {
-                return word.lowercased().hasPrefix(text.lowercased())
-            }
-            return false
+    private func display(at key: String) -> [VocabularyEntry] {
+        guard let dictionary = viewModel.vocabularyDictionary, let result = dictionary[key] else {
+            return [VocabularyEntry]()
         }
-        return filteredEntries
-    }
-    
-    private func filteredSectionsDisplay() -> [String] {
-        var filteredSections = viewModel.sectionTitles ?? [String]()
-        if let sectionTitles = viewModel.sectionTitles, text.count > 0 {
-            filteredSections = sectionTitles.filter { text.lowercased().hasPrefix($0) }
-        }
-        return filteredSections
+        return result
     }
 }
 
