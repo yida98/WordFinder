@@ -82,8 +82,8 @@ struct ReportView: View {
         let progressGradient: [Color] = [.orange, .sunglow, .green, .boyBlue]
         if step == 0 {
             return .bittersweet
-        } else if step < 4 {
-            return progressGradient[Int(step)]
+        } else if step <= 4 {
+            return progressGradient[Int(step - 1)]
         } else {
             return .boyBlue
         }
