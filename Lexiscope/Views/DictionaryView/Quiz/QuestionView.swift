@@ -50,18 +50,21 @@ struct QuestionView: View {
                     self.temporarySubmissionBlock = false
                 }
             } label: {
-                if validation == nil {
-                    Text("Submit")
-                } else {
-                    Text("Next →")
+                Group {
+                    if validation == nil {
+                        Text("Submit")
+                    } else {
+                        Text("Next →")
+                    }
                 }
+                .padding()
             }
             .disabled(!canSubmit)
             .disabled(temporarySubmissionBlock)
             .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 16),
                                          primaryColor: getPrimarySubmitButtonColor(),
                                          secondaryColor: getSecondarySubmitButtonColor(),
-                                         highlight: getSecondarySubmitButtonColor(),
+                                         baseColor: getSecondarySubmitButtonColor(),
                                          disabled: !canSubmit))
             Spacer()
         }

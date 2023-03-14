@@ -48,6 +48,7 @@ extension Color {
     // MARK: Yellow
     static let sunglow: Color = Color(red: 255/255, green: 202/255, blue: 58/255)
     static let mikadoYellow: Color = Color(red: 255/255, green: 200/255, blue: 0/255)
+    static let satinGold: Color = Color(red: 181/255, green: 155/255, blue: 40/255)
     
     
     

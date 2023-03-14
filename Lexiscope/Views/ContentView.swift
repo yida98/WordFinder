@@ -73,21 +73,55 @@ struct ContentView: View {
                             Button {
                                 viewModel.openQuiz()
                             } label: {
-                                Text("Familiarity: \(viewModel.getDictionaryViewModel().vocabularySize)")
-                                    .padding(4)
-                                    .padding(.horizontal, 5)
-                                    .background(Color.boyBlue)
-                                    .cornerRadius(10)
-                                    .font(.footnote)
-                                    .foregroundColor(.babyPowder)
+                                HStack {
+                                    Image(systemName: "star.circle.fill")
+                                        .resizable()
+                                        .frame(width: 12, height: 12)
+                                        .foregroundColor(.white)
+                                    Text("Q U I Z")
+                                        .font(.footnote.bold())
+                                        .foregroundColor(.white)
+                                }
+                                .padding(5)
+                                .padding(.horizontal, 8)
                             }
+                            .buttonStyle(MenuButtonStyle(fillColor: .sunglow.opacity(0.6), strokeColor: .satinGold))
                             Spacer()
+                            Button {
+                                viewModel.openQuiz()
+                            } label: {
+                                Text("Q U I Z")
+                                    .padding(5)
+                                    .padding(.horizontal, 8)
+                                    .font(.footnote.bold())
+                                    .foregroundColor(.white)
+                            }
+                            .buttonStyle(MenuButtonStyle(fillColor: .uranianBlue, strokeColor: .silverLakeBlue))
                         }
                     }
-                    .padding(.leading, 40)
-                    .padding(.bottom, 15)
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 13)
                 }
             }
         }
+    }
+}
+
+struct MenuButtonStyle: ButtonStyle {
+    var fillColor: Color
+    var strokeColor: Color
+        
+    init(fillColor: Color, strokeColor: Color) {
+        self.fillColor = fillColor
+        self.strokeColor = strokeColor
+    }
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(fillColor)
+                    .animation(.easeIn, value: configuration.isPressed)
+            )
     }
 }

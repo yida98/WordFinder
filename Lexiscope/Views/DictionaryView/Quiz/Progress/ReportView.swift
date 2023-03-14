@@ -49,12 +49,12 @@ struct ReportView: View {
                                             .foregroundColor(.gray)
                                     }
                                 }
-                            }
+                            }.padding()
                         }
                         .buttonStyle(QuizButtonStyle(shape: RoundedRectangle(cornerRadius: 20),
                                                      primaryColor: .verdigrisLight,
                                                      secondaryColor: .verdigrisDark,
-                                                     highlight: .verdigrisDark,
+                                                     baseColor: .verdigrisDark,
                                                      disabled: false))
                         .padding(.vertical, 10)
                         .padding(.horizontal, 4)
