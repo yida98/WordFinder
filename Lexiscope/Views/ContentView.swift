@@ -85,7 +85,7 @@ struct ContentView: View {
                                 .padding(5)
                                 .padding(.horizontal, 8)
                             }
-                            .buttonStyle(MenuButtonStyle(fillColor: .sunglow.opacity(0.8), strokeColor: .satinGold))
+                            .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.sunglow, .gradient3], startPoint: .topLeading, endPoint: .bottomTrailing), strokeColor: .satinGold))
                             Spacer()
                             Button {
                                 viewModel.openQuiz()
@@ -96,7 +96,8 @@ struct ContentView: View {
                                     .font(.footnote.bold())
                                     .foregroundColor(.white)
                             }
-                            .buttonStyle(MenuButtonStyle(fillColor: .boyBlue.opacity(0.8), strokeColor: .silverLakeBlue))
+                            .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing),
+                                                         strokeColor: .silverLakeBlue))
                         }
                     }
                     .padding(.horizontal, 40)
@@ -107,11 +108,11 @@ struct ContentView: View {
     }
 }
 
-struct MenuButtonStyle: ButtonStyle {
-    var fillColor: Color
+struct MenuButtonStyle<Fill: View>: ButtonStyle {
+    var fillColor: Fill
     var strokeColor: Color
         
-    init(fillColor: Color, strokeColor: Color) {
+    init(fillColor: Fill, strokeColor: Color) {
         self.fillColor = fillColor
         self.strokeColor = strokeColor
     }
@@ -119,9 +120,9 @@ struct MenuButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(
+                fillColor
+            ).mask {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(fillColor)
-                    .animation(.easeIn, value: configuration.isPressed)
-            )
+            }
     }
 }

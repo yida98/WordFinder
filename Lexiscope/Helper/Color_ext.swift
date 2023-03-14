@@ -58,6 +58,12 @@ extension Color {
     static let ashGrayLight: Color = Color(red: 215/255, green: 234/255, blue: 225/255)
     static let pineGreen: Color = Color(red: 61/255, green: 115/255, blue: 102/255)
     static let celadon: Color = Color(red: 177/255, green: 232/255, blue: 190/255)
+    
+    static let gradient1: Color = Color(red: 189/255, green: 150/255, blue: 255/255)
+    static let gradient2: Color = Color(red: 133/255, green: 196/255, blue: 255/255)
+    static let gradient3: Color = Color(red: 166/255, green: 247/255, blue: 207/255)
+    static let gradient4: Color = Color(red: 255/255, green: 252/255, blue: 236/255)
+    static let gradient5: Color = Color(red: 255/255, green: 176/255, blue: 242/255)
 }
 
 struct ColorSet {
