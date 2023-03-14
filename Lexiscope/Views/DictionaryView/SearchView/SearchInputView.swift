@@ -55,9 +55,9 @@ struct SearchInputView: View {
 }
 
 extension Text {
-    func placeholder() -> some View {
+    func placeholder(color: Color = .verdigrisLight) -> some View {
         return self
             .font(.largeTitle.bold())
-            .foregroundColor(.verdigrisLight)
+            .foregroundColor(color)
     }
 }

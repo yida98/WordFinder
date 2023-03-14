@@ -160,6 +160,20 @@ class DataManager: ObservableObject {
         return results
     }
     
+    func hasAnyVocabulary() -> Bool {
+        let managedContext = getContext()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.vocabularyEntry.rawValue)
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
+            return results?.count ?? 0 > 0
+        } catch {
+            return false
+        }
+        
+    }
+    
     func saveVocabularyEntryEntity(headwordEntry: Data?, date: Date? = Date(), word: String?, notes: String?, recallDates: [Date]?) {
         guard let word = word else { return }
         

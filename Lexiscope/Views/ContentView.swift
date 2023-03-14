@@ -63,8 +63,12 @@ struct ContentView: View {
                         )
                         .animation(.easeInOut, value: viewModel.searchOpen)
                         .sheet(isPresented: $viewModel.isPresentingQuiz) {
-                            QuizView(viewModel: QuizViewModel(), isPresenting: $viewModel.isPresentingQuiz)
-                                .background(Color.verdigris)
+                            if DataManager.shared.hasAnyVocabulary() {
+                                QuizView(viewModel: QuizViewModel(), isPresenting: $viewModel.isPresentingQuiz)
+                                    .background(Color.verdigris)
+                            } else {
+                                QuizPlaceholder()
+                            }
                         }
                     
                     VStack {
