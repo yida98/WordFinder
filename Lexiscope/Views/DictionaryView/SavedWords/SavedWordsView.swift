@@ -14,11 +14,11 @@ struct SavedWordsView: View {
     var body: some View {
         ScrollViewReader { reader in
             ZStack {
-                ScrollView(showsIndicators: false) {
-                    if viewModel.vocabulary == nil {
-                        Image(systemName: "text.book.closed")
-                            .opacity(0.5)
-                    } else {
+                if viewModel.vocabulary == nil {
+                    Text("No bookmarks")
+                        .placeholder()
+                } else {
+                    ScrollView(showsIndicators: false) {
                         ForEach(viewModel.sectionTitles ?? [String](), id: \.self) { key in
                             Section {
                                 ForEach(display(at: key)) { entry in
@@ -47,12 +47,12 @@ struct SavedWordsView: View {
                             }.id(key)
                         }
                     }
-                }
-                .padding(.horizontal, 40)
-                .padding(.bottom, 50)
-                HStack {
-                    Spacer()
-                    SectionedScrollView(sectionTitles: viewModel.sectionTitles ?? [String](), scrollProxy: reader, previousTitle: $previousTitle)
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 50)
+                    HStack {
+                        Spacer()
+                        SectionedScrollView(sectionTitles: viewModel.sectionTitles ?? [String](), scrollProxy: reader, previousTitle: $previousTitle)
+                    }
                 }
             }
             .sheet(isPresented: $viewModel.isPresenting, onDismiss: {

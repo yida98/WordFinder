@@ -15,22 +15,27 @@ struct SearchInputView: View {
     var body: some View {
         ScrollViewReader { proxy in
             ZStack {
-                ScrollView(showsIndicators: false) {
-                    ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
-                        if let definitionViewModel = definitionViewModel(at: headwordEntryIndex) {
-                            DefinitionView(viewModel: definitionViewModel, spacing: 3)
-                                .definitionCard()
-                                .onTapGesture {
-                                    viewModel.toggleExpanded(at: headwordEntryIndex)
-                                }
-                                .id(String(headwordEntryIndex + 1))
-                        } else {
-                            EmptyView()
+                if viewModel.retrieveEntryResults().isEmpty {
+                    Text("No results")
+                        .placeholder()
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
+                            if let definitionViewModel = definitionViewModel(at: headwordEntryIndex) {
+                                DefinitionView(viewModel: definitionViewModel, spacing: 3)
+                                    .definitionCard()
+                                    .onTapGesture {
+                                        viewModel.toggleExpanded(at: headwordEntryIndex)
+                                    }
+                                    .id(String(headwordEntryIndex + 1))
+                            } else {
+                                EmptyView()
+                            }
                         }
                     }
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 50)
                 }
-                .padding(.horizontal, 40)
-                .padding(.bottom, 50)
                 HStack {
                     Spacer()
                     SectionedScrollView(sectionTitles: viewModel.retrieveEntryResultSectionTitles(),
@@ -46,5 +51,13 @@ struct SearchInputView: View {
             return viewModel.retrieveResultsDefinitionVMs[index]
         }
         return nil
+    }
+}
+
+extension Text {
+    func placeholder() -> some View {
+        return self
+            .font(.largeTitle.bold())
+            .foregroundColor(.verdigrisLight)
     }
 }
