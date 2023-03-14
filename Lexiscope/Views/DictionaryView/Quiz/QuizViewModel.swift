@@ -34,24 +34,43 @@ class QuizViewModel: ObservableObject {
         self.currentQuestionIndex = 0
         self.progression = 0
         self.quizResults = [Bool]()
-        if var dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] {
-            dateOrderedVocabularyEntries.sort { lhs, rhs in
-                if let lhsDates = lhs.recallDates, let rhsDates = rhs.recallDates {
-                    if lhsDates.count == rhsDates.count {
-                        return lhsDates.last ?? Date.distantPast < rhsDates.last ?? Date.distantPast
-                    } else {
-                        return lhsDates.count < rhsDates.count
-                    }
-                } else {
-                    return lhs.recallDates == nil
-                }
-            }
+        if var dateOrderedVocabularyEntries = QuizViewModel.getQuizzable() {
             self.quiz = Quiz(orderedVocabulary: dateOrderedVocabularyEntries)
             self.vocabularyEntries = dateOrderedVocabularyEntries
             self.totalQuestions = dateOrderedVocabularyEntries.count
         }
         self.queryType = .define
         self.dataSource = [newQuestion()]
+    }
+    
+    private static func getQuizzable() -> [VocabularyEntry]? {
+        /// Don't quiz familiars unless there are only familiars left
+        guard var dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] else { return nil }
+        
+        if let familiar = DataManager.shared.fetchAllFamiliar() {
+            if familiar.count > 0 && familiar.count < dateOrderedVocabularyEntries.count {
+                dateOrderedVocabularyEntries = dateOrderedVocabularyEntries.filter {
+                    if let recallDates = $0.recallDates {
+                        return recallDates.count < 4
+                    }
+                    return true
+                }
+            }
+        }
+        
+        dateOrderedVocabularyEntries.sort { lhs, rhs in
+            if let lhsDates = lhs.recallDates, let rhsDates = rhs.recallDates {
+                if lhsDates.count == rhsDates.count {
+                    return lhsDates.last ?? Date.distantPast < rhsDates.last ?? Date.distantPast
+                } else {
+                    return lhsDates.count < rhsDates.count
+                }
+            } else {
+                return lhs.recallDates == nil
+            }
+        }
+        
+        return dateOrderedVocabularyEntries
     }
     
     func newQuestion() -> Quiz.Entry? {
