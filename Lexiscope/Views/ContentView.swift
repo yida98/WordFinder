@@ -94,11 +94,17 @@ struct ContentView: View {
                             Button {
                                 viewModel.openQuiz()
                             } label: {
-                                Text("Q U I Z")
-                                    .padding(5)
-                                    .padding(.horizontal, 8)
-                                    .font(.footnote.bold())
-                                    .foregroundColor(.white)
+                                HStack {
+                                    Image(systemName: "star.circle.fill")
+                                        .resizable()
+                                        .frame(width: 12, height: 12)
+                                        .foregroundColor(.white)
+                                    Text("Q U I Z")
+                                        .font(.footnote.bold())
+                                        .foregroundColor(.white)
+                                }
+                                .padding(5)
+                                .padding(.horizontal, 8)
                             }
                             .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing),
                                                          strokeColor: .silverLakeBlue))
@@ -125,8 +131,13 @@ struct MenuButtonStyle<Fill: View>: ButtonStyle {
         configuration.label
             .background(
                 fillColor
+                    .frame(height: 100)
+                    .offset(y: configuration.isPressed ? 20 : 30)
             ).mask {
                 RoundedRectangle(cornerRadius: 12)
+                    .frame(height: 100)
+                    .offset(y: configuration.isPressed ? 20 : 30)
             }
+            .animation(.easeOut(duration: 0.1), value: configuration.isPressed)
     }
 }
