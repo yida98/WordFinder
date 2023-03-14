@@ -127,7 +127,7 @@ class FullSavedWordViewModel: DefinitionViewModel {
     init(headwordEntry: HeadwordEntry, saved: Bool) {
         self.notes = FullSavedWordViewModel.getNotes(for: headwordEntry.word)
         self.familiarity = FullSavedWordViewModel.getFamiliarity(for: headwordEntry.word)
-        self.date = Date()
+        self.date = FullSavedWordViewModel.getDate(for: headwordEntry.word)
 
         super.init(headwordEntry: headwordEntry, saved: saved, expanded: true)
     }
