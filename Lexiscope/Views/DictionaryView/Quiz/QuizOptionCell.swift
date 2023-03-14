@@ -31,7 +31,11 @@ struct QuizOptionCell: View {
         if choice == id {
             return validation[id] ? .commonGreen : .red
         }
-        return .verdigrisLight
+        if validation[id] {
+            return .honeydew
+        } else {
+            return .timberWolf
+        }
     }
     
     private func getSecondaryColor() -> Color {
@@ -39,11 +43,11 @@ struct QuizOptionCell: View {
         if choice == id {
             return .verdigrisLight
         }
-        return validation[id] ? .pineGreen : .red
+        return validation[id] ? .pineGreen : .redwood
     }
     
     private func getHighlightColor() -> Color {
         guard let validation = validation else { return .verdigrisDark }
-        return validation[id] ? .pineGreen : .red
+        return validation[id] ? .pineGreen : .redwood
     }
 }

@@ -26,6 +26,8 @@ extension Color {
     static let thistle: Color = Color(red: 213/255, green: 197/255, blue: 227/255)
     static let ultraViolet: Color = Color(red: 106/255, green: 76/255, blue: 147/255)
     
+    static let silverLakeBlue: Color = Color(red: 98/255, green: 144/255, blue: 195/255)
+    
     // MARK: Green
     static let yellowGreenCrayola: Color = Color(red: 181/255, green: 239/255, blue: 138/255)
     static let hunterGreen: Color = Color(red: 69/255, green: 107/255, blue: 76/255)
@@ -35,9 +37,13 @@ extension Color {
     static let commonGreen: Color = Color(red: 125/255, green: 219/255, blue: 134/255)
     static let forestGreen: Color = Color(red: 54/255, green: 134/255, blue: 45/255)
     
+    static let honeydew: Color = Color(red: 200/255, green: 222/255, blue: 202/255)
+    
     // MARK: Red
     static let redwood: Color = Color(red: 158/255, green: 83/255, blue: 70/255)
     static let bittersweet: Color = Color(red: 255/255, green: 89/255, blue: 94/255)
+    
+    static let timberWolf: Color = Color(red: 232/255, green: 223/255, blue: 223/255)
     
     // MARK: Yellow
     static let sunglow: Color = Color(red: 255/255, green: 202/255, blue: 58/255)
@@ -49,8 +55,8 @@ extension Color {
     static let verdigrisLight: Color = Color(red: 238/255, green: 246/255, blue: 247/255)
     static let verdigrisDark: Color = Color(red: 78/255, green: 161/255, blue: 166/255)
     static let ashGrayLight: Color = Color(red: 215/255, green: 234/255, blue: 225/255)
-    static let pineGreen: Color = Color(red: 74/255, green: 140/255, blue: 125/255)
-    static let celadon: Color = Color(red: 135/255, green: 232/255, blue: 139/255)
+    static let pineGreen: Color = Color(red: 61/255, green: 115/255, blue: 102/255)
+    static let celadon: Color = Color(red: 177/255, green: 232/255, blue: 190/255)
 }
 
 struct ColorSet {

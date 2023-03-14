@@ -15,10 +15,10 @@ struct ProgressBar: View {
 }
 
 extension ProgressBar {
-    func progressBarStyle(_ style: some ProgressBarStyle, fillColor: Color) -> some View {
+    func progressBarStyle(_ style: some ProgressBarStyle, fillColor: Color, backgroundColor: Color) -> some View {
         style.makeBody(configuration: ProgressBarConfiguration(label: ProgressBarConfiguration.Label(content: self),
                                                                progression: self.progression,
-                                                               fillColor: fillColor))
+                                                               fillColor: fillColor, backgroundColor: backgroundColor))
     }
 }
 
@@ -33,6 +33,7 @@ public struct ProgressBarConfiguration {
     let label: ProgressBarConfiguration.Label
     var progression: CGFloat
     let fillColor: Color
+    let backgroundColor: Color
     
     public struct Label: View {
         init(content: any View) {
@@ -58,7 +59,7 @@ public struct DefaultProgressBarStyle: ProgressBarStyle {
         return GeometryReader { proxy in
             ZStack {
                 Capsule(style: .continuous)
-                    .fill(configuration.fillColor.opacity(0.3))
+                    .fill(configuration.backgroundColor)
                 HStack {
                     Capsule(style: .continuous)
                         .fill(configuration.fillColor)

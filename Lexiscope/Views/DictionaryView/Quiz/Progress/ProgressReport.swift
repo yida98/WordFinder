@@ -40,7 +40,7 @@ struct ProgressReport: View {
                     
                     HStack {
                         ProgressBar(progression: CGFloat(percent))
-                            .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen)
+                            .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen, backgroundColor: .commonGreen.opacity(0.3))
                             .frame(height: 8)
                             .animation(.linear, value: percent)
                         Text("\(percentage())%")
