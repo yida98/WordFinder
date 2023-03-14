@@ -37,6 +37,7 @@ struct LexicalEntryView: View {
                         HStack {
                             Text("\(senses()[senseIndex].definitions?.first ?? "")")
                                 .font(.subheadline)
+                                .textSelection(.enabled)
                                 .foregroundColor(Color(white: 0.6))
                             Spacer()
                         }
@@ -45,6 +46,7 @@ struct LexicalEntryView: View {
                                 Text("\(senses()[senseIndex].examples?.first?.text ?? "")")
                                     .font(.caption)
                                     .italic()
+                                    .textSelection(.disabled)
                                     .foregroundColor(Color(white: 0.7))
                                 Spacer()
                             }

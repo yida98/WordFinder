@@ -18,6 +18,7 @@ struct DefinitionView: View {
         VStack(spacing: spacing) {
             HStack {
                 Text(viewModel.headwordEntry.word)
+                    .textSelection(.disabled)
                     .foregroundColor(.verdigrisDark) // primaryDark
                 Spacer()
                 Button {
