@@ -85,7 +85,7 @@ struct ContentView: View {
                                 .padding(5)
                                 .padding(.horizontal, 8)
                             }
-                            .buttonStyle(MenuButtonStyle(fillColor: .sunglow.opacity(0.6), strokeColor: .satinGold))
+                            .buttonStyle(MenuButtonStyle(fillColor: .sunglow.opacity(0.8), strokeColor: .satinGold))
                             Spacer()
                             Button {
                                 viewModel.openQuiz()
@@ -96,7 +96,7 @@ struct ContentView: View {
                                     .font(.footnote.bold())
                                     .foregroundColor(.white)
                             }
-                            .buttonStyle(MenuButtonStyle(fillColor: .uranianBlue, strokeColor: .silverLakeBlue))
+                            .buttonStyle(MenuButtonStyle(fillColor: .boyBlue.opacity(0.8), strokeColor: .silverLakeBlue))
                         }
                     }
                     .padding(.horizontal, 40)
