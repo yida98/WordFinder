@@ -12,6 +12,8 @@ struct DefinitionView: View {
     var spacing: CGFloat
     var familiar: Bool = false
     
+    @State var presentAlert: Bool = false
+    
     var body: some View {
         VStack(spacing: spacing) {
             HStack {
@@ -19,16 +21,24 @@ struct DefinitionView: View {
                     .foregroundColor(.verdigrisDark) // primaryDark
                 Spacer()
                 Button {
-                    viewModel.bookmarkWord()
+                    if viewModel.saved {
+                        presentAlert = true
+                    } else {
+                        viewModel.bookmarkWord()
+                    }
                 } label: {
                     if familiar {
                         Star(cornerRadius: 1)
                             .fill(Color.verdigris)
                             .frame(width: 20, height: 20)
                     } else {
-                        Image(systemName: viewModel.saved ?? false ? "bookmark.fill" : "bookmark")
+                        Image(systemName: viewModel.saved ? "bookmark.fill" : "bookmark")
                             .foregroundColor(Color.verdigris) // primary
                     }
+                }.alert(isPresented: $presentAlert) {
+                    Alert(title: Text("Unbookmarking"), message: Text("Are you sure you want to unbookmark \(viewModel.headwordEntry.word)"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Unbookmark")) {
+                        viewModel.bookmarkWord()
+                    })
                 }
             }
             HStack {

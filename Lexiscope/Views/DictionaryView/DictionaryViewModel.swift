@@ -35,8 +35,10 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
         self.retrieveResultsDefinitionVMs = [DefinitionViewModel]()
         
         self.dataManagerSubscriber = DataManager.shared.objectWillChange.sink { [weak self] _ in
+            guard let strongSelf = self else { return }
             DispatchQueue.main.async {
-                self?.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
+                strongSelf.vocabularySize = DataManager.shared.fetchVocabulary()?.count ?? 0
+                strongSelf.recheckRetrieveSaved()
             }
         }
         subscribeToWordRequestStream()
@@ -51,6 +53,18 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
             return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
         }
         return DefinitionViewModel(headwordEntry: headwordEntry, saved: false, expanded: true)
+    }
+    
+    func recheckRetrieveSaved() {
+        for retrieve in retrieveResultsDefinitionVMs {
+            if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: retrieve.headwordEntry.word) as? VocabularyEntry {
+                let fetchedHeadwordEntry = DataManager.decodedHeadwordEntryData(vocabularyEntry.headwordEntry!)
+                let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: retrieve.headwordEntry)
+                retrieve.saved = saved
+            } else {
+                retrieve.saved = false
+            }
+        }
     }
     
     func getSavedWordsViewModel() -> SavedWordsViewModel {

@@ -13,7 +13,7 @@ import SwiftUI
 class DefinitionViewModel: ObservableObject {
     
     @Published var headwordEntry: HeadwordEntry
-    @Published var saved: Bool?
+    @Published var saved: Bool
     @Published var expanded: Bool
     
     init(headwordEntry: HeadwordEntry, saved: Bool, expanded: Bool) {
