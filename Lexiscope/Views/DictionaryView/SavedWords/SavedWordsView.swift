@@ -14,8 +14,8 @@ struct SavedWordsView: View {
     var body: some View {
         ScrollViewReader { reader in
             ZStack {
-                if viewModel.vocabulary == nil {
-                    Text("No bookmarks")
+                if viewModel.vocabulary == nil || viewModel.vocabulary?.count == 0 {
+                    Text("No  bookmarks")
                         .placeholder()
                 } else {
                     ScrollView(showsIndicators: false) {
