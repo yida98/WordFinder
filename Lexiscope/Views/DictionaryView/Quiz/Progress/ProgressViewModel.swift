@@ -95,12 +95,17 @@ struct ProgressEntry {
         }
         
         if valid {
+            if dates.count >= 4 {
+                let start = dates.count - 3
+                let end = dates.count
+                dates = Array(dates[start..<end])
+            }
             dates.append(Date())
             vocabularyEntry.recallDates = dates
         } else {
             vocabularyEntry.recallDates = nil
         }
         
-//        DataManager.shared.resaveVocabularyEntry(vocabularyEntry)
+        DataManager.shared.resaveVocabularyEntry(vocabularyEntry)
     }
 }

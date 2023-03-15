@@ -70,7 +70,6 @@ class SavedWordsViewModel: ObservableObject {
                 return false
             }
         }
-        
         setVocabulary(with: savedVocabulary)
     }
     
