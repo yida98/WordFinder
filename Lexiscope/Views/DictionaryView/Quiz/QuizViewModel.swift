@@ -34,7 +34,7 @@ class QuizViewModel: ObservableObject {
         self.currentQuestionIndex = 0
         self.progression = 0
         self.quizResults = [Bool]()
-        if var dateOrderedVocabularyEntries = QuizViewModel.getQuizzable() {
+        if let dateOrderedVocabularyEntries = QuizViewModel.getQuizzable() {
             self.quiz = Quiz(orderedVocabulary: dateOrderedVocabularyEntries)
             self.vocabularyEntries = dateOrderedVocabularyEntries
             self.totalQuestions = dateOrderedVocabularyEntries.count
@@ -49,6 +49,7 @@ class QuizViewModel: ObservableObject {
         
         if let familiar = DataManager.shared.fetchAllFamiliar() {
             if familiar.count > 0 && familiar.count < dateOrderedVocabularyEntries.count {
+                /// Check if already familiar
                 dateOrderedVocabularyEntries = dateOrderedVocabularyEntries.filter {
                     if let recallDates = $0.recallDates {
                         return recallDates.count < 4
@@ -56,6 +57,15 @@ class QuizViewModel: ObservableObject {
                     return true
                 }
             }
+        }
+        
+        /// Check if recently (yesterday) quizzed
+        dateOrderedVocabularyEntries = dateOrderedVocabularyEntries.filter {
+            if let dates = $0.recallDates, let last = dates.last {
+                let calendar = Calendar.current
+                return !calendar.isDateInToday(last)
+            }
+            return true
         }
         
         dateOrderedVocabularyEntries.sort { lhs, rhs in

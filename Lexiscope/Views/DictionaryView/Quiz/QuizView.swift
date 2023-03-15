@@ -18,45 +18,49 @@ struct QuizView: View {
     @State private var offset: CGFloat = 0
     
     var body: some View {
-        VStack(spacing: 50) {
-            HStack(spacing: 20) {
-                ProgressBar(progression: viewModel.progression)
-                    .progressBarStyle(DefaultProgressBarStyle(), fillColor: .celadon, backgroundColor: .celadon.opacity(0.3))
-                    .frame(height: 14)
-                    .animation(.easeIn, value: viewModel.progression)
-                    .opacity(viewModel.quizDidFinish ? 0 : 1)
-                    .animation(.linear(duration: 0.2), value: viewModel.quizDidFinish)
-                Button {
-                    if viewModel.progressFirstAppearance || viewModel.quizResults.count == 0 {
-                        isPresenting = false
-                    } else {
-                        endQuiz()
-                    }
-                } label: {
-                    Text("END")
-                }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .sunglow))
-            }
-            .frame(height: 20)
-            if let dataSource = viewModel.dataSource {
-                HStack(spacing: 0) {
-                    ForEach(dataSource, id: \.?.id) { quiz in
-                        if let question = quiz {
-                            QuestionView(viewModel: viewModel, question: question, submission: submission)
+        if viewModel.totalQuestions < 1 {
+            QuizPlaceholder()
+        } else {
+            VStack(spacing: 50) {
+                HStack(spacing: 20) {
+                    ProgressBar(progression: viewModel.progression)
+                        .progressBarStyle(DefaultProgressBarStyle(), fillColor: .celadon, backgroundColor: .celadon.opacity(0.3))
+                        .frame(height: 14)
+                        .animation(.easeIn, value: viewModel.progression)
+                        .opacity(viewModel.quizDidFinish ? 0 : 1)
+                        .animation(.linear(duration: 0.2), value: viewModel.quizDidFinish)
+                    Button {
+                        if viewModel.progressFirstAppearance || viewModel.quizResults.count == 0 {
+                            isPresenting = false
                         } else {
-                            GeometryReader { proxy in
-                                proxyTrigger(proxy)
+                            endQuiz()
+                        }
+                    } label: {
+                        Text("END")
+                    }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .sunglow))
+                }
+                .frame(height: 20)
+                if let dataSource = viewModel.dataSource {
+                    HStack(spacing: 0) {
+                        ForEach(dataSource, id: \.?.id) { quiz in
+                            if let question = quiz {
+                                QuestionView(viewModel: viewModel, question: question, submission: submission)
+                            } else {
+                                GeometryReader { proxy in
+                                    proxyTrigger(proxy)
+                                }
                             }
                         }
+                        .frame(minWidth: Constant.screenBounds.width)
+                        .animation(nil, value: dataSource)
+                        .animation(.linear, value: offset)
+                        .offset(x: offset)
                     }
-                    .frame(minWidth: Constant.screenBounds.width)
-                    .animation(nil, value: dataSource)
-                    .animation(.linear, value: offset)
-                    .offset(x: offset)
                 }
             }
+            .padding(30)
+            .interactiveDismissDisabled(!viewModel.quizDidFinish)
         }
-        .padding(30)
-        .interactiveDismissDisabled(!viewModel.quizDidFinish)
     }
     
     private func proxyTrigger(_ proxy: GeometryProxy) -> some View {
