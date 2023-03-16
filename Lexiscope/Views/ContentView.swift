@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
     @StateObject var quizViewModel = QuizViewModel()
-    @State var isOn: Bool = false
     var body: some View {
         ZStack {
             VStack {
@@ -92,16 +91,16 @@ struct ContentView: View {
                             .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing),
                                                          strokeColor: .silverLakeBlue))
                             Spacer()
-                            Toggle(isOn: $isOn) {
+                            Toggle(isOn: $viewModel.searchOpen) {
                                 HStack {
                                     Image(systemName: "camera.fill")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 14, height: 14)
-                                        .foregroundStyle(isOn ? .linearGradient(colors: [.white], startPoint: .topLeading, endPoint: .bottomTrailing) : .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                        .foregroundStyle(viewModel.searchOpen ? .linearGradient(colors: [.white], startPoint: .topLeading, endPoint: .bottomTrailing) : .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                                     Text("C A M")
                                         .font(.footnote.bold())
-                                        .foregroundStyle(isOn ? .linearGradient(colors: [.white], startPoint: .topLeading, endPoint: .bottomTrailing) : .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                        .foregroundStyle(viewModel.searchOpen ? .linearGradient(colors: [.white], startPoint: .topLeading, endPoint: .bottomTrailing) : .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 }
                                 .padding(5)
                                 .padding(.horizontal, 8)
@@ -169,7 +168,9 @@ struct MenuToggleStyle<Fill: ShapeStyle>: ToggleStyle {
                 }
                 .animation(.easeOut(duration: 0.1), value: configuration.isOn)
                 .onTapGesture {
-                    configuration.isOn.toggle()
+                    withAnimation {
+                        configuration.isOn.toggle()
+                    }
                 }
         }
     }
