@@ -17,13 +17,13 @@ class ContentViewModel: ObservableObject {
     @Published var searchOpen: Bool {
         didSet {
             searchViewActiveOffset = searchOpen ? searchViewMaxHeight : searchViewMinHeight
-            fogCamera = !searchOpen
+            shouldFogCamera = !searchOpen
         }
     }
     
-    @Published var fogCamera: Bool {
+    @Published var shouldFogCamera: Bool {
         didSet {
-            if fogCamera {
+            if shouldFogCamera {
                 getSearchViewModel().getCameraViewModel().stopCamera()
             } else {
                 getSearchViewModel().getCameraViewModel().resumeCamera()
@@ -33,7 +33,7 @@ class ContentViewModel: ObservableObject {
     
     @Published var isPresentingQuiz: Bool {
         didSet {
-            fogCamera = isPresentingQuiz
+            NotificationCenter.default.post(name: .fogCamera, object: nil, userInfo: ["shouldFog": isPresentingQuiz])
         }
     }
     
@@ -45,8 +45,21 @@ class ContentViewModel: ObservableObject {
         self.searchViewMinHeight = searchViewMaxHeight * 0.2
         self.searchViewActiveOffset = searchViewMaxHeight
         self.searchOpen = true
-        self.fogCamera = false
+        self.shouldFogCamera = false
         self.isPresentingQuiz = false
+        
+        setupNotifications()
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fogCamera), name: .fogCamera, object: nil)
+    }
+    
+    @objc
+    private func fogCamera(_ notification: NSNotification) {
+        if let userInfo = notification.userInfo, let shouldFog = userInfo["shouldFog"] as? Bool {
+            shouldFogCamera = shouldFog || !searchOpen
+        }
     }
     
     func getDictionaryViewModel() -> DictionaryViewModel {
@@ -147,4 +160,9 @@ class ContentViewModel: ObservableObject {
     func openQuiz() {
         isPresentingQuiz = true
     }
+}
+
+
+extension Notification.Name {
+    static var fogCamera: Notification.Name { .init("fogCamera") }
 }

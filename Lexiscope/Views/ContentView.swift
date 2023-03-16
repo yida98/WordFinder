@@ -16,7 +16,7 @@ struct ContentView: View {
                 ZStack {
                     SearchView(viewModel: viewModel.getSearchViewModel())
 
-                    if (viewModel.fogCamera)  {
+                    if (viewModel.shouldFogCamera)  {
                         Rectangle()
                             .background(.ultraThinMaterial)
                             .onTapGesture {

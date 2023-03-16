@@ -14,7 +14,11 @@ class SavedWordsViewModel: ObservableObject {
     @Published var vocabulary: [[VocabularyEntry]]?
     @Published var sectionTitles: [String]?
     @Published var vocabularyDictionary: [String: [VocabularyEntry]]?
-    @Published var isPresenting: Bool = false
+    @Published var isPresenting: Bool = false {
+        didSet {
+            NotificationCenter.default.post(name: .fogCamera, object: nil, userInfo: ["shouldFog": isPresenting])
+        }
+    }
     var dataManager: DataManager
     var presentingVocabularyEntry: VocabularyEntry?
     
