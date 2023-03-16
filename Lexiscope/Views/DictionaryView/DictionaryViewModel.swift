@@ -96,6 +96,7 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     }
     
     private func makeViewModels(for headwordEntries: [HeadwordEntry]) {
+        retrieveResultsDefinitionVMs = [DefinitionViewModel]()
         for headwordEntry in headwordEntries {
             retrieveResultsDefinitionVMs.append( makeDefinitionViewModel(with: headwordEntry))
         }

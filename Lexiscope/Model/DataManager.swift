@@ -280,6 +280,21 @@ class DataManager: ObservableObject {
         }
     }
     
+    func nuke() {
+        for entity in EntityName.allCases {
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity.rawValue)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+            do {
+                try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: getContext())
+            } catch let error as NSError {
+                // TODO: handle the error
+                debugPrint("error")
+                return
+            }
+        }
+    }
+    
 //    private func setSaved(_ saved: Bool, for entry: NSManagedObject) {
 //        entry.setValue(saved, forKey: "saved")
 //        saveContext()
@@ -314,7 +329,7 @@ class DataManager: ObservableObject {
         self.objectWillChange.send()
     }
     
-    enum EntityName: String {
+    enum EntityName: String, CaseIterable {
         typealias RawValue = String
         
         case user = "User"
