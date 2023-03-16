@@ -61,8 +61,10 @@ extension Color {
     
     static let gradient1: Color = Color(red: 189/255, green: 150/255, blue: 255/255)
     static let gradient2: Color = Color(red: 133/255, green: 196/255, blue: 255/255)
+    static let gradient2a: Color = Color(red: 219/255, green: 240/255, blue: 255/255)
     static let gradient3: Color = Color(red: 166/255, green: 247/255, blue: 207/255)
-    static let gradient4: Color = Color(red: 255/255, green: 252/255, blue: 236/255)
+    static let gradient3a: Color = Color(red: 213/255, green: 247/255, blue: 230/255)
+    static let gradient4: Color = Color(red: 255/255, green: 245/255, blue: 223/255)
     static let gradient5: Color = Color(red: 255/255, green: 176/255, blue: 242/255)
 }
 

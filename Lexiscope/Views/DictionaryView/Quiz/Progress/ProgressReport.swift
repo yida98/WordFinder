@@ -16,40 +16,40 @@ struct ProgressReport: View {
         HStack {
             Box {
                 VStack {
-                    HStack(spacing: 14) {
+                    HStack(spacing: 30) {
                         VStack {
                             Text("New familiars")
                                 .font(.caption)
-                                .foregroundColor(.verdigrisLight)
+                                .foregroundColor(.white)
                             Text("\(newFamiliars)")
                                 .font(.subheadline.bold())
-                                .foregroundColor(.verdigrisLight)
+                                .foregroundColor(.white)
                                 .animation(.linear, value: newFamiliars)
                         }
                         
                         VStack {
                             Text("Total familiar")
                                 .font(.caption)
-                                .foregroundColor(.verdigrisLight)
+                                .foregroundColor(.white)
                             Text("\(totalFamiliar)")
                                 .font(.subheadline.bold())
-                                .foregroundColor(.verdigrisLight)
+                                .foregroundColor(.white)
                                 .animation(.linear, value: totalFamiliar)
                         }
                     }
                     
                     HStack {
                         ProgressBar(progression: CGFloat(percent))
-                            .progressBarStyle(DefaultProgressBarStyle(), fillColor: .commonGreen, backgroundColor: .commonGreen.opacity(0.3))
+                            .progressBarStyle(DefaultProgressBarStyle(), fillColor: .green, backgroundColor: .green.opacity(0.3))
                             .frame(height: 8)
                             .animation(.linear, value: percent)
                         Text("\(percentage())%")
                             .font(.caption)
-                            .foregroundColor(.verdigrisLight)
+                            .foregroundColor(.white)
                             .animation(.linear, value: percent)
                     }
                 }
-            }//.boxStyle(DefaultBoxStyle())
+            }.boxStyle(DefaultBoxStyle())
         }
     }
     

@@ -37,7 +37,7 @@ struct QuizView: View {
                         }
                     } label: {
                         Text("END")
-                    }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .sunglow))
+                    }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .gradient3a))
                 }
                 .frame(height: 20)
                 if let dataSource = viewModel.dataSource {

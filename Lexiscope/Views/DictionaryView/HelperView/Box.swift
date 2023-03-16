@@ -31,27 +31,14 @@ public protocol BoxStyle {
 
 public struct DefaultBoxStyle: BoxStyle {
     public func makeBody(configuration: Configuration) -> some View {
-        ZStack {
-            VStack {
-                configuration.label
-                    .padding()
-                    .background(
-                        roundedBackgroundView()
-                            .fill(.white)
-                    ).clipShape(roundedBackgroundView())
-                Spacer()
-                    .frame(height: 4)
-            }
-        }
-        .background(
-            roundedBackgroundView()
-                .fill(.gray.opacity(0.4))
-        )
-        .clipShape(roundedBackgroundView())
+        configuration.label
+            .padding()
+            .background(.ultraThinMaterial)
+            .mask(roundedBackgroundView())
     }
     
     private func roundedBackgroundView() -> some Shape {
-        RoundedRectangle(cornerRadius: 10)
+        RoundedRectangle(cornerRadius: 20)
     }
 }
 

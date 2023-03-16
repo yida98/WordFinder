@@ -71,10 +71,14 @@ struct CartoonShadowBackground<S: Shape>: View {
     var body: some View {
         ZStack {
             shape
-                .fill(baseColor)
+                .fill(baseColor.opacity(0.8))
+                .background(.thinMaterial)
+                .clipShape(shape)
                 .overlay(shape.stroke(baseColor, lineWidth: 2))
             shape
-                .fill(selected ? selectionColor : buttonDefaultColor)
+                .fill(selected ? selectionColor.opacity(0.8) : buttonDefaultColor.opacity(0.8))
+                .background(.thinMaterial)
+                .clipShape(shape)
                 .overlay(shape.stroke(baseColor, lineWidth: 2))
                 .offset(y: selected ? 0 : -7)
         }

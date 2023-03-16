@@ -10,7 +10,6 @@ import SwiftUI
 
 struct DictionaryView: View {
     @ObservedObject var viewModel: DictionaryViewModel
-//    @State private var text: String = ""
     @FocusState private var searchIsFocused: Bool
     @Binding var searchOpen: Bool
     
@@ -23,6 +22,7 @@ struct DictionaryView: View {
                             viewModel.handleNewRequest(viewModel.textFilter)
                             viewModel.textFilter = ""
                         }
+                        .foregroundColor(.verdigrisDark)
                         .focused($searchIsFocused)
                         .submitLabel(viewModel.textFilter.count > 0 ? .search : .done)
                         if viewModel.textFilter.count > 0 {
@@ -37,7 +37,7 @@ struct DictionaryView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
-                    .background(searchIsFocused ? Color.boyBlue.opacity(0.05) : Color(white: 0.99))
+                    .background(.white.opacity(0.3))
                     .mask {
                         RoundedRectangle(cornerRadius: 16)
                     }
@@ -75,7 +75,7 @@ struct StarToggleStyle: ToggleStyle {
                     .frame(width: 20, height: 20)
             } else {
                 Star(cornerRadius: 1)
-                    .fill(Color.verdigrisLight)
+                    .fill(Color.verdigris.opacity(0.5))
                     .frame(width: 20, height: 20)
             }
         }

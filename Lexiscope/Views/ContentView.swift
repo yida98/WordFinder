@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
     @StateObject var quizViewModel = QuizViewModel()
-    
+    @State var isOn: Bool = false
     var body: some View {
         ZStack {
             VStack {
@@ -35,8 +35,8 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
+                        .fill(.linearGradient(colors: [.gradient2a, .gradient3a], startPoint: .topLeading, endPoint: .bottomTrailing))
                         .frame(idealWidth: .infinity, idealHeight: .infinity)
-                        .foregroundColor(.white)
                         .shadow(radius: 4)
                         .ignoresSafeArea()
                     DictionaryView(viewModel: viewModel.getDictionaryViewModel(), searchOpen: $viewModel.searchOpen)
@@ -65,7 +65,7 @@ struct ContentView: View {
                         .sheet(isPresented: $viewModel.isPresentingQuiz) {
                             if DataManager.shared.hasAnyVocabulary() {
                                 QuizView(viewModel: QuizViewModel(), isPresenting: $viewModel.isPresentingQuiz)
-                                    .background(Color.verdigris)
+                                    .background(LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                             } else {
                                 QuizPlaceholder()
                             }
@@ -89,25 +89,24 @@ struct ContentView: View {
                                 .padding(5)
                                 .padding(.horizontal, 8)
                             }
-                            .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.sunglow, .gradient3], startPoint: .topLeading, endPoint: .bottomTrailing), strokeColor: .satinGold))
+                            .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing),
+                                                         strokeColor: .silverLakeBlue))
                             Spacer()
-                            Button {
-                                viewModel.openQuiz()
-                            } label: {
+                            Toggle(isOn: $isOn) {
                                 HStack {
-                                    Image(systemName: "star.circle.fill")
+                                    Image(systemName: "camera.fill")
                                         .resizable()
-                                        .frame(width: 12, height: 12)
-                                        .foregroundColor(.white)
-                                    Text("Q U I Z")
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 14, height: 14)
+                                        .foregroundStyle(isOn ? .linearGradient(colors: [.white], startPoint: .topLeading, endPoint: .bottomTrailing) : .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                    Text("C A M")
                                         .font(.footnote.bold())
-                                        .foregroundColor(.white)
+                                        .foregroundStyle(isOn ? .linearGradient(colors: [.white], startPoint: .topLeading, endPoint: .bottomTrailing) : .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 }
                                 .padding(5)
                                 .padding(.horizontal, 8)
                             }
-                            .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing),
-                                                         strokeColor: .silverLakeBlue))
+                            .toggleStyle(MenuToggleStyle(fillColor: .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing), strokeColor: .satinGold))
                         }
                     }
                     .padding(.horizontal, 40)
@@ -131,13 +130,47 @@ struct MenuButtonStyle<Fill: View>: ButtonStyle {
         configuration.label
             .background(
                 fillColor
-                    .frame(height: 100)
-                    .offset(y: configuration.isPressed ? 20 : 30)
             ).mask {
                 RoundedRectangle(cornerRadius: 12)
-                    .frame(height: 100)
-                    .offset(y: configuration.isPressed ? 20 : 30)
             }
             .animation(.easeOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
+struct MenuToggleStyle<Fill: ShapeStyle>: ToggleStyle {
+    var fillColor: Fill
+    var strokeColor: Color
+    
+    init(fillColor: Fill, strokeColor: Color) {
+        self.fillColor = fillColor
+        self.strokeColor = strokeColor
+    }
+    
+    func makeBody(configuration: Configuration) -> some View {
+        if configuration.isOn {
+            configuration.label
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(fillColor)
+                )
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(fillColor, lineWidth: 2)
+                }
+                .animation(.easeOut(duration: 0.1), value: configuration.isOn)
+                .onTapGesture {
+                    configuration.isOn.toggle()
+                }
+        } else {
+            configuration.label
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(fillColor, lineWidth: 2)
+                }
+                .animation(.easeOut(duration: 0.1), value: configuration.isOn)
+                .onTapGesture {
+                    configuration.isOn.toggle()
+                }
+        }
     }
 }

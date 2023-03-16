@@ -18,7 +18,7 @@ struct LexicalEntryView: View {
                 Text(lexicalEntry.lexicalCategory.text.capitalized)
                     .font(.caption)
                     .italic()
-                    .foregroundColor(Color(white: 0.8))
+                    .foregroundColor(.verdigrisDark) // primaryDark
                 Spacer()
             }
             
@@ -28,7 +28,7 @@ struct LexicalEntryView: View {
                         VStack {
                             Text("\(senseIndex + 1)")
                                 .font(.caption)
-                                .foregroundColor(.verdigris)
+                                .foregroundColor(.verdigris) // primary
                                 .padding(.vertical, 2)
                             Spacer()
                         }
@@ -38,7 +38,7 @@ struct LexicalEntryView: View {
                             Text("\(senses()[senseIndex].definitions?.first ?? "")")
                                 .font(.subheadline)
                                 .textSelection(.enabled)
-                                .foregroundColor(Color(white: 0.6))
+                                .foregroundColor(Color(white: 0.4))
                             Spacer()
                         }
                         if expanded {
@@ -47,7 +47,7 @@ struct LexicalEntryView: View {
                                     .font(.caption)
                                     .italic()
                                     .textSelection(.disabled)
-                                    .foregroundColor(Color(white: 0.7))
+                                    .foregroundColor(Color(white: 0.5))
                                 Spacer()
                             }
                         }

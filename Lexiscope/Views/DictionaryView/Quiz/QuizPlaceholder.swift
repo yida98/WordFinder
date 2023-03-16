@@ -14,9 +14,9 @@ struct QuizPlaceholder: View {
             VStack {
                 Spacer()
                 Text("Nothing to")
-                    .placeholder(color: .verdigrisDark)
+                    .placeholder()
                 Text("quiz")
-                    .placeholder(color: .verdigrisDark)
+                    .placeholder()
                 Spacer()
             }
             Spacer()

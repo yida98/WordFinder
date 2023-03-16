@@ -18,7 +18,7 @@ struct DefinitionView: View {
         VStack(spacing: spacing) {
             HStack {
                 Text(viewModel.headwordEntry.word)
-                    .textSelection(.disabled)
+                    .textSelection(.enabled)
                     .foregroundColor(.verdigrisDark) // primaryDark
                 Spacer()
                 Button {
@@ -136,7 +136,7 @@ struct DefinitionCard: ViewModifier {
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(familiar ? Color.verdigris : .clear, lineWidth: 3)
-                    .background(Color(white: 0.97))
+                    .background(.regularMaterial)
             )
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }
