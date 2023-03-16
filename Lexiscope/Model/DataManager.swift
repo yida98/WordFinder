@@ -125,12 +125,20 @@ class DataManager: ObservableObject {
         }
     }
     
-    func fetchVocabularyEntry(for word: String) -> NSManagedObject? {
-        let predicate = NSPredicate(format: "word == %@", word)
+    /// Fetching based on the Headword can help disambiguate between them
+    func fetchVocabularyEntry(for headword: HeadwordEntry) -> VocabularyEntry? {
+        let predicate = NSPredicate(format: "word == %@", headword.word)
         let results = fetch(entity: .vocabularyEntry, with: predicate)
         switch results {
         case .success(let objects):
-            return objects?.first
+            if let entries = objects as? [VocabularyEntry] {
+                for entry in entries {
+                    if HeadwordEntry.areSame(lhs: entry.getHeadwordEntry(), rhs: headword) {
+                        return entry
+                    }
+                }
+            }
+            return nil
         default:
             return nil
         }
@@ -175,10 +183,11 @@ class DataManager: ObservableObject {
     }
     
     func saveVocabularyEntryEntity(headwordEntry: Data?, date: Date? = Date(), word: String?, notes: String?, recallDates: [Date]?) {
-        guard let word = word else { return }
+        guard let headwordEntryData = headwordEntry else { return }
+        let headwordEntry = DataManager.decodedHeadwordEntryData(headwordEntryData)
         
-        if let entry = fetchVocabularyEntry(for: word) {
-            entry.setValue(headwordEntry, forKey: "headwordEntry")
+        if let entry = fetchVocabularyEntry(for: headwordEntry) {
+            entry.setValue(headwordEntryData, forKey: "headwordEntry")
             entry.setValue(date, forKey: "date")
             entry.setValue(word, forKey: "word")
             entry.setValue(recallDates, forKey: "recallDates")
@@ -186,7 +195,7 @@ class DataManager: ObservableObject {
         } else {
             let context = getContext()
             let entity = NSManagedObject(entity: vocabularyEntryEntity, insertInto: context)
-            entity.setValue(headwordEntry, forKey: "headwordEntry")
+            entity.setValue(headwordEntryData, forKey: "headwordEntry")
             entity.setValue(date, forKey: "date")
             entity.setValue(word, forKey: "word")
             entity.setValue(recallDates, forKey: "recallDates")
@@ -200,8 +209,8 @@ class DataManager: ObservableObject {
         saveVocabularyEntryEntity(headwordEntry: vocabularyEntry.headwordEntry, date: vocabularyEntry.date, word: vocabularyEntry.word, notes: vocabularyEntry.notes, recallDates: vocabularyEntry.recallDates)
     }
     
-    func deleteVocabularyEntry(for word: String) {
-        guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: word) else { return }
+    func deleteVocabularyEntry(for headword: HeadwordEntry) {
+        guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headword) else { return }
         let context = getContext()
         context.delete(vocabularyEntry)
         

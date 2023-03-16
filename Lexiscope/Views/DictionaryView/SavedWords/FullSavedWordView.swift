@@ -125,9 +125,9 @@ class FullSavedWordViewModel: DefinitionViewModel {
     @Published var presentNotesEditor: Bool = false
         
     init(headwordEntry: HeadwordEntry, saved: Bool) {
-        self.notes = FullSavedWordViewModel.getNotes(for: headwordEntry.word)
-        self.familiarity = FullSavedWordViewModel.getFamiliarity(for: headwordEntry.word)
-        self.date = FullSavedWordViewModel.getDate(for: headwordEntry.word)
+        self.notes = FullSavedWordViewModel.getNotes(for: headwordEntry)
+        self.familiarity = FullSavedWordViewModel.getFamiliarity(for: headwordEntry)
+        self.date = FullSavedWordViewModel.getDate(for: headwordEntry)
 
         super.init(headwordEntry: headwordEntry, saved: saved, expanded: true)
     }
@@ -140,27 +140,27 @@ class FullSavedWordViewModel: DefinitionViewModel {
     }
     
     func saveVocabulary() {
-        if let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) as? VocabularyEntry {
+        if let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry){
             vocabulary.notes = notes
         }
     }
     
-    private static func getFamiliarity(for word: String) -> Int {
-        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: word) as? VocabularyEntry else {
+    private static func getFamiliarity(for headwordEntry: HeadwordEntry) -> Int {
+        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return 0
         }
         return vocabulary.recallDates?.count ?? 0
     }
     
-    private static func getNotes(for word: String) -> String {
-        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: word) as? VocabularyEntry else {
+    private static func getNotes(for headwordEntry: HeadwordEntry) -> String {
+        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return ""
         }
         return vocabulary.notes ?? ""
     }
     
-    private static func getDate(for word: String) -> Date {
-        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: word) as? VocabularyEntry else {
+    private static func getDate(for headwordEntry: HeadwordEntry) -> Date {
+        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return Date()
         }
         return vocabulary.date ?? Date()

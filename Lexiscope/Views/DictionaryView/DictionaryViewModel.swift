@@ -47,7 +47,7 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     var retrieveResultsDefinitionVMs: [DefinitionViewModel]
     
     func makeDefinitionViewModel(with headwordEntry: HeadwordEntry) -> DefinitionViewModel {
-        if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry.word) as? VocabularyEntry {
+        if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) {
             let fetchedHeadwordEntry = DataManager.decodedHeadwordEntryData(vocabularyEntry.headwordEntry!)
             let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: headwordEntry)
             return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
@@ -57,8 +57,8 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     
     func recheckRetrieveSaved() {
         for retrieve in retrieveResultsDefinitionVMs {
-            if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: retrieve.headwordEntry.word) as? VocabularyEntry {
-                let fetchedHeadwordEntry = DataManager.decodedHeadwordEntryData(vocabularyEntry.headwordEntry!)
+            if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: retrieve.headwordEntry), let headwordData = vocabularyEntry.headwordEntry {
+                let fetchedHeadwordEntry = DataManager.decodedHeadwordEntryData(headwordData)
                 let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: retrieve.headwordEntry)
                 retrieve.saved = saved
             } else {

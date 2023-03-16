@@ -45,10 +45,9 @@ class DefinitionViewModel: ObservableObject {
     }
     
     func bookmarkWord() {
-        let word = headwordEntry.word
-        if DataManager.shared.fetchVocabularyEntry(for: word) != nil {
+        if DataManager.shared.fetchVocabularyEntry(for: headwordEntry) != nil {
             saved = false
-            DataManager.shared.deleteVocabularyEntry(for: word)
+            DataManager.shared.deleteVocabularyEntry(for: headwordEntry)
         } else {
             saved = true
             let encoder = JSONEncoder()
