@@ -42,9 +42,11 @@ struct DictionaryView: View {
                         RoundedRectangle(cornerRadius: 16)
                     }
                     .onTapGesture {
-                        searchIsFocused = true
-                        searchOpen = false
-                        viewModel.showingVocabulary = true
+                        withAnimation {
+                            searchIsFocused = true
+                            searchOpen = false
+                            viewModel.showingVocabulary = true
+                        }
                     }
                     Toggle("Familiar", isOn: $viewModel.filterFamiliar).toggleStyle(StarToggleStyle())
                 }
