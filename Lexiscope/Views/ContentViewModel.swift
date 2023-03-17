@@ -43,9 +43,9 @@ class ContentViewModel: ObservableObject {
                                          height: cameraViewportHeight)
         self.searchViewMaxHeight = cameraViewportHeight - 10
         self.searchViewMinHeight = searchViewMaxHeight * 0.2
-        self.searchViewActiveOffset = searchViewMaxHeight
-        self.searchOpen = true
-        self.shouldFogCamera = false
+        self.searchViewActiveOffset = searchViewMinHeight
+        self.searchOpen = false
+        self.shouldFogCamera = true
         self.isPresentingQuiz = false
         
         setupNotifications()
