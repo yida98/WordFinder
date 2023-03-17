@@ -45,7 +45,7 @@ class QuizViewModel: ObservableObject {
     
     private static func getQuizzable() -> [VocabularyEntry]? {
         /// Don't quiz familiars unless there are only familiars left
-        guard var dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) as? [VocabularyEntry] else { return nil }
+        guard var dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) else { return nil }
         
         if let familiar = DataManager.shared.fetchAllFamiliar() {
             if familiar.count > 0 && familiar.count < dateOrderedVocabularyEntries.count {
@@ -88,28 +88,29 @@ class QuizViewModel: ObservableObject {
     }
     
     func submit(_ option: Int?) -> [Bool] {
-        var results = [Bool]()
-        for index in 0..<4 {
-            switch validate(index) {
-            case .success(let value):
-                results.append(value)
-            default:
-                results.append(false)
+        switch validation() {
+        case .success(let results):
+            if let option = option, option < results.count {
+                let validity = results[option]
+                quizResults.append(validity)
+                currentQuestionIndex += 1
+                return results
             }
+            return [Bool]()
+        case .failure( _):
+            return [Bool]()
         }
-        // TODO: Move to the end
-        if let option = option, option < results.count {
-            let validity = results[option]
-            quizResults.append(validity)
-        }
-        currentQuestionIndex += 1
-        return results
     }
     
     func next() {
         if dataSource?.last == .some(nil) {
             quizDidFinish = true
         }
+    }
+    
+    private func validation() -> Result<[Bool], Error> {
+        guard let dataSource = dataSource, let lastQuestion = dataSource.last, let question = lastQuestion else { return .failure(QuizError.noInput) }
+        return .success(question.validation())
     }
     
     private func validate(_ option: Int?) -> Result<Bool, Error> {

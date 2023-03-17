@@ -20,9 +20,9 @@ class Quiz {
     }
     
     func getNewQuestion(for queryType: Quiz.Entry.QueryType, at index: Int) -> Entry? {
-        if index < orderedVocabulary.count {
+        if index < orderedVocabulary.count, let allChoices = DataManager.shared.fetchVocabulary() {
             let question = orderedVocabulary[index]
-            let allOtherOptions = orderedVocabulary.filter { $0.word != orderedVocabulary[index].word } 
+            let allOtherOptions = allChoices.filter { $0.word != orderedVocabulary[index].word }
             return makeQuizEntry(topic: question, allOtherOptions: allOtherOptions, queryType: queryType)
         }
         return nil
@@ -43,8 +43,8 @@ class Quiz {
     }
     
     /// Might not fulfill result.count == 3
-    private static func randomOptions(from existingEntries: [VocabularyEntry]) -> [VocabularyEntry] {
-        let shuffledEntries = existingEntries.filter { $0.getHeadwordEntry().hasSense() }.shuffled()
+    private static func randomOptions(from allOtherOptions: [VocabularyEntry]) -> [VocabularyEntry] {
+        let shuffledEntries = allOtherOptions.filter { $0.getHeadwordEntry().hasSense() }.shuffled()
         var results = [VocabularyEntry]()
         for index in 0...2 {
             if index < shuffledEntries.count {
@@ -71,7 +71,7 @@ class Quiz {
         private var topic: VocabularyEntry
         private var options: [VocabularyEntry]
         
-        /// Always has 4
+        /// Not always 4
         var choices: [VocabularyEntry]
         private var choiceStrings: [String]
         private var topicString: String
@@ -113,21 +113,25 @@ class Quiz {
             }
         }
         
+        /// The number of options is between 1 and 4
         private static func makeOptions(for topic: VocabularyEntry, from options: [VocabularyEntry]) -> [VocabularyEntry] {
-            var allAnswers = options.shuffled()
-            guard let answer = [0,1,2,3].randomElement() else { fatalError("Cannot get a random location") }
-            if allAnswers.count < 3 {
-                for _ in 0..<(3 - allAnswers.count) {
-                    allAnswers.append(topic)
-                }
-            }
-            allAnswers.insert(topic, at: answer)
+            var allAnswers = options
+            allAnswers.append(topic)
+            allAnswers.shuffle()
             return allAnswers
         }
         
         func validate(vocabularyEntry: VocabularyEntry?) -> Bool {
             guard let vocabularyEntry = vocabularyEntry else { return false }
             return topic.word == vocabularyEntry.word
+        }
+        
+        func validation() -> [Bool] {
+            var results = [Bool]()
+            for choice in choices {
+                results.append(validate(vocabularyEntry: choice))
+            }
+            return results
         }
         
         enum QueryType {

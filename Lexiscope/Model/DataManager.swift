@@ -114,12 +114,13 @@ class DataManager: ObservableObject {
         }
     }
     
-    func fetchVocabulary() -> [NSManagedObject]? {
+    func fetchVocabulary() -> [VocabularyEntry]? {
         let sortDescriptors = [NSSortDescriptor(key: "word", ascending: true)]
         let results = fetch(entity: .vocabularyEntry, sortDescriptors: sortDescriptors)
         switch results {
         case .success(let objects):
-            return objects
+            guard let vocabularyEntries = objects as? [VocabularyEntry] else { return nil }
+            return vocabularyEntries
         default:
             return nil
         }
@@ -144,19 +145,20 @@ class DataManager: ObservableObject {
         }
     }
     
-    func fetchDateOrderedVocabularyEntries(ascending: Bool) -> [NSManagedObject]? {
+    func fetchDateOrderedVocabularyEntries(ascending: Bool) -> [VocabularyEntry]? {
         let sortDescriptors = [NSSortDescriptor(key: "date", ascending: ascending)]
         let results = fetch(entity: .vocabularyEntry, sortDescriptors: sortDescriptors)
         switch results {
         case .success(let objects):
-            return objects
+            guard let vocabularyEntries = objects as? [VocabularyEntry] else { return nil }
+            return vocabularyEntries
         default:
             return nil
         }
     }
     
     func fetchAllFamiliar() -> [VocabularyEntry]? {
-        guard let savedVocabulary = DataManager.shared.fetchVocabulary() as? [VocabularyEntry] else {
+        guard let savedVocabulary = DataManager.shared.fetchVocabulary() else {
             return nil
         }
         

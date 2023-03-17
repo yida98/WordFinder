@@ -58,7 +58,7 @@ class SavedWordsViewModel: ObservableObject {
     }
     
     private func fetchVocabList() {
-        guard var savedVocabulary = DataManager.shared.fetchVocabulary() as? [VocabularyEntry] else {
+        guard var savedVocabulary = DataManager.shared.fetchVocabulary() else {
             return
         }
         
