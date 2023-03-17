@@ -110,6 +110,7 @@ struct ContentView: View {
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 13)
+                    .ignoresSafeArea(.keyboard)
                 }
             }
         }
