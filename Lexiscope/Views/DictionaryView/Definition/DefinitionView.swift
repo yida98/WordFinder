@@ -122,7 +122,7 @@ protocol ViewStyleSheet {
 
 extension Sense: Identifiable {
     var hasDefinitions: Bool {
-        return self.definitions == nil
+        return self.definitions != nil
     }
 }
 
@@ -136,7 +136,7 @@ struct DefinitionCard: ViewModifier {
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(familiar ? Color.verdigris : .clear, lineWidth: 3)
-                    .background(.regularMaterial)
+                    .background(.white.opacity(0.5))
             )
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }

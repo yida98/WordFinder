@@ -34,6 +34,13 @@ struct SavedWordsView: View {
                                             viewModel.isPresenting = true
                                         }
                                     }
+                                    .contextMenu(menuItems: {
+                                        Button {
+                                            showShareSheet(vocabularyEntry: entry)
+                                        } label: {
+                                            Label("Share definition", systemImage: "square.and.arrow.up")
+                                        }
+                                    })
                                     .id(entry.word)
                                 }
                             } header: {
@@ -87,5 +94,33 @@ struct SavedWordsView: View {
 extension VocabularyEntry {
     func getHeadwordEntry() -> HeadwordEntry {
         DataManager.decodedHeadwordEntryData(self.headwordEntry!)
+    }
+}
+
+func showShareSheet(vocabularyEntry: VocabularyEntry) {
+    var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().word.capitalized)\" is defined as:"]
+    if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
+        sense.hasDefinitions
+    }), let definitions = sense.definitions {
+        items.append(contentsOf: definitions)
+    }
+    items = [String(items.joined(separator: "\n"))]
+    let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+    UIApplication.shared.currentUIWindow()?.rootViewController?.present(activityVC, animated: true, completion: nil)
+}
+
+// utility extension to easily get the window
+public extension UIApplication {
+    func currentUIWindow() -> UIWindow? {
+        let connectedScenes = UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .compactMap { $0 as? UIWindowScene }
+        
+        let window = connectedScenes.first?
+            .windows
+            .first { $0.isKeyWindow }
+
+        return window
+        
     }
 }

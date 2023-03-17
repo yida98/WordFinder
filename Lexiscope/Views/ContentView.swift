@@ -89,7 +89,7 @@ struct ContentView: View {
                                 .padding(.horizontal, 8)
                             }
                             .buttonStyle(MenuButtonStyle(fillColor: LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing),
-                                                         strokeColor: .silverLakeBlue))
+                                                         strokeColor: .gradient2))
                             Spacer()
                             Toggle(isOn: $viewModel.searchOpen) {
                                 HStack {
