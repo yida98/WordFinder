@@ -158,7 +158,9 @@ struct MenuToggleStyle<Fill: ShapeStyle>: ToggleStyle {
                 }
                 .animation(.easeOut(duration: 0.1), value: configuration.isOn)
                 .onTapGesture {
-                    configuration.isOn.toggle()
+                    withAnimation {
+                        configuration.isOn.toggle()
+                    }
                 }
         } else {
             configuration.label
