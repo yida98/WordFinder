@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
-    @StateObject var quizViewModel = QuizViewModel()
+
     var body: some View {
         ZStack {
             VStack {
@@ -62,8 +62,8 @@ struct ContentView: View {
                         )
                         .animation(.easeInOut, value: viewModel.searchOpen)
                         .sheet(isPresented: $viewModel.isPresentingQuiz) {
-                            if DataManager.shared.hasAnyVocabulary() {
-                                QuizView(viewModel: QuizViewModel(), isPresenting: $viewModel.isPresentingQuiz)
+                            if DataManager.shared.hasAnyVocabulary(), let quizzables = QuizViewModel.getQuizzable(), quizzables.count > 0 {
+                                QuizView(viewModel: QuizViewModel(dateOrderedVocabularyEntries: quizzables), isPresenting: $viewModel.isPresentingQuiz)
                                     .background(LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                             } else {
                                 QuizPlaceholder()

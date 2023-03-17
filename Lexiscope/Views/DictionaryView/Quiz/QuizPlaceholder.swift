@@ -13,15 +13,26 @@ struct QuizPlaceholder: View {
             Spacer()
             VStack {
                 Spacer()
-                Text("Nothing to")
-                    .placeholder()
-                Text("quiz")
-                    .placeholder()
+                VStack(spacing: 40) {
+                    Image(systemName: "books.vertical")
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .scaledToFit()
+                        .foregroundStyle(.linearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    Text("nothing to quiz")
+                        .font(.title.bold())
+                        .foregroundStyle(.linearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
+                }
+                .padding(50)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.thinMaterial)
+                )
                 Spacer()
             }
             Spacer()
         }
-        .background(Color.verdigris)
+        .background(LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
     }
 }
 

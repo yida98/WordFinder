@@ -18,9 +18,6 @@ struct QuizView: View {
     @State private var offset: CGFloat = 0
     
     var body: some View {
-        if viewModel.totalQuestions < 1 {
-            QuizPlaceholder()
-        } else {
             VStack(spacing: 50) {
                 HStack(spacing: 20) {
                     ProgressBar(progression: viewModel.progression)
@@ -60,7 +57,6 @@ struct QuizView: View {
             }
             .padding(30)
             .interactiveDismissDisabled(!viewModel.quizDidFinish)
-        }
     }
     
     private func proxyTrigger(_ proxy: GeometryProxy) -> some View {

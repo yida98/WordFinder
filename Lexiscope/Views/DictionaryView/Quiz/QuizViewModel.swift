@@ -27,23 +27,18 @@ class QuizViewModel: ObservableObject {
     @Published var progression: CGFloat
     var quizResults: [Bool]
     
-    init() {
-        self.quiz = Quiz(orderedVocabulary: [])
-        self.vocabularyEntries = []
-        self.totalQuestions = 0
+    init(dateOrderedVocabularyEntries: [VocabularyEntry]) {
+        self.quiz = Quiz(orderedVocabulary: dateOrderedVocabularyEntries)
+        self.vocabularyEntries = dateOrderedVocabularyEntries
+        self.totalQuestions = dateOrderedVocabularyEntries.count
         self.currentQuestionIndex = 0
         self.progression = 0
         self.quizResults = [Bool]()
-        if let dateOrderedVocabularyEntries = QuizViewModel.getQuizzable() {
-            self.quiz = Quiz(orderedVocabulary: dateOrderedVocabularyEntries)
-            self.vocabularyEntries = dateOrderedVocabularyEntries
-            self.totalQuestions = dateOrderedVocabularyEntries.count
-        }
         self.queryType = .define
         self.dataSource = [newQuestion()]
     }
     
-    private static func getQuizzable() -> [VocabularyEntry]? {
+    static func getQuizzable() -> [VocabularyEntry]? {
         /// Don't quiz familiars unless there are only familiars left
         guard var dateOrderedVocabularyEntries = DataManager.shared.fetchDateOrderedVocabularyEntries(ascending: false) else { return nil }
         
