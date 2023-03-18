@@ -87,10 +87,20 @@ struct QuizView: View {
     }
     
     private func endQuiz() {
+        if counter1 == counter2 {
+            if let dataSource = viewModel.dataSource {
+                if dataSource.count > 1 {
+                    viewModel.dataSource?.remove(at: 0)
+                }
+                offset = CGFloat((viewModel.dataSource?.count ?? 1) - 1) * (Constant.screenBounds.width / 2)
+            }
+        }
         viewModel.endQuiz()
         if let dataSource = viewModel.dataSource {
-            offset = CGFloat(dataSource.count - 1) * -(Constant.screenBounds.width / 2)
-            counter2 += 1
+            withAnimation {
+                offset = CGFloat(dataSource.count - 1) * -(Constant.screenBounds.width / 2)
+                counter2 += 1
+            }
         }
     }
 }
