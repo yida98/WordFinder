@@ -13,6 +13,13 @@ struct DictionaryView: View {
     @FocusState private var searchIsFocused: Bool
     @Binding var searchOpen: Bool
     
+    init(viewModel: DictionaryViewModel, searchOpen: Binding<Bool>) {
+        self.viewModel = viewModel
+        self._searchOpen = searchOpen
+        UIToolbar.appearance().setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        UIToolbar.appearance().clipsToBounds = true
+    }
+    
     var body: some View {
         ZStack {
             VStack {
@@ -25,6 +32,51 @@ struct DictionaryView: View {
                         .foregroundColor(.verdigrisDark)
                         .focused($searchIsFocused)
                         .submitLabel(viewModel.textFilter.count > 0 ? .search : .done)
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Button {
+                                    //
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "doc.on.clipboard")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 20)
+                                        Text("paste")
+                                    }
+                                        .foregroundColor(.blue)
+                                        .padding(6)
+                                        .padding(.horizontal, 6)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(.thickMaterial)
+                                                .shadow(color: .verdigris.opacity(0.5), radius: 3, y: 2)
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                        .stroke(Color.white)
+                                                }
+                                        )
+                                }
+                                Button {
+                                    UIApplication.shared.endEditing()
+                                } label: {
+                                    Image(systemName: "keyboard.chevron.compact.down.fill")
+                                        .foregroundColor(.blue)
+                                        .padding(4)
+                                        .padding(.horizontal, 6)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(.thickMaterial)
+                                                .shadow(color: .verdigris.opacity(0.5), radius: 3, y: 2)
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                        .stroke(Color.white)
+                                                }
+                                        
+                                        )
+                                }
+                            }
+                        }
                         if viewModel.textFilter.count > 0 {
                             Button {
                                 searchIsFocused = false
