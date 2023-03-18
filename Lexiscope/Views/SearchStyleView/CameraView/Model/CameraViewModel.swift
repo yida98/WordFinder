@@ -108,6 +108,17 @@ class CameraViewModel: NSObject,
         return CGPoint(x: normalizedX, y: normalizedY)
     }
     
+    // MARK: Zoom
+    func zoom(_ scale: CGFloat) {
+        guard let camera = camera else { return }
+        camera.zoom(scale)
+    }
+    
+    var cameraMaxZoomFactor: CGFloat {
+        guard let camera = camera else { return 1 }
+        return min(camera.maxZoomFactor, 10)
+    }
+    
     // MARK: - AVCapturePhotoCaptureDelegate
 
     // MARK: Camera variables

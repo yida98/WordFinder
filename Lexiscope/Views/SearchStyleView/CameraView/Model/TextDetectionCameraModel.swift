@@ -65,4 +65,22 @@ class TextDetectionCameraModel {
         deviceOutput.capturePhoto(with: settings, delegate: delegate)
     }
     
+    func zoom(_ scale: CGFloat) {
+        guard let captureDevice = session.inputs.first as? AVCaptureDeviceInput else { return }
+        let device = captureDevice.device
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            
+            device.videoZoomFactor = scale
+        } catch let error {
+            debugPrint("Could not lock device for configuration due to: \(error.localizedDescription)")
+        }
+    }
+    
+    var maxZoomFactor: CGFloat {
+        guard let captureDevice = session.inputs.first as? AVCaptureDeviceInput else { return 1 }
+        let device = captureDevice.device
+        return device.activeFormat.videoMaxZoomFactor
+    }
 }
