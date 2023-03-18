@@ -10,11 +10,7 @@ import Combine
 import SwiftUI
 
 class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
-    @Published var showingVocabulary: Bool {
-        willSet {
-            endEditing()
-        }
-    }
+    @Published var showingVocabulary: Bool
     private var savedWordsViewModel: SavedWordsViewModel?
     
     var wordStreamSubscriber: Set<AnyCancellable>

@@ -39,7 +39,7 @@ struct DictionaryView: View {
                                     UIApplication.shared.endEditing()
                                 } label: {
                                     Image(systemName: "keyboard.chevron.compact.down.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.boyBlue)
                                         .padding(4)
                                         .padding(.horizontal, 6)
                                         .background(
@@ -73,7 +73,6 @@ struct DictionaryView: View {
                     }
                     .onTapGesture {
                         withAnimation {
-                            searchIsFocused = true
                             searchOpen = false
                             viewModel.showingVocabulary = true
                         }
