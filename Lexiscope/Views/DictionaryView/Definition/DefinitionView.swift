@@ -42,28 +42,30 @@ struct DefinitionView: View {
                     })
                 }
             }
-            HStack {
-                Text("/")
-                    .font(.caption2)
-                    .foregroundColor(.init(white: 0.5)) // neutral
-                    .padding(.vertical, 2)
-                ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
-                    Button {
-                        viewModel.pronounce(pronunciation.audioFile)
-                    } label: {
-                        Text(pronunciation.phoneticSpelling!)
-                            .font(.caption2)
-                            .foregroundColor(.init(white: 0.5)) // neutral
-                            .padding(2)
-                            .background(pronunciation.hasAudio ? Color.verdigris.opacity(0.4) : Color.clear) // primary
-                            .cornerRadius(4)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    Text("/")
+                        .font(.caption2)
+                        .foregroundColor(.init(white: 0.5)) // neutral
+                        .padding(.vertical, 2)
+                    ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
+                        Button {
+                            viewModel.pronounce(pronunciation.audioFile)
+                        } label: {
+                            Text(pronunciation.phoneticSpelling!)
+                                .font(.caption2)
+                                .foregroundColor(.init(white: 0.5)) // neutral
+                                .padding(2)
+                                .background(pronunciation.hasAudio ? Color.verdigris.opacity(0.4) : Color.clear) // primary
+                                .cornerRadius(4)
+                        }
                     }
+                    Text("/")
+                        .font(.caption2)
+                        .foregroundColor(.init(white: 0.5)) // neutral
+                        .padding(.vertical, 2)
+                    Spacer()
                 }
-                Text("/")
-                    .font(.caption2)
-                    .foregroundColor(.init(white: 0.5)) // neutral
-                    .padding(.vertical, 2)
-                Spacer()
             }
             ScrollView(showsIndicators: false) {
                 ForEach(viewModel.lexicalEntries()) { lexicalEntry in
