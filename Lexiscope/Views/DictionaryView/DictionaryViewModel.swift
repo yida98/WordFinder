@@ -78,6 +78,7 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     func handleNewRequest(_ word: String?) {
         endEditing()
         guard let word = word, word.count > 0 else { return }
+        self.textFilter = word
         URLTask.shared.define(word: word)
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
