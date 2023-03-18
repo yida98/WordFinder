@@ -34,29 +34,7 @@ struct DictionaryView: View {
                         .submitLabel(viewModel.textFilter.count > 0 ? .search : .done)
                         .toolbar {
                             ToolbarItemGroup(placement: .keyboard) {
-                                Button {
-                                    //
-                                } label: {
-                                    HStack {
-                                        Image(systemName: "doc.on.clipboard")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 20, height: 20)
-                                        Text("paste")
-                                    }
-                                        .foregroundColor(.blue)
-                                        .padding(6)
-                                        .padding(.horizontal, 6)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .fill(.thickMaterial)
-                                                .shadow(color: .verdigris.opacity(0.5), radius: 3, y: 2)
-                                                .overlay {
-                                                    RoundedRectangle(cornerRadius: 8)
-                                                        .stroke(Color.white)
-                                                }
-                                        )
-                                }
+                                Spacer()
                                 Button {
                                     UIApplication.shared.endEditing()
                                 } label: {
