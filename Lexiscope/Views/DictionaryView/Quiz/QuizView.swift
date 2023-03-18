@@ -34,6 +34,7 @@ struct QuizView: View {
                         }
                     } label: {
                         Text("END")
+                            .font(.captionQuiz)
                     }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .gradient3a))
                 }
                 .frame(height: 20)

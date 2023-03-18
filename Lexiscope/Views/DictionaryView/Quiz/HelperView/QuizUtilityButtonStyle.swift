@@ -12,7 +12,6 @@ struct QuizUtilityButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.caption.bold())
             .foregroundColor(configuration.isPressed ? .white : buttonColor)
             .padding(4)
             .padding(.horizontal, 4)

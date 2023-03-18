@@ -19,20 +19,20 @@ struct ProgressReport: View {
                     HStack(spacing: 30) {
                         VStack {
                             Text("New familiars")
-                                .font(.caption)
+                                .font(.captionQuiz)
                                 .foregroundColor(.white)
                             Text("\(newFamiliars)")
-                                .font(.subheadline.bold())
+                                .font(.subheadlineQuiz.bold())
                                 .foregroundColor(.white)
                                 .animation(.linear, value: newFamiliars)
                         }
                         
                         VStack {
                             Text("Total familiar")
-                                .font(.caption)
+                                .font(.captionQuiz)
                                 .foregroundColor(.white)
                             Text("\(totalFamiliar)")
-                                .font(.subheadline.bold())
+                                .font(.subheadlineQuiz.bold())
                                 .foregroundColor(.white)
                                 .animation(.linear, value: totalFamiliar)
                         }
@@ -44,7 +44,7 @@ struct ProgressReport: View {
                             .frame(height: 8)
                             .animation(.linear, value: percent)
                         Text("\(percentage())%")
-                            .font(.caption)
+                            .font(.captionQuiz)
                             .foregroundColor(.white)
                             .animation(.linear, value: percent)
                     }

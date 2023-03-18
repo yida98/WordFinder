@@ -29,6 +29,7 @@ struct DictionaryView: View {
                             viewModel.handleNewRequest(viewModel.textFilter)
                             viewModel.textFilter = ""
                         }
+                        .font(.bodyQuiz2)
                         .foregroundColor(.verdigrisDark)
                         .focused($searchIsFocused)
                         .submitLabel(viewModel.textFilter.count > 0 ? .search : .done)

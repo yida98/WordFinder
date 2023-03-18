@@ -18,6 +18,7 @@ struct DefinitionView: View {
         VStack(spacing: spacing) {
             HStack {
                 Text(viewModel.headwordEntry.word)
+                    .font(viewModel.expanded ? .largeTitleBaskerville : .titleBaskerville)
                     .textSelection(.enabled)
                     .foregroundColor(.verdigrisDark) // primaryDark
                 Spacer()
@@ -45,7 +46,7 @@ struct DefinitionView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     Text("/")
-                        .font(.caption2)
+                        .font(.caption)
                         .foregroundColor(.init(white: 0.5)) // neutral
                         .padding(.vertical, 2)
                     ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
@@ -53,23 +54,25 @@ struct DefinitionView: View {
                             viewModel.pronounce(pronunciation.audioFile)
                         } label: {
                             Text(pronunciation.phoneticSpelling!)
-                                .font(.caption2)
+                                .font(.caption)
                                 .foregroundColor(.init(white: 0.5)) // neutral
                                 .padding(2)
-                                .background(pronunciation.hasAudio ? Color.verdigris.opacity(0.4) : Color.clear) // primary
+                                .background(pronunciation.hasAudio ? Color.verdigris.opacity(0.3) : Color.clear) // primary
                                 .cornerRadius(4)
                         }
                     }
                     Text("/")
-                        .font(.caption2)
+                        .font(.caption)
                         .foregroundColor(.init(white: 0.5)) // neutral
                         .padding(.vertical, 2)
                     Spacer()
                 }
             }
             ScrollView(showsIndicators: false) {
-                ForEach(viewModel.lexicalEntries()) { lexicalEntry in
-                    LexicalEntryView(lexicalEntry: lexicalEntry, expanded: $viewModel.expanded, spacing: spacing)
+                VStack (spacing: 10) {
+                    ForEach(viewModel.lexicalEntries()) { lexicalEntry in
+                        LexicalEntryView(lexicalEntry: lexicalEntry, expanded: $viewModel.expanded, spacing: spacing)
+                    }
                 }
             }
         }

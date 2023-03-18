@@ -20,7 +20,7 @@ struct QuizPlaceholder: View {
                         .scaledToFit()
                         .foregroundStyle(.linearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                     Text("nothing to quiz")
-                        .font(.title.bold())
+                        .font(.largeTitleQuiz.bold())
                         .foregroundStyle(.linearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                 }
                 .padding(50)

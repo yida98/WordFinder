@@ -33,10 +33,10 @@ struct LexicalEntryView: View {
                             Spacer()
                         }
                     }
-                    VStack {
+                    VStack(spacing: 8) {
                         HStack {
                             Text("\(senses()[senseIndex].definitions?.first ?? "")")
-                                .font(.subheadline)
+                                .font(.subheadlineBaskerville)
                                 .textSelection(.enabled)
                                 .foregroundColor(Color(white: 0.4))
                             Spacer()

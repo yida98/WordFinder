@@ -38,14 +38,14 @@ struct ReportView: View {
                                 VStack {
                                     HStack {
                                         Text(entry.title)
-                                            .font(.callout.bold())
+                                            .font(.calloutQuiz.bold())
                                             .foregroundColor(progressColor(for: entry.step))
                                             .progressCellAnimation(with: entry.step)
                                         Spacer()
                                     }
                                     if showSummary(for: entry) {
                                         Text(entry.summary ?? "")
-                                            .font(.footnote)
+                                            .font(.captionQuiz)
                                             .foregroundColor(.gray)
                                     }
                                 }

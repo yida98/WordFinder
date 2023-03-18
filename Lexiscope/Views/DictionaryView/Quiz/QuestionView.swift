@@ -21,12 +21,12 @@ struct QuestionView: View {
             VStack(spacing: 20) {
                 HStack {
                     Text("\(question.getQueryTitle())")
-                        .font(.headline.bold())
+                        .font(.subheadlineQuiz.bold())
                         .foregroundColor(Color.pineGreen)
                     Spacer()
                 }
                 Text("\(question.getQuestionDisplayString())")
-                    .font(.title)
+                    .font(.largeTitleQuiz)
                     .foregroundColor(.verdigrisLight)
             }
             VStack(spacing: 20) {
@@ -53,8 +53,10 @@ struct QuestionView: View {
                 Group {
                     if validation == nil {
                         Text("Submit")
+                            .font(.bodyQuiz2)
                     } else {
                         Text("Next →")
+                            .font(.bodyQuiz2)
                     }
                 }
                 .padding()

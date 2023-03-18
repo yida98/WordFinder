@@ -57,7 +57,7 @@ struct SearchInputView: View {
 extension Text {
     func placeholder() -> some View {
         return self
-            .font(.largeTitle.bold())
+            .font(.largeTitleQuiz.bold())
             .foregroundStyle(.thickMaterial)
     }
 }
