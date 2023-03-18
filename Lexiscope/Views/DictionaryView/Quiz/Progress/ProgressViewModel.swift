@@ -91,6 +91,7 @@ struct ProgressEntry {
     private static func updateTimeStamp(for vocabularyEntry: VocabularyEntry, valid: Bool) {
         guard var dates = vocabularyEntry.recallDates else {
             vocabularyEntry.recallDates = valid ? [Date()] : nil
+            DataManager.shared.resaveVocabularyEntry(vocabularyEntry)
             return
         }
         

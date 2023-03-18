@@ -43,6 +43,7 @@ struct DefinitionView: View {
                     })
                 }
             }
+            Divider()
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     Text("/")
@@ -67,7 +68,7 @@ struct DefinitionView: View {
                         .padding(.vertical, 2)
                     Spacer()
                 }
-            }
+            }.padding(.vertical, 2)
             ScrollView(showsIndicators: false) {
                 VStack (spacing: 10) {
                     ForEach(viewModel.lexicalEntries()) { lexicalEntry in
