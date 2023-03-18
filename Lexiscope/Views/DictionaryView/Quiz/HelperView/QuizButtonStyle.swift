@@ -18,7 +18,7 @@ struct QuizButtonStyle<S: Shape>: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         if disabled {
             configuration.label
-                .font(.subheadline.bold())
+                .font(.bodyQuiz2.bold())
                 .foregroundColor(secondaryColor)
                 .background(
                     shape
@@ -26,7 +26,7 @@ struct QuizButtonStyle<S: Shape>: ButtonStyle {
                 )
         } else {
             configuration.label
-                .font(.subheadline.bold())
+                .font(.bodyQuiz2.bold())
                 .foregroundColor(secondaryColor)
                 .offset(y: configuration.isPressed ? 0 : -7)
                 .background(
@@ -44,7 +44,7 @@ struct QuizToggleStyle<S: Shape>: ToggleStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.footnote)
+            .font(.bodyQuiz)
             .onTapGesture {
                 configuration.isOn.toggle()
             }

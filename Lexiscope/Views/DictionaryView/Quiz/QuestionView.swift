@@ -53,10 +53,8 @@ struct QuestionView: View {
                 Group {
                     if validation == nil {
                         Text("Submit")
-                            .font(.bodyQuiz2)
                     } else {
                         Text("Next →")
-                            .font(.bodyQuiz2)
                     }
                 }
                 .padding()
