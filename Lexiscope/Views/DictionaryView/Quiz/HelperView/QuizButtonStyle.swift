@@ -45,6 +45,9 @@ struct QuizToggleStyle<S: Shape>: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.bodyQuiz)
+            .lineLimit(3)
+            .minimumScaleFactor(0.8)
+            .fixedSize(horizontal: false, vertical: true)
             .onTapGesture {
                 configuration.isOn.toggle()
             }

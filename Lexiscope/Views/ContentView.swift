@@ -63,7 +63,7 @@ struct ContentView: View {
                         .animation(.easeInOut, value: viewModel.searchOpen)
                         .sheet(isPresented: $viewModel.isPresentingQuiz) {
                             if DataManager.shared.hasAnyVocabulary(), let quizzables = QuizViewModel.getQuizzable(), quizzables.count > 0 {
-                                QuizView(viewModel: QuizViewModel(dateOrderedVocabularyEntries: quizzables), isPresenting: $viewModel.isPresentingQuiz)
+                                QuizView(viewModel: viewModel.getQuizViewModel(with: quizzables), isPresenting: $viewModel.isPresentingQuiz)
                                     .background(LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                             } else {
                                 QuizPlaceholder()

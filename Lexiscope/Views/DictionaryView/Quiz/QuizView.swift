@@ -13,8 +13,7 @@ struct QuizView: View {
     
     @Binding var isPresenting: Bool
     
-    @State private var counter1: Int = 0
-    @State private var counter2: Int = 0
+    @State private var shouldShowProgression: Bool = true
     @State private var offset: CGFloat = 0
     
     var body: some View {
@@ -24,8 +23,8 @@ struct QuizView: View {
                         .progressBarStyle(DefaultProgressBarStyle(), fillColor: .celadon, backgroundColor: .celadon.opacity(0.3))
                         .frame(height: 14)
                         .animation(.easeIn, value: viewModel.progression)
-                        .opacity(viewModel.quizDidFinish ? 0 : 1)
-                        .animation(.linear(duration: 0.2), value: viewModel.quizDidFinish)
+                        .opacity(shouldShowProgression ? 1 : 0)
+                        .animation(.linear(duration: 0.2), value: shouldShowProgression)
                     Button {
                         if viewModel.progressFirstAppearance || viewModel.quizResults.count == 0 {
                             isPresenting = false
@@ -38,25 +37,39 @@ struct QuizView: View {
                     }.buttonStyle(QuizUtilityButtonStyle(buttonColor: .gradient3a))
                 }
                 .frame(height: 20)
+                .padding(30)
                 if let dataSource = viewModel.dataSource {
                     HStack(spacing: 0) {
-                        ForEach(dataSource, id: \.?.id) { quiz in
-                            if let question = quiz {
-                                QuestionView(viewModel: viewModel, question: question, submission: submission)
-                            } else {
-                                GeometryReader { proxy in
-                                    proxyTrigger(proxy)
-                                }
-                            }
+                        ForEach(dataSource, id: \.id) { question in
+                            GeometryReader { proxy in
+                                QuestionView(viewModel: viewModel, question: question, preparation: preparation, submission: submission)
+                                    .onChange(of: proxy.frame(in: .global)) { newValue in
+                                        if newValue.minX == 0 {
+                                            removeExtraneousDataSources()
+                                        }
+                                    }.frame(width: Constant.screenBounds.width, alignment: .center)
+                                    
+                            }.frame(width: Constant.screenBounds.width, alignment: .center)
                         }
-                        .frame(minWidth: Constant.screenBounds.width)
                         .animation(nil, value: dataSource)
-                        .animation(.linear, value: offset)
-                        .offset(x: offset)
+                        if viewModel.quizDidFinish {
+                            GeometryReader { proxy in
+                                proxyTrigger(proxy)
+                                    .onChange(of: proxy.frame(in: .global)) { newValue in
+                                        if newValue.minX == 0 {
+                                            viewModel.progressViewIsInView()
+                                            shouldShowProgression = false
+                                        }
+                                    }
+                                    .frame(width: Constant.screenBounds.width)
+                            }
+                            .frame(width: Constant.screenBounds.width)
+                        }
                     }
+                    .animation(.linear, value: offset)
+                    .offset(x: offset)
                 }
             }
-            .padding(30)
             .interactiveDismissDisabled(!viewModel.quizDidFinish)
     }
     
@@ -70,37 +83,38 @@ struct QuizView: View {
         return ReportView(viewModel: progressViewModel)
     }
     
+    /// Prepare the next question
+    private func preparation() {
+        if let newQuestion = viewModel.newQuestion() {
+            viewModel.dataSource.append(newQuestion)
+        } else {
+            viewModel.quizDidFinish = true
+        }
+        
+        /// No animation
+        offset = (Constant.screenBounds.width / 2)
+    }
+    
+    /// Execute animation
     private func submission() {
-        if let dataSource = viewModel.dataSource {
-            if counter1 == counter2 {
-                if dataSource.count > 1 {
-                    viewModel.dataSource?.remove(at: 0)
-                }
-                viewModel.dataSource?.append(viewModel.newQuestion())
-                offset = CGFloat((viewModel.dataSource?.count ?? 1) - 1) * (Constant.screenBounds.width / 2)
-                counter1 += 1
-            } else {
-                offset = CGFloat(dataSource.count - 1) * -(Constant.screenBounds.width / 2)
-                counter2 += 1
-            }
+        viewModel.progression = CGFloat(viewModel.currentQuestionIndex - 1) / CGFloat(viewModel.totalQuestions)
+        withAnimation {
+            offset = -(Constant.screenBounds.width / 2)
         }
     }
     
-    private func endQuiz() {
-        if counter1 == counter2 {
-            if let dataSource = viewModel.dataSource {
-                if dataSource.count > 1 {
-                    viewModel.dataSource?.remove(at: 0)
-                }
-                offset = CGFloat((viewModel.dataSource?.count ?? 1) - 1) * (Constant.screenBounds.width / 2)
+    private func removeExtraneousDataSources() {
+        if offset < 0 {
+            if let currentQuestion = viewModel.dataSource.last {
+                viewModel.dataSource = [currentQuestion]
             }
+            /// No animation
+            offset = 0
         }
+    }
+    
+    func endQuiz() {
         viewModel.endQuiz()
-        if let dataSource = viewModel.dataSource {
-            withAnimation {
-                offset = CGFloat(dataSource.count - 1) * -(Constant.screenBounds.width / 2)
-                counter2 += 1
-            }
-        }
+        submission()
     }
 }

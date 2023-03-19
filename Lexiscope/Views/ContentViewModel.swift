@@ -10,6 +10,7 @@ import Foundation
 class ContentViewModel: ObservableObject {
     private var dictionaryViewModel: DictionaryViewModel?
     private var searchViewModel: SearchViewModel?
+    private var quizViewModel: QuizViewModel?
     private var cameraViewportSize: CGSize
     private var searchViewMaxHeight: CGFloat
     private var searchViewMinHeight: CGFloat
@@ -34,6 +35,9 @@ class ContentViewModel: ObservableObject {
     @Published var isPresentingQuiz: Bool {
         didSet {
             NotificationCenter.default.post(name: .fogCamera, object: nil, userInfo: ["shouldFog": isPresentingQuiz])
+            if !isPresentingQuiz {
+                self.quizViewModel = nil
+            }
         }
     }
     
@@ -78,6 +82,14 @@ class ContentViewModel: ObservableObject {
             searchVM = searchViewModel!
         }
         return searchVM
+    }
+    
+    func getQuizViewModel(with entries: [VocabularyEntry]) -> QuizViewModel {
+        if quizViewModel == nil {
+            let vm = QuizViewModel(dateOrderedVocabularyEntries: entries)
+            quizViewModel = vm
+        }
+        return quizViewModel!
     }
     
     // MARK: - Offset

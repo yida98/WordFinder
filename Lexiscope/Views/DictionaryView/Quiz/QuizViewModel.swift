@@ -12,18 +12,14 @@ import SwiftUI
 class QuizViewModel: ObservableObject {
     
     private var quiz: Quiz
-    @Published var dataSource: [Quiz.Entry?]?
+    @Published var dataSource: [Quiz.Entry]
     private var vocabularyEntries: [VocabularyEntry]
     
     var queryType: Quiz.Entry.QueryType
     
     @Published var quizDidFinish: Bool = false
     var totalQuestions: Int
-    @Published var currentQuestionIndex: Int {
-        didSet {
-            self.progression = CGFloat(currentQuestionIndex) / CGFloat(totalQuestions)
-        }
-    }
+    @Published var currentQuestionIndex: Int
     @Published var progression: CGFloat
     var quizResults: [Bool]
     
@@ -35,7 +31,10 @@ class QuizViewModel: ObservableObject {
         self.progression = 0
         self.quizResults = [Bool]()
         self.queryType = .define
-        self.dataSource = [newQuestion()]
+        self.dataSource = [Quiz.Entry]()
+        if let question = newQuestion() {
+            dataSource = [question]
+        }
     }
     
     static func getQuizzable() -> [VocabularyEntry]? {
@@ -79,7 +78,9 @@ class QuizViewModel: ObservableObject {
     }
     
     func newQuestion() -> Quiz.Entry? {
-        quiz.getNewQuestion(for: queryType, at: currentQuestionIndex)
+        let question = quiz.getNewQuestion(for: queryType, at: currentQuestionIndex)
+        currentQuestionIndex += 1
+        return question
     }
     
     func submit(_ option: Int?) -> [Bool] {
@@ -88,7 +89,6 @@ class QuizViewModel: ObservableObject {
             if let option = option, option < results.count {
                 let validity = results[option]
                 quizResults.append(validity)
-                currentQuestionIndex += 1
                 return results
             }
             return [Bool]()
@@ -97,19 +97,13 @@ class QuizViewModel: ObservableObject {
         }
     }
     
-    func next() {
-        if dataSource?.last == .some(nil) {
-            quizDidFinish = true
-        }
-    }
-    
     private func validation() -> Result<[Bool], Error> {
-        guard let dataSource = dataSource, let lastQuestion = dataSource.last, let question = lastQuestion else { return .failure(QuizError.noInput) }
+        guard let question = dataSource.last else { return .failure(QuizError.noInput) }
         return .success(question.validation())
     }
     
     private func validate(_ option: Int?) -> Result<Bool, Error> {
-        guard let dataSource = dataSource, let lastQuestion = dataSource.last, let question = lastQuestion, let option = option else { return .failure(QuizError.noInput) }
+        guard let question = dataSource.last, let option = option else { return .failure(QuizError.noInput) }
         return .success(question.validate(vocabularyEntry: question.choices[option]))
     }
     
@@ -145,9 +139,12 @@ class QuizViewModel: ObservableObject {
     }
     
     func endQuiz() {
-        quiz.updateQuizSource(at: currentQuestionIndex)
-        vocabularyEntries = Array(vocabularyEntries[0..<currentQuestionIndex])
-        dataSource = [dataSource?[0], nil]
-        next()
+        let realIndex: Int = currentQuestionIndex - 1
+        quiz.updateQuizSource(at: realIndex)
+        vocabularyEntries = Array(vocabularyEntries[0..<realIndex])
+        if let first = dataSource.first {
+            dataSource = [first]
+            quizDidFinish = true
+        }
     }
 }

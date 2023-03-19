@@ -14,6 +14,7 @@ struct QuestionView: View {
     @State private var temporarySubmissionBlock: Bool = false
     @State private var validation: [Bool]?
     var question: Quiz.Entry
+    var preparation: () -> Void
     var submission: () -> Void
     
     var body: some View {
@@ -42,10 +43,10 @@ struct QuestionView: View {
                 temporarySubmissionBlock = true
                 if validation == nil {
                     validation = viewModel.submit(choice)
+                    preparation()
                 } else {
-                    viewModel.next()
+                    submission()
                 }
-                submission()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.temporarySubmissionBlock = false
                 }
@@ -68,7 +69,7 @@ struct QuestionView: View {
                                          disabled: !canSubmit))
             Spacer()
         }
-        .frame(maxWidth: Constant.screenBounds.width - 80)
+        .frame(maxWidth: Constant.screenBounds.width - 60)
         .onChange(of: choice) { newValue in
             canSubmit = newValue != nil
         }
