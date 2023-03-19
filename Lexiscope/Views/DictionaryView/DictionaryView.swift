@@ -103,11 +103,11 @@ struct StarToggleStyle: ToggleStyle {
         Group {
             if configuration.isOn {
                 Star(cornerRadius: 1)
-                    .fill(Color.verdigris)
+                    .fill(Color.silverLakeBlue)
                     .frame(width: 20, height: 20)
             } else {
                 Star(cornerRadius: 1)
-                    .fill(Color.verdigris.opacity(0.5))
+                    .fill(Color.silverLakeBlue.opacity(0.5))
                     .frame(width: 20, height: 20)
             }
         }

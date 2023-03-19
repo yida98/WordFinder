@@ -20,7 +20,7 @@ struct DefinitionView: View {
                 Text(viewModel.headwordEntry.word)
                     .font(viewModel.expanded ? .largeTitleBaskerville : .titleBaskerville)
                     .textSelection(.enabled)
-                    .foregroundColor(.verdigrisDark) // primaryDark
+                    .foregroundColor(familiar ? .silverLakeBlue : .pineGreen) // primaryDark
                 Spacer()
                 Button {
                     if viewModel.saved {
@@ -31,11 +31,11 @@ struct DefinitionView: View {
                 } label: {
                     if familiar {
                         Star(cornerRadius: 1)
-                            .fill(Color.verdigris)
+                            .fill(Color.silverLakeBlue)
                             .frame(width: 20, height: 20)
                     } else {
                         Image(systemName: viewModel.saved ? "bookmark.fill" : "bookmark")
-                            .foregroundColor(Color.verdigris) // primary
+                            .foregroundColor(Color.silverLakeBlue) // primary
                     }
                 }.alert(isPresented: $presentAlert) {
                     Alert(title: Text("Unbookmarking"), message: Text("Are you sure you want to unbookmark \(viewModel.headwordEntry.word)"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Unbookmark")) {
@@ -48,7 +48,7 @@ struct DefinitionView: View {
                 HStack {
                     Text("/")
                         .font(.caption)
-                        .foregroundColor(.init(white: 0.5)) // neutral
+                        .foregroundColor(.satinGold) // neutral
                         .padding(.vertical, 2)
                     ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
                         Button {
@@ -64,7 +64,7 @@ struct DefinitionView: View {
                     }
                     Text("/")
                         .font(.caption)
-                        .foregroundColor(.init(white: 0.5)) // neutral
+                        .foregroundColor(.satinGold) // neutral
                         .padding(.vertical, 2)
                     Spacer()
                 }
@@ -141,7 +141,7 @@ struct DefinitionCard: ViewModifier {
             .padding(.vertical, 10)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(familiar ? Color.verdigris : .clear, lineWidth: 3)
+                    .stroke(familiar ? Color.silverLakeBlue : .clear, lineWidth: 3)
                     .background(.white.opacity(0.5))
             )
             .clipShape(RoundedRectangle(cornerRadius: 10))

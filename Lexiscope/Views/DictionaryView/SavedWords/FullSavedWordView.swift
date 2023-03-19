@@ -16,7 +16,7 @@ struct FullSavedWordView: View {
     var body: some View {
         VStack(spacing: -10) {
             Rectangle()
-                .fill(viewModel.familiarity >= 4 ? Color.verdigrisDark : .gradient3a)
+                .fill(viewModel.familiarity >= 4 ? Color.silverLakeBlue : .gradient3a)
                 .frame(height: 20)
             VStack {
                 DefinitionView(viewModel: viewModel, spacing: 10, familiar: viewModel.familiarity >= 4)
