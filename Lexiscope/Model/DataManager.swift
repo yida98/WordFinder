@@ -306,6 +306,15 @@ class DataManager: ObservableObject {
         }
     }
     
+    func nukeRecall() {
+        if let vocabs = DataManager.shared.fetchVocabulary() {
+            for vocab in vocabs {
+                vocab.recallDates = nil
+                DataManager.shared.resaveVocabularyEntry(vocab)
+            }
+        }
+    }
+    
 //    private func setSaved(_ saved: Bool, for entry: NSManagedObject) {
 //        entry.setValue(saved, forKey: "saved")
 //        saveContext()

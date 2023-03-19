@@ -116,7 +116,7 @@
 		E4DCC2182878080F00F1495A /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		E4DCC21A2878DF5B00F1495A /* CustomBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBorder.swift; sourceTree = "<group>"; };
 		E4DCC21E287D3A0B00F1495A /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
-		E4F362252821D46C0078721F /* Lexiscope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lexiscope.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F362252821D46C0078721F /* Lexitome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lexitome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F362282821D46C0078721F /* LexiscopeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiscopeApp.swift; sourceTree = "<group>"; };
 		E4F3622A2821D46C0078721F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E4F3622C2821D46E0078721F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -303,7 +303,7 @@
 		E4F362262821D46C0078721F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E4F362252821D46C0078721F /* Lexiscope.app */,
+				E4F362252821D46C0078721F /* Lexitome.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -383,7 +383,7 @@
 			);
 			name = Lexiscope;
 			productName = Lexiscope;
-			productReference = E4F362252821D46C0078721F /* Lexiscope.app */;
+			productReference = E4F362252821D46C0078721F /* Lexitome.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -676,7 +676,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = carrism.Lexiscope;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Lexitome;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -711,7 +711,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = carrism.Lexiscope;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Lexitome;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

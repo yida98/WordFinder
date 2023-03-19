@@ -84,12 +84,22 @@ class ContentViewModel: ObservableObject {
         return searchVM
     }
     
+    var currentlyQuizzing: [VocabularyEntry]?
     func getQuizViewModel(with entries: [VocabularyEntry]) -> QuizViewModel {
         if quizViewModel == nil {
             let vm = QuizViewModel(dateOrderedVocabularyEntries: entries)
+            currentlyQuizzing = entries
             quizViewModel = vm
         }
         return quizViewModel!
+    }
+    
+    func dismissQuiz() {
+        if let entries = currentlyQuizzing {
+            for entry in entries {
+                DataManager.shared.resaveVocabularyEntry(entry)
+            }
+        }
     }
     
     // MARK: - Offset

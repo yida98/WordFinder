@@ -67,6 +67,7 @@ struct QuestionView: View {
                                          secondaryColor: getSecondarySubmitButtonColor(),
                                          baseColor: getSecondarySubmitButtonColor(),
                                          disabled: !canSubmit))
+            .animation(nil, value: canSubmit)
             Spacer()
         }
         .frame(maxWidth: Constant.screenBounds.width - 60)

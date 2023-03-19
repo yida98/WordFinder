@@ -48,10 +48,10 @@ struct QuizView: View {
                                             removeExtraneousDataSources()
                                         }
                                     }.frame(width: Constant.screenBounds.width, alignment: .center)
+                                    .animation(nil, value: dataSource)
                                     
                             }.frame(width: Constant.screenBounds.width, alignment: .center)
                         }
-                        .animation(nil, value: dataSource)
                         if viewModel.quizDidFinish {
                             GeometryReader { proxy in
                                 proxyTrigger(proxy)
