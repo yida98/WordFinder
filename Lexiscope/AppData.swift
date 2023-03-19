@@ -10,7 +10,6 @@ import CoreData
 
 class AppData: ObservableObject {
     init() {
-        DataManager.shared.nukeRecall()
         if DataManager.shared.retrieveUser() == nil {
             DataManager.shared.createUser()
         }
