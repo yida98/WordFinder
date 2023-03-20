@@ -34,7 +34,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(.linearGradient(colors: [.gradient2a, .gradient3a], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .fill(.linearGradient(colors: [.gradient2a, .gradient1a], startPoint: .topLeading, endPoint: .bottomTrailing))
                         .frame(idealWidth: .infinity, idealHeight: .infinity)
                         .shadow(radius: 4)
                         .ignoresSafeArea()

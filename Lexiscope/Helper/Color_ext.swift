@@ -16,7 +16,7 @@ extension Color {
     static let babyPowder: Color = Color(red: 252/255, green: 251/255, blue: 247/255)
     static let blueCrayola: Color = Color(red: 22/255, green: 115/255, blue: 255/255)
     static let boyBlue: Color = Color(red: 95/255, green: 159/255, blue: 255/255)
-    static let darkSkyBlue: Color = Color(red: 116/255, green: 179/255, blue: 206/255)
+    static let darkSkyBlue: Color = Color(red: 60/255, green: 152/255, blue: 250/255)
     static let uranianBlue: Color = Color(red: 186/255, green: 222/255, blue: 255/255)
     static let beauBlue: Color = Color(red: 182/255, green: 204/255, blue: 224/255)
     static let magnolia: Color = Color(red: 248/255, green: 242/255, blue: 252/255)
@@ -60,6 +60,7 @@ extension Color {
     static let celadon: Color = Color(red: 177/255, green: 232/255, blue: 190/255)
     
     static let gradient1: Color = Color(red: 189/255, green: 150/255, blue: 255/255)
+    static let gradient1a: Color = Color(red: 239/255, green: 230/255, blue: 255/255)
     static let gradient2: Color = Color(red: 133/255, green: 196/255, blue: 255/255)
     static let gradient2a: Color = Color(red: 219/255, green: 240/255, blue: 255/255)
     static let gradient3: Color = Color(red: 166/255, green: 247/255, blue: 207/255)

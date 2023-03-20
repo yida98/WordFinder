@@ -16,7 +16,7 @@ struct FullSavedWordView: View {
     var body: some View {
         VStack(spacing: -10) {
             Rectangle()
-                .fill(viewModel.familiarity >= 4 ? Color.silverLakeBlue : .gradient3a)
+                .fill(viewModel.familiarity >= 4 ? Color.silverLakeBlue : .gradient2a)
                 .frame(height: 20)
             VStack {
                 DefinitionView(viewModel: viewModel, spacing: 10, familiar: viewModel.familiarity >= 4)
@@ -77,7 +77,7 @@ struct FullSavedWordView: View {
                 }
             }
             .padding(50)
-            .background(RoundedRectangle(cornerRadius: 10).fill(.linearGradient(colors: [.gradient3a, .white], startPoint: .top, endPoint: .bottom)))
+            .background(RoundedRectangle(cornerRadius: 10).fill(.linearGradient(colors: [.gradient2a, .white], startPoint: .top, endPoint: .bottom)))
             .clipShape(RoundedRectangle(cornerRadius: 10))
         }
         .sheet(isPresented: $viewModel.presentNotesEditor, onDismiss: {

@@ -15,12 +15,14 @@ struct DefinitionView: View {
     @State var presentAlert: Bool = false
     
     var body: some View {
-        VStack(spacing: spacing) {
+        VStack(spacing: viewModel.expanded ? spacing * 2 : spacing) {
             HStack {
                 Text(viewModel.headwordEntry.word)
                     .font(viewModel.expanded ? .largeTitleBaskerville : .titleBaskerville)
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
                     .textSelection(.enabled)
-                    .foregroundColor(familiar ? .silverLakeBlue : .pineGreen) // primaryDark
+                    .foregroundColor(.pineGreen) // primaryDark
                 Spacer()
                 Button {
                     if viewModel.saved {
@@ -31,11 +33,11 @@ struct DefinitionView: View {
                 } label: {
                     if familiar {
                         Star(cornerRadius: 1)
-                            .fill(Color.silverLakeBlue)
+                            .fill(Color.darkSkyBlue)
                             .frame(width: 20, height: 20)
                     } else {
                         Image(systemName: viewModel.saved ? "bookmark.fill" : "bookmark")
-                            .foregroundColor(Color.silverLakeBlue) // primary
+                            .foregroundColor(Color.darkSkyBlue) // primary
                     }
                 }.alert(isPresented: $presentAlert) {
                     Alert(title: Text("Unbookmarking"), message: Text("Are you sure you want to unbookmark \(viewModel.headwordEntry.word)"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Unbookmark")) {
@@ -48,7 +50,7 @@ struct DefinitionView: View {
                 HStack {
                     Text("/")
                         .font(.caption)
-                        .foregroundColor(.satinGold) // neutral
+                        .foregroundColor(.init(white: 0.5)) // neutral
                         .padding(.vertical, 2)
                     ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
                         Button {
@@ -64,13 +66,13 @@ struct DefinitionView: View {
                     }
                     Text("/")
                         .font(.caption)
-                        .foregroundColor(.satinGold) // neutral
+                        .foregroundColor(.init(white: 0.5)) // neutral
                         .padding(.vertical, 2)
                     Spacer()
                 }
             }.padding(.vertical, 2)
             ScrollView(showsIndicators: false) {
-                VStack (spacing: 10) {
+                VStack (spacing: viewModel.expanded ? 20 : 10) {
                     ForEach(viewModel.lexicalEntries()) { lexicalEntry in
                         LexicalEntryView(lexicalEntry: lexicalEntry, expanded: $viewModel.expanded, spacing: spacing)
                     }
@@ -140,11 +142,11 @@ struct DefinitionCard: ViewModifier {
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
             .background(
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 8)
                     .stroke(familiar ? Color.silverLakeBlue : .clear, lineWidth: 3)
                     .background(.white.opacity(0.5))
             )
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 

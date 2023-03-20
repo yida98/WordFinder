@@ -16,7 +16,7 @@ struct LexicalEntryView: View {
         VStack(spacing: spacing) {
             HStack {
                 Text(lexicalEntry.lexicalCategory.text.capitalized)
-                    .font(.caption)
+                    .font(.caption.bold())
                     .italic()
                     .foregroundColor(.verdigrisDark) // primaryDark
                 Spacer()
@@ -36,18 +36,18 @@ struct LexicalEntryView: View {
                     VStack(spacing: 8) {
                         HStack {
                             Text("\(senses()[senseIndex].definitions?.first ?? "")")
-                                .font(.subheadlineBaskerville)
+                                .font(.bodyBaskerville)
                                 .textSelection(.enabled)
                                 .foregroundColor(Color(white: 0.4))
                             Spacer()
                         }
-                        if expanded {
+                        if expanded, let exampleText = example(at: senseIndex) {
                             HStack {
-                                Text("\(senses()[senseIndex].examples?.first?.text ?? "")")
+                                Text(exampleText)
                                     .font(.caption)
                                     .italic()
-                                    .textSelection(.disabled)
-                                    .foregroundColor(Color(white: 0.5))
+                                    .textSelection(.enabled)
+                                    .foregroundColor(Color(white: 0.8))
                                 Spacer()
                             }
                         }
@@ -65,5 +65,10 @@ struct LexicalEntryView: View {
             if let firstSense = lexicalEntry.allSenses().first { return [firstSense] }
             else { return [] }
         }
+    }
+    
+    private func example(at senseIndex: Int) -> String? {
+        let examples = senses()[senseIndex].examples?.compactMap { $0.text }
+        return examples?.first
     }
 }

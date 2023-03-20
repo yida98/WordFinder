@@ -70,6 +70,7 @@ struct SavedWordsView: View {
                 if let entry = viewModel.presentingVocabularyEntry {
                     FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(),
                                                                      saved: true))
+                    .background(.ultraThinMaterial)
                 } else {
                     EmptyView()
                 }
