@@ -14,6 +14,7 @@ struct LexiscopeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: ContentViewModel())
+                .preferredColorScheme(.light)
         }
     }
 }

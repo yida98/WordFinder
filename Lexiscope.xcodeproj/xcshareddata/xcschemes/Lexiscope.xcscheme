@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4F362242821D46C0078721F"
-               BuildableName = "Lexiscope.app"
+               BuildableName = "Lexitome.app"
                BlueprintName = "Lexiscope"
                ReferencedContainer = "container:Lexiscope.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4F362242821D46C0078721F"
-            BuildableName = "Lexiscope.app"
+            BuildableName = "Lexitome.app"
             BlueprintName = "Lexiscope"
             ReferencedContainer = "container:Lexiscope.xcodeproj">
          </BuildableReference>
@@ -74,7 +74,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4F362242821D46C0078721F"
-            BuildableName = "Lexiscope.app"
+            BuildableName = "Lexitome.app"
             BlueprintName = "Lexiscope"
             ReferencedContainer = "container:Lexiscope.xcodeproj">
          </BuildableReference>
