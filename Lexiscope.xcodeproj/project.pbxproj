@@ -70,6 +70,7 @@
 		BD63407A293CBFB6F38B2784 /* Pods_Lexiscope.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lexiscope.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		E4188BD429D26220003FB654 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetectionCameraModel.swift; sourceTree = "<group>"; };
 		E438BDC3293744CA001A97BA /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
 		E44573612935BE87008154B7 /* VNTextDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNTextDetector.swift; sourceTree = "<group>"; };
@@ -311,6 +312,7 @@
 		E4F362272821D46C0078721F /* Lexiscope */ = {
 			isa = PBXGroup;
 			children = (
+				E4188BD429D26220003FB654 /* Info.plist */,
 				E4F362282821D46C0078721F /* LexiscopeApp.swift */,
 				E475BFEB294EE7710076824C /* AppData.swift */,
 				E4F362362821D5210078721F /* Views */,
@@ -663,11 +665,11 @@
 				DEVELOPMENT_TEAM = W9299UY4N9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lexiscope/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera Access is required to be able to let the user take a photo to scan for vocabulary.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library Access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -698,11 +700,11 @@
 				DEVELOPMENT_TEAM = W9299UY4N9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lexiscope/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera Access is required to be able to let the user take a photo to scan for vocabulary.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library Access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
