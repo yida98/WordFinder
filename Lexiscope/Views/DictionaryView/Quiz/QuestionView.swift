@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct QuestionView: View {
     @ObservedObject var viewModel: QuizViewModel
@@ -48,6 +49,11 @@ struct QuestionView: View {
                 temporarySubmissionBlock = true
                 if validation == nil {
                     validation = viewModel.submit(choice)
+                    if let v = validation, let c = choice, v[c] {
+                        AudioServicesPlaySystemSound(1103)
+                    } else {
+                        AudioServicesPlaySystemSound(1104)
+                    }
                     preparation()
                 } else {
                     submission()
