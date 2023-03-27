@@ -24,7 +24,8 @@ class Application {
     public static var shared: Application = Application()
     
     func openSettings() {
-        
+        guard let url = Constant.URLs.settingsURL else { return }
+        UIApplication.shared.open(url)
     }
 }
 

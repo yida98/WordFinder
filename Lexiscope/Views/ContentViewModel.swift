@@ -17,8 +17,10 @@ class ContentViewModel: ObservableObject {
     @Published var searchViewActiveOffset: CGFloat
     @Published var searchOpen: Bool {
         didSet {
-            searchViewActiveOffset = searchOpen ? searchViewMaxHeight : searchViewMinHeight
-            shouldFogCamera = !searchOpen
+            if allowsCameraUsage {
+                searchViewActiveOffset = searchOpen ? searchViewMaxHeight : searchViewMinHeight
+                shouldFogCamera = !searchOpen
+            }
         }
     }
     
@@ -41,6 +43,8 @@ class ContentViewModel: ObservableObject {
         }
     }
     
+    @Published var allowsCameraUsage: Bool = false
+    
     init() {
         let cameraViewportHeight = Constant.screenBounds.height / 4
         self.cameraViewportSize = CGSize(width: Constant.screenBounds.width,
@@ -51,6 +55,12 @@ class ContentViewModel: ObservableObject {
         self.searchOpen = false
         self.shouldFogCamera = true
         self.isPresentingQuiz = false
+        
+        CameraViewModel.requestCameraAccess { success in
+            DispatchQueue.main.async { [weak self] in
+                self?.allowsCameraUsage = success
+            }
+        }
         
         setupNotifications()
     }

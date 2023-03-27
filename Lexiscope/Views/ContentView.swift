@@ -9,12 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
+    @State private var presentAlert: Bool = false
 
     var body: some View {
         ZStack {
             VStack {
                 ZStack {
-                    SearchView(viewModel: viewModel.getSearchViewModel())
+                    if viewModel.allowsCameraUsage {
+                        SearchView(viewModel: viewModel.getSearchViewModel())
+                    }
 
                     if (viewModel.shouldFogCamera)  {
                         Rectangle()
@@ -108,6 +111,16 @@ struct ContentView: View {
                                 .padding(.horizontal, 8)
                             }
                             .toggleStyle(MenuToggleStyle(fillColor: .linearGradient(colors: [.sunglow, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing), strokeColor: .satinGold))
+                            .onChange(of: viewModel.searchOpen) { newValue in
+                                if !viewModel.allowsCameraUsage {
+                                    presentAlert = true
+                                }
+                            }
+                            .alert(isPresented: $presentAlert) {
+                                Alert(title: Text("No Camera Access"), message: Text("Go to settings to enable camera access."), primaryButton: .cancel(), secondaryButton: .default(Text("Settings")) {
+                                    Application.shared.openSettings()
+                                })
+                            }
                         }
                     }
                     .padding(.horizontal, 40)

@@ -16,7 +16,7 @@ class CameraViewModel: NSObject,
                        AVCapturePhotoCaptureDelegate,
                        ROIDelegate {
     
-    @Published var allowsCameraUsage: Bool = true
+    @Published var allowsCameraUsage: Bool = false
     
     @Published var cameraOn: Bool
     var cameraOnSubscriber: AnyCancellable?
@@ -36,9 +36,9 @@ class CameraViewModel: NSObject,
         super.init()
         self.cameraOnSubscriber = cameraOn.assign(to: \.cameraOn, on: self)
         CameraViewModel.requestCameraAccess { success in
-            Just(success)
-                .receive(on: RunLoop.main)
-                .assign(to: &self.$allowsCameraUsage)
+            DispatchQueue.main.async { [weak self] in
+                self?.allowsCameraUsage = success
+            }
         }
         setBufferRatio(with: .photo)
     }
