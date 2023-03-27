@@ -29,6 +29,11 @@ struct QuestionView: View {
                 Text("\(question.getQuestionDisplayString())")
                     .font(.largeTitleQuiz)
                     .foregroundColor(.verdigrisLight)
+                    .onTapGesture {
+                        if let url = question.getPronunciationURL() {
+                            DataManager.shared.pronounce(url: url)
+                        }
+                    }
             }
             VStack(spacing: 20) {
                 ForEach(question.choices.indices, id: \.self) { id in

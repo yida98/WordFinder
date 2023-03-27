@@ -113,6 +113,10 @@ class Quiz {
             }
         }
         
+        func getPronunciationURL() -> URL? {
+            return topic.getHeadwordEntry().allPronunciationURLs().first
+        }
+        
         /// The number of options is between 1 and 4
         private static func makeOptions(for topic: VocabularyEntry, from options: [VocabularyEntry]) -> [VocabularyEntry] {
             var allAnswers = options

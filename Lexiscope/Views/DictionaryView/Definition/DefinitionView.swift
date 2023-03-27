@@ -54,7 +54,7 @@ struct DefinitionView: View {
                         .padding(.vertical, 2)
                     ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
                         Button {
-                            viewModel.pronounce(pronunciation.audioFile)
+                            DataManager.shared.pronounce(pronunciation.audioFile)
                         } label: {
                             Text(pronunciation.phoneticSpelling!)
                                 .font(.caption)

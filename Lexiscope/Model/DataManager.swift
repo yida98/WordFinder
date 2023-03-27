@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import AVFoundation
 
 class DataManager: ObservableObject {
     static let shared = DataManager()
@@ -373,6 +374,36 @@ class DataManager: ObservableObject {
             return entry
         } catch {
             fatalError("Unable to decode HeadwordEntry from \(data)")
+        }
+    }
+    
+    private var soundPlayer: AVAudioPlayer?
+    
+    func pronounce(_ string: String?) {
+        guard let string = string, let url = URL(string: string) else { return }
+        pronounce(url: url)
+    }
+    
+    func pronounce(url: URL) {
+        guard let pronunciation = DataManager.shared.fetchPronunciation(for: url as NSURL) as? Pronunciation, let pronunciationData = pronunciation.pronunciation else {
+            URLTask.shared.downloadAudioFileData(from: url) { [weak self] data, urlResponse, error in
+                if let data = data {
+                    self?.playSound(from: data)
+                }
+            }
+            return
+        }
+        playSound(from: pronunciationData)
+    }
+    
+    func playSound(from data: Data) {
+        do {
+            soundPlayer = try AVAudioPlayer(data: data)
+            soundPlayer?.prepareToPlay()
+            soundPlayer?.volume = 1
+            soundPlayer?.play()
+        } catch let error {
+            debugPrint(error.localizedDescription)
         }
     }
 }

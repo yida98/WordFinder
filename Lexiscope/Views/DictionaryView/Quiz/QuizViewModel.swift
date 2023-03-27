@@ -111,9 +111,9 @@ class QuizViewModel: ObservableObject {
         let haptic = UINotificationFeedbackGenerator()
         guard let validation = validation else { haptic.notificationOccurred(.success); return }
         if validation {
-            haptic.notificationOccurred(.error)
-        } else {
             haptic.notificationOccurred(.success)
+        } else {
+            haptic.notificationOccurred(.error)
         }
     }
     
