@@ -25,7 +25,7 @@ struct DictionaryView: View {
             VStack {
                 HStack {
                     HStack {
-                        TextField("Search from \(viewModel.vocabularySize)", text: $viewModel.textFilter) {
+                        TextField("🔍", text: $viewModel.textFilter) {
                             viewModel.handleNewRequest(viewModel.textFilter)
                             viewModel.textFilter = ""
                         }
@@ -68,7 +68,7 @@ struct DictionaryView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
-                    .background(.white.opacity(0.3))
+                    .background(searchIsFocused ? .white.opacity(0.3) : .clear)
                     .mask {
                         RoundedRectangle(cornerRadius: 16)
                     }
