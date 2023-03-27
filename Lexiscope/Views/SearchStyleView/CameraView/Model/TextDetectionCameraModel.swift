@@ -24,7 +24,7 @@ class TextDetectionCameraModel {
     
     func startLiveVideo() -> AVCaptureVideoPreviewLayer? {
         var deviceInput: AVCaptureDeviceInput!
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
+        guard let firstDevice = getListOfCameras().first, let videoDevice = AVCaptureDevice.default(firstDevice.deviceType, for: .video, position: .back) else {
             debugPrint("No video device; might be using a simulator.")
             return nil
         }
@@ -47,6 +47,28 @@ class TextDetectionCameraModel {
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
         
         return previewLayer
+    }
+    
+    public func getListOfCameras() -> [AVCaptureDevice] {
+        
+    #if os(iOS)
+        let session = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [
+                .builtInWideAngleCamera,
+                .builtInTelephotoCamera
+            ],
+            mediaType: .video,
+            position: .unspecified)
+    #elseif os(macOS)
+        let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [
+                .builtInWideAngleCamera
+            ],
+            mediaType: .video,
+            position: .unspecified)
+    #endif
+        
+        return session.devices
     }
     
     func startRunning() {
