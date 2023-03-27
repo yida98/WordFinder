@@ -19,6 +19,8 @@ class SavedWordsViewModel: ObservableObject {
             NotificationCenter.default.post(name: .fogCamera, object: nil, userInfo: ["shouldFog": isPresenting])
         }
     }
+    @Published var totalVocabulary: Int = 0
+    @Published var totalFamiliar: Int = 0
     var dataManager: DataManager
     var presentingVocabularyEntry: VocabularyEntry?
     
@@ -94,6 +96,13 @@ class SavedWordsViewModel: ObservableObject {
             self?.vocabularyDictionary = SavedWordsViewModel.alphabetizedDictionary(for: vocabulary)
             self?.vocabulary = SavedWordsViewModel.alphabetizedVocabulary(for: vocabulary)
             self?.sectionTitles = SavedWordsViewModel.alphabetizedKeys(for: vocabulary).map { String($0) }
+            self?.totalVocabulary = vocabulary.count
+            self?.totalFamiliar = vocabulary.filter { vocab in
+                if let recallDates = vocab.recallDates {
+                    return recallDates.count >= 4
+                }
+                return false
+            }.count
             if let delegate = self?.savedWordsVocabularyDelegate {
                 delegate.vocabularyDidUpdate(vocabulary)
             }

@@ -53,6 +53,12 @@ struct SavedWordsView: View {
                                 }
                             }.id(key)
                         }
+                        HStack {
+                            Text("\(viewModel.totalFamiliar) of \(viewModel.totalVocabulary) familiar")
+                                .font(.subheadline)
+                                .bold()
+                                .foregroundColor(.silverLakeBlue)
+                        }.padding()
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 50)
