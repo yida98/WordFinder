@@ -37,7 +37,7 @@ struct QuestionView: View {
                     }
             }
             VStack(spacing: 20) {
-                ForEach(question.choices.indices, id: \.self) { id in
+                ForEach(0..<4, id: \.self) { id in
                     QuizOptionCell(text: question.getDisplayString(for: id),
                                    id: id,
                                    choice: $choice,

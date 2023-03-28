@@ -70,12 +70,13 @@ class URLTask {
         var stem: String = input.lowercased()
         stem = stem.trimmingCharacters(in: .whitespacesAndNewlines)
         if let range = Range(NSRange(location: 0, length: input.count), in: input) {
-            let options: NLTagger.Options = [.omitWhitespace, .omitPunctuation, .joinNames, .joinContractions, .omitOther]
+            let options: NLTagger.Options = [.omitPunctuation, .joinNames, .joinContractions, .omitOther]
             let tagger = NLTagger(tagSchemes: [.lemma])
             tagger.string = stem
             let lemma = tagger.tags(in: range, unit: .word, scheme: .lemma, options: options)
-            if let firstTag = lemma.first, let tagValue = firstTag.0 {
-                stem = tagValue.rawValue
+            let sanitized = lemma.compactMap { $0.0?.rawValue }.joined(separator: " ")
+            if !sanitized.isEmpty {
+                stem = sanitized
             }
         }
         return stem

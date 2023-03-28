@@ -96,9 +96,17 @@ class Quiz {
         }
         
         func getDisplayString(for index: Int) -> String {
-            guard index < choiceStrings.count else { return "" }
-            return choiceStrings[index]
+            guard index < choiceStrings.count else { return Quiz.Entry.herrings[3 - index] }
+            let result = choiceStrings[index]
+            if result == "" {
+                return " "
+            }
+            return result
         }
+        
+        private static let herrings = ["a decision by a court to approve a demotion or release.",
+                                       "concerned with and directed by currents or currents.",
+                                       "a dish of fried onions or chopped tomatoes with seasoning, breadcrumbs, and cheese."]
         
         func getQuestionDisplayString() -> String {
             topicString
@@ -134,6 +142,9 @@ class Quiz {
             var results = [Bool]()
             for choice in choices {
                 results.append(validate(vocabularyEntry: choice))
+            }
+            while results.count < 4 {
+                results.append(false)
             }
             return results
         }
