@@ -100,7 +100,8 @@ struct SavedWordsView: View {
 
 extension VocabularyEntry {
     func getHeadwordEntry() -> HeadwordEntry {
-        DataManager.decodedHeadwordEntryData(self.headwordEntry!)
+        guard let result = DataManager.decodedHeadwordEntryData(self.headwordEntry!) else { fatalError("No headword entry") }
+        return result
     }
 }
 

@@ -10,8 +10,5 @@ import CoreData
 
 class AppData: ObservableObject {
     init() {
-        if DataManager.shared.retrieveUser() == nil {
-            DataManager.shared.createUser()
-        }
     }
 }

@@ -63,7 +63,7 @@ class DefinitionViewModel: ObservableObject {
                     }
                 }
             } catch {
-                fatalError("Cannot encode \(headwordEntry) entry into data.")
+                debugPrint("Cannot encode \(headwordEntry) entry into data.")
             }
         }
     }

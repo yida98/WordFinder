@@ -18,86 +18,29 @@ class DataManager: ObservableObject {
         let container = NSPersistentContainer(name: "OxfordEntryModel")
         container.loadPersistentStores { _, error in
             if let error = error {
-                fatalError("Persistent store loading error: \(error.localizedDescription)")
+                debugPrint("Persistent store loading error: \(error.localizedDescription)")
             }
         }
         return container
     }()
     
-    private lazy var userEntity: NSEntityDescription = {
+    private lazy var vocabularyEntryEntity: NSEntityDescription? = {
         let managedContext = getContext()
-        guard let entity = NSEntityDescription.entity(forEntityName: EntityName.user.rawValue, in: managedContext) else {
-            fatalError()
-        }
-        return entity
+        return NSEntityDescription.entity(forEntityName: EntityName.vocabularyEntry.rawValue, in: managedContext)
     }()
     
-    private lazy var vocabularyEntryEntity: NSEntityDescription = {
+    private lazy var pronunciationEntity: NSEntityDescription? = {
         let managedContext = getContext()
-        guard let entity = NSEntityDescription.entity(forEntityName: EntityName.vocabularyEntry.rawValue, in: managedContext) else {
-            fatalError()
-        }
-        return entity
+        return NSEntityDescription.entity(forEntityName: EntityName.pronunciation.rawValue, in: managedContext)
     }()
     
-    private lazy var pronunciationEntity: NSEntityDescription = {
+    private lazy var retrieveEntity: NSEntityDescription? = {
         let managedContext = getContext()
-        guard let entity = NSEntityDescription.entity(forEntityName: EntityName.pronunciation.rawValue, in: managedContext) else {
-            fatalError()
-        }
-        return entity
-    }()
-    
-    private lazy var retrieveEntity: NSEntityDescription = {
-        let managedContext = getContext()
-        guard let entity = NSEntityDescription.entity(forEntityName: EntityName.retrieve.rawValue, in: managedContext) else {
-            fatalError()
-        }
-        return entity
+        return NSEntityDescription.entity(forEntityName: EntityName.retrieve.rawValue, in: managedContext)
     }()
     
     private func getContext() -> NSManagedObjectContext {
         return persistentContainer.viewContext
-    }
-    
-    // MARK: - Users
-    
-    func createUser() {
-        let context = getContext()
-        let _ = NSManagedObject(entity: userEntity, insertInto: context)
-        saveContext()
-    }
-    
-    func deleteAllUsers() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: EntityName.user.rawValue)
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-        do {
-            try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: getContext())
-        } catch let error as NSError {
-            // TODO: handle the error
-            debugPrint("error")
-            return
-        }
-    }
-    
-    var user: NSManagedObject?
-    
-    func retrieveUser() -> NSManagedObject? {
-        if user != nil { return self.user }
-        let managedContext = getContext()
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.user.rawValue)
-        do {
-            let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
-            if let results = results, results.count > 0 {
-                self.user = results[0]
-                return results[0]
-            } else {
-                return nil
-            }
-        } catch {
-            fatalError("Unable to fetch user. \(error)")
-        }
     }
     
     // MARK: - Entries
@@ -186,8 +129,7 @@ class DataManager: ObservableObject {
     }
     
     func saveVocabularyEntryEntity(headwordEntry: Data?, date: Date? = Date(), word: String?, notes: String?, recallDates: [Date]?) {
-        guard let headwordEntryData = headwordEntry else { return }
-        let headwordEntry = DataManager.decodedHeadwordEntryData(headwordEntryData)
+        guard let headwordEntryData = headwordEntry, let headwordEntry = DataManager.decodedHeadwordEntryData(headwordEntryData) else { return }
         
         if let entry = fetchVocabularyEntry(for: headwordEntry) {
             entry.setValue(headwordEntryData, forKey: "headwordEntry")
@@ -196,8 +138,9 @@ class DataManager: ObservableObject {
             entry.setValue(recallDates, forKey: "recallDates")
             entry.setValue(notes, forKey: "notes")
         } else {
+            guard let entityObject = vocabularyEntryEntity else { debugPrint("Could not get vocabularyEntryEntity"); return }
             let context = getContext()
-            let entity = NSManagedObject(entity: vocabularyEntryEntity, insertInto: context)
+            let entity = NSManagedObject(entity: entityObject, insertInto: context)
             entity.setValue(headwordEntryData, forKey: "headwordEntry")
             entity.setValue(date, forKey: "date")
             entity.setValue(word, forKey: "word")
@@ -234,7 +177,8 @@ class DataManager: ObservableObject {
     func savePronunciation(url: NSURL, pronunciation: Data) {
         if fetchPronunciation(for: url) == nil {
             let context = getContext()
-            let entity = NSManagedObject(entity: pronunciationEntity, insertInto: context)
+            guard let entityObject = pronunciationEntity else { debugPrint("Could not get pronunciationEntity"); return }
+            let entity = NSManagedObject(entity: entityObject, insertInto: context)
             entity.setValue(url, forKey: "url")
             entity.setValue(pronunciation, forKey: "pronunciation")
             
@@ -256,7 +200,8 @@ class DataManager: ObservableObject {
     func saveRetrieve(_ data: Data, for word: String) {
         if fetchRetrieve(for: word) == nil {
             let context = getContext()
-            let entity = NSManagedObject(entity: retrieveEntity, insertInto: context)
+            guard let entityObject = retrieveEntity else { debugPrint("Could not get retrieveEntity"); return }
+            let entity = NSManagedObject(entity: entityObject, insertInto: context)
             entity.setValue(data, forKey: "data")
             entity.setValue(word, forKey: "word")
             
@@ -285,7 +230,7 @@ class DataManager: ObservableObject {
 
         do {
             try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: getContext())
-        } catch let error as NSError {
+        } catch {
             // TODO: handle the error
             debugPrint("error")
             return
@@ -299,7 +244,7 @@ class DataManager: ObservableObject {
 
             do {
                 try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: getContext())
-            } catch let error as NSError {
+            } catch {
                 // TODO: handle the error
                 debugPrint("error")
                 return
@@ -344,7 +289,7 @@ class DataManager: ObservableObject {
                 try context.save()
             } catch {
                 // TODO: Handle error
-                fatalError("Unable to save due to \(error)")
+                debugPrint("Unable to save due to \(error)")
             }
         }
         self.objectWillChange.send()
@@ -359,22 +304,14 @@ class DataManager: ObservableObject {
         case retrieve = "Retrieve"
     }
     
-    static func decodedRetrieveEntryData(_ data: Data) -> RetrieveEntry {
-        do {
-            let entry = try JSONDecoder().decode(RetrieveEntry.self, from: data)
-            return entry
-        } catch {
-            fatalError("Unable to decode RetrieveEntry from \(data)")
-        }
+    static func decodedRetrieveEntryData(_ data: Data) -> RetrieveEntry? {
+        let entry = try? JSONDecoder().decode(RetrieveEntry.self, from: data)
+        return entry
     }
     
-    static func decodedHeadwordEntryData(_ data: Data) -> HeadwordEntry {
-        do {
-            let entry = try JSONDecoder().decode(HeadwordEntry.self, from: data)
-            return entry
-        } catch {
-            fatalError("Unable to decode HeadwordEntry from \(data)")
-        }
+    static func decodedHeadwordEntryData(_ data: Data) -> HeadwordEntry? {
+        let entry = try? JSONDecoder().decode(HeadwordEntry.self, from: data)
+        return entry
     }
     
     private var soundPlayer: AVAudioPlayer?

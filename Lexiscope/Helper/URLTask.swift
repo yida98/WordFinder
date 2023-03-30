@@ -29,8 +29,8 @@ class URLTask {
         debugPrint(trimmedWord)
         
         if let managedRetrieveObject = DataManager.shared.fetchRetrieve(for: trimmedWord) as? Retrieve,
-            let data = managedRetrieveObject.value(forKey: "data") as? Data {
-            let retrieveEntry = DataManager.decodedRetrieveEntryData(data)
+            let data = managedRetrieveObject.value(forKey: "data") as? Data,
+            let retrieveEntry = DataManager.decodedRetrieveEntryData(data) {
             return Just((trimmedWord, retrieveEntry)).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
         
