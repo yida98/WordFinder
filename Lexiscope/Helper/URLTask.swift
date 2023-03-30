@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import NaturalLanguage
+import PorterStemmer2
 
 class URLTask {
     static let shared = URLTask()
@@ -67,19 +68,12 @@ class URLTask {
     }
     
     static func sanitizeInput(_ input: String) -> String {
-        var stem: String = input.lowercased()
-        stem = stem.trimmingCharacters(in: .whitespacesAndNewlines)
-        if let range = Range(NSRange(location: 0, length: input.count), in: input) {
-            let options: NLTagger.Options = [.omitPunctuation, .joinNames, .joinContractions, .omitOther]
-            let tagger = NLTagger(tagSchemes: [.lemma])
-            tagger.string = stem
-            let lemma = tagger.tags(in: range, unit: .word, scheme: .lemma, options: options)
-            let sanitized = lemma.compactMap { $0.0?.rawValue }.joined(separator: " ")
-            if !sanitized.isEmpty {
-                stem = sanitized
-            }
+        var preStem: String = input.lowercased()
+        preStem = preStem.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let stemmer = PorterStemmer(withLanguage: .English) {
+            preStem = stemmer.stem(preStem)
         }
-        return stem
+        return preStem
     }
     
     private static func requestURL(for word_id: String,
