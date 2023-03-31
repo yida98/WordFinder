@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 import NaturalLanguage
-import PorterStemmer2
 
 class URLTask {
     static let shared = URLTask()
