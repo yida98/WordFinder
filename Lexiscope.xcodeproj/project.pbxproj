@@ -26,6 +26,7 @@
 		E46E097E29AFF09E00C212D3 /* CompletionBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E097D29AFF09E00C212D3 /* CompletionBadgeView.swift */; };
 		E46E098029AFF18B00C212D3 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E097F29AFF18B00C212D3 /* Quiz.swift */; };
 		E46E098229AFF31D00C212D3 /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E098129AFF31D00C212D3 /* ProgressViewModel.swift */; };
+		E472410029E747BE00C064D8 /* DictionaryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47240FF29E747BE00C064D8 /* DictionaryAPI.swift */; };
 		E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE2294A76450076824C /* DefinitionViewModel.swift */; };
 		E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE4294ACAEB0076824C /* URLTask.swift */; };
 		E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E475BFE6294BD7110076824C /* DictionaryViewModel.swift */; };
@@ -87,6 +88,7 @@
 		E46E097D29AFF09E00C212D3 /* CompletionBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionBadgeView.swift; sourceTree = "<group>"; };
 		E46E097F29AFF18B00C212D3 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		E46E098129AFF31D00C212D3 /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
+		E47240FF29E747BE00C064D8 /* DictionaryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryAPI.swift; sourceTree = "<group>"; };
 		E475BFE2294A76450076824C /* DefinitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewModel.swift; sourceTree = "<group>"; };
 		E475BFE4294ACAEB0076824C /* URLTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTask.swift; sourceTree = "<group>"; };
 		E475BFE6294BD7110076824C /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				E4DCC2162878038E00F1495A /* Color_ext.swift */,
 				E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */,
 				E475BFE4294ACAEB0076824C /* URLTask.swift */,
+				E47240FF29E747BE00C064D8 /* DictionaryAPI.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				E4F3623F2821F6990078721F /* Constant.swift in Sources */,
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
 				E4859F18298651AC008AB85B /* LexicalEntryView.swift in Sources */,
+				E472410029E747BE00C064D8 /* DictionaryAPI.swift in Sources */,
 				E46E09712991D6F400C212D3 /* QuizAnimationModifier.swift in Sources */,
 				E48D676329BA0634009157DC /* FullSavedWordNotesEditor.swift in Sources */,
 				E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */,

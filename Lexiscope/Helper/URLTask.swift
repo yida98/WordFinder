@@ -12,13 +12,19 @@ import NaturalLanguage
 class URLTask {
     static let shared = URLTask()
     
-    private static let urlBase = "https://od-api.oxforddictionaries.com/api/v2/entries/"
-    private static let appId = "b68e6b0c"
-    private static let appKey = "925663b99eb05101c30ba2deea94cac6"
+    private let api: any DictionaryAPI
+    static let currentAPI: URLTask.API = .oxford
     
     static let default_language: URLTask.Language = .en_us
     
-    private init() { }
+    private init() {
+        switch URLTask.currentAPI {
+        case .oxford:
+            self.api = OxfordAPI()
+        case .merriamWebster:
+            self.api = MerriamWebsterAPI()
+        }
+    }
     
     func define(word: String,
                 language: URLTask.Language = URLTask.default_language,
@@ -33,24 +39,14 @@ class URLTask {
             return Just((trimmedWord, retrieveEntry)).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
         
-        guard let requestURL = URLTask.requestURL(for: trimmedWord, in: language, fields: fields, strictMatch: strictMatch) else {
-            print("[ERROR] Invalid word")
+        guard let urlRequest = api.urlRequest(for: trimmedWord, language: language, fields: fields, strictMatch: strictMatch) else {
+            debugPrint("[ERROR] Invalid request")
             return Fail(error: DictionaryError.badRequest).eraseToAnyPublisher()
         }
         
-        guard let url = URL(string: requestURL) else {
-            print("[ERROR] Invalid URL")
-            return Fail(error: NetworkError.badURL).eraseToAnyPublisher()
-        }
-        
-        var request = URLRequest(url: url)
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue(URLTask.appId, forHTTPHeaderField: "app_id")
-        request.addValue(URLTask.appKey, forHTTPHeaderField: "app_key")
-        
         let decoder = JSONDecoder()
         
-        return URLSession.shared.dataTaskPublisher(for: request)
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
             .tryMap {
                 if let response = $0.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
                     DataManager.shared.saveRetrieve($0.data, for: trimmedWord)
@@ -82,16 +78,6 @@ class URLTask {
         return stem
     }
     
-    private static func requestURL(for word_id: String,
-                                   in language: URLTask.Language = URLTask.default_language,
-                                   fields: Array<String> = [],
-                                   strictMatch: Bool = false) -> String? {
-        guard let encodedURL = word_id.lowercased().encodeUrl() else {
-            return nil
-        }
-        return "\(URLTask.urlBase)\(language.rawValue)/\(encodedURL)?fields=\(fields.joined(separator: "%2C"))&strictMatch=\(strictMatch)"
-    }
-    
     func downloadAudioFileData(from url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let urlRequest = URLRequest(url: url)
         let dataTask = URLSession.shared.dataTask(with: urlRequest, completionHandler: completionHandler)
@@ -114,6 +100,10 @@ class URLTask {
     enum DictionaryError: Error {
         case noResult
         case badRequest
+    }
+    
+    enum API {
+        case oxford, merriamWebster
     }
 }
 
