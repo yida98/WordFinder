@@ -10,6 +10,7 @@
 		CB2C77ED5F03CDED011A5600 /* Pods_Lexiscope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD63407A293CBFB6F38B2784 /* Pods_Lexiscope.framework */; };
 		E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */; };
 		E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */; };
+		E416CDFF2A2AB5B4008FBEB3 /* MWEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CDFE2A2AB5B4008FBEB3 /* MWEntry.swift */; };
 		E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */; };
 		E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438BDC3293744CA001A97BA /* ScannerViewModel.swift */; };
 		E44573622935BE87008154B7 /* VNTextDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44573612935BE87008154B7 /* VNTextDetector.swift */; };
@@ -71,6 +72,7 @@
 		BD63407A293CBFB6F38B2784 /* Pods_Lexiscope.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lexiscope.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41157BC2888AD34002EE0C5 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		E416CDFE2A2AB5B4008FBEB3 /* MWEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWEntry.swift; sourceTree = "<group>"; };
 		E4188BD429D26220003FB654 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetectionCameraModel.swift; sourceTree = "<group>"; };
 		E438BDC3293744CA001A97BA /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				E4DCC21E287D3A0B00F1495A /* Entry.swift */,
+				E416CDFE2A2AB5B4008FBEB3 /* MWEntry.swift */,
 				E475BFFB294FF6C30076824C /* DataManager.swift */,
 				E475BFF8294FE8A30076824C /* OxfordEntryModel.xcdatamodeld */,
 			);
@@ -524,6 +527,7 @@
 				E475BFE7294BD7110076824C /* DictionaryViewModel.swift in Sources */,
 				E467D5F828DC1C850005480D /* SearchToolbar.swift in Sources */,
 				E46E097729949E4500C212D3 /* QuizUtilityButtonStyle.swift in Sources */,
+				E416CDFF2A2AB5B4008FBEB3 /* MWEntry.swift in Sources */,
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
 				E4859F262989C092008AB85B /* QuizButtonStyle.swift in Sources */,
 				E47750B329B1E8A3002F2D6E /* Box.swift in Sources */,
