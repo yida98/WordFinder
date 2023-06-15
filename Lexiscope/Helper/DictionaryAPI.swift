@@ -120,14 +120,6 @@ struct MerriamWebsterAPI: DictionaryAPI {
                 if let response = result.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
                     DataManager.shared.saveRetrieve(result.data, for: word)
                     
-                    let decoderThing = JSONDecoder()
-                    do {
-                        let decodedGuy = try decoderThing.decode(MWRetrieveEntry.self, from: result.data)
-                        debugPrint("decoded guy \(decodedGuy)")
-                    } catch(let error) {
-                        debugPrint("could not decode!!! \(error)")
-                    }
-                    
                     return result.data
                 } else {
                     print("[ERROR] bad response")

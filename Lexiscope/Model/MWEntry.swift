@@ -9,17 +9,16 @@ import Foundation
 
 struct MWRetrieveEntry: DictionaryRetrieveEntry {
     let meta: MWMeta
-    let hom: Int
-    let hwi: MWHeadwordInformation
-    let ahws: Array<MWHeadwordInformation>
+    let hom: Int?
+    let hwi: MWHeadwordInformation?
     /// Functional label e.g. "noun", "adjective"
-    let fl: String
-    let ins: ins
-    let cxs: cxs
-    let def: def
+    let fl: String?
+    let ins: ins?
+    let cxs: cxs?
+    let def: def?
     /// General labels e.g. typically capitalized, used as an attributive noun
-    let lbs: lbs
-    let shortdef: shortdef
+    let lbs: lbs?
+    let shortdef: shortdef?
 }
 
 struct MWMeta: Codable {
@@ -31,46 +30,74 @@ struct MWMeta: Codable {
     let stems: Array<String>
     let offensive: Bool
     
-    init(id: String, uuid: String, sort: String, src: String, stems: Array<String>, offensive: Bool) {
-        self.id = id
-        self.uuid = uuid
-        self.sort = sort
-        self.src = src
-        self.stems = stems
-        self.offensive = offensive
+    enum CodingKeys: String, CodingKey {
+        case id
+        case uuid
+        case sort
+        case src
+        case stems
+        case offensive
+    }
+    
+    init(from decoder: Decoder) throws {
+        debugPrint("at MWMeta")
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.uuid = try container.decode(String.self, forKey: .uuid)
+        self.sort = try container.decode(String.self, forKey: .sort)
+        self.src = try container.decode(String.self, forKey: .src)
+        self.stems = try container.decode([String].self, forKey: .stems)
+        self.offensive = try container.decode(Bool.self, forKey: .offensive)
+        debugPrint("Finished decoding MWMeta")
     }
 }
 
 struct MWHeadwordInformation: Codable {
     let hw: String
     let prs: prs?
-    let psl: psl?
 }
 
 struct MWPronunciation: Codable {
     /// written pronunciation in Merriam-Webster format
-    let mw: String
+    let mw: String?
     /// pronunciation label before pronunciation
-    let l: String
+    let l: String?
     /// pronunciation label after pronunciation
-    let l2: String
+    let l2: String?
     /// punctuation to separate pronunciation objects
-    let pun: String
+    let pun: String?
     /// audio playback information: the audio member contains the base filename for audio playback; the ref and stat members can be ignored
-    let sound: MWSound
+    let sound: MWSound?
+    
+    enum CodingKeys: String, CodingKey {
+        case mw
+        case l
+        case l2
+        case pun
+        case sound
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.mw = try container.decodeIfPresent(String.self, forKey: .mw)
+        self.l = try container.decodeIfPresent(String.self, forKey: .l)
+        self.l2 = try container.decodeIfPresent(String.self, forKey: .l2)
+        self.pun = try container.decodeIfPresent(String.self, forKey: .pun)
+        self.sound = try container.decodeIfPresent(MWSound.self, forKey: .sound)
+    }
 }
 
 struct MWSound: Codable {
     /// Audio reference URL `https://media.merriam-webster.com/audio/prons/[language_code]/[country_code]/[format]/[subdirectory]/[base filename].[format]`
     
-    let audio: String
-    let ref: String
-    let stat: String
+    let audio: String?
+    let ref: String?
+    let stat: String?
 }
 
 struct MWVariant: Codable {
     /// variant
-    let va: String
+    let va: String?
     /// variant label, such as “or”
     let vl: String?
     let prs: prs?
@@ -78,29 +105,30 @@ struct MWVariant: Codable {
 
 struct MWInflections: Codable {
     /// inflection: a fully spelled-out inflection
-    let `if`: String
+    let `if`: String?
     /// inflection cutback: an inflection ending (eg, "-ing")
-    let ifc: String
+    let ifc: String?
     /// inflection label, such as “also”, “plural”, “or”
-    let il: String
+    let il: String?
     let prs: prs?
     let spl: String?
 }
 
 struct MWCognateCrossReferences: Codable {
-    let cxl: String
+    let cxl: String?
 }
 
 struct MWDefinition: Codable {
     let vd: String?
-    let sseq: Array<MWSenseSequence>
-    let sls: MWSubjectStatusLabels?
+    let sseq: Array<MWSenseSequence>?
+    let sls: sls?
 }
 
 struct MWSenseSequence: Codable {
     var senses: Array<MWSense>
     
     init(from decoder: Decoder) throws {
+        debugPrint("at MWSenseSequence")
         var container = try decoder.unkeyedContainer()
         var senses = Array<MWSense>()
         
@@ -113,6 +141,7 @@ struct MWSenseSequence: Codable {
         }
         
         self.senses = senses
+        debugPrint("finished decoding MWSenseSequence")
     }
     
     func encode(to encoder: Encoder) throws {
@@ -144,12 +173,13 @@ struct MWSense: Codable {
                     let lbs: lbs?
                     let prs: prs?
                     let sgram: SenseSpecificGrammaticalLabel?
-                    let sls: MWSubjectStatusLabels?
+                    let sls: sls?
                     let sn: String?
                     let vrs: vrs?
                 }
                 
                 init(from decoder: Decoder) throws {
+                    debugPrint("at Element of SenseContainer")
                     var container = try decoder.unkeyedContainer()
                     
                     let key = try container.decode(String.self)
@@ -163,6 +193,7 @@ struct MWSense: Codable {
                     } else {
                         throw DecodingError.typeMismatch(MWSense.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of MWSense"))
                     }
+                    debugPrint("finished decoding Element of SenseContainer")
                 }
                 
                 func encode(to encoder: Encoder) throws {
@@ -190,13 +221,14 @@ struct MWSense: Codable {
             let prs: prs?
             let sdsense: SDSense?
             let sgram: SenseSpecificGrammaticalLabel?
-            let sls: MWSubjectStatusLabels?
+            let sls: sls?
             let sn: String?
             let vrs: vrs?
         }
         
         
         init(from decoder: Decoder) throws {
+            debugPrint("at Element of MWSense")
             var container = try decoder.unkeyedContainer()
             
             if let obj = try? container.decode(SenseContainer.self) {
@@ -208,6 +240,7 @@ struct MWSense: Codable {
             } else {
                 throw DecodingError.typeMismatch(MWSense.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not MWSense"))
             }
+            debugPrint("Finished decoding Element of MWSense")
         }
         
         func encode(to encoder: Encoder) throws {
@@ -248,6 +281,7 @@ struct MWSense: Codable {
                 let text: String
                 
                 init(from decoder: Decoder) throws {
+                    debugPrint("at TextValue of Element of DefiningText")
                     var container = try decoder.unkeyedContainer()
                     
                     let key = try container.decode(String.self)
@@ -256,6 +290,7 @@ struct MWSense: Codable {
                     } else {
                         throw DecodingError.typeMismatch(TextValue.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not DefiningText"))
                     }
+                    debugPrint("Finished decoding TextValue of Element of DefiningText")
                 }
                 
                 func encode(to encoder: Encoder) throws {
@@ -278,6 +313,7 @@ struct MWSense: Codable {
                 }
                 
                 init(from decoder: Decoder) throws {
+                    debugPrint("at VerbalIllustration of Element of DefiningText")
                     var container = try decoder.unkeyedContainer()
                     
                     let key = try container.decode(String.self)
@@ -286,6 +322,7 @@ struct MWSense: Codable {
                     } else {
                         throw DecodingError.typeMismatch(VerbalIllustration.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not VerbalIllustration"))
                     }
+                    debugPrint("Finished decoding VerbalIllustration of Element of DefiningText")
                 }
             }
             
@@ -306,6 +343,7 @@ struct MWSense: Codable {
                 }
                 
                 init(from decoder: Decoder) throws {
+                    debugPrint("at CalledAlsoNote of Element of DefiningText")
                     var container = try decoder.unkeyedContainer()
                     
                     let key = try container.decode(String.self)
@@ -314,6 +352,7 @@ struct MWSense: Codable {
                     } else {
                         throw DecodingError.typeMismatch(CalledAlsoNote.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not CalledAlsoNote"))
                     }
+                    debugPrint("Finished decoding CalledAlsoNote of Element of DefiningText")
                 }
             }
             
@@ -325,6 +364,7 @@ struct MWSense: Codable {
                     case vis(VerbalIllustration)
                     
                     init(from decoder: Decoder) throws {
+                        debugPrint("at Note of SupplementalInformationNote")
                         var container = try decoder.unkeyedContainer()
                         
                         let key = try container.decode(String.self)
@@ -335,6 +375,7 @@ struct MWSense: Codable {
                         } else {
                             throw DecodingError.typeMismatch(SupplementalInformationNote.Note.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of CalledAlsoNote"))
                         }
+                        debugPrint("Finished decoding Note of SupplementalInformationNote")
                     }
                     
                     func encode(to encoder: Encoder) throws {
@@ -352,6 +393,7 @@ struct MWSense: Codable {
                 }
                 
                 init(from decoder: Decoder) throws {
+                    debugPrint("at SupplementalInformationNote")
                     var container = try decoder.unkeyedContainer()
                     
                     let key = try container.decode(String.self)
@@ -360,6 +402,7 @@ struct MWSense: Codable {
                     } else {
                         throw DecodingError.typeMismatch(SupplementalInformationNote.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not SupplementalInformationNote"))
                     }
+                    debugPrint("Finished decoding SupplementalInformationNote")
                 }
                 
                 func encode(to encoder: Encoder) throws {
@@ -379,6 +422,7 @@ struct MWSense: Codable {
                         case textValue(String)
                         
                         init(from decoder: Decoder) throws {
+                            debugPrint("at Element of Note of UsageNotes")
                             var container = try decoder.unkeyedContainer()
                             
                             let key = try container.decode(String.self)
@@ -387,6 +431,7 @@ struct MWSense: Codable {
                             } else {
                                 throw DecodingError.typeMismatch(UsageNotes.Note.Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of UsageNotes"))
                             }
+                            debugPrint("Finished decoding Element of Note of UsageNotes")
                         }
                         
                         func encode(to encoder: Encoder) throws {
@@ -402,6 +447,7 @@ struct MWSense: Codable {
                 }
                 
                 init(from decoder: Decoder) throws {
+                    debugPrint("at UsageNotes")
                     var container = try decoder.unkeyedContainer()
                     
                     let key = try container.decode(String.self)
@@ -410,6 +456,7 @@ struct MWSense: Codable {
                     } else {
                         throw DecodingError.typeMismatch(UsageNotes.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not UsageNotes"))
                     }
+                    debugPrint("Finished decoding UsageNotes")
                 }
                 
                 func encode(to encoder: Encoder) throws {
@@ -421,6 +468,7 @@ struct MWSense: Codable {
             }
             
             init(from decoder: Decoder) throws {
+                debugPrint("at Element of DefiningText")
                 var container = try decoder.unkeyedContainer()
                 
                 if let obj = try? container.decode(TextValue.self) {
@@ -432,6 +480,7 @@ struct MWSense: Codable {
                 } else {
                     throw DecodingError.typeMismatch(DefiningText.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of DefiningText"))
                 }
+                debugPrint("Finished decoding Element of DefiningText")
             }
             
             func encode(to encoder: Encoder) throws {
@@ -471,6 +520,7 @@ struct MWEtymology: Codable {
             let text: String
             
             init(from decoder: Decoder) throws {
+                debugPrint("at EtymologyText")
                 var container = try decoder.unkeyedContainer()
                 
                 let key = try container.decode(String.self)
@@ -479,6 +529,7 @@ struct MWEtymology: Codable {
                 } else {
                     throw DecodingError.typeMismatch(EtymologyText.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not Etymology"))
                 }
+                debugPrint("Finished decoding EtymologyText")
             }
             
             func encode(to encoder: Encoder) throws {
@@ -491,13 +542,20 @@ struct MWEtymology: Codable {
 }
 
 struct MWSubjectStatusLabels: Codable {
-    let labels: [String]?
+    let label: String?
+    
+    init(from decoder: Decoder) throws {
+        var container = try decoder.singleValueContainer()
+        label = try container.decode(String.self)
+    }
 }
 
 // MARK: - Typealiases
 typealias prs = Array<MWPronunciation>
 /// parenthesized subject/status label
 typealias psl = String
+
+typealias sls = Array<MWSubjectStatusLabels>
 
 typealias vrs = Array<MWVariant>
 
