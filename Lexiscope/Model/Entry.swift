@@ -33,7 +33,7 @@ typealias semanticClassesList = Array<InlineModel13>
 typealias ExampleText = String
 
 // MARK: - Model Types
-class RetrieveEntry: Codable {
+class RetrieveEntry: DictionaryRetrieveEntry {
     var metadata: Dictionary<String, String>?
     var results: Array<HeadwordEntry>?
 }

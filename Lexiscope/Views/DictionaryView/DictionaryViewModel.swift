@@ -15,6 +15,7 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     
     var wordStreamSubscriber: Set<AnyCancellable>
     @Published var retrieveEntry: RetrieveEntry?
+    @Published var mwRetrieveEntry: MWRetrieveEntry?
     @Published var vocabularySize: Int
     var dataManagerSubscriber: AnyCancellable?
     
@@ -83,9 +84,10 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
                 debugPrint("completed \(word)")
             }, receiveValue: { [weak self] retrieveEntry in
                 guard let strongSelf = self else { return }
-                strongSelf.retrieveEntry = retrieveEntry.1
-                strongSelf.makeViewModels(for: strongSelf.retrieveEntryResults())
-                strongSelf.showingVocabulary = false
+                print("retrieved it \(retrieveEntry)")
+                strongSelf.mwRetrieveEntry = retrieveEntry.1 as! MWRetrieveEntry
+//                strongSelf.makeViewModels(for: strongSelf.retrieveEntryResults())
+//                strongSelf.showingVocabulary = false
             })
             .store(in: &wordStreamSubscriber)
     }

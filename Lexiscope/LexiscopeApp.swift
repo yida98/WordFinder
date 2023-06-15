@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct LexiscopeApp: App {
-    @StateObject private var appData = AppData()
+    @UIApplicationDelegateAdaptor private var appData: AppData
     
     var body: some Scene {
         WindowGroup {

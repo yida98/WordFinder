@@ -11,11 +11,12 @@ import AVFoundation
 
 class DataManager: ObservableObject {
     static let shared = DataManager()
+    private let persistentContainerName: String = "OxfordEntryModel"
     
     private init() {}
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "OxfordEntryModel")
+        let container = NSPersistentContainer(name: persistentContainerName)
         container.loadPersistentStores { _, error in
             if let error = error {
                 debugPrint("Persistent store loading error: \(error.localizedDescription)")
@@ -304,9 +305,12 @@ class DataManager: ObservableObject {
         case retrieve = "Retrieve"
     }
     
-    static func decodedRetrieveEntryData(_ data: Data) -> RetrieveEntry? {
-        let entry = try? JSONDecoder().decode(RetrieveEntry.self, from: data)
-        return entry
+    static func decodedRetrieveEntryData<T: Decodable>(_ data: Data, retrieveType: T.Type) -> T? {
+        let decoder = JSONDecoder()
+        if let entry = try? decoder.decode(retrieveType, from: data) {
+            return entry
+        }
+        return nil
     }
     
     static func decodedHeadwordEntryData(_ data: Data) -> HeadwordEntry? {

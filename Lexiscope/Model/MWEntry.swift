@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MWRetrieveEntry: Codable {
+struct MWRetrieveEntry: DictionaryRetrieveEntry {
     let meta: MWMeta
     let hom: Int
     let hwi: MWHeadwordInformation
