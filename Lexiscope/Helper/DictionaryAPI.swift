@@ -104,7 +104,7 @@ struct MerriamWebsterAPI: DictionaryAPI {
                 strictMatch: Bool) -> AnyPublisher<(String?, DictionaryRetrieveEntry?), Error> {
         if let managedRetrieveObject = DataManager.shared.fetchRetrieve(for: word) as? Retrieve,
             let data = managedRetrieveObject.value(forKey: "data") as? Data,
-            let retrieveEntry = DataManager.decodedRetrieveEntryData(data, retrieveType: MWRetrieveEntry.self) {
+            let retrieveEntry = DataManager.decodedRetrieveEntryData(data, retrieveType: MWRetrieveEntries.self) {
             return Just((word, retrieveEntry)).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
         
@@ -120,14 +120,25 @@ struct MerriamWebsterAPI: DictionaryAPI {
                 if let response = result.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
                     DataManager.shared.saveRetrieve(result.data, for: word)
                     
+                    let decoder = JSONDecoder()
+                    do {
+                        let thingy = try decoder.decode(MWRetrieveEntries.self, from: result.data)
+                        debugPrint(thingy)
+                    } catch (let error) {
+                        debugPrint("error!!! \(error)")
+                    }
+                    
                     return result.data
                 } else {
                     print("[ERROR] bad response")
                     throw NetworkError.badResponse
                 }
             }
-            .decode(type: MWRetrieveEntry.self, decoder: decoder)
-            .map { (word, $0) }
+            .decode(type: MWRetrieveEntries.self, decoder: decoder)
+            .map {
+                debugPrint("at map \($0)")
+                return (word, $0)
+            }
             .eraseToAnyPublisher()
     }
 }

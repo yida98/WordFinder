@@ -7,7 +7,16 @@
 
 import Foundation
 
-struct MWRetrieveEntry: DictionaryRetrieveEntry {
+struct MWRetrieveEntries: DictionaryRetrieveEntry {
+    let entries: Array<MWRetrieveEntry>
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.entries = try container.decode(Array<MWRetrieveEntry>.self)
+    }
+}
+
+struct MWRetrieveEntry: Codable {
     let meta: MWMeta
     let hom: Int?
     let hwi: MWHeadwordInformation?
@@ -19,6 +28,31 @@ struct MWRetrieveEntry: DictionaryRetrieveEntry {
     /// General labels e.g. typically capitalized, used as an attributive noun
     let lbs: lbs?
     let shortdef: shortdef?
+    
+    enum CodingKeys: String, CodingKey {
+        case meta
+        case hom
+        case hwi
+        case fl
+        case ins
+        case cxs
+        case def
+        case lbs
+        case shortdef
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.meta = try container.decode(MWMeta.self, forKey: .meta)
+        self.hom = try container.decodeIfPresent(Int.self, forKey: .hom)
+        self.hwi = try container.decodeIfPresent(MWHeadwordInformation.self, forKey: .hwi)
+        self.fl = try container.decodeIfPresent(String.self, forKey: .fl)
+        self.ins = try container.decodeIfPresent(Array<MWInflections>.self, forKey: .ins)
+        self.cxs = try container.decodeIfPresent(Array<MWCognateCrossReferences>.self, forKey: .cxs)
+        self.def = try container.decodeIfPresent(Array<MWDefinition>.self, forKey: .def)
+        self.lbs = try container.decodeIfPresent(Array<String>.self, forKey: .lbs)
+        self.shortdef = try container.decodeIfPresent(Array<String>.self, forKey: .shortdef)
+    }
 }
 
 struct MWMeta: Codable {
