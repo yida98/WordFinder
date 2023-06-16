@@ -72,7 +72,7 @@ class DataManager: ObservableObject {
     }
     
     /// Fetching based on the Headword can help disambiguate between them
-    func fetchVocabularyEntry<HW: DictionaryHeadword>(for headword: HW) -> VocabularyEntry? {
+    func fetchVocabularyEntry(for headword: MWRetrieveEntry) -> VocabularyEntry? { // Headword type
         let predicate = NSPredicate(format: "word == %@", headword.getWord())
         let results = fetch(entity: .vocabularyEntry, with: predicate)
         switch results {
@@ -130,7 +130,9 @@ class DataManager: ObservableObject {
     }
     
     func saveVocabularyEntryEntity(headwordEntry: Data?, date: Date? = Date(), word: String?, notes: String?, recallDates: [Date]?) {
-        guard let headwordEntryData = headwordEntry, let headwordEntry = DataManager.decodedData(headwordEntryData, dataType: HeadwordEntry.self) else { return }
+        guard let headwordEntryData = headwordEntry,
+                let headwordEntry = DataManager.decodedData(headwordEntryData,
+                                                            dataType: MWRetrieveEntry.self) else { return } // Headword type
         
         if let entry = fetchVocabularyEntry(for: headwordEntry) {
             entry.setValue(headwordEntryData, forKey: "headwordEntry")
@@ -156,7 +158,7 @@ class DataManager: ObservableObject {
         saveVocabularyEntryEntity(headwordEntry: vocabularyEntry.headwordEntry, date: vocabularyEntry.date, word: vocabularyEntry.word, notes: vocabularyEntry.notes, recallDates: vocabularyEntry.recallDates)
     }
     
-    func deleteVocabularyEntry<HW: DictionaryHeadword>(for headword: HW) {
+    func deleteVocabularyEntry(for headword: MWRetrieveEntry) { // Headword type
         guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headword) else { return }
         let context = getContext()
         context.delete(vocabularyEntry)
@@ -340,6 +342,8 @@ class DataManager: ObservableObject {
         }
     }
 }
+
+// MARK: - NIGHTMARE
 
 extension HeadwordEntry {
     func allPronunciationURLs() -> [URL] {
