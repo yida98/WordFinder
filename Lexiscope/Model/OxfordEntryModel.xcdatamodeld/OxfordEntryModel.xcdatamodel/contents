@@ -9,10 +9,6 @@
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="word" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
-        <attribute name="oxfordEntries" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String:Data]"/>
-        <relationship name="vocabulary" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="VocabularyEntry"/>
-    </entity>
     <entity name="VocabularyEntry" representedClassName="VocabularyEntry" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="headwordEntry" optional="YES" attributeType="Binary"/>

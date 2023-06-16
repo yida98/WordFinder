@@ -16,10 +16,10 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
     }
 }
 
-struct MWRetrieveEntry: Codable {
+struct MWRetrieveEntry: DictionaryHeadword {
     let meta: MWMeta
     let hom: Int?
-    let hwi: MWHeadwordInformation?
+    let hwi: MWHeadwordInformation
     /// Functional label e.g. "noun", "adjective"
     let fl: String?
     let ins: ins?
@@ -45,13 +45,19 @@ struct MWRetrieveEntry: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.meta = try container.decode(MWMeta.self, forKey: .meta)
         self.hom = try container.decodeIfPresent(Int.self, forKey: .hom)
-        self.hwi = try container.decodeIfPresent(MWHeadwordInformation.self, forKey: .hwi)
+        self.hwi = try container.decode(MWHeadwordInformation.self, forKey: .hwi)
         self.fl = try container.decodeIfPresent(String.self, forKey: .fl)
         self.ins = try container.decodeIfPresent(Array<MWInflections>.self, forKey: .ins)
         self.cxs = try container.decodeIfPresent(Array<MWCognateCrossReferences>.self, forKey: .cxs)
         self.def = try container.decodeIfPresent(Array<MWDefinition>.self, forKey: .def)
         self.lbs = try container.decodeIfPresent(Array<String>.self, forKey: .lbs)
         self.shortdef = try container.decodeIfPresent(Array<String>.self, forKey: .shortdef)
+    }
+    
+    func getWord() -> String { hwi.hw }
+    
+    static func == (lhs: MWRetrieveEntry, rhs: MWRetrieveEntry) -> Bool {
+        lhs.getWord() == rhs.getWord() && lhs.meta.id == rhs.meta.id && lhs.meta.uuid == rhs.meta.uuid
     }
 }
 

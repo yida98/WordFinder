@@ -10,27 +10,14 @@ import CoreData
 import UIKit
 
 class AppData: NSObject, UIApplicationDelegate {
-    private let currentAPI: URLTask.API
-    let api: DictionaryAPI
+    let currentAPI: MerriamWebsterAPI
     
-    static let default_language: Language = .en_us
-    
-    convenience override init() {
-        self.init(api: .merriamWebster)
+    static var default_language: Language {
+        get { return .en_us }
     }
     
-    init(api: URLTask.API) {
-        self.currentAPI = api
-        
-        let apiClass: any DictionaryAPI
-        switch api {
-        case .oxford:
-            apiClass = OxfordAPI()
-        case .merriamWebster:
-            apiClass = MerriamWebsterAPI()
-        }
-        
-        self.api = apiClass
+    override init() {
+        self.currentAPI = MerriamWebsterAPI()
     }
     
     enum Language: String {

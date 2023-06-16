@@ -17,17 +17,17 @@ class URLTask {
     private init() {
     }
     
-    func define(word: String,
+    func define<RE: DictionaryRetrieveEntry>(word: String,
                 language: AppData.Language = AppData.default_language,
                 fields: Array<String> = ["definitions", "examples", "pronunciations"],
-                strictMatch: Bool = false) -> AnyPublisher<(String?, DictionaryRetrieveEntry?), Error> {
+                                             strictMatch: Bool = false) -> AnyPublisher<(String?, RE?), Error> {
         let trimmedWord = URLTask.sanitizeInput(word)
         debugPrint(trimmedWord)
         
-        return appData.api.define(word: word,
-                                  language: language,
-                                  fields: fields,
-                                  strictMatch: strictMatch)
+        return appData.currentAPI.define(word: word,
+                                    language: language,
+                                    fields: fields,
+                                    strictMatch: strictMatch) as! AnyPublisher<(String?, RE?), any Error>
     }
     
     static func sanitizeInput(_ input: String, shouldStem: Bool = false) -> String {
@@ -52,9 +52,6 @@ class URLTask {
         dataTask.resume()
     }
     
-    enum API {
-        case oxford, merriamWebster
-    }
 }
 
 enum DictionaryError: Error {

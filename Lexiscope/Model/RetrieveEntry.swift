@@ -8,3 +8,7 @@
 import Foundation
 
 protocol DictionaryRetrieveEntry: Codable { }
+
+protocol DictionaryHeadword: Codable, Equatable {
+    func getWord() -> String
+}

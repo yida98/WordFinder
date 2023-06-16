@@ -96,25 +96,25 @@ struct SavedWordsView: View {
         }
         return result
     }
+    
+    func showShareSheet(vocabularyEntry: VocabularyEntry) {
+        var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().word.capitalized)\" is defined as:"]
+        if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
+            sense.hasDefinitions
+        }), let definitions = sense.definitions {
+            items.append(contentsOf: definitions)
+        }
+        items = [String(items.joined(separator: "\n"))]
+        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        UIApplication.shared.currentUIWindow()?.rootViewController?.present(activityVC, animated: true, completion: nil)
+    }
 }
 
 extension VocabularyEntry {
-    func getHeadwordEntry() -> HeadwordEntry {
-        guard let result = DataManager.decodedHeadwordEntryData(self.headwordEntry!) else { fatalError("No headword entry") }
+    func getHeadwordEntry() -> MWRetrieveEntry {
+        guard let result = DataManager.decodedData(self.headwordEntry!, dataType: MWRetrieveEntry.self) else { fatalError("No headword entry") }
         return result
     }
-}
-
-func showShareSheet(vocabularyEntry: VocabularyEntry) {
-    var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().word.capitalized)\" is defined as:"]
-    if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
-        sense.hasDefinitions
-    }), let definitions = sense.definitions {
-        items.append(contentsOf: definitions)
-    }
-    items = [String(items.joined(separator: "\n"))]
-    let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
-    UIApplication.shared.currentUIWindow()?.rootViewController?.present(activityVC, animated: true, completion: nil)
 }
 
 // utility extension to easily get the window

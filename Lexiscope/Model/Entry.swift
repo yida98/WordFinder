@@ -38,7 +38,7 @@ class RetrieveEntry: DictionaryRetrieveEntry {
     var results: Array<HeadwordEntry>?
 }
 
-public class HeadwordEntry: NSObject, Codable, NSSecureCoding, Identifiable {
+public class HeadwordEntry: NSObject, DictionaryHeadword, NSSecureCoding, Identifiable {
     
     public var id: String
     var language: String

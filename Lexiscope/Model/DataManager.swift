@@ -72,14 +72,14 @@ class DataManager: ObservableObject {
     }
     
     /// Fetching based on the Headword can help disambiguate between them
-    func fetchVocabularyEntry(for headword: HeadwordEntry) -> VocabularyEntry? {
-        let predicate = NSPredicate(format: "word == %@", headword.word)
+    func fetchVocabularyEntry<HW: DictionaryHeadword>(for headword: HW) -> VocabularyEntry? {
+        let predicate = NSPredicate(format: "word == %@", headword.getWord())
         let results = fetch(entity: .vocabularyEntry, with: predicate)
         switch results {
         case .success(let objects):
             if let entries = objects as? [VocabularyEntry] {
                 for entry in entries {
-                    if HeadwordEntry.areSame(lhs: entry.getHeadwordEntry(), rhs: headword) {
+                    if entry.getHeadwordEntry() == headword {
                         return entry
                     }
                 }
@@ -130,7 +130,7 @@ class DataManager: ObservableObject {
     }
     
     func saveVocabularyEntryEntity(headwordEntry: Data?, date: Date? = Date(), word: String?, notes: String?, recallDates: [Date]?) {
-        guard let headwordEntryData = headwordEntry, let headwordEntry = DataManager.decodedHeadwordEntryData(headwordEntryData) else { return }
+        guard let headwordEntryData = headwordEntry, let headwordEntry = DataManager.decodedData(headwordEntryData, dataType: HeadwordEntry.self) else { return }
         
         if let entry = fetchVocabularyEntry(for: headwordEntry) {
             entry.setValue(headwordEntryData, forKey: "headwordEntry")
@@ -156,7 +156,7 @@ class DataManager: ObservableObject {
         saveVocabularyEntryEntity(headwordEntry: vocabularyEntry.headwordEntry, date: vocabularyEntry.date, word: vocabularyEntry.word, notes: vocabularyEntry.notes, recallDates: vocabularyEntry.recallDates)
     }
     
-    func deleteVocabularyEntry(for headword: HeadwordEntry) {
+    func deleteVocabularyEntry<HW: DictionaryHeadword>(for headword: HW) {
         guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headword) else { return }
         let context = getContext()
         context.delete(vocabularyEntry)
@@ -305,17 +305,9 @@ class DataManager: ObservableObject {
         case retrieve = "Retrieve"
     }
     
-    static func decodedRetrieveEntryData<T: Decodable>(_ data: Data, retrieveType: T.Type) -> T? {
+    static func decodedData<T: Decodable>(_ data: Data, dataType: T.Type) -> T? {
         let decoder = JSONDecoder()
-        if let entry = try? decoder.decode(retrieveType, from: data) {
-            return entry
-        }
-        return nil
-    }
-    
-    static func decodedHeadwordEntryData(_ data: Data) -> HeadwordEntry? {
-        let entry = try? JSONDecoder().decode(HeadwordEntry.self, from: data)
-        return entry
+        return try? decoder.decode(dataType, from: data)
     }
     
     private var soundPlayer: AVAudioPlayer?

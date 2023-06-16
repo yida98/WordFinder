@@ -10,12 +10,13 @@ import Combine
 import SwiftUI
 
 class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
+    @UIApplicationDelegateAdaptor var appData: AppData
+    
     @Published var showingVocabulary: Bool
     private var savedWordsViewModel: SavedWordsViewModel?
     
     var wordStreamSubscriber: Set<AnyCancellable>
-    @Published var retrieveEntry: RetrieveEntry?
-    @Published var mwRetrieveEntries: MWRetrieveEntries?
+    @Published var retrieveEntry: MWRetrieveEntries?
     @Published var vocabularySize: Int
     var dataManagerSubscriber: AnyCancellable?
     
@@ -44,18 +45,19 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     var retrieveResultsDefinitionVMs: [DefinitionViewModel]
     
     func makeDefinitionViewModel(with headwordEntry: HeadwordEntry) -> DefinitionViewModel {
-        if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry), let fetchedHeadwordEntry = DataManager.decodedHeadwordEntryData(vocabularyEntry.headwordEntry!) {
-            let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: headwordEntry)
-            return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
+        
+        if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry), let fetchedHeadwordEntry = DataManager.decodedData(vocabularyEntry.headwordEntry!, dataType: appData.currentAPI.headwordType) {
+//            let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: headwordEntry)
+//            return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
         }
         return DefinitionViewModel(headwordEntry: headwordEntry, saved: false, expanded: true)
     }
     
     func recheckRetrieveSaved() {
         for retrieve in retrieveResultsDefinitionVMs {
-            if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: retrieve.headwordEntry), let headwordData = vocabularyEntry.headwordEntry, let fetchedHeadwordEntry = DataManager.decodedHeadwordEntryData(headwordData) {
-                let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: retrieve.headwordEntry)
-                retrieve.saved = saved
+            if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: retrieve.headwordEntry), let headwordData = vocabularyEntry.headwordEntry, let fetchedHeadwordEntry = DataManager.decodedData(headwordData, dataType: appData.currentAPI.headwordType) {
+//                let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: retrieve.headwordEntry)
+//                retrieve.saved = saved
             } else {
                 retrieve.saved = false
             }
@@ -85,11 +87,11 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
             }, receiveValue: { [weak self] retrieveEntry in
                 guard let strongSelf = self else { return }
                 print("retrieved it \(retrieveEntry)")
-                strongSelf.mwRetrieveEntries = retrieveEntry.1 as! MWRetrieveEntries
+                strongSelf.retrieveEntry = retrieveEntry.1
 //                strongSelf.makeViewModels(for: strongSelf.retrieveEntryResults())
 //                strongSelf.showingVocabulary = false
             })
-            .store(in: &wordStreamSubscriber)
+            .store(in: &wordStreamSubscriber) as? AnyPublisher<(String?, MWRetrieveEntries?), Error>
     }
     
     private func makeViewModels(for headwordEntries: [HeadwordEntry]) {
