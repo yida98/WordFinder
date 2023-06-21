@@ -82,9 +82,3 @@ extension MWPronunciation {
         return sound?.audio != nil
     }
 }
-
-extension MWInflections {
-    func conjugatedString() -> String {
-        
-    }
-}
