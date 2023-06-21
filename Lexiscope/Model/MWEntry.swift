@@ -14,6 +14,23 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
         let container = try decoder.singleValueContainer()
         self.entries = try container.decode(Array<MWRetrieveEntry>.self)
     }
+    
+    
+    
+    static var tokenMap: [String: String] { ["{b}": "**", "{\u{005C}/b}": "**",
+                                             "{bc}": "**:** ",
+                                             "{inf}": "~", "{\u{005C}/inf}": "~",
+                                             "{it}": "*", "{\u{005C}/it}": "*",
+                                             "{ldquo}": "\u{201C}", "{rdquo}": "\u{201D}",
+                                             "{sc}": "`", "{\u{005C}/sc}": "`",
+                                             "{sup}": "^", "{\u{005C}/sup}": "^",
+                                             "{gloss}": "\u{FF3B}", "{\u{005C}/gloss}": "\u{FF3D}",
+                                             "{phrase}": "***", "{\u{005C}/phrase}": "***",
+                                             "{dx}": "\u{2014} ", "{\u{005C}/dx}": "",
+                                             "{dx_def}": "\u{FF08}", "{\u{005C}/dx_def}": "\u{FF09}",
+                                             "{dx_ety}": "\u{2014} ", "{\u{005C}/dx_ety}": "",
+                                             "{ma}": "\u{2014} more at ", "{\u{005C}/ma}": ""]
+    }
 }
 
 struct MWRetrieveEntry: DictionaryHeadword {

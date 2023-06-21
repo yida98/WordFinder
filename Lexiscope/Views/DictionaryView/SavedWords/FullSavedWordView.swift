@@ -124,7 +124,7 @@ class FullSavedWordViewModel: DefinitionViewModel {
     @Published var date: Date
     @Published var presentNotesEditor: Bool = false
         
-    init(headwordEntry: HeadwordEntry, saved: Bool) {
+    init(headwordEntry: MWRetrieveEntry, saved: Bool) { // Headword type
         self.notes = FullSavedWordViewModel.getNotes(for: headwordEntry)
         self.familiarity = FullSavedWordViewModel.getFamiliarity(for: headwordEntry)
         self.date = FullSavedWordViewModel.getDate(for: headwordEntry)
@@ -145,21 +145,21 @@ class FullSavedWordViewModel: DefinitionViewModel {
         }
     }
     
-    private static func getFamiliarity(for headwordEntry: HeadwordEntry) -> Int {
+    private static func getFamiliarity(for headwordEntry: MWRetrieveEntry) -> Int { // Headword type
         guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return 0
         }
         return vocabulary.recallDates?.count ?? 0
     }
     
-    private static func getNotes(for headwordEntry: HeadwordEntry) -> String {
+    private static func getNotes(for headwordEntry: MWRetrieveEntry) -> String { // Headword type
         guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return ""
         }
         return vocabulary.notes ?? ""
     }
     
-    private static func getDate(for headwordEntry: HeadwordEntry) -> Date {
+    private static func getDate(for headwordEntry: MWRetrieveEntry) -> Date { // Headword type
         guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return Date()
         }

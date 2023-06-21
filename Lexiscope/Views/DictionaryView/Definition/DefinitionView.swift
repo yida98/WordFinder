@@ -17,7 +17,7 @@ struct DefinitionView: View {
     var body: some View {
         VStack(spacing: viewModel.expanded ? spacing * 2 : spacing) {
             HStack {
-                Text(viewModel.headwordEntry.word)
+                Text(viewModel.headwordEntry.getWord())
                     .font(viewModel.expanded ? .largeTitleBaskerville : .titleBaskerville)
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)
@@ -40,7 +40,7 @@ struct DefinitionView: View {
                             .foregroundColor(Color.darkSkyBlue) // primary
                     }
                 }.alert(isPresented: $presentAlert) {
-                    Alert(title: Text("Unbookmarking"), message: Text("Are you sure you want to unbookmark \(viewModel.headwordEntry.word)"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Unbookmark")) {
+                    Alert(title: Text("Unbookmarking"), message: Text("Are you sure you want to unbookmark \(viewModel.headwordEntry.getWord())"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Unbookmark")) {
                         viewModel.bookmarkWord()
                     })
                 }

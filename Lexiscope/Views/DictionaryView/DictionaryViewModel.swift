@@ -44,7 +44,7 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     
     var retrieveResultsDefinitionVMs: [DefinitionViewModel]
     
-    func makeDefinitionViewModel(with headwordEntry: HeadwordEntry) -> DefinitionViewModel {
+    func makeDefinitionViewModel(with headwordEntry: MWRetrieveEntry) -> DefinitionViewModel {
         
         if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry), let fetchedHeadwordEntry = DataManager.decodedData(vocabularyEntry.headwordEntry!, dataType: appData.currentAPI.headwordType) {
 //            let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: headwordEntry)

@@ -12,11 +12,11 @@ import SwiftUI
 
 class DefinitionViewModel: ObservableObject {
     
-    @Published var headwordEntry: HeadwordEntry
+    @Published var headwordEntry: MWRetrieveEntry // Headword type
     @Published var saved: Bool
     @Published var expanded: Bool
     
-    init(headwordEntry: HeadwordEntry, saved: Bool, expanded: Bool) {
+    init(headwordEntry: MWRetrieveEntry, saved: Bool, expanded: Bool) { // Headword type
         self.headwordEntry = headwordEntry
         self.saved = saved
         self.expanded = expanded
@@ -53,7 +53,7 @@ class DefinitionViewModel: ObservableObject {
             let encoder = JSONEncoder()
             do {
                 let headwordData = try encoder.encode(headwordEntry)
-                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.word, notes: nil, recallDates: nil)
+                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.getWord(), notes: nil, recallDates: nil)
                 
                 for url in headwordEntry.allPronunciationURLs() {
                     URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in

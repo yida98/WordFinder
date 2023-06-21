@@ -12,6 +12,8 @@
 		E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */; };
 		E416CDFF2A2AB5B4008FBEB3 /* MWEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CDFE2A2AB5B4008FBEB3 /* MWEntry.swift */; };
 		E416CE022A3A7712008FBEB3 /* RetrieveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE012A3A7712008FBEB3 /* RetrieveEntry.swift */; };
+		E416CE042A3CE990008FBEB3 /* String_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE032A3CE990008FBEB3 /* String_ext.swift */; };
+		E416CE082A428D4E008FBEB3 /* MWEntry_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE072A428D4E008FBEB3 /* MWEntry_ext.swift */; };
 		E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */; };
 		E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438BDC3293744CA001A97BA /* ScannerViewModel.swift */; };
 		E44573622935BE87008154B7 /* VNTextDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44573612935BE87008154B7 /* VNTextDetector.swift */; };
@@ -75,6 +77,8 @@
 		E41157BE288BE691002EE0C5 /* CameraViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		E416CDFE2A2AB5B4008FBEB3 /* MWEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWEntry.swift; sourceTree = "<group>"; };
 		E416CE012A3A7712008FBEB3 /* RetrieveEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveEntry.swift; sourceTree = "<group>"; };
+		E416CE032A3CE990008FBEB3 /* String_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_ext.swift; sourceTree = "<group>"; };
+		E416CE072A428D4E008FBEB3 /* MWEntry_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWEntry_ext.swift; sourceTree = "<group>"; };
 		E4188BD429D26220003FB654 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetectionCameraModel.swift; sourceTree = "<group>"; };
 		E438BDC3293744CA001A97BA /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
@@ -281,6 +285,7 @@
 			children = (
 				E4DCC21E287D3A0B00F1495A /* Entry.swift */,
 				E416CDFE2A2AB5B4008FBEB3 /* MWEntry.swift */,
+				E416CE072A428D4E008FBEB3 /* MWEntry_ext.swift */,
 				E416CE012A3A7712008FBEB3 /* RetrieveEntry.swift */,
 				E475BFFB294FF6C30076824C /* DataManager.swift */,
 				E475BFF8294FE8A30076824C /* OxfordEntryModel.xcdatamodeld */,
@@ -293,6 +298,7 @@
 			children = (
 				E4F3623E2821F6990078721F /* Constant.swift */,
 				E4DCC2162878038E00F1495A /* Color_ext.swift */,
+				E416CE032A3CE990008FBEB3 /* String_ext.swift */,
 				E4BDCB28294591FC0023C2D3 /* WordSearchRequestManager.swift */,
 				E475BFE4294ACAEB0076824C /* URLTask.swift */,
 				E47240FF29E747BE00C064D8 /* DictionaryAPI.swift */,
@@ -500,6 +506,7 @@
 				E46E097E29AFF09E00C212D3 /* CompletionBadgeView.swift in Sources */,
 				E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */,
 				E4DBE9262981F940006D4730 /* SearchInputView.swift in Sources */,
+				E416CE042A3CE990008FBEB3 /* String_ext.swift in Sources */,
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
 				E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */,
 				E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */,
@@ -534,6 +541,7 @@
 				E4F362292821D46C0078721F /* LexiscopeApp.swift in Sources */,
 				E4859F262989C092008AB85B /* QuizButtonStyle.swift in Sources */,
 				E47750B329B1E8A3002F2D6E /* Box.swift in Sources */,
+				E416CE082A428D4E008FBEB3 /* MWEntry_ext.swift in Sources */,
 				E4859F1B2987D002008AB85B /* FullSavedWordView.swift in Sources */,
 				E416CE022A3A7712008FBEB3 /* RetrieveEntry.swift in Sources */,
 				E46E098029AFF18B00C212D3 /* Quiz.swift in Sources */,
