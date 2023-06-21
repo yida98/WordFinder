@@ -47,6 +47,11 @@ struct DefinitionView: View {
                     })
                 }
             }
+            if let label = viewModel.inflectionString {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    Text(label) // TODO: Small size
+                }
+            }
             Divider()
             // Pronunciation
             ScrollView(.horizontal, showsIndicators: false) {

@@ -26,6 +26,10 @@ class DefinitionViewModel: ObservableObject {
         headwordEntry.allPronunciations()
     }
     
+    var inflectionString: String? {
+        headwordEntry.inflectionLabel()
+    }
+    
     func lexicalEntries() -> [LexicalEntry] {
         return headwordEntry.lexicalEntries
     }

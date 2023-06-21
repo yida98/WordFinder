@@ -9,13 +9,44 @@ import Foundation
 
 
 extension MWRetrieveEntry {
+    
     func allPronunciations() -> [MWPronunciation] {
         guard let prs = hwi.prs else { return [] }
-        return prs.filter { $0.mw != nil }
+        return prs.compactMap { $0 }
     }
     
     func allPronunciationURLs() -> [URL] {
         return allPronunciations().compactMap { $0.pronunciationURL() }
+    }
+    
+    func allInflections() -> ins {
+        guard let ins = ins else { return [] }
+        return ins.compactMap { $0 }
+    }
+    
+    func inflectionLabel() -> String? {
+        guard let ins = ins else { return nil }
+        return ins.reduce("") { resultsSoFar, nextInflection in
+            var tempResult = ""
+            
+            var joiningSeparator = ""
+            
+            if !resultsSoFar.isEmpty {
+                joiningSeparator = "; "
+            }
+            
+            if let label = nextInflection.il {
+                tempResult.append("*" + label + "*")
+                tempResult.append(" ")
+                joiningSeparator = " "
+            }
+            if let fullInfection = nextInflection.if {
+                tempResult.append("**" + fullInfection + "**")
+            }
+            
+            tempResult = resultsSoFar + joiningSeparator + tempResult
+            return tempResult
+        }
     }
 }
 
@@ -49,5 +80,11 @@ extension MWPronunciation {
     
     var hasAudio: Bool {
         return sound?.audio != nil
+    }
+}
+
+extension MWInflections {
+    func conjugatedString() -> String {
+        
     }
 }
