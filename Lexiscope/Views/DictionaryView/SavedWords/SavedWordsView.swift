@@ -98,7 +98,7 @@ struct SavedWordsView: View {
     }
     
     func showShareSheet(vocabularyEntry: VocabularyEntry) {
-        var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().word.capitalized)\" is defined as:"]
+        var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().getWord().capitalized)\" is defined as:"]
         if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
             sense.hasDefinitions
         }), let definitions = sense.definitions {

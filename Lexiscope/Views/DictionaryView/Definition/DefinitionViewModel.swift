@@ -22,22 +22,8 @@ class DefinitionViewModel: ObservableObject {
         self.expanded = expanded
     }
     
-    var allSortedPronunciations: [InlineModel1] {
-        if let pronunciations = headwordEntry.allPronunciations() {
-            let nonnilPronunciations = pronunciations
-                .filter { $0.phoneticSpelling != nil }
-            var uniquePronunciationStrings = Set<String>()
-            var uniquePronunciations = [InlineModel1]()
-            for pronunciation in nonnilPronunciations {
-                if !uniquePronunciationStrings.contains(pronunciation.phoneticSpelling!) {
-                    uniquePronunciations.append(pronunciation)
-                }
-                uniquePronunciationStrings.insert(pronunciation.phoneticSpelling!)
-            }
-            uniquePronunciations.sort(by: { $0.phoneticSpelling! < $1.phoneticSpelling! })
-            return uniquePronunciations
-        }
-        return []
+    var allValidPronunciations: [MWPronunciation] {
+        headwordEntry.allPronunciations()
     }
     
     func lexicalEntries() -> [LexicalEntry] {

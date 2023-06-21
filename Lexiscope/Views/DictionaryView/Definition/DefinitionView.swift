@@ -16,6 +16,7 @@ struct DefinitionView: View {
     
     var body: some View {
         VStack(spacing: viewModel.expanded ? spacing * 2 : spacing) {
+            // Header
             HStack {
                 Text(viewModel.headwordEntry.getWord())
                     .font(viewModel.expanded ? .largeTitleBaskerville : .titleBaskerville)
@@ -23,6 +24,7 @@ struct DefinitionView: View {
                     .lineLimit(1)
                     .textSelection(.enabled)
                     .foregroundColor(.pineGreen) // primaryDark
+                Text("fl")
                 Spacer()
                 Button {
                     if viewModel.saved {
@@ -46,21 +48,22 @@ struct DefinitionView: View {
                 }
             }
             Divider()
+            // Pronunciation
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     Text("/")
                         .font(.caption)
                         .foregroundColor(.init(white: 0.5)) // neutral
                         .padding(.vertical, 2)
-                    ForEach(viewModel.allSortedPronunciations, id: \.phoneticSpelling) { pronunciation in
+                    ForEach(viewModel.allValidPronunciations.indices, id: \.self) { pronunciationIndex in
                         Button {
-                            DataManager.shared.pronounce(pronunciation.audioFile)
+                            DataManager.shared.pronounce(viewModel.allValidPronunciations[pronunciationIndex].audioFile)
                         } label: {
-                            Text(pronunciation.phoneticSpelling!)
+                            Text(viewModel.allValidPronunciations[pronunciationIndex].writtenPronunciation!)
                                 .font(.caption)
                                 .foregroundColor(.init(white: 0.5)) // neutral
                                 .padding(2)
-                                .background(pronunciation.hasAudio ? Color.verdigris.opacity(0.3) : Color.clear) // primary
+                                .background(viewModel.allValidPronunciations[pronunciationIndex].hasAudio ? Color.verdigris.opacity(0.3) : Color.clear) // primary
                                 .cornerRadius(4)
                         }
                     }

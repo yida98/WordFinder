@@ -15,8 +15,6 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
         self.entries = try container.decode(Array<MWRetrieveEntry>.self)
     }
     
-    
-    
     static var tokenMap: [String: String] { ["{b}": "**", "{\u{005C}/b}": "**",
                                              "{bc}": "**:** ",
                                              "{inf}": "~", "{\u{005C}/inf}": "~",
