@@ -33,12 +33,12 @@ typealias semanticClassesList = Array<InlineModel13>
 typealias ExampleText = String
 
 // MARK: - Model Types
-class RetrieveEntry: DictionaryRetrieveEntry {
+class RetrieveEntry: Codable {
     var metadata: Dictionary<String, String>?
     var results: Array<HeadwordEntry>?
 }
 
-public class HeadwordEntry: NSObject, DictionaryHeadword, NSSecureCoding, Identifiable {
+public class HeadwordEntry: NSObject, Codable, NSSecureCoding, Identifiable {
     
     public var id: String
     var language: String

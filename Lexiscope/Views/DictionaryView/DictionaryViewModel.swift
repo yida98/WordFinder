@@ -84,43 +84,43 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 debugPrint("completed \(word)")
-            }, receiveValue: { [weak self] retrieveEntry in
+            }, receiveValue: { [weak self] (retrieveEntry: (String?, MWRetrieveEntries?)) in
                 guard let strongSelf = self else { return }
                 print("retrieved it \(retrieveEntry)")
                 strongSelf.retrieveEntry = retrieveEntry.1
 //                strongSelf.makeViewModels(for: strongSelf.retrieveEntryResults())
 //                strongSelf.showingVocabulary = false
             })
-            .store(in: &wordStreamSubscriber) as? AnyPublisher<(String?, MWRetrieveEntries?), Error>
+            .store(in: &wordStreamSubscriber)
     }
     
-    private func makeViewModels(for headwordEntries: [HeadwordEntry]) {
-        retrieveResultsDefinitionVMs = [DefinitionViewModel]()
-        for headwordEntry in headwordEntries {
-            retrieveResultsDefinitionVMs.append( makeDefinitionViewModel(with: headwordEntry))
-        }
-    }
+//    private func makeViewModels(for headwordEntries: [HeadwordEntry]) {
+//        retrieveResultsDefinitionVMs = [DefinitionViewModel]()
+//        for headwordEntry in headwordEntries {
+//            retrieveResultsDefinitionVMs.append( makeDefinitionViewModel(with: headwordEntry))
+//        }
+//    }
     
     func toggleExpanded(at index: Int) {
         guard index < retrieveResultsDefinitionVMs.count else { return }
         retrieveResultsDefinitionVMs[index].expanded.toggle()
     }
     
-    func retrieveEntryResults() -> [HeadwordEntry] {
-        return self.retrieveEntry?.results ?? []
-    }
+//    func retrieveEntryResults() -> [HeadwordEntry] {
+//        return self.retrieveEntry?.results ?? []
+//    }
     
     private func endEditing() {
         UIApplication.shared.endEditing()
     }
     
-    func retrieveEntryResultSectionTitles() -> [String] {
-        var result = [String]()
-        for entryIndex in retrieveEntryResults().indices {
-            result.append(String(entryIndex + 1))
-        }
-        return result
-    }
+//    func retrieveEntryResultSectionTitles() -> [String] {
+//        var result = [String]()
+//        for entryIndex in retrieveEntryResults().indices {
+//            result.append(String(entryIndex + 1))
+//        }
+//        return result
+//    }
     
     func vocabularyDidUpdate(_ vocabulary: [VocabularyEntry]) {
         vocabularySize = vocabulary.flatMap { $0 }.count

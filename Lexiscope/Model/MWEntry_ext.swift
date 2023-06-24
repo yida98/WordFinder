@@ -26,27 +26,7 @@ extension MWRetrieveEntry {
     
     func inflectionLabel() -> String? {
         guard let ins = ins else { return nil }
-        return ins.reduce("") { resultsSoFar, nextInflection in
-            var tempResult = ""
-            
-            var joiningSeparator = ""
-            
-            if !resultsSoFar.isEmpty {
-                joiningSeparator = "; "
-            }
-            
-            if let label = nextInflection.il {
-                tempResult.append("*" + label + "*")
-                tempResult.append(" ")
-                joiningSeparator = " "
-            }
-            if let fullInfection = nextInflection.if {
-                tempResult.append("**" + fullInfection + "**")
-            }
-            
-            tempResult = resultsSoFar + joiningSeparator + tempResult
-            return tempResult
-        }
+        return MWInflections.joinedLabel(ins: ins)
     }
 }
 
@@ -80,5 +60,78 @@ extension MWPronunciation {
     
     var hasAudio: Bool {
         return sound?.audio != nil
+    }
+}
+
+extension MWDefinition {
+    
+}
+
+extension MWVariant {
+    static func joinedLabel(vrs: vrs) -> String {
+        let labels = vrs.compactMap { variant in
+            var output = "**" + variant.va + "**"
+            if let variantLabel = variant.vl {
+                output = variantLabel + " " + output
+            }
+            return output
+        }
+        return labels.joined(separator: " ")
+    }
+}
+
+extension MWInflections {
+    static func joinedLabel(ins: ins) -> String {
+        return ins.reduce("") { resultsSoFar, nextInflection in
+            var tempResult = ""
+            
+            var joiningSeparator = ""
+            
+            if !resultsSoFar.isEmpty {
+                joiningSeparator = "; "
+            }
+            
+            if let label = nextInflection.il {
+                tempResult.append("*" + label + "*")
+                tempResult.append(" ")
+                joiningSeparator = " "
+            }
+            if let fullInfection = nextInflection.if {
+                tempResult.append("**" + fullInfection + "**")
+            }
+            
+            tempResult = resultsSoFar + joiningSeparator + tempResult
+            return tempResult
+        }
+    }
+}
+
+extension MWSenseSequence.Element.SenseContainer.Element.Sen {
+    func inlineStringDisplay() -> String {
+        var allLabels = [String]()
+        
+        if let et = et {
+            allLabels.append(et.textValue())
+        }
+        if let ins = ins, let inflection = ins.if {
+            allLabels.append(inflection)
+        }
+        if let lbs = lbs {
+            let joinedLabels = lbs.joined(separator: ", ")
+            allLabels.append(joinedLabels)
+        }
+        if let sgram = sgram {
+            let italicized = "*" + sgram.sgram + "*"
+            allLabels.append(italicized)
+        }
+        if let sls = sls {
+            let joinedLabels = sls.compactMap { $0.label }.joined(separator: ", ")
+            allLabels.append(joinedLabels)
+        }
+        if let vrs = vrs {
+            allLabels.append(MWVariant.joinedLabel(vrs: vrs))
+        }
+        let output = "[" + allLabels.joined(separator: "; ") + "]"
+        return output
     }
 }

@@ -30,8 +30,8 @@ class DefinitionViewModel: ObservableObject {
         headwordEntry.inflectionLabel()
     }
     
-    func lexicalEntries() -> [LexicalEntry] {
-        return headwordEntry.lexicalEntries
+    var definitions: def? {
+        headwordEntry.def
     }
     
     func bookmarkWord() {

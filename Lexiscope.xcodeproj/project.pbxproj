@@ -14,6 +14,9 @@
 		E416CE022A3A7712008FBEB3 /* RetrieveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE012A3A7712008FBEB3 /* RetrieveEntry.swift */; };
 		E416CE042A3CE990008FBEB3 /* String_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE032A3CE990008FBEB3 /* String_ext.swift */; };
 		E416CE082A428D4E008FBEB3 /* MWEntry_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE072A428D4E008FBEB3 /* MWEntry_ext.swift */; };
+		E416CE0A2A43D42C008FBEB3 /* MWDefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */; };
+		E416CE0C2A479C23008FBEB3 /* MWSenseSequenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */; };
+		E416CE0E2A479C55008FBEB3 /* SenseElementComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */; };
 		E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */; };
 		E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438BDC3293744CA001A97BA /* ScannerViewModel.swift */; };
 		E44573622935BE87008154B7 /* VNTextDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44573612935BE87008154B7 /* VNTextDetector.swift */; };
@@ -79,6 +82,9 @@
 		E416CE012A3A7712008FBEB3 /* RetrieveEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveEntry.swift; sourceTree = "<group>"; };
 		E416CE032A3CE990008FBEB3 /* String_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_ext.swift; sourceTree = "<group>"; };
 		E416CE072A428D4E008FBEB3 /* MWEntry_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWEntry_ext.swift; sourceTree = "<group>"; };
+		E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWDefinitionView.swift; sourceTree = "<group>"; };
+		E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWSenseSequenceView.swift; sourceTree = "<group>"; };
+		E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseElementComponents.swift; sourceTree = "<group>"; };
 		E4188BD429D26220003FB654 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetectionCameraModel.swift; sourceTree = "<group>"; };
 		E438BDC3293744CA001A97BA /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
@@ -275,6 +281,9 @@
 			children = (
 				E467D5EA28D87AF60005480D /* DefinitionView.swift */,
 				E475BFE2294A76450076824C /* DefinitionViewModel.swift */,
+				E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */,
+				E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */,
+				E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */,
 				E4859F17298651AC008AB85B /* LexicalEntryView.swift */,
 			);
 			path = Definition;
@@ -509,12 +518,14 @@
 				E416CE042A3CE990008FBEB3 /* String_ext.swift in Sources */,
 				E4DCC21F287D3A0B00F1495A /* Entry.swift in Sources */,
 				E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */,
+				E416CE0A2A43D42C008FBEB3 /* MWDefinitionView.swift in Sources */,
 				E41157BD2888AD34002EE0C5 /* ContentViewModel.swift in Sources */,
 				E44573622935BE87008154B7 /* VNTextDetector.swift in Sources */,
 				E467D5F428DBC6810005480D /* SearchViewModel.swift in Sources */,
 				E4F3623A2821ED500078721F /* CameraView.swift in Sources */,
 				E475BFFA294FE8A30076824C /* OxfordEntryModel.xcdatamodeld in Sources */,
 				E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */,
+				E416CE0E2A479C55008FBEB3 /* SenseElementComponents.swift in Sources */,
 				E48D676729C598EE009157DC /* Font+ext.swift in Sources */,
 				E467D5F028DBB9260005480D /* SearchView.swift in Sources */,
 				E467D5EB28D87AF60005480D /* DefinitionView.swift in Sources */,
@@ -548,6 +559,7 @@
 				E46E0975299470BF00C212D3 /* ProgressBar.swift in Sources */,
 				E4DBE91A297724B7006D4730 /* SavedWordsView.swift in Sources */,
 				E475BFE5294ACAEB0076824C /* URLTask.swift in Sources */,
+				E416CE0C2A479C23008FBEB3 /* MWSenseSequenceView.swift in Sources */,
 				E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */,
 				E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */,
 				E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */,

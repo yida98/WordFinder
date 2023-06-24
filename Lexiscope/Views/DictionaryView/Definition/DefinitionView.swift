@@ -79,10 +79,13 @@ struct DefinitionView: View {
                     Spacer()
                 }
             }.padding(.vertical, 2)
-            ScrollView(showsIndicators: false) {
-                VStack (spacing: viewModel.expanded ? 20 : 10) {
-                    ForEach(viewModel.lexicalEntries()) { lexicalEntry in
-                        LexicalEntryView(lexicalEntry: lexicalEntry, expanded: $viewModel.expanded, spacing: spacing)
+            if let definitions = viewModel.definitions {
+                ScrollView(showsIndicators: false) {
+                    VStack (spacing: viewModel.expanded ? 20 : 10) {
+                        ForEach(definitions.indices, id: \.self) { definitionIndex in
+                            Text("oh shit")
+//                            MWDefinitionView()
+                        }
                     }
                 }
             }

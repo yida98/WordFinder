@@ -110,7 +110,7 @@ extension DictionaryAPI {
     }
 }
 
-struct OxfordAPI: DictionaryAPI {
+struct OxfordAPI {    
     typealias HW = HeadwordEntry
     typealias RE = RetrieveEntry
     
