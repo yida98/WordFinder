@@ -66,7 +66,7 @@ struct MWSenseSequenceView: View {
         }
         
         struct UsageNotesView: View {
-            var usageNotes: MWSenseSequence.DefiningText.Element.UsageNotes
+            var usageNotes: MWSenseSequence.DefiningText.UsageNotes
             
             var body: some View {
                 VStack {
@@ -78,7 +78,7 @@ struct MWSenseSequenceView: View {
         }
         
         struct VerbalIllustrationView: View {
-            var verbalIllustration: MWSenseSequence.DefiningText.Element.VerbalIllustration
+            var verbalIllustration: MWSenseSequence.DefiningText.VerbalIllustration
             
             var body: some View {
                 VStack {
@@ -114,17 +114,13 @@ struct MWSenseSequenceView: View {
                             }
                         }
                     }
-                    if let text = sense.dt.content {
-                        VStack {
-                            ForEach(text.indices, id: \.self) { definingTextIndex in
-                                if case .dt(let value) = text[definingTextIndex] {
-                                    Text(value.text)
-                                } else if case .uns(let usageNotes) = text[definingTextIndex] {
-                                    UsageNotesView(usageNotes: usageNotes)
-                                } else if case .vis(let verbalIllustration) = text[definingTextIndex] {
-                                    VerbalIllustrationView(verbalIllustration: verbalIllustration)
-                                }
-                            }
+                    VStack {
+                        Text(sense.dt.text) // TODO: DefiningText regular font
+                        if let uns = sense.dt.uns {
+                            UsageNotesView(usageNotes: uns)
+                        }
+                        if let vis = sense.dt.vis {
+                            VerbalIllustrationView(verbalIllustration: vis)
                         }
                     }
                 }

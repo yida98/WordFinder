@@ -33,9 +33,9 @@ class Quiz {
         return Entry(topic: topic, options: options, queryType: queryType)
     }
     
-    private static func makeOptions(from existingEntries: [VocabularyEntry], queryType: Entry.QueryType) -> [Sense] {
-        let shuffledEntries = existingEntries.filter { $0.getHeadwordEntry().hasSense() }.shuffled()
-        var results = [Sense]()
+    private static func makeOptions(from existingEntries: [VocabularyEntry], queryType: Entry.QueryType) -> [MWSenseSequence.Element.Sense] {
+        let shuffledEntries = existingEntries.filter { $0.getHeadwordEntry().hasSense }.shuffled()
+        var results = [MWSenseSequence.Element.Sense]()
         for index in 0..<3 {
             results.append(Quiz.randomSense(from: shuffledEntries[index])!)
         }
@@ -44,7 +44,7 @@ class Quiz {
     
     /// Might not fulfill result.count == 3
     private static func randomOptions(from allOtherOptions: [VocabularyEntry]) -> [VocabularyEntry] {
-        let shuffledEntries = allOtherOptions.filter { $0.getHeadwordEntry().hasSense() }.shuffled()
+        let shuffledEntries = allOtherOptions.filter { $0.getHeadwordEntry().hasSense }.shuffled()
         var results = [VocabularyEntry]()
         for index in 0...2 {
             if index < shuffledEntries.count {
@@ -54,9 +54,9 @@ class Quiz {
         return results
     }
     
-    static func randomSense(from vocabulary: VocabularyEntry) -> Sense? {
+    static func randomSense(from vocabulary: VocabularyEntry) -> MWSenseSequence.Element.Sense? {
         let headwordEntry = vocabulary.getHeadwordEntry()
-        let allSenses = headwordEntry.lexicalEntries.compactMap { $0.allSenses() }.flatMap { $0 }
+        let allSenses = headwordEntry.allSenses()
         let shuffledSenses = allSenses.shuffled()
         return shuffledSenses.last
     }
@@ -88,9 +88,9 @@ class Quiz {
             switch queryType {
             case .define:
                 self.topicString = topic.word ?? ""
-                self.choiceStrings = randomizedOptions.compactMap { Quiz.randomSense(from: $0)?.definitions?.first }
+                self.choiceStrings = randomizedOptions.compactMap { Quiz.randomSense(from: $0)?.dt.text }
             case .match:
-                self.topicString = Quiz.randomSense(from: topic)?.definitions?.first ?? ""
+                self.topicString = Quiz.randomSense(from: topic)?.dt.text ?? "!!red herring!!"
                 self.choiceStrings = randomizedOptions.compactMap { $0.word }
             }
         }

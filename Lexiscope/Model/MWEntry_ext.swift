@@ -28,6 +28,15 @@ extension MWRetrieveEntry {
         guard let ins = ins else { return nil }
         return MWInflections.joinedLabel(ins: ins)
     }
+    
+    func allSenses() -> [MWSenseSequence.Element.Sense] {
+        guard let def = def else { return [] }
+        return def.flatMap { $0.allSenses() }
+    }
+    
+    var hasSense: Bool {
+        allSenses().count > 0
+    }
 }
 
 extension MWPronunciation {
@@ -64,7 +73,10 @@ extension MWPronunciation {
 }
 
 extension MWDefinition {
-    
+    func allSenses() -> [MWSenseSequence.Element.Sense] {
+        guard let sseq = sseq else { return [] }
+        return sseq.allSenses()
+    }
 }
 
 extension MWVariant {
@@ -106,6 +118,39 @@ extension MWInflections {
     }
 }
 
+// MARK: - MWSenseSequence
+
+extension MWSenseSequence {
+    func allSenses() -> [MWSenseSequence.Element.Sense] {
+        var results = [MWSenseSequence.Element.Sense]()
+        for sense in senses {
+            switch sense {
+            case .sense(let sense):
+                results.append(sense)
+            case .pseq(let pseq):
+                results.append(contentsOf: pseq.allSenses())
+            case .senses(let senses):
+                results.append(contentsOf: senses.allSenses())
+            }
+        }
+        return results
+    }
+}
+
+extension MWSenseSequence.Element.SenseContainer {
+    func allSenses() -> [MWSenseSequence.Element.Sense] {
+        var results = [MWSenseSequence.Element.Sense]()
+        for sense in senses {
+            if case .sense(let s) = sense {
+                results.append(s)
+            } else if case .bs(let s) = sense {
+                results.append(s)
+            }
+        }
+        return results
+    }
+}
+
 extension MWSenseSequence.Element.SenseContainer.Element.Sen {
     func inlineStringDisplay() -> String {
         var allLabels = [String]()
@@ -134,4 +179,8 @@ extension MWSenseSequence.Element.SenseContainer.Element.Sen {
         let output = "[" + allLabels.joined(separator: "; ") + "]"
         return output
     }
+}
+
+extension MWSenseSequence.DefiningText {
+    
 }
