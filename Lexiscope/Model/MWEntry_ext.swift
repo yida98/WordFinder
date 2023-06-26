@@ -75,7 +75,11 @@ extension MWPronunciation {
 extension MWDefinition {
     func allSenses() -> [MWSenseSequence.Element.Sense] {
         guard let sseq = sseq else { return [] }
-        return sseq.allSenses()
+        return sseq.reduce([]) { currResult, newSseq in
+            var newArray = currResult
+            newArray.append(contentsOf: newSseq.allSenses())
+            return newArray
+        }
     }
 }
 
@@ -129,29 +133,17 @@ extension MWSenseSequence {
                 results.append(sense)
             case .pseq(let pseq):
                 results.append(contentsOf: pseq.allSenses())
-            case .senses(let senses):
-                results.append(contentsOf: senses.allSenses())
+            case .sen(_):
+                results
+            case .bs(let bs):
+                results.append(bs)
             }
         }
         return results
     }
 }
 
-extension MWSenseSequence.Element.SenseContainer {
-    func allSenses() -> [MWSenseSequence.Element.Sense] {
-        var results = [MWSenseSequence.Element.Sense]()
-        for sense in senses {
-            if case .sense(let s) = sense {
-                results.append(s)
-            } else if case .bs(let s) = sense {
-                results.append(s)
-            }
-        }
-        return results
-    }
-}
-
-extension MWSenseSequence.Element.SenseContainer.Element.Sen {
+extension MWSenseSequence.Element.Sen {
     func inlineStringDisplay() -> String {
         var allLabels = [String]()
         

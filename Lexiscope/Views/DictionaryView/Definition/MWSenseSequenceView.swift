@@ -23,45 +23,14 @@ struct MWSenseSequenceView: View {
         
         var body: some View {
             switch sense {
-            case .senses(let senseContainer):
-                MWSenseContainerView(senses: senseContainer)
             case .sense(let sense):
                 SenseView(sense: sense)
-            case .pseq(let senseContainer):
-                MWSenseContainerView(senses: senseContainer)
-            }
-        }
-        
-        struct MWSenseContainerView: View {
-            var senses: MWSenseSequence.Element.SenseContainer
-            
-            var body: some View {
-                ForEach(senses.senses.indices, id: \.self) { index in
-                    viewForSenseElement(senses.senses[index])
-                }
-            }
-            
-            @ViewBuilder
-            func viewForSenseElement(_ sense: MWSenseSequence.Element.SenseContainer.Element) -> some View {
-                switch sense {
-                case .sense(let obj):
-                    SenseView(sense: obj)
-                case .sen(let sen):
-                    TruncatedSenseView(sen: sen)
-                case .bs(let bs):
-                    SenseView(sense: bs)
-                }
-            }
-            
-            func leadingPadding(sn: String) -> CGFloat {
-                if let first = sn.first {
-                    if first.isLetter {
-                        return 10
-                    } else if first.isPunctuation {
-                        return 20
-                    }
-                }
-                return 0
+            case .pseq(let sequence):
+                MWSenseSequenceView(sequence: sequence)
+            case .sen(let sen):
+                TruncatedSenseView(sen: sen)
+            case .bs(let bs):
+                SenseView(sense: bs)
             }
         }
         
@@ -90,7 +59,7 @@ struct MWSenseSequenceView: View {
         }
         
         struct TruncatedSenseView: View {
-            var sen: MWSenseSequence.Element.SenseContainer.Element.Sen
+            var sen: MWSenseSequence.Element.Sen
             // TODO: Handel prs separately
             // TODO: Handle sn just like everyone else
             // TODO: Sense style

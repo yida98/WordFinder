@@ -15,6 +15,11 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
         self.entries = try container.decode(Array<MWRetrieveEntry>.self)
     }
     
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(entries)
+    }
+    
     static var tokenMap: [String: String] { ["{b}": "**", "{\u{005C}/b}": "**",
                                              "{bc}": "**:** ",
                                              "{inf}": "~", "{\u{005C}/inf}": "~",
@@ -133,12 +138,14 @@ struct MWPronunciation: Codable {
     }
     
     init(from decoder: Decoder) throws {
+        debugPrint("at MWPronunciation")
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.mw = try container.decodeIfPresent(String.self, forKey: .mw)
         self.l = try container.decodeIfPresent(String.self, forKey: .l)
         self.l2 = try container.decodeIfPresent(String.self, forKey: .l2)
         self.pun = try container.decodeIfPresent(String.self, forKey: .pun)
         self.sound = try container.decodeIfPresent(MWSound.self, forKey: .sound)
+        debugPrint("Finished decoding MWPronunciation")
     }
 }
 
@@ -175,70 +182,77 @@ struct MWCognateCrossReferences: Codable {
 
 struct MWDefinition: Codable {
     let vd: String?
-    let sseq: MWSenseSequence?
+    let sseq: sseq?
     let sls: sls?
 }
 
 struct MWSenseSequence: Codable {
     /// Array of multiple senses/sen
-    var senses: Array<Element>
+    var senses: [Element]
+    
+    init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        
+        var decodedSenses = [Element]()
+        
+        while !container.isAtEnd {
+            if let obj = try? container.decode(Element.self) {
+                decodedSenses.append(obj)
+            } else {
+                try container.skip()
+            }
+        }
+
+        self.senses = decodedSenses
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(senses)
+    }
     
     enum Element: Codable {
-        case senses(SenseContainer)
         case sense(Sense)
-        case pseq(SenseContainer)
+        case pseq(MWSenseSequence)
+        case sen(Sen)
+        case bs(Sense)
         
-        struct SenseContainer: Codable {
-            let senses: [Element]
+        init(from decoder: Decoder) throws {
+            debugPrint("at Element of Sense")
+            var container = try decoder.unkeyedContainer()
             
-            enum Element: Codable {
-                case sense(Sense)
-                case sen(Sen)
-                case bs(Sense)
-                
-                struct Sen: Codable {
-                    let et: MWEtymology?
-                    let ins: MWInflections?
-                    let lbs: lbs?
-                    let prs: prs?
-                    let sgram: SenseSpecificGrammaticalLabel?
-                    let sls: sls?
-                    let sn: String?
-                    let vrs: vrs?
-                }
-                
-                init(from decoder: Decoder) throws {
-                    debugPrint("at Element of SenseContainer")
-                    var container = try decoder.unkeyedContainer()
-                    
-                    let key = try container.decode(String.self)
-                    
-                    if key == "sense" {
-                        self = .sense(try container.decode(Sense.self))
-                    } else if key == "sen" {
-                        self = .sen(try container.decode(Sen.self))
-                    } else if key == "bs" {
-                        self = .bs(try container.decode(Sense.self))
-                    } else {
-                        throw DecodingError.typeMismatch(Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of Sense"))
-                    }
-                    debugPrint("finished decoding Element of SenseContainer")
-                }
-                
-                func encode(to encoder: Encoder) throws {
-                    var container = encoder.unkeyedContainer()
-                    switch self {
-                    case .sense(let obj):
-                        try container.encode("sense")
-                        try container.encode(obj)
-                    case .sen(let obj):
-                        try container.encode("sen")
-                        try container.encode(obj)
-                    case .bs(let obj):
-                        try container.encode("bs")
-                        try container.encode(obj)
-                    }
-                }
+            let key = try container.decode(String.self)
+            
+            if key == "sense" {
+                self = .sense(try container.decode(Sense.self))
+            } else if key == "pseq" {
+                self = .pseq(try container.decode(MWSenseSequence.self))
+            } else if key == "sen" {
+                self = .sen(try container.decode(Sen.self))
+            } else if key == "bs" {
+                self = .bs(try container.decode(Sense.self))
+            } else {
+                throw DecodingError.typeMismatch(Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not Sense"))
+            }
+            debugPrint("Finished decoding Element of Sense")
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.unkeyedContainer()
+            
+            switch self {
+            case .sense(let obj):
+                try container.encode("sense")
+                try container.encode(obj)
+            case .pseq(let obj):
+                try container.encode("pseq")
+                try container.encode(obj)
+            case .sen(let obj):
+                try container.encode("sen")
+                try container.encode(obj)
+            case .bs(let obj):
+                try container.encode("bs")
+                try container.encode(obj)
             }
         }
         
@@ -255,35 +269,15 @@ struct MWSenseSequence: Codable {
             let vrs: vrs?
         }
         
-        
-        init(from decoder: Decoder) throws {
-            debugPrint("at Element of Sense")
-            var container = try decoder.unkeyedContainer()
-            
-            if let obj = try? container.decode(SenseContainer.self) {
-                self = .senses(obj)
-            } else if let obj = try? container.decode(Sense.self) {
-                self = .sense(obj)
-            } else if let key = try? container.decode(String.self), key == "pseq" {
-                self = .pseq(try container.decode(SenseContainer.self))
-            } else {
-                throw DecodingError.typeMismatch(Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not Sense"))
-            }
-            debugPrint("Finished decoding Element of Sense")
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.unkeyedContainer()
-            
-            switch self {
-            case .senses(let obj):
-                try container.encode(obj)
-            case .sense(let obj):
-                try container.encode(obj)
-            case .pseq(let obj):
-                try container.encode("pseq")
-                try container.encode(obj)
-            }
+        struct Sen: Codable {
+            let et: MWEtymology?
+            let ins: MWInflections?
+            let lbs: lbs?
+            let prs: prs?
+            let sgram: SenseSpecificGrammaticalLabel?
+            let sls: sls?
+            let sn: String?
+            let vrs: vrs?
         }
     }
     
@@ -421,6 +415,27 @@ struct MWSenseSequence: Codable {
             struct Note: Codable {
                 let values: [Element]
                 
+                init(from decoder: Decoder) throws {
+                    var container = try decoder.unkeyedContainer()
+                    
+                    var decodedValues = [Element]()
+                    
+                    while !container.isAtEnd {
+                        if let obj = try? container.decode(Element.self) {
+                            decodedValues.append(obj)
+                        } else {
+                            try container.skip()
+                        }
+                    }
+
+                    self.values = decodedValues
+                }
+                
+                func encode(to encoder: Encoder) throws {
+                    var container = encoder.unkeyedContainer()
+                    try container.encode(values)
+                }
+                
                 enum Element: Codable {
                     case textValue(String)
                     
@@ -447,6 +462,27 @@ struct MWSenseSequence: Codable {
                         }
                     }
                 }
+            }
+            
+            init(from decoder: Decoder) throws {
+                var container = try decoder.unkeyedContainer()
+                
+                var decodedNotes = [Note]()
+                
+                while !container.isAtEnd {
+                    if let obj = try? container.decode(Note.self) {
+                        decodedNotes.append(obj)
+                    } else {
+                        try container.skip()
+                    }
+                }
+
+                self.notes = decodedNotes
+            }
+            
+            func encode(to encoder: Encoder) throws {
+                var container = encoder.unkeyedContainer()
+                try container.encode(notes)
             }
             
             var flatNoteValues: [String] {
@@ -511,6 +547,27 @@ struct MWArtwork: Codable {
 struct MWEtymology: Codable {
     let content: [Element]
     
+    init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        
+        var decodedContent = [Element]()
+        
+        while !container.isAtEnd {
+            if let obj = try? container.decode(Element.self) {
+                decodedContent.append(obj)
+            } else {
+                try container.skip()
+            }
+        }
+
+        self.content = decodedContent
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(content)
+    }
+    
     enum Element: Codable {
         case text(EtymologyText)
         
@@ -548,8 +605,13 @@ struct MWSubjectStatusLabels: Codable {
     let label: String?
     
     init(from decoder: Decoder) throws {
-        var container = try decoder.singleValueContainer()
+        let container = try decoder.singleValueContainer()
         label = try container.decode(String.self)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(label)
     }
 }
 
@@ -567,6 +629,8 @@ typealias ins = Array<MWInflections>
 typealias cxs = Array<MWCognateCrossReferences>
 
 typealias def = Array<MWDefinition>
+
+typealias sseq = Array<MWSenseSequence>
 
 typealias lbs = Array<String>
 

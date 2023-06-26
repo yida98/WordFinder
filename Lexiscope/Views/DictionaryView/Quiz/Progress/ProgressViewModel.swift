@@ -15,7 +15,7 @@ class ProgressViewModel: ObservableObject {
     @Published var totalFamiliar: Int
     @Published var percentGrade: Double
     
-    @Published var presentingEntry: HeadwordEntry?
+    @Published var presentingEntry: MWRetrieveEntry?
     
     init(vocabulary: [VocabularyEntry], validationStamps: [Bool]) {
         self.progressEntries = vocabulary.indices.map { ProgressEntry.makeProgressEntry(from: vocabulary[$0], valid: validationStamps[$0]) }
@@ -83,7 +83,7 @@ struct ProgressEntry {
         }
 
         let title = vocabularyEntry.word ?? ""
-        let summary = vocabularyEntry.getHeadwordEntry().lexicalEntries.first?.allSenses().first?.definitions?.first
+        let summary = "Summary"//vocabularyEntry.getHeadwordEntry().lexicalEntries.first?.allSenses().first?.definitions?.first //TODO: Summary
         
         return ProgressEntry(title: title, step: step, summary: summary, valid: valid, vocabulary: vocabularyEntry)
     }

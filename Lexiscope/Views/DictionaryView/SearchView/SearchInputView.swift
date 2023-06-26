@@ -15,33 +15,34 @@ struct SearchInputView: View {
     var body: some View {
         ScrollViewReader { proxy in
             ZStack {
-                if viewModel.retrieveEntryResults().isEmpty {
-                    Text("No results")
-                        .placeholder()
-                } else {
-                    ScrollView(showsIndicators: false) {
-                        ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
-                            if let definitionViewModel = definitionViewModel(at: headwordEntryIndex) {
-                                DefinitionView(viewModel: definitionViewModel, spacing: 3)
-                                    .definitionCard()
-                                    .onTapGesture {
-                                        viewModel.toggleExpanded(at: headwordEntryIndex)
-                                    }
-                                    .id(String(headwordEntryIndex + 1))
-                            } else {
-                                EmptyView()
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 40)
-                    .padding(.bottom, 50)
-                }
-                HStack {
-                    Spacer()
-                    SectionedScrollView(sectionTitles: viewModel.retrieveEntryResultSectionTitles(),
-                                        scrollProxy: proxy,
-                                        previousTitle: $previousTitle)
-                }
+                Text("ppopp")
+//                if viewModel.retrieveEntryResults().isEmpty {
+//                    Text("No results")
+//                        .placeholder()
+//                } else {
+//                    ScrollView(showsIndicators: false) {
+//                        ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
+//                            if let definitionViewModel = definitionViewModel(at: headwordEntryIndex) {
+//                                DefinitionView(viewModel: definitionViewModel, spacing: 3)
+//                                    .definitionCard()
+//                                    .onTapGesture {
+//                                        viewModel.toggleExpanded(at: headwordEntryIndex)
+//                                    }
+//                                    .id(String(headwordEntryIndex + 1))
+//                            } else {
+//                                EmptyView()
+//                            }
+//                        }
+//                    }
+//                    .padding(.horizontal, 40)
+//                    .padding(.bottom, 50)
+//                }
+//                HStack {
+//                    Spacer()
+//                    SectionedScrollView(sectionTitles: viewModel.retrieveEntryResultSectionTitles(),
+//                                        scrollProxy: proxy,
+//                                        previousTitle: $previousTitle)
+//                }
             }
         }
     }

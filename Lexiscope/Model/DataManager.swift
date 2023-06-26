@@ -301,7 +301,6 @@ class DataManager: ObservableObject {
     enum EntityName: String, CaseIterable {
         typealias RawValue = String
         
-        case user = "User"
         case vocabularyEntry = "VocabularyEntry"
         case pronunciation = "Pronunciation"
         case retrieve = "Retrieve"

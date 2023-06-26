@@ -70,8 +70,9 @@ struct ReportView: View {
             viewModel.presentingEntry = nil
         }, content: {
             if let entry = viewModel.presentingEntry {
-                FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry,
-                                                                 saved: true))
+                Text("Full saved word") // TODO: FullSavedWordView
+                //FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry,
+                                                      //           saved: true))
             } else {
                 EmptyView()
             }

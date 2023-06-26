@@ -18,7 +18,9 @@ struct MWDefinitionView: View {
             }
             if let sseq = definition.sseq {
                 VStack {
-                    MWSenseSequenceView(sequence: sseq)
+                    ForEach(sseq.indices, id: \.self) { senseIndex in
+                        MWSenseSequenceView(sequence: sseq[senseIndex])
+                    }
                 }
             }
         }

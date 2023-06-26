@@ -33,6 +33,14 @@ struct MerriamWebsterAPI {
             .tryMap { result in
                 if let response = result.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
                     DataManager.shared.saveRetrieve(result.data, for: word)
+                    
+                    do {
+                        let entries = try decoder.decode(MWRetrieveEntries.self, from: result.data)
+                        debugPrint("the entries are: \(entries)")
+                    } catch let error {
+                        debugPrint("CANNOT DECODE ENTRY BECAUSE: \(error)")
+                    }
+                    
                     return result.data
                 } else {
                     print("[ERROR] bad response")

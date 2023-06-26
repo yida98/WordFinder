@@ -99,11 +99,11 @@ struct SavedWordsView: View {
     
     func showShareSheet(vocabularyEntry: VocabularyEntry) {
         var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().getWord().capitalized)\" is defined as:"]
-        if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
-            sense.hasDefinitions
-        }), let definitions = sense.definitions {
-            items.append(contentsOf: definitions)
-        }
+//        if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
+//            sense.hasDefinitions
+//        }), let definitions = sense.definitions {
+//            items.append(contentsOf: definitions)
+//        } // TODO: Summary
         items = [String(items.joined(separator: "\n"))]
         let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
         UIApplication.shared.currentUIWindow()?.rootViewController?.present(activityVC, animated: true, completion: nil)
