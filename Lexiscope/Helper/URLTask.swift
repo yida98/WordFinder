@@ -24,7 +24,7 @@ class URLTask {
         let trimmedWord = URLTask.sanitizeInput(word)
         debugPrint(trimmedWord)
         
-        return appData.currentAPI.define(word: word,
+        return appData.currentAPI.define(word: trimmedWord,
                                     language: language,
                                     fields: fields,
                                     strictMatch: strictMatch) as! AnyPublisher<(String?, RE?), any Error>
