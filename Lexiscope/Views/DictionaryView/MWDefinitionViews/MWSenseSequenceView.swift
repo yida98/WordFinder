@@ -40,7 +40,7 @@ struct MWSenseSequenceView: View {
             var body: some View {
                 VStack {
                     ForEach(usageNotes.flatNoteValues.indices, id: \.self) { index in
-                        Text(usageNotes.flatNoteValues[index]) // TODO: Usage notes style. Maybe a line to the left, or a box.
+                        Text(usageNotes.flatNoteValues[index].localizedTokenizedString()) // TODO: Usage notes style. Maybe a line to the left, or a box.
                     }
                 }
             }
@@ -52,7 +52,7 @@ struct MWSenseSequenceView: View {
             var body: some View {
                 VStack {
                     ForEach(verbalIllustration.content.indices, id: \.self) { index in
-                        Text(verbalIllustration.content[index].t)
+                        Text(verbalIllustration.content[index].t.localizedTokenizedString())
                     }
                 }
             }
@@ -64,7 +64,7 @@ struct MWSenseSequenceView: View {
             // TODO: Handle sn just like everyone else
             // TODO: Sense style
             var body: some View {
-                Text(sen.inlineStringDisplay())
+                Text(sen.inlineStringDisplay().localizedTokenizedString())
             }
         }
         
@@ -74,17 +74,17 @@ struct MWSenseSequenceView: View {
             var body: some View {
                 HStack {
                     if let sn = sense.sn {
-                        Text(sn)
+                        Text(sn.localizedTokenizedString())
                     }
                     if let sls = sense.sls {
                         ForEach(sls.indices, id: \.self) { index in
                             if let label = sls[index].label {
-                                Text(label) // TODO: sls label style
+                                Text(label.localizedTokenizedString()) // TODO: sls label style
                             }
                         }
                     }
                     VStack {
-                        Text(sense.dt.text) // TODO: DefiningText regular font
+                        Text(sense.dt.text.localizedTokenizedString()) // TODO: DefiningText regular font
                         if let uns = sense.dt.uns {
                             UsageNotesView(usageNotes: uns)
                         }

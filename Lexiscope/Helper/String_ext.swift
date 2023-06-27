@@ -7,8 +7,13 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 extension String {
+    func localizedTokenizedString() -> LocalizedStringKey {
+        LocalizedStringKey(self.markMWTokens(tokenMap: MWRetrieveEntries.tokenMap))
+    }
+    
     func markMWTokens(tokenMap: [String: String]) -> String {
         var input = self
         let keyArray = tokenMap.keys.map { String($0) }
@@ -40,7 +45,7 @@ extension String {
         return result
     }
     
-    func tokenWithFieldsValue() -> String {
+    private func tokenWithFieldsValue() -> String {
         var token = self
         token.removeFirst()
         token.removeLast()
@@ -52,7 +57,7 @@ extension String {
         }
     }
     
-    func removeAllTokens() -> String {
+    private func removeAllTokens() -> String {
         let regex = try! NSRegularExpression(pattern: #"[{][\w\\/|\s]*[}]"#)
         let range: NSRange = NSRange(location: 0, length: self.count)
         let replacedmentText = regex.stringByReplacingMatches(in: self, range: range, withTemplate: "")

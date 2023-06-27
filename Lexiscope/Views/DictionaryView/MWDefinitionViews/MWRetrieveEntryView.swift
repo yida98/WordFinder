@@ -16,7 +16,7 @@ struct MWRetrieveEntryView: View {
             VStack {
                 // MARK: - Header
                 HStack {
-                    Text(group.headword)
+                    Text(group.headword) // TODO: Headword text decoration (i.e. a*mo*ni*um)
                     // TODO: Function label will change depending on the scroll position
     //                if let functionLabel = retrieveEntry.fl {
     //                    Text(functionLabel) // TODO: Function label style
@@ -73,7 +73,7 @@ struct MWRetrieveEntryView: View {
                 ScrollView(showsIndicators: false) {
                     if let label = group.allInflectionLabels(), !label.isEmpty {
                         ScrollView(.horizontal, showsIndicators: false) {
-                            Text(label) // TODO: Small size
+                            Text(label.localizedTokenizedString()) // TODO: Small size
                         }
                         
                         Divider()
@@ -84,6 +84,8 @@ struct MWRetrieveEntryView: View {
                         Divider()
                     }
                 }
+                
+                Text("some decorative text to balanace out the UI")
             }
         }
     }

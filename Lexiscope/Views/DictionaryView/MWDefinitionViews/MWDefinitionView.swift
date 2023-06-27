@@ -13,7 +13,7 @@ struct MWDefinitionView: View {
     var body: some View {
         VStack {
             if let verbDivider = definition.vd {
-                Text(verbDivider) // TODO: Color
+                Text(verbDivider.localizedTokenizedString()) // TODO: Color
                     .italic()
             }
             if let sseq = definition.sseq {

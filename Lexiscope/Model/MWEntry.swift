@@ -54,19 +54,19 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
         try container.encode(encodingEntries)
     }
     
-    static var tokenMap: [String: String] { ["{b}": "**", "{\u{005C}/b}": "**",
+    static var tokenMap: [String: String] { ["{b}": "**", "{\u{005C}/b}": "**", "{/b}": "**",
                                              "{bc}": "**:** ",
-                                             "{inf}": "~", "{\u{005C}/inf}": "~",
-                                             "{it}": "*", "{\u{005C}/it}": "*",
+                                             "{inf}": "_", "{\u{005C}/inf}": "_", "{/inf}": "_",
+                                             "{it}": "*", "{\u{005C}/it}": "*", "{/it}": "*",
                                              "{ldquo}": "\u{201C}", "{rdquo}": "\u{201D}",
-                                             "{sc}": "`", "{\u{005C}/sc}": "`",
-                                             "{sup}": "^", "{\u{005C}/sup}": "^",
-                                             "{gloss}": "\u{FF3B}", "{\u{005C}/gloss}": "\u{FF3D}",
-                                             "{phrase}": "***", "{\u{005C}/phrase}": "***",
-                                             "{dx}": "\u{2014} ", "{\u{005C}/dx}": "",
-                                             "{dx_def}": "\u{FF08}", "{\u{005C}/dx_def}": "\u{FF09}",
-                                             "{dx_ety}": "\u{2014} ", "{\u{005C}/dx_ety}": "",
-                                             "{ma}": "\u{2014} more at ", "{\u{005C}/ma}": ""]
+                                             "{sc}": "`", "{\u{005C}/sc}": "`", "{/sc}": "`",
+                                             "{sup}": "^", "{\u{005C}/sup}": "^", "{/sup}": "^",
+                                             "{gloss}": "\u{FF3B}", "{\u{005C}/gloss}": "\u{FF3D}", "{/gloss}": "\u{FF3D}",
+                                             "{phrase}": "***", "{\u{005C}/phrase}": "***", "{/phrase}": "***",
+                                             "{dx}": "\u{2014} ", "{\u{005C}/dx}": "", "{/dx}": "",
+                                             "{dx_def}": "\u{FF08}", "{\u{005C}/dx_def}": "\u{FF09}", "{/dx_def}": "\u{FF09}",
+                                             "{dx_ety}": "\u{2014} ", "{\u{005C}/dx_ety}": "", "{/dx_ety}": "",
+                                             "{ma}": "\u{2014} more at ", "{\u{005C}/ma}": "", "{/ma}": ""]
     }
 }
 
