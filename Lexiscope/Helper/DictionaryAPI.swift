@@ -36,18 +36,18 @@ struct MerriamWebsterAPI {
                     
                     do {
                         let entries = try decoder.decode(MWRetrieveEntries.self, from: result.data)
-                        debugPrint("the entries are: \(entries)")
-                    } catch let error {
-                        debugPrint("CANNOT DECODE ENTRY BECAUSE: \(error)")
+                        return entries
+                    } catch {
+                        do {
+                            let suggestions = try decoder.decode([String].self, from: result.data)
+                            throw NetworkError.relatedResults(suggestions)
+                        }
                     }
-                    
-                    return result.data
                 } else {
                     print("[ERROR] bad response")
                     throw NetworkError.badResponse
                 }
             }
-            .decode(type: retrieveEntryType, decoder: decoder)
             .map { (word, $0) }
             .eraseToAnyPublisher()
     }

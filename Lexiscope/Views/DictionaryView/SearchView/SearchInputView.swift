@@ -27,10 +27,15 @@ struct SearchInputView: View {
                     .padding(.bottom, 50)
                 } else {
                     VStack {
-                        Text("No results")
-                            .placeholder()
-                        Text("Try another search")
-                            .placeholder()
+                        if let suggestions = viewModel.suggestions {
+                            Text("Did you mean:")
+                            ForEach(suggestions.indices, id: \.self) { suggestionIndex in
+                                Text(suggestions[suggestionIndex])
+                            }
+                        } else {
+                            Text("NO RESULTS")
+                                .placeholder()
+                        }
                     }
                 }
                 

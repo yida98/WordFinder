@@ -57,11 +57,13 @@ class URLTask {
 enum DictionaryError: Error {
     case noResult
     case badRequest
+    case badDecoder
 }
 
 enum NetworkError: Error {
     case badResponse
     case badURL
+    case relatedResults([String])
 }
 
 extension String {

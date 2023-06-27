@@ -20,6 +20,8 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     @Published var vocabularySize: Int
     var dataManagerSubscriber: AnyCancellable?
     
+    @Published var suggestions: [String]?
+    
     @Published var filterFamiliar: Bool
     @Published var textFilter: String
     
@@ -78,15 +80,25 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
     
     func handleNewRequest(_ word: String?) {
         endEditing()
+        suggestions = nil
         guard let word = word, word.count > 0 else { return }
         self.textFilter = word
         URLTask.shared.define(word: word)
+            .catch({ error in
+                if case NetworkError.relatedResults(let relatedResults) = error {
+                    debugPrint("ooooh we related \(relatedResults)")
+                    DispatchQueue.main.async {
+                        self.showingVocabulary = false
+                        self.suggestions = relatedResults
+                    }
+                }
+                return Just<(String?, MWRetrieveEntries?)>((nil, nil))
+            })
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 debugPrint("completed \(word)")
             }, receiveValue: { [weak self] (retrieveEntry: (String?, MWRetrieveEntries?)) in
                 guard let strongSelf = self else { return }
-                print("retrieved it \(retrieveEntry)")
                 strongSelf.retrieveEntry = retrieveEntry.1
                 strongSelf.showingVocabulary = false
             })
