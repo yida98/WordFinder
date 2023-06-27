@@ -7,6 +7,23 @@
 
 import Foundation
 
+extension MWRetrieveGroup {
+    func allPronunciations() -> [MWPronunciation] {
+        entries.flatMap { $0.allPronunciations() }
+    }
+    
+    func allPronunciationURLs() -> [URL] {
+        entries.flatMap { $0.allPronunciationURLs() }
+    }
+    
+    func functionLabel(at index: Int) -> String? {
+        entries[index].fl
+    }
+    
+    func allInflectionLabels() -> String {
+        entries.flatMap { $0.inflectionLabel() }.compactMap { $0 }.joined(separator: "; ")
+    }
+}
 
 extension MWRetrieveEntry {
     
@@ -122,6 +139,13 @@ extension MWInflections {
     }
 }
 
+extension MWEtymology {
+    func textValue() -> String {
+        guard case .text(let etymologyText) = content[0] else { debugPrint("This will never happen"); return "" }
+        return etymologyText
+    }
+}
+
 // MARK: - MWSenseSequence
 
 extension MWSenseSequence {
@@ -175,4 +199,10 @@ extension MWSenseSequence.Element.Sen {
 
 extension MWSenseSequence.DefiningText {
     
+}
+
+extension MWSenseSequence.DefiningText.UsageNotes {    
+    var flatNoteValues: [String] {
+        return notes.flatMap { $0.values.compactMap { switch $0 { case .textValue(let value): return value }} }
+    }
 }

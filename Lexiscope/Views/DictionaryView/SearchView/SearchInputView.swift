@@ -15,7 +15,25 @@ struct SearchInputView: View {
     var body: some View {
         ScrollViewReader { proxy in
             ZStack {
-                Text("ppopp")
+                if let results = viewModel.retrieveEntry, !results.entries.isEmpty {
+                    ScrollView(showsIndicators: false) {
+                        ForEach(results.entries.indices, id: \.self) { headwordEntryIndex in
+                            MWRetrieveEntryView(group: results.entries[headwordEntryIndex])
+                                .definitionCard()
+                                .id(String(headwordEntryIndex + 1))
+                        }
+                    }
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 50)
+                } else {
+                    VStack {
+                        Text("No results")
+                            .placeholder()
+                        Text("Try another search")
+                            .placeholder()
+                    }
+                }
+                
 //                if viewModel.retrieveEntryResults().isEmpty {
 //                    Text("No results")
 //                        .placeholder()
@@ -37,12 +55,12 @@ struct SearchInputView: View {
 //                    .padding(.horizontal, 40)
 //                    .padding(.bottom, 50)
 //                }
-//                HStack {
-//                    Spacer()
-//                    SectionedScrollView(sectionTitles: viewModel.retrieveEntryResultSectionTitles(),
-//                                        scrollProxy: proxy,
-//                                        previousTitle: $previousTitle)
-//                }
+                HStack {
+                    Spacer()
+                    SectionedScrollView(sectionTitles: viewModel.retrieveEntryResultSectionTitles(),
+                                        scrollProxy: proxy,
+                                        previousTitle: $previousTitle)
+                }
             }
         }
     }

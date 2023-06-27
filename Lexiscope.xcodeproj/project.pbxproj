@@ -17,6 +17,8 @@
 		E416CE0A2A43D42C008FBEB3 /* MWDefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */; };
 		E416CE0C2A479C23008FBEB3 /* MWSenseSequenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */; };
 		E416CE0E2A479C55008FBEB3 /* SenseElementComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */; };
+		E416CE102A4A5075008FBEB3 /* MWRetrieveEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE0F2A4A5075008FBEB3 /* MWRetrieveEntryView.swift */; };
+		E416CE132A4AB3C7008FBEB3 /* MWRetrieveHeadwordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E416CE122A4AB3C7008FBEB3 /* MWRetrieveHeadwordView.swift */; };
 		E41E31F428F9380E00962500 /* TextDetectionCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */; };
 		E438BDC4293744CA001A97BA /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438BDC3293744CA001A97BA /* ScannerViewModel.swift */; };
 		E44573622935BE87008154B7 /* VNTextDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44573612935BE87008154B7 /* VNTextDetector.swift */; };
@@ -85,6 +87,8 @@
 		E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWDefinitionView.swift; sourceTree = "<group>"; };
 		E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWSenseSequenceView.swift; sourceTree = "<group>"; };
 		E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseElementComponents.swift; sourceTree = "<group>"; };
+		E416CE0F2A4A5075008FBEB3 /* MWRetrieveEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWRetrieveEntryView.swift; sourceTree = "<group>"; };
+		E416CE122A4AB3C7008FBEB3 /* MWRetrieveHeadwordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWRetrieveHeadwordView.swift; sourceTree = "<group>"; };
 		E4188BD429D26220003FB654 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E41E31F328F9380E00962500 /* TextDetectionCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetectionCameraModel.swift; sourceTree = "<group>"; };
 		E438BDC3293744CA001A97BA /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
@@ -173,6 +177,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E416CE112A4A50C7008FBEB3 /* MWDefinitionViews */ = {
+			isa = PBXGroup;
+			children = (
+				E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */,
+				E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */,
+				E416CE0F2A4A5075008FBEB3 /* MWRetrieveEntryView.swift */,
+				E416CE122A4AB3C7008FBEB3 /* MWRetrieveHeadwordView.swift */,
+				E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */,
+			);
+			path = MWDefinitionViews;
+			sourceTree = "<group>";
+		};
 		E433FD852876868800FE7D4C /* DictionaryView */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +198,7 @@
 				E46E097329931E0400C212D3 /* HelperView */,
 				E4859F1E2987D72E008AB85B /* Quiz */,
 				E4859F192987C5DC008AB85B /* SearchView */,
+				E416CE112A4A50C7008FBEB3 /* MWDefinitionViews */,
 				E4DBE91E29774544006D4730 /* Definition */,
 				E4DBE91D29772609006D4730 /* SavedWords */,
 			);
@@ -281,9 +298,6 @@
 			children = (
 				E467D5EA28D87AF60005480D /* DefinitionView.swift */,
 				E475BFE2294A76450076824C /* DefinitionViewModel.swift */,
-				E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */,
-				E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */,
-				E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */,
 				E4859F17298651AC008AB85B /* LexicalEntryView.swift */,
 			);
 			path = Definition;
@@ -507,6 +521,7 @@
 				E48D676529C034B6009157DC /* QuizPlaceholder.swift in Sources */,
 				E41157BF288BE691002EE0C5 /* CameraViewControllerRepresentable.swift in Sources */,
 				E475BFFC294FF6C30076824C /* DataManager.swift in Sources */,
+				E416CE102A4A5075008FBEB3 /* MWRetrieveEntryView.swift in Sources */,
 				E4DBE9222977C7A2006D4730 /* SavedWordsViewModel.swift in Sources */,
 				E46E098229AFF31D00C212D3 /* ProgressViewModel.swift in Sources */,
 				E46E097C2995AFF200C212D3 /* ProgressVocabularyCell.swift in Sources */,
@@ -531,6 +546,7 @@
 				E467D5EB28D87AF60005480D /* DefinitionView.swift in Sources */,
 				E4DCC2132876890A00F1495A /* AlertView.swift in Sources */,
 				E4859F1D2987D66A008AB85B /* QuizView.swift in Sources */,
+				E416CE132A4AB3C7008FBEB3 /* MWRetrieveHeadwordView.swift in Sources */,
 				E4DCC2172878038E00F1495A /* Color_ext.swift in Sources */,
 				E475BFEC294EE7710076824C /* AppData.swift in Sources */,
 				E46E09792994CFFB00C212D3 /* ReportView.swift in Sources */,

@@ -8,16 +8,50 @@
 import Foundation
 
 struct MWRetrieveEntries: DictionaryRetrieveEntry {
-    let entries: Array<MWRetrieveEntry>
+    let entries: [MWRetrieveGroup]
     
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.entries = try container.decode(Array<MWRetrieveEntry>.self)
+        self.entries = MWRetrieveEntries.disambiguateEntries((try container.decode([MWRetrieveEntry].self)))
+    }
+    
+    static func disambiguateEntries(_ entries: [MWRetrieveEntry]) -> [MWRetrieveGroup] {
+        var disambiguatedEntries = [MWRetrieveGroup]()
+        
+        var currGroupEntries = [MWRetrieveEntry]()
+        var prevHeadword: String?
+        for entry in entries {
+            if let hw = prevHeadword {
+                if hw.lowercased() == entry.hwi.hw.lowercased() {
+                    currGroupEntries.append(entry)
+                } else {
+                    let newGroup = MWRetrieveGroup(headword: hw, entries: currGroupEntries, id: UUID())
+                    disambiguatedEntries.append(newGroup)
+                    currGroupEntries = [entry]
+                    prevHeadword = entry.hwi.hw
+                }
+            } else {
+                prevHeadword = entry.hwi.hw
+                currGroupEntries.append(entry)
+            }
+        }
+        if let hw = prevHeadword {
+            let newGroup = MWRetrieveGroup(headword: hw, entries: currGroupEntries, id: UUID())
+            disambiguatedEntries.append(newGroup)
+        }
+        
+        return disambiguatedEntries
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode(entries)
+        
+        var encodingEntries = [MWRetrieveEntry]()
+        for entry in entries {
+            encodingEntries.append(contentsOf: entry.entries)
+        }
+        
+        try container.encode(encodingEntries)
     }
     
     static var tokenMap: [String: String] { ["{b}": "**", "{\u{005C}/b}": "**",
@@ -36,7 +70,13 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
     }
 }
 
-struct MWRetrieveEntry: DictionaryHeadword {
+struct MWRetrieveGroup: Codable, Identifiable {
+    var headword: String
+    var entries: [MWRetrieveEntry]
+    var id: UUID
+}
+
+struct MWRetrieveEntry: DictionaryHeadword, Identifiable {
     let meta: MWMeta
     let hom: Int?
     let hwi: MWHeadwordInformation
@@ -48,6 +88,7 @@ struct MWRetrieveEntry: DictionaryHeadword {
     /// General labels e.g. typically capitalized, used as an attributive noun
     let lbs: lbs?
     let shortdef: shortdef?
+    let et: MWEtymology?
     
     enum CodingKeys: String, CodingKey {
         case meta
@@ -59,6 +100,7 @@ struct MWRetrieveEntry: DictionaryHeadword {
         case def
         case lbs
         case shortdef
+        case et
     }
     
     init(from decoder: Decoder) throws {
@@ -72,6 +114,7 @@ struct MWRetrieveEntry: DictionaryHeadword {
         self.def = try container.decodeIfPresent(Array<MWDefinition>.self, forKey: .def)
         self.lbs = try container.decodeIfPresent(Array<String>.self, forKey: .lbs)
         self.shortdef = try container.decodeIfPresent(Array<String>.self, forKey: .shortdef)
+        self.et = try container.decodeIfPresent(MWEtymology.self, forKey: .et)
     }
     
     func getWord() -> String { hwi.hw }
@@ -79,6 +122,8 @@ struct MWRetrieveEntry: DictionaryHeadword {
     static func == (lhs: MWRetrieveEntry, rhs: MWRetrieveEntry) -> Bool {
         lhs.getWord() == rhs.getWord() && lhs.meta.id == rhs.meta.id && lhs.meta.uuid == rhs.meta.uuid
     }
+    
+    var id: String { meta.uuid }
 }
 
 struct MWMeta: Codable {
@@ -296,65 +341,119 @@ struct MWSenseSequence: Codable {
         var uns: UsageNotes?
         var vis: VerbalIllustration?
         var ca: CalledAlsoNote?
+        var snote: SupplementalInformationNote?
+        
+        init(from decoder: Decoder) throws {
+            debugPrint("at MWSenseSequence")
+            
+            self.text = "text"
+            self.uns = nil
+            self.vis = nil
+            self.ca = nil
+            self.snote = nil
+            
+            var container = try decoder.unkeyedContainer()
+            
+            while !container.isAtEnd {
+                if let subDecoder = try? container.superDecoder() {
+                    var subContainer = try subDecoder.unkeyedContainer()
+                    let key = try subContainer.decode(String.self)
+                    if key == "text" {
+                        text = try subContainer.decode(String.self)
+                    } else if key == "uns" {
+                        uns = try subContainer.decode(UsageNotes.self)
+                    } else if key == "vis" {
+                        vis = try subContainer.decode(VerbalIllustration.self)
+                    } else if key == "ca" {
+                        ca = try subContainer.decode(CalledAlsoNote.self)
+                    } else if key == "snote" {
+                        snote = try subContainer.decode(SupplementalInformationNote.self)
+                    } else {
+                        try container.skip()
+                    }
+                } else {
+                    try container.skip()
+                }
+            }
+            
+            debugPrint("finished decoding MWSenseSequence")
+        }
+        
+        enum CodingKeys: String, CodingKey {
+            case text, uns, vis, ca
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: MWSenseSequence.DefiningText.CodingKeys.self)
+            try container.encode(self.text, forKey: MWSenseSequence.DefiningText.CodingKeys.text)
+            try container.encodeIfPresent(self.uns, forKey: MWSenseSequence.DefiningText.CodingKeys.uns)
+            try container.encodeIfPresent(self.vis, forKey: MWSenseSequence.DefiningText.CodingKeys.vis)
+            try container.encodeIfPresent(self.ca, forKey: MWSenseSequence.DefiningText.CodingKeys.ca)
+        }
         
         struct VerbalIllustration: Codable {
             let content: [Element]
             
             struct Element: Codable {
                 let t: String
-                let aq: AttributionOfQuote?
-            }
-            
-            struct AttributionOfQuote: Codable {
-                let auth, source, aqdate: String
             }
             
             init(from decoder: Decoder) throws {
                 debugPrint("at VerbalIllustration of Element of DefiningText")
+                var elements = [Element]()
                 var container = try decoder.unkeyedContainer()
-                
-                let key = try container.decode(String.self)
-                if key == "vis" {
-                    content = try container.decode([Element].self)
-                } else {
-                    throw DecodingError.typeMismatch(VerbalIllustration.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not VerbalIllustration"))
+                while !container.isAtEnd {
+                    if let element = try? container.decode(Element.self) {
+                        elements.append(element)
+                    } else {
+                        try container.skip()
+                    }
                 }
+                content = elements
                 debugPrint("Finished decoding VerbalIllustration of Element of DefiningText")
+            }
+            
+            func encode(to encoder: Encoder) throws {
+                var container = encoder.unkeyedContainer()
+                try container.encode(content)
             }
         }
         
         struct CalledAlsoNote: Codable {
-            let notes: Notes
+            let intro: String
+            let cats: [Element]
             
-            struct Notes: Codable {
-                let intro: String
-                let cats: [Element]
-                
-                enum Element: Codable {
-                    case cat(String)
-                    case catref(String)
-                    case pn(String)
-                    case prs(prs)
-                    case psl(psl)
-                }
-            }
-            
-            init(from decoder: Decoder) throws {
-                debugPrint("at CalledAlsoNote of Element of DefiningText")
-                var container = try decoder.unkeyedContainer()
-                
-                let key = try container.decode(String.self)
-                if key == "ca" {
-                    notes = try container.decode(Notes.self)
-                } else {
-                    throw DecodingError.typeMismatch(CalledAlsoNote.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not CalledAlsoNote"))
-                }
-                debugPrint("Finished decoding CalledAlsoNote of Element of DefiningText")
+            struct Element: Codable {
+                let cat: String?
+                let catref: String?
+                let pn: String?
+                let prs: prs?
+                let psl: psl?
             }
         }
         
         struct SupplementalInformationNote: Codable {
-            let notes: [Note]
+            var notes: [Note]
+            
+            init(from decoder: Decoder) throws {
+                var container = try decoder.unkeyedContainer()
+                
+                var notes = [Note]()
+                while !container.isAtEnd {
+                    if let note = try? container.decode(Note.self) {
+                        notes.append(note)
+                    } else {
+                        try container.skip()
+                    }
+                }
+                
+                self.notes = notes
+            }
+            
+            func encode(to encoder: Encoder) throws {
+                var container = encoder.unkeyedContainer()
+                try container.encode(notes)
+            }
             
             enum Note: Codable {
                 case t(String)
@@ -388,29 +487,31 @@ struct MWSenseSequence: Codable {
                     }
                 }
             }
-            
-            init(from decoder: Decoder) throws {
-                debugPrint("at SupplementalInformationNote")
-                var container = try decoder.unkeyedContainer()
-                
-                let key = try container.decode(String.self)
-                if key == "snote" {
-                    notes = try container.decode([Note].self)
-                } else {
-                    throw DecodingError.typeMismatch(SupplementalInformationNote.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not SupplementalInformationNote"))
-                }
-                debugPrint("Finished decoding SupplementalInformationNote")
-            }
-            
-            func encode(to encoder: Encoder) throws {
-                var container = encoder.unkeyedContainer()
-                try container.encode("snote")
-                try container.encode(notes)
-            }
         }
         
         struct UsageNotes: Codable {
             let notes: [Note]
+            
+            init(from decoder: Decoder) throws {
+                var container = try decoder.unkeyedContainer()
+                
+                var decodedNotes = [Note]()
+                
+                while !container.isAtEnd {
+                    if let obj = try? container.decode(Note.self) {
+                        decodedNotes.append(obj)
+                    } else {
+                        try container.skip()
+                    }
+                }
+
+                self.notes = decodedNotes
+            }
+            
+            func encode(to encoder: Encoder) throws {
+                var container = encoder.unkeyedContainer()
+                try container.encode(notes)
+            }
             
             struct Note: Codable {
                 let values: [Element]
@@ -463,74 +564,6 @@ struct MWSenseSequence: Codable {
                     }
                 }
             }
-            
-            init(from decoder: Decoder) throws {
-                var container = try decoder.unkeyedContainer()
-                
-                var decodedNotes = [Note]()
-                
-                while !container.isAtEnd {
-                    if let obj = try? container.decode(Note.self) {
-                        decodedNotes.append(obj)
-                    } else {
-                        try container.skip()
-                    }
-                }
-
-                self.notes = decodedNotes
-            }
-            
-            func encode(to encoder: Encoder) throws {
-                var container = encoder.unkeyedContainer()
-                try container.encode(notes)
-            }
-            
-            var flatNoteValues: [String] {
-                return notes.flatMap { $0.values.compactMap { switch $0 { case .textValue(let value): return value }} }
-            }
-        }
-        
-        init(from decoder: Decoder) throws {
-            debugPrint("at MWSenseSequence")
-            
-            self.text = "text"
-            self.uns = nil
-            self.vis = nil
-            self.ca = nil
-            
-            var container = try decoder.unkeyedContainer()
-            
-            while !container.isAtEnd {
-                if var subDecoder = try? container.superDecoder() {
-                    var subContainer = try subDecoder.unkeyedContainer()
-                    let key = try subContainer.decode(String.self)
-                    if key == "text" {
-                        text = try subContainer.decode(String.self)
-                    } else if key == "uns" {
-                        uns = try subContainer.decode(UsageNotes.self)
-                    } else if key == "vis" {
-                        vis = try subContainer.decode(VerbalIllustration.self)
-                    } else if key == "ca" {
-                        ca = try subContainer.decode(CalledAlsoNote.self)
-                    }
-                } else {
-                    try container.skip()
-                }
-            }
-            
-            debugPrint("finished decoding MWSenseSequence")
-        }
-        
-        enum CodingKeys: String, CodingKey {
-            case text, uns, vis, ca
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: MWSenseSequence.DefiningText.CodingKeys.self)
-            try container.encode(self.text, forKey: MWSenseSequence.DefiningText.CodingKeys.text)
-            try container.encodeIfPresent(self.uns, forKey: MWSenseSequence.DefiningText.CodingKeys.uns)
-            try container.encodeIfPresent(self.vis, forKey: MWSenseSequence.DefiningText.CodingKeys.vis)
-            try container.encodeIfPresent(self.ca, forKey: MWSenseSequence.DefiningText.CodingKeys.ca)
         }
     }
 }
@@ -569,35 +602,27 @@ struct MWEtymology: Codable {
     }
     
     enum Element: Codable {
-        case text(EtymologyText)
+        case text(String)
         
-        struct EtymologyText: Codable {
-            let text: String
+        init(from decoder: Decoder) throws {
+            var container = try decoder.unkeyedContainer()
             
-            init(from decoder: Decoder) throws {
-                debugPrint("at EtymologyText")
-                var container = try decoder.unkeyedContainer()
-                
-                let key = try container.decode(String.self)
-                if key == "text" {
-                    text = try container.decode(String.self)
-                } else {
-                    throw DecodingError.typeMismatch(EtymologyText.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not Etymology"))
-                }
-                debugPrint("Finished decoding EtymologyText")
-            }
-            
-            func encode(to encoder: Encoder) throws {
-                var container = encoder.unkeyedContainer()
-                try container.encode("text")
-                try container.encode(text)
+            let key = try container.decode(String.self)
+            if key == "text" {
+                self = .text(try container.decode(String.self))
+            } else {
+                throw DecodingError.typeMismatch(MWEtymology.Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of Etymology"))
             }
         }
-    }
-    
-    func textValue() -> String {
-        guard case .text(let etymologyText) = content[0] else { debugPrint("This will never happen"); return "" }
-        return etymologyText.text
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.unkeyedContainer()
+            switch self {
+            case .text(let obj):
+                try container.encode("text")
+                try container.encode(obj)
+            }
+        }
     }
 }
 

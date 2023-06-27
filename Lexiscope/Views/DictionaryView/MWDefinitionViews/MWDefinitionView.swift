@@ -19,7 +19,7 @@ struct MWDefinitionView: View {
             if let sseq = definition.sseq {
                 VStack {
                     ForEach(sseq.indices, id: \.self) { senseIndex in
-                        MWSenseSequenceView(sequence: sseq[senseIndex])
+                        MWSenseSequenceView(sequence: sseq[senseIndex]) // This is the large number (i.e. whole number with no punctuations)
                     }
                 }
             }

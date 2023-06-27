@@ -161,7 +161,7 @@ struct DefinitionCard: ViewModifier {
     }
 }
 
-extension DefinitionView {
+extension View {
     func definitionCard(familiar: Bool = false) -> some View {
         modifier(DefinitionCard(familiar: familiar))
     }

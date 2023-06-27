@@ -88,8 +88,7 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
                 guard let strongSelf = self else { return }
                 print("retrieved it \(retrieveEntry)")
                 strongSelf.retrieveEntry = retrieveEntry.1
-//                strongSelf.makeViewModels(for: strongSelf.retrieveEntryResults())
-//                strongSelf.showingVocabulary = false
+                strongSelf.showingVocabulary = false
             })
             .store(in: &wordStreamSubscriber)
     }
@@ -106,21 +105,18 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
         retrieveResultsDefinitionVMs[index].expanded.toggle()
     }
     
-//    func retrieveEntryResults() -> [HeadwordEntry] {
-//        return self.retrieveEntry?.results ?? []
-//    }
-    
     private func endEditing() {
         UIApplication.shared.endEditing()
     }
     
-//    func retrieveEntryResultSectionTitles() -> [String] {
-//        var result = [String]()
-//        for entryIndex in retrieveEntryResults().indices {
-//            result.append(String(entryIndex + 1))
-//        }
-//        return result
-//    }
+    func retrieveEntryResultSectionTitles() -> [String] {
+        guard let retrieveEntry = retrieveEntry, !retrieveEntry.entries.isEmpty else { return [] }
+        var result = [String]()
+        for entryIndex in 1...retrieveEntry.entries.count {
+            result.append(String(entryIndex))
+        }
+        return result
+    }
     
     func vocabularyDidUpdate(_ vocabulary: [VocabularyEntry]) {
         vocabularySize = vocabulary.flatMap { $0 }.count
