@@ -22,26 +22,28 @@ struct SavedWordsView: View {
                         ForEach(viewModel.sectionTitles ?? [String](), id: \.self) { key in
                             Section {
                                 ForEach(display(at: key)) { entry in
-                                    DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
-                                                                                  saved: true,
-                                                                                  expanded: false),
-                                                   spacing: 3,
-                                                   familiar: entry.recallDates?.count ?? 0 >= 4)
-                                    .definitionCard(familiar: entry.recallDates?.count ?? 0 >= 4)
-                                    .onTapGesture {
-                                        viewModel.presentingVocabularyEntry = entry
-                                        if viewModel.presentingVocabularyEntry != nil {
-                                            viewModel.isPresenting = true
-                                        }
-                                    }
-                                    .contextMenu(menuItems: {
-                                        Button {
-                                            showShareSheet(vocabularyEntry: entry)
-                                        } label: {
-                                            Label("Share definition", systemImage: "square.and.arrow.up")
-                                        }
-                                    })
-                                    .id(entry.word)
+                                    Text("TODO")
+                                    // TODO: MWRetrieveGroup instead of MWRetrieveEntry
+//                                    DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
+//                                                                                  saved: true,
+//                                                                                  expanded: false),
+//                                                   spacing: 3,
+//                                                   familiar: entry.recallDates?.count ?? 0 >= 4)
+//                                    .definitionCard(familiar: entry.recallDates?.count ?? 0 >= 4)
+//                                    .onTapGesture {
+//                                        viewModel.presentingVocabularyEntry = entry
+//                                        if viewModel.presentingVocabularyEntry != nil {
+//                                            viewModel.isPresenting = true
+//                                        }
+//                                    }
+//                                    .contextMenu(menuItems: {
+//                                        Button {
+//                                            showShareSheet(vocabularyEntry: entry)
+//                                        } label: {
+//                                            Label("Share definition", systemImage: "square.and.arrow.up")
+//                                        }
+//                                    })
+//                                    .id(entry.word)
                                 }
                             } header: {
                                 HStack {
@@ -74,9 +76,10 @@ struct SavedWordsView: View {
                 }
             }, content: {
                 if let entry = viewModel.presentingVocabularyEntry {
-                    FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(),
-                                                                     saved: true))
-                    .background(.ultraThinMaterial)
+                    // TODO: MWRetrieveGroup instead of MWRetrieveEntry
+//                    FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(),
+//                                                                     saved: true))
+//                    .background(.ultraThinMaterial)
                 } else {
                     EmptyView()
                 }
@@ -98,7 +101,7 @@ struct SavedWordsView: View {
     }
     
     func showShareSheet(vocabularyEntry: VocabularyEntry) {
-        var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().getWord().capitalized)\" is defined as:"]
+        var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().headword.capitalized)\" is defined as:"]
 //        if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
 //            sense.hasDefinitions
 //        }), let definitions = sense.definitions {
@@ -111,8 +114,9 @@ struct SavedWordsView: View {
 }
 
 extension VocabularyEntry {
-    func getHeadwordEntry() -> MWRetrieveEntry {
-        guard let result = DataManager.decodedData(self.headwordEntry!, dataType: MWRetrieveEntry.self) else { fatalError("No headword entry") }
+    func getHeadwordEntry() -> MWRetrieveGroup {
+        guard let data = headwordEntry,
+                let result = DataManager.decodedData(data, dataType: MWRetrieveGroup.self) else { fatalError("No headword entry") }
         return result
     }
 }

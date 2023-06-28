@@ -35,27 +35,27 @@ class DefinitionViewModel: ObservableObject {
     }
     
     func bookmarkWord() {
-        if DataManager.shared.fetchVocabularyEntry(for: headwordEntry) != nil {
-            saved = false
-            DataManager.shared.deleteVocabularyEntry(for: headwordEntry)
-        } else {
-            saved = true
-            let encoder = JSONEncoder()
-            do {
-                let headwordData = try encoder.encode(headwordEntry)
-                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.getWord(), notes: nil, recallDates: nil)
-                
-                for url in headwordEntry.allPronunciationURLs() {
-                    URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in
-                        if let data = data {
-                            DataManager.shared.savePronunciation(url: url as NSURL, pronunciation: data)
-                        }
-                    }
-                }
-            } catch {
-                debugPrint("Cannot encode \(headwordEntry) entry into data.")
-            }
-        }
+//        if DataManager.shared.fetchVocabularyEntry(for: headwordEntry) != nil {
+//            saved = false
+//            DataManager.shared.deleteVocabularyEntry(for: headwordEntry)
+//        } else {
+//            saved = true
+//            let encoder = JSONEncoder()
+//            do {
+//                let headwordData = try encoder.encode(headwordEntry)
+//                DataManager.shared.saveVocabularyEntryEntity(headwordEntry: headwordData, word: headwordEntry.getWord(), notes: nil, recallDates: nil)
+//                
+//                for url in headwordEntry.allPronunciationURLs() {
+//                    URLTask.shared.downloadAudioFileData(from: url) { data, urlResponse, error in
+//                        if let data = data {
+//                            DataManager.shared.savePronunciation(url: url as NSURL, pronunciation: data)
+//                        }
+//                    }
+//                }
+//            } catch {
+//                debugPrint("Cannot encode \(headwordEntry) entry into data.")
+//            }
+//        }
     }
 }
 

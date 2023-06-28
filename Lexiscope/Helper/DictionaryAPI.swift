@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 struct MerriamWebsterAPI {
-    var headwordType = MWRetrieveEntry.self
+    var headwordType = MWRetrieveGroup.self
     var retrieveEntryType = MWRetrieveEntries.self
     
     func define(word: String,

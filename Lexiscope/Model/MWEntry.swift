@@ -25,7 +25,7 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
                 if hw.lowercased() == entry.hwi.hw.lowercased() {
                     currGroupEntries.append(entry)
                 } else {
-                    let newGroup = MWRetrieveGroup(headword: hw, entries: currGroupEntries, id: UUID())
+                    let newGroup = MWRetrieveGroup(headword: hw, entries: currGroupEntries)
                     disambiguatedEntries.append(newGroup)
                     currGroupEntries = [entry]
                     prevHeadword = entry.hwi.hw
@@ -36,7 +36,7 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
             }
         }
         if let hw = prevHeadword {
-            let newGroup = MWRetrieveGroup(headword: hw, entries: currGroupEntries, id: UUID())
+            let newGroup = MWRetrieveGroup(headword: hw, entries: currGroupEntries)
             disambiguatedEntries.append(newGroup)
         }
         
@@ -70,13 +70,15 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
     }
 }
 
-struct MWRetrieveGroup: Codable, Identifiable {
+struct MWRetrieveGroup: DictionaryHeadword, Identifiable {
     var headword: String
     var entries: [MWRetrieveEntry]
-    var id: UUID
+    var id: String { entries.first?.meta.uuid ?? headword }
+    
+    func getWord() -> String { headword }
 }
 
-struct MWRetrieveEntry: DictionaryHeadword, Identifiable {
+struct MWRetrieveEntry: Codable, Identifiable {
     let meta: MWMeta
     let hom: Int?
     let hwi: MWHeadwordInformation

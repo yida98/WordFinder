@@ -140,29 +140,29 @@ class FullSavedWordViewModel: DefinitionViewModel {
     }
     
     func saveVocabulary() {
-        if let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry){
-            vocabulary.notes = notes
-        }
+//        if let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) {
+//            vocabulary.notes = notes
+//        }
     }
     
     private static func getFamiliarity(for headwordEntry: MWRetrieveEntry) -> Int { // Headword type
-        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
+//        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return 0
-        }
-        return vocabulary.recallDates?.count ?? 0
+//        }
+//        return vocabulary.recallDates?.count ?? 0
     }
     
     private static func getNotes(for headwordEntry: MWRetrieveEntry) -> String { // Headword type
-        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
+//        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return ""
-        }
-        return vocabulary.notes ?? ""
+//        }
+//        return vocabulary.notes ?? ""
     }
     
     private static func getDate(for headwordEntry: MWRetrieveEntry) -> Date { // Headword type
-        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
+//        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return Date()
-        }
-        return vocabulary.date ?? Date()
+//        }
+//        return vocabulary.date ?? Date()
     }
 }

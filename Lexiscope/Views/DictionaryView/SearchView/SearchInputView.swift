@@ -18,9 +18,16 @@ struct SearchInputView: View {
                 if let results = viewModel.retrieveEntry, !results.entries.isEmpty {
                     ScrollView(showsIndicators: false) {
                         ForEach(results.entries.indices, id: \.self) { headwordEntryIndex in
-                            MWRetrieveEntryView(group: results.entries[headwordEntryIndex])
-                                .definitionCard()
-                                .id(String(headwordEntryIndex + 1))
+                            if let entryViewModel = definitionViewModel(at: headwordEntryIndex) {
+                                MWRetrieveEntryView(viewModel: entryViewModel)
+                                    .definitionCard()
+                                    .onTapGesture {
+                                        viewModel.toggleExpanded(at: headwordEntryIndex)
+                                    }
+                                    .id(String(headwordEntryIndex + 1))
+                            } else {
+                                EmptyView()
+                            }
                         }
                     }
                     .padding(.horizontal, 40)
@@ -70,7 +77,7 @@ struct SearchInputView: View {
         }
     }
     
-    private func definitionViewModel(at index: Int) -> DefinitionViewModel? {
+    private func definitionViewModel(at index: Int) -> MWRetrieveGroupViewModel? {
         if index < viewModel.retrieveResultsDefinitionVMs.count {
             return viewModel.retrieveResultsDefinitionVMs[index]
         }

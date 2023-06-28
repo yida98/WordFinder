@@ -72,14 +72,14 @@ class DataManager: ObservableObject {
     }
     
     /// Fetching based on the Headword can help disambiguate between them
-    func fetchVocabularyEntry(for headword: MWRetrieveEntry) -> VocabularyEntry? { // Headword type
-        let predicate = NSPredicate(format: "word == %@", headword.getWord())
+    func fetchVocabularyEntry(for group: MWRetrieveGroup) -> VocabularyEntry? {
+        let predicate = NSPredicate(format: "word == %@", group.headword)
         let results = fetch(entity: .vocabularyEntry, with: predicate)
         switch results {
         case .success(let objects):
             if let entries = objects as? [VocabularyEntry] {
                 for entry in entries {
-                    if entry.getHeadwordEntry() == headword {
+                    if entry.getHeadwordEntry() == group {
                         return entry
                     }
                 }
@@ -132,7 +132,7 @@ class DataManager: ObservableObject {
     func saveVocabularyEntryEntity(headwordEntry: Data?, date: Date? = Date(), word: String?, notes: String?, recallDates: [Date]?) {
         guard let headwordEntryData = headwordEntry,
                 let headwordEntry = DataManager.decodedData(headwordEntryData,
-                                                            dataType: MWRetrieveEntry.self) else { return } // Headword type
+                                                            dataType: MWRetrieveGroup.self) else { return } // Headword type
         
         if let entry = fetchVocabularyEntry(for: headwordEntry) {
             entry.setValue(headwordEntryData, forKey: "headwordEntry")
@@ -158,7 +158,7 @@ class DataManager: ObservableObject {
         saveVocabularyEntryEntity(headwordEntry: vocabularyEntry.headwordEntry, date: vocabularyEntry.date, word: vocabularyEntry.word, notes: vocabularyEntry.notes, recallDates: vocabularyEntry.recallDates)
     }
     
-    func deleteVocabularyEntry(for headword: MWRetrieveEntry) { // Headword type
+    func deleteVocabularyEntry(for headword: MWRetrieveGroup) { // Headword type
         guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headword) else { return }
         let context = getContext()
         context.delete(vocabularyEntry)

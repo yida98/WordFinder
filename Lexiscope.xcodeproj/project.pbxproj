@@ -73,6 +73,7 @@
 		E4F3623A2821ED500078721F /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F362392821ED500078721F /* CameraView.swift */; };
 		E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3623C2821EE610078721F /* CameraViewModel.swift */; };
 		E4F3623F2821F6990078721F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3623E2821F6990078721F /* Constant.swift */; };
+		E4F3C7342A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3C7332A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -145,6 +146,7 @@
 		E4F362392821ED500078721F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		E4F3623C2821EE610078721F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		E4F3623E2821F6990078721F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		E4F3C7332A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWRetrieveGroupViewModel.swift; sourceTree = "<group>"; };
 		FE902ECBDF162C6718CCB706 /* Pods-Lexiscope.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lexiscope.debug.xcconfig"; path = "Target Support Files/Pods-Lexiscope/Pods-Lexiscope.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 				E416CE092A43D42C008FBEB3 /* MWDefinitionView.swift */,
 				E416CE0B2A479C23008FBEB3 /* MWSenseSequenceView.swift */,
 				E416CE0F2A4A5075008FBEB3 /* MWRetrieveEntryView.swift */,
+				E4F3C7332A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift */,
 				E416CE122A4AB3C7008FBEB3 /* MWRetrieveHeadwordView.swift */,
 				E416CE0D2A479C55008FBEB3 /* SenseElementComponents.swift */,
 			);
@@ -578,6 +581,7 @@
 				E416CE0C2A479C23008FBEB3 /* MWSenseSequenceView.swift in Sources */,
 				E4BDCB2B2945A5C50023C2D3 /* WordCellClusterView.swift in Sources */,
 				E4DCC21B2878DF5B00F1495A /* CustomBorder.swift in Sources */,
+				E4F3C7342A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift in Sources */,
 				E4DCC2192878080F00F1495A /* ScannerView.swift in Sources */,
 				E4BDCB29294591FC0023C2D3 /* WordSearchRequestManager.swift in Sources */,
 				E4BDCB2D2945A6AF0023C2D3 /* WordCell.swift in Sources */,

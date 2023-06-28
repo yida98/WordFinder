@@ -22,10 +22,10 @@ struct ReportView: View {
                 VStack(spacing: 0) {
                     ForEach(viewModel.progressEntries, id: \.self.title) { entry in
                         Button {
-                            viewModel.presentingEntry = entry.vocabulary.getHeadwordEntry()
-                            if viewModel.presentingEntry != nil {
-                                isPresenting = true
-                            }
+//                            viewModel.presentingEntry = entry.vocabulary.getHeadwordEntry()
+//                            if viewModel.presentingEntry != nil {
+//                                isPresenting = true
+//                            }
                         } label: {
                             HStack(spacing: 8) {
                                 VStack {

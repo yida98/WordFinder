@@ -32,7 +32,7 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
         self.filterFamiliar = false
         self.textFilter = ""
         
-        self.retrieveResultsDefinitionVMs = [DefinitionViewModel]()
+        self.retrieveResultsDefinitionVMs = [MWRetrieveGroupViewModel]()
         
         self.dataManagerSubscriber = DataManager.shared.objectWillChange.sink { [weak self] _ in
             guard let strongSelf = self else { return }
@@ -44,22 +44,25 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
         subscribeToWordRequestStream()
     }
     
-    var retrieveResultsDefinitionVMs: [DefinitionViewModel]
+    var retrieveResultsDefinitionVMs: [MWRetrieveGroupViewModel]
     
-    func makeDefinitionViewModel(with headwordEntry: MWRetrieveEntry) -> DefinitionViewModel {
-        
-        if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headwordEntry), let fetchedHeadwordEntry = DataManager.decodedData(vocabularyEntry.headwordEntry!, dataType: appData.currentAPI.headwordType) {
-//            let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: headwordEntry)
-//            return DefinitionViewModel(headwordEntry: headwordEntry, saved: saved, expanded: true)
+    func makeDefinitionViewModel(with group: MWRetrieveGroup) -> MWRetrieveGroupViewModel {
+        if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: group),
+            let entry = vocabularyEntry.headwordEntry,
+            let fetchedHeadwordEntry = DataManager.decodedData(entry, dataType: appData.currentAPI.headwordType) {
+            let saved = fetchedHeadwordEntry == group
+            return MWRetrieveGroupViewModel(group: group, saved: saved, expanded: true)
         }
-        return DefinitionViewModel(headwordEntry: headwordEntry, saved: false, expanded: true)
+        return MWRetrieveGroupViewModel(group: group, saved: false, expanded: true)
     }
     
     func recheckRetrieveSaved() {
         for retrieve in retrieveResultsDefinitionVMs {
-            if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: retrieve.headwordEntry), let headwordData = vocabularyEntry.headwordEntry, let fetchedHeadwordEntry = DataManager.decodedData(headwordData, dataType: appData.currentAPI.headwordType) {
-//                let saved = HeadwordEntry.areSame(lhs: fetchedHeadwordEntry, rhs: retrieve.headwordEntry)
-//                retrieve.saved = saved
+            if let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: retrieve.group),
+                let headwordData = vocabularyEntry.headwordEntry,
+                let fetchedHeadwordEntry = DataManager.decodedData(headwordData, dataType: appData.currentAPI.headwordType) {
+                let saved = fetchedHeadwordEntry == retrieve.group
+                retrieve.saved = saved
             } else {
                 retrieve.saved = false
             }
@@ -101,16 +104,18 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
                 guard let strongSelf = self else { return }
                 strongSelf.retrieveEntry = retrieveEntry.1
                 strongSelf.showingVocabulary = false
+                guard let retrieve = retrieveEntry.1 else { return }
+                strongSelf.makeViewModels(for: retrieve)
             })
             .store(in: &wordStreamSubscriber)
     }
     
-//    private func makeViewModels(for headwordEntries: [HeadwordEntry]) {
-//        retrieveResultsDefinitionVMs = [DefinitionViewModel]()
-//        for headwordEntry in headwordEntries {
-//            retrieveResultsDefinitionVMs.append( makeDefinitionViewModel(with: headwordEntry))
-//        }
-//    }
+    private func makeViewModels(for headwordEntries: MWRetrieveEntries) {
+        retrieveResultsDefinitionVMs = [MWRetrieveGroupViewModel]()
+        for group in headwordEntries.entries {
+            retrieveResultsDefinitionVMs.append(makeDefinitionViewModel(with: group))
+        }
+    }
     
     func toggleExpanded(at index: Int) {
         guard index < retrieveResultsDefinitionVMs.count else { return }
@@ -145,25 +150,3 @@ extension UIApplication {
     }
 }
 
-extension HeadwordEntry {
-    static func areSame(lhs: HeadwordEntry, rhs: HeadwordEntry) -> Bool {
-        if lhs.lexicalEntries.count != rhs.lexicalEntries.count { return false }
-        var lexicalIndex = 0
-        var sensesIndex = 0
-        
-        while lexicalIndex < lhs.lexicalEntries.count {
-            let lhsSenses = lhs.lexicalEntries[lexicalIndex].allSenses()
-            let rhsSenses = rhs.lexicalEntries[lexicalIndex].allSenses()
-            if lhsSenses.count != rhsSenses.count { return false }
-            while sensesIndex < lhsSenses.count {
-                if lhsSenses[sensesIndex].id != rhsSenses[sensesIndex].id {
-                    return false
-                }
-                sensesIndex += 1
-            }
-            lexicalIndex += 1
-        }
-        
-        return true
-    }
-}

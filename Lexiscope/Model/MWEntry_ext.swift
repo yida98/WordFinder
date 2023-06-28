@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension MWRetrieveGroup {
+extension MWRetrieveGroup: Equatable {
     func allPronunciations() -> [MWPronunciation] {
         entries.flatMap { $0.allPronunciations() }
     }
@@ -22,6 +22,18 @@ extension MWRetrieveGroup {
     
     func allInflectionLabels() -> String {
         entries.flatMap { $0.inflectionLabel() }.compactMap { $0 }.joined(separator: "; ")
+    }
+    
+    func allSenses() -> [MWSenseSequence.Element.Sense] {
+        entries.flatMap { $0.allSenses() }
+    }
+    
+    var hasSense: Bool {
+        !allSenses().isEmpty
+    }
+    
+    static func ==(lhs: MWRetrieveGroup, rhs: MWRetrieveGroup) -> Bool {
+        lhs.id == rhs.id
     }
 }
 
