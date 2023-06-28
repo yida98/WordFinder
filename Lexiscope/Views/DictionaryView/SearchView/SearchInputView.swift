@@ -34,39 +34,15 @@ struct SearchInputView: View {
                     .padding(.bottom, 50)
                 } else {
                     VStack {
-                        if let suggestions = viewModel.suggestions {
-                            Text("Did you mean:")
-                            ForEach(suggestions.indices, id: \.self) { suggestionIndex in
-                                Text(suggestions[suggestionIndex])
-                            }
+                        if let suggestions = viewModel.suggestions, !suggestions.isEmpty {
+                            AlternateSuggestionsView(viewModel: AlternateSuggestionsViewModel(suggestions: suggestions))
+                                .padding(50)
                         } else {
                             Text("NO RESULTS")
                                 .placeholder()
                         }
                     }
                 }
-                
-//                if viewModel.retrieveEntryResults().isEmpty {
-//                    Text("No results")
-//                        .placeholder()
-//                } else {
-//                    ScrollView(showsIndicators: false) {
-//                        ForEach(viewModel.retrieveEntryResults().indices, id: \.self) { headwordEntryIndex in
-//                            if let definitionViewModel = definitionViewModel(at: headwordEntryIndex) {
-//                                DefinitionView(viewModel: definitionViewModel, spacing: 3)
-//                                    .definitionCard()
-//                                    .onTapGesture {
-//                                        viewModel.toggleExpanded(at: headwordEntryIndex)
-//                                    }
-//                                    .id(String(headwordEntryIndex + 1))
-//                            } else {
-//                                EmptyView()
-//                            }
-//                        }
-//                    }
-//                    .padding(.horizontal, 40)
-//                    .padding(.bottom, 50)
-//                }
                 HStack {
                     Spacer()
                     SectionedScrollView(sectionTitles: viewModel.retrieveEntryResultSectionTitles(),

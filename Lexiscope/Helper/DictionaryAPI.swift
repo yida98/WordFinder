@@ -32,10 +32,9 @@ struct MerriamWebsterAPI {
         return URLSession.shared.dataTaskPublisher(for: urlRequest)
             .tryMap { result in
                 if let response = result.response as? HTTPURLResponse, response.statusCode == HTTPStatusCode.OK.rawValue {
-                    DataManager.shared.saveRetrieve(result.data, for: word)
-                    
                     do {
                         let entries = try decoder.decode(MWRetrieveEntries.self, from: result.data)
+                        DataManager.shared.saveRetrieve(result.data, for: word)
                         return entries
                     } catch {
                         do {

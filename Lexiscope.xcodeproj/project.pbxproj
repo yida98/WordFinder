@@ -74,6 +74,8 @@
 		E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3623C2821EE610078721F /* CameraViewModel.swift */; };
 		E4F3623F2821F6990078721F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3623E2821F6990078721F /* Constant.swift */; };
 		E4F3C7342A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3C7332A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift */; };
+		E4F3C7362A4CF1220091AA9D /* AlternateSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3C7352A4CF1220091AA9D /* AlternateSuggestionsView.swift */; };
+		E4F3C7382A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3C7372A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +149,8 @@
 		E4F3623C2821EE610078721F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		E4F3623E2821F6990078721F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E4F3C7332A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWRetrieveGroupViewModel.swift; sourceTree = "<group>"; };
+		E4F3C7352A4CF1220091AA9D /* AlternateSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateSuggestionsView.swift; sourceTree = "<group>"; };
+		E4F3C7372A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateSuggestionsViewModel.swift; sourceTree = "<group>"; };
 		FE902ECBDF162C6718CCB706 /* Pods-Lexiscope.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lexiscope.debug.xcconfig"; path = "Target Support Files/Pods-Lexiscope/Pods-Lexiscope.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -266,6 +270,8 @@
 			isa = PBXGroup;
 			children = (
 				E4DBE9252981F940006D4730 /* SearchInputView.swift */,
+				E4F3C7352A4CF1220091AA9D /* AlternateSuggestionsView.swift */,
+				E4F3C7372A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -544,6 +550,7 @@
 				E475BFFA294FE8A30076824C /* OxfordEntryModel.xcdatamodeld in Sources */,
 				E4F3623D2821EE610078721F /* CameraViewModel.swift in Sources */,
 				E416CE0E2A479C55008FBEB3 /* SenseElementComponents.swift in Sources */,
+				E4F3C7362A4CF1220091AA9D /* AlternateSuggestionsView.swift in Sources */,
 				E48D676729C598EE009157DC /* Font+ext.swift in Sources */,
 				E467D5F028DBB9260005480D /* SearchView.swift in Sources */,
 				E467D5EB28D87AF60005480D /* DefinitionView.swift in Sources */,
@@ -559,6 +566,7 @@
 				E4F3622B2821D46C0078721F /* ContentView.swift in Sources */,
 				E4859F18298651AC008AB85B /* LexicalEntryView.swift in Sources */,
 				E472410029E747BE00C064D8 /* DictionaryAPI.swift in Sources */,
+				E4F3C7382A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift in Sources */,
 				E46E09712991D6F400C212D3 /* QuizAnimationModifier.swift in Sources */,
 				E48D676329BA0634009157DC /* FullSavedWordNotesEditor.swift in Sources */,
 				E475BFE3294A76450076824C /* DefinitionViewModel.swift in Sources */,
