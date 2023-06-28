@@ -19,7 +19,7 @@ struct FullSavedWordView: View {
                 .fill(viewModel.familiarity >= 4 ? Color.silverLakeBlue : .gradient2a)
                 .frame(height: 20)
             VStack {
-                DefinitionView(viewModel: viewModel, spacing: 10, familiar: viewModel.familiarity >= 4)
+                MWRetrieveEntryView(viewModel: viewModel, familiar: viewModel.familiarity >= 4)
                 HStack {
                     Text("Familiarity:")
                         .fullSavedWordSectionTitle()
@@ -118,51 +118,51 @@ struct ViewHeightKey: PreferenceKey {
 }
 
 
-class FullSavedWordViewModel: DefinitionViewModel {
+class FullSavedWordViewModel: MWRetrieveGroupViewModel {
     @Published var notes: String
     @Published var familiarity: Int
     @Published var date: Date
     @Published var presentNotesEditor: Bool = false
         
-    init(headwordEntry: MWRetrieveEntry, saved: Bool) { // Headword type
+    init(headwordEntry: MWRetrieveGroup, saved: Bool) { // Headword type
         self.notes = FullSavedWordViewModel.getNotes(for: headwordEntry)
         self.familiarity = FullSavedWordViewModel.getFamiliarity(for: headwordEntry)
         self.date = FullSavedWordViewModel.getDate(for: headwordEntry)
 
-        super.init(headwordEntry: headwordEntry, saved: saved, expanded: true)
+        super.init(group: headwordEntry, saved: saved, expanded: true)
     }
     
-    override func bookmarkWord() {
-        super.bookmarkWord()
+    override func bookmark() {
+        super.bookmark()
         if saved == .some(true) {
             saveVocabulary()
         }
     }
     
     func saveVocabulary() {
-//        if let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) {
-//            vocabulary.notes = notes
-//        }
+        if let vocabulary = DataManager.shared.fetchVocabularyEntry(for: group) {
+            vocabulary.notes = notes
+        }
     }
     
-    private static func getFamiliarity(for headwordEntry: MWRetrieveEntry) -> Int { // Headword type
-//        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
+    private static func getFamiliarity(for headwordEntry: MWRetrieveGroup) -> Int { // Headword type
+        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return 0
-//        }
-//        return vocabulary.recallDates?.count ?? 0
+        }
+        return vocabulary.recallDates?.count ?? 0
     }
     
-    private static func getNotes(for headwordEntry: MWRetrieveEntry) -> String { // Headword type
-//        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
+    private static func getNotes(for headwordEntry: MWRetrieveGroup) -> String { // Headword type
+        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return ""
-//        }
-//        return vocabulary.notes ?? ""
+        }
+        return vocabulary.notes ?? ""
     }
     
-    private static func getDate(for headwordEntry: MWRetrieveEntry) -> Date { // Headword type
-//        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
+    private static func getDate(for headwordEntry: MWRetrieveGroup) -> Date { // Headword type
+        guard let vocabulary = DataManager.shared.fetchVocabularyEntry(for: headwordEntry) else {
             return Date()
-//        }
-//        return vocabulary.date ?? Date()
+        }
+        return vocabulary.date ?? Date()
     }
 }

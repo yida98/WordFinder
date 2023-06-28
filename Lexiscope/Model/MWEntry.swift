@@ -255,7 +255,9 @@ struct MWSenseSequence: Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(senses)
+        for sense in senses {
+            try container.encode(sense)
+        }
     }
     
     enum Element: Codable {
@@ -279,6 +281,7 @@ struct MWSenseSequence: Codable {
             } else if key == "bs" {
                 self = .bs(try container.decode(Sense.self))
             } else {
+                debugPrint("Type not sense")
                 throw DecodingError.typeMismatch(Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not Sense"))
             }
 //            debugPrint("Finished decoding Element of Sense")
@@ -382,15 +385,44 @@ struct MWSenseSequence: Codable {
         }
         
         enum CodingKeys: String, CodingKey {
-            case text, uns, vis, ca
+            case text, uns, vis, ca, snote
         }
         
         func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: MWSenseSequence.DefiningText.CodingKeys.self)
-            try container.encode(self.text, forKey: MWSenseSequence.DefiningText.CodingKeys.text)
-            try container.encodeIfPresent(self.uns, forKey: MWSenseSequence.DefiningText.CodingKeys.uns)
-            try container.encodeIfPresent(self.vis, forKey: MWSenseSequence.DefiningText.CodingKeys.vis)
-            try container.encodeIfPresent(self.ca, forKey: MWSenseSequence.DefiningText.CodingKeys.ca)
+            var container = encoder.unkeyedContainer()
+            
+            let textSubEncoder = container.superEncoder()
+            var textSubContainer = textSubEncoder.unkeyedContainer()
+            try textSubContainer.encode("text")
+            try textSubContainer.encode(text)
+            
+            if let uns = uns {
+                let unsSubEncoder = container.superEncoder()
+                var unsSubContainer = unsSubEncoder.unkeyedContainer()
+                try unsSubContainer.encode("uns")
+                try unsSubContainer.encode(uns)
+            }
+            
+            if let vis = vis {
+                let visSubEncoder = container.superEncoder()
+                var visSubContainer = visSubEncoder.unkeyedContainer()
+                try visSubContainer.encode("vis")
+                try visSubContainer.encode(vis)
+            }
+            
+            if let ca = ca {
+                let caSubEncoder = container.superEncoder()
+                var caSubContainer = caSubEncoder.unkeyedContainer()
+                try caSubContainer.encode("ca")
+                try caSubContainer.encode(ca)
+            }
+            
+            if let snote = snote {
+                let snoteSubEncoder = container.superEncoder()
+                var snoteSubContainer = snoteSubEncoder.unkeyedContainer()
+                try snoteSubContainer.encode("snote")
+                try snoteSubContainer.encode(snote)
+            }
         }
         
         struct VerbalIllustration: Codable {
@@ -417,7 +449,9 @@ struct MWSenseSequence: Codable {
             
             func encode(to encoder: Encoder) throws {
                 var container = encoder.unkeyedContainer()
-                try container.encode(content)
+                for element in content {
+                    try container.encode(element)
+                }
             }
         }
         
@@ -454,7 +488,9 @@ struct MWSenseSequence: Codable {
             
             func encode(to encoder: Encoder) throws {
                 var container = encoder.unkeyedContainer()
-                try container.encode(notes)
+                for note in notes {
+                    try container.encode(note)
+                }
             }
             
             enum Note: Codable {
@@ -512,7 +548,9 @@ struct MWSenseSequence: Codable {
             
             func encode(to encoder: Encoder) throws {
                 var container = encoder.unkeyedContainer()
-                try container.encode(notes)
+                for note in notes {
+                    try container.encode(note)
+                }
             }
             
             struct Note: Codable {
@@ -536,7 +574,9 @@ struct MWSenseSequence: Codable {
                 
                 func encode(to encoder: Encoder) throws {
                     var container = encoder.unkeyedContainer()
-                    try container.encode(values)
+                    for value in values {
+                        try container.encode(value)
+                    }
                 }
                 
                 enum Element: Codable {
@@ -600,7 +640,9 @@ struct MWEtymology: Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(content)
+        for value in content {
+            try container.encode(value)
+        }
     }
     
     enum Element: Codable {

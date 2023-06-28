@@ -22,7 +22,22 @@ struct SavedWordsView: View {
                         ForEach(viewModel.sectionTitles ?? [String](), id: \.self) { key in
                             Section {
                                 ForEach(display(at: key)) { entry in
-                                    Text("TODO")
+                                    MWRetrieveEntryView(viewModel: MWRetrieveGroupViewModel(group: entry.getHeadwordEntry(), saved: true, expanded: false))
+                                        .definitionCard(familiar: entry.recallDates?.count ?? 0 > 4)
+                                        .onTapGesture {
+                                            viewModel.presentingVocabularyEntry = entry
+                                            if viewModel.presentingVocabularyEntry != nil {
+                                                viewModel.isPresenting = true
+                                            }
+                                        }
+                                        .contextMenu {
+                                            Button {
+                                                showShareSheet(vocabularyEntry: entry)
+                                            } label: {
+                                                Label("Share definition", systemImage: "square.and.arrow.up")
+                                            }
+                                        }
+                                        .id(entry.word)
                                     // TODO: MWRetrieveGroup instead of MWRetrieveEntry
 //                                    DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
 //                                                                                  saved: true,
@@ -76,10 +91,8 @@ struct SavedWordsView: View {
                 }
             }, content: {
                 if let entry = viewModel.presentingVocabularyEntry {
-                    // TODO: MWRetrieveGroup instead of MWRetrieveEntry
-//                    FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(),
-//                                                                     saved: true))
-//                    .background(.ultraThinMaterial)
+                    FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(), saved: true))
+                    .background(.ultraThinMaterial)
                 } else {
                     EmptyView()
                 }
