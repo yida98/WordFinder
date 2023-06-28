@@ -73,18 +73,29 @@ struct MWRetrieveEntryView: View {
                     }
                 }
                 
-                ScrollView(showsIndicators: false) {
-                    if let label = viewModel.group.allInflectionLabels(), !label.isEmpty {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            Text(label.localizedTokenizedString()) // TODO: Small size
+                if viewModel.expanded {
+                    ScrollView(showsIndicators: false) {
+                        if let label = viewModel.group.allInflectionLabels(), !label.isEmpty {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                Text(label.localizedTokenizedString()) // TODO: Small size
+                            }
+                            
+                            Divider()
                         }
                         
-                        Divider()
+                        ForEach(viewModel.group.entries) { entry in
+                            MWRetrieveHeadwordView(retrieveEntry: entry)
+                            Divider()
+                        }
                     }
-                    
-                    ForEach(viewModel.group.entries) { entry in
-                        MWRetrieveHeadwordView(retrieveEntry: entry)
-                        Divider()
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        if !viewModel.group.allShortDefs().isEmpty {
+                            ForEach(viewModel.group.allShortDefs().indices, id: \.self) { shortDefIndex in
+                                Text(viewModel.group.allShortDefs()[shortDefIndex]) // TODO: Short def style
+                                Divider()
+                            }
+                        }
                     }
                 }
                 

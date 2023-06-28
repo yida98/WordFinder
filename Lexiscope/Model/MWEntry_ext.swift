@@ -32,6 +32,10 @@ extension MWRetrieveGroup: Equatable {
         !allSenses().isEmpty
     }
     
+    func allShortDefs() -> [String] {
+        entries.compactMap { $0.shortdef }.flatMap { $0 }
+    }
+    
     static func ==(lhs: MWRetrieveGroup, rhs: MWRetrieveGroup) -> Bool {
         lhs.id == rhs.id
     }
