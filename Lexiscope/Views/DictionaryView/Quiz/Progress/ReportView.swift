@@ -22,10 +22,10 @@ struct ReportView: View {
                 VStack(spacing: 0) {
                     ForEach(viewModel.progressEntries, id: \.self.title) { entry in
                         Button {
-//                            viewModel.presentingEntry = entry.vocabulary.getHeadwordEntry()
-//                            if viewModel.presentingEntry != nil {
-//                                isPresenting = true
-//                            }
+                            viewModel.presentingEntry = entry.vocabulary.getHeadwordEntry()
+                            if viewModel.presentingEntry != nil {
+                                isPresenting = true
+                            }
                         } label: {
                             HStack(spacing: 8) {
                                 VStack {
@@ -70,9 +70,7 @@ struct ReportView: View {
             viewModel.presentingEntry = nil
         }, content: {
             if let entry = viewModel.presentingEntry {
-                Text("Full saved word") // TODO: FullSavedWordView
-                //FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry,
-                                                      //           saved: true))
+                FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry, saved: true))
             } else {
                 EmptyView()
             }

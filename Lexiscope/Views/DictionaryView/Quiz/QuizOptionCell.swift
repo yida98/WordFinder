@@ -16,7 +16,7 @@ struct QuizOptionCell: View {
     var body: some View {
         let binding = Binding<Bool>(get: { id == choice || validation != nil }, set: { _ in choice = id } )
         Toggle(isOn: binding) {
-            Text(text)
+            Text(text.localizedTokenizedString())
         }
         .toggleStyle(QuizToggleStyle(shape: RoundedRectangle(cornerRadius: 16),
                                      primaryColor: getPrimaryColor(),

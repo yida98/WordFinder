@@ -71,7 +71,7 @@ struct ContentView: View {
                                 QuizView(viewModel: viewModel.getQuizViewModel(with: quizzables), isPresenting: $viewModel.isPresentingQuiz)
                                     .background(LinearGradient(colors: [.gradient2, .gradient5], startPoint: .topLeading, endPoint: .bottomTrailing))
                             } else {
-                                QuizPlaceholder()
+                                QuizPlaceholder(familiars: (ProgressViewModel.getTotalFamiliar(), totalVocabulary()))
                             }
                         })
                     
@@ -129,6 +129,10 @@ struct ContentView: View {
                 }
             }
         }
+    }
+    
+    private func totalVocabulary() -> Int {
+        DataManager.shared.fetchVocabulary()?.count ?? 0
     }
 }
 

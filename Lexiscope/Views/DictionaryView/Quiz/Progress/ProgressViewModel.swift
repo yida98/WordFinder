@@ -39,7 +39,7 @@ class ProgressViewModel: ObservableObject {
         }
     }
     
-    private static func getTotalFamiliar() -> Int {
+    static func getTotalFamiliar() -> Int {
         guard let allFamiliar = DataManager.shared.fetchAllFamiliar() else {
             return .zero
         }
@@ -83,7 +83,7 @@ struct ProgressEntry {
         }
 
         let title = vocabularyEntry.word ?? ""
-        let summary = "Summary"//vocabularyEntry.getHeadwordEntry().lexicalEntries.first?.allSenses().first?.definitions?.first //TODO: Summary
+        let summary = vocabularyEntry.getHeadwordEntry().allShortDefs().first
         
         return ProgressEntry(title: title, step: step, summary: summary, valid: valid, vocabulary: vocabularyEntry)
     }
