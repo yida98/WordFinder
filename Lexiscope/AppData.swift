@@ -18,7 +18,7 @@ class AppData: NSObject, UIApplicationDelegate {
     
     override init() {
         self.currentAPI = MerriamWebsterAPI()
-        DataManager.shared.nuke()
+//        DataManager.shared.nuke()
     }
     
     enum Language: String {

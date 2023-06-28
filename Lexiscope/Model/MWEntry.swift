@@ -22,16 +22,16 @@ struct MWRetrieveEntries: DictionaryRetrieveEntry {
         var prevHeadword: String?
         for entry in entries {
             if let hw = prevHeadword {
-                if hw.lowercased() == entry.hwi.hw.lowercased() {
+                if hw.lowercased().cleanHeadword() == entry.hwi.hw.lowercased().cleanHeadword() {
                     currGroupEntries.append(entry)
                 } else {
                     let newGroup = MWRetrieveGroup(headword: hw, entries: currGroupEntries)
                     disambiguatedEntries.append(newGroup)
                     currGroupEntries = [entry]
-                    prevHeadword = entry.hwi.hw
+                    prevHeadword = entry.hwi.hw.cleanHeadword()
                 }
             } else {
-                prevHeadword = entry.hwi.hw
+                prevHeadword = entry.hwi.hw.cleanHeadword()
                 currGroupEntries.append(entry)
             }
         }

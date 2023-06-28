@@ -89,7 +89,6 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
         URLTask.shared.define(word: word)
             .catch({ error in
                 if case NetworkError.relatedResults(let relatedResults) = error {
-                    debugPrint("ooooh we related \(relatedResults)")
                     DispatchQueue.main.async {
                         self.showingVocabulary = false
                         self.suggestions = relatedResults

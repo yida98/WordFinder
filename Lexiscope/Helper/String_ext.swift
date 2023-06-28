@@ -26,6 +26,10 @@ extension String {
         return input
     }
     
+    func cleanHeadword() -> String {
+        self.replacingOccurrences(of: "*", with: "")
+    }
+    
     private func handleMWTokenWithFieldsErased() -> String {
         var result = ""
         var token = ""
