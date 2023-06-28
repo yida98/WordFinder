@@ -86,18 +86,17 @@ struct MWRetrieveEntryView: View {
                                         .id(String(entryIndex + 1))
                                 }
                                 MWRetrieveHeadwordView(retrieveEntry: viewModel.group.entries[entryIndex])
-                                Divider()
-                            }
-                        } else {
-                            if !viewModel.group.allShortDefs().isEmpty {
-                                ForEach(viewModel.group.allShortDefs().indices, id: \.self) { shortDefIndex in
-                                    Text(viewModel.group.allShortDefs()[shortDefIndex]) // TODO: Short def style
+                                if entryIndex < viewModel.group.entries.count - 1 {
                                     Divider()
                                 }
                             }
+                        } else {
+                            if let shortDef = viewModel.group.allShortDefs().first {
+                                Text(shortDef) // TODO: Short def style
+                            }
                         }
                     }
-                    
+                    Divider()
                     Text("some decorative text to balanace out the UI")
                 }
                 
