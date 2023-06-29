@@ -11,13 +11,17 @@ struct MWDefinitionView: View {
     var definition: MWDefinition
     
     var body: some View {
-        VStack {
+        VStack(spacing: 4) {
             if let verbDivider = definition.vd {
-                Text(verbDivider.localizedTokenizedString()) // TODO: Color
-                    .italic()
+                HStack {
+                    Text(verbDivider.localizedTokenizedString()) // TODO: Color
+                        .font(.subheadlinePrimary)
+                        .foregroundColor(.verdigris)
+                    Spacer()
+                }
             }
             if let sseq = definition.sseq {
-                VStack {
+                VStack(spacing: 20) {
                     ForEach(sseq.indices, id: \.self) { senseIndex in
                         MWSenseSequenceView(sequence: sseq[senseIndex]) // This is the large number (i.e. whole number with no punctuations)
                     }

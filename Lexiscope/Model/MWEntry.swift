@@ -91,6 +91,7 @@ struct MWRetrieveEntry: Codable, Identifiable {
     let lbs: lbs?
     let shortdef: shortdef?
     let et: MWEtymology?
+    let vrs: vrs?
     
     enum CodingKeys: String, CodingKey {
         case meta
@@ -103,6 +104,7 @@ struct MWRetrieveEntry: Codable, Identifiable {
         case lbs
         case shortdef
         case et
+        case vrs
     }
     
     init(from decoder: Decoder) throws {
@@ -117,6 +119,7 @@ struct MWRetrieveEntry: Codable, Identifiable {
         self.lbs = try container.decodeIfPresent(Array<String>.self, forKey: .lbs)
         self.shortdef = try container.decodeIfPresent(Array<String>.self, forKey: .shortdef)
         self.et = try container.decodeIfPresent(MWEtymology.self, forKey: .et)
+        self.vrs = try container.decodeIfPresent([MWVariant].self, forKey: .vrs)
     }
     
     func getWord() -> String { hwi.hw }
@@ -225,6 +228,14 @@ struct MWInflections: Codable {
 
 struct MWCognateCrossReferences: Codable {
     let cxl: String?
+    let cxtis: [Target]?
+    
+    struct Target: Codable {
+        let cxl: String?
+        let cxr: String?
+        let cxt: String?
+        let cxn: String?
+    }
 }
 
 struct MWDefinition: Codable {
@@ -266,6 +277,10 @@ struct MWSenseSequence: Codable {
         case sen(Sen)
         case bs(Sense)
         
+        enum BSCodingKeys: String, CodingKey {
+            case sense
+        }
+        
         init(from decoder: Decoder) throws {
 //            debugPrint("at Element of Sense")
             var container = try decoder.unkeyedContainer()
@@ -279,7 +294,9 @@ struct MWSenseSequence: Codable {
             } else if key == "sen" {
                 self = .sen(try container.decode(Sen.self))
             } else if key == "bs" {
-                self = .bs(try container.decode(Sense.self))
+                let subDecoder = try container.superDecoder()
+                let subContainer = try subDecoder.container(keyedBy: BSCodingKeys.self)
+                self = .bs(try subContainer.decode(Sense.self, forKey: .sense))
             } else {
                 debugPrint("Type not sense")
                 throw DecodingError.typeMismatch(Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not Sense"))
@@ -302,7 +319,9 @@ struct MWSenseSequence: Codable {
                 try container.encode(obj)
             case .bs(let obj):
                 try container.encode("bs")
-                try container.encode(obj)
+                let subEncoder = container.superEncoder()
+                var subContainer = subEncoder.container(keyedBy: BSCodingKeys.self)
+                try subContainer.encode(obj, forKey: .sense)
             }
         }
         
@@ -313,7 +332,7 @@ struct MWSenseSequence: Codable {
             let lbs: lbs?
             let prs: prs?
             let sdsense: SDSense?
-            let sgram: SenseSpecificGrammaticalLabel?
+            let sgram: String?
             let sls: sls?
             let sn: String?
             let vrs: vrs?
@@ -324,7 +343,7 @@ struct MWSenseSequence: Codable {
             let ins: MWInflections?
             let lbs: lbs?
             let prs: prs?
-            let sgram: SenseSpecificGrammaticalLabel?
+            let sgram: String?
             let sls: sls?
             let sn: String?
             let vrs: vrs?
@@ -335,10 +354,6 @@ struct MWSenseSequence: Codable {
         /// sense divider
         let sd: String
         let dt: DefiningText
-    }
-    
-     struct SenseSpecificGrammaticalLabel: Codable {
-        let sgram: String
     }
     
     struct DefiningText: Codable {
@@ -581,6 +596,7 @@ struct MWSenseSequence: Codable {
                 
                 enum Element: Codable {
                     case textValue(String)
+                    case vis(VerbalIllustration)
                     
                     init(from decoder: Decoder) throws {
 //                        debugPrint("at Element of Note of UsageNotes")
@@ -589,6 +605,8 @@ struct MWSenseSequence: Codable {
                         let key = try container.decode(String.self)
                         if key == "text" {
                             self = .textValue(try container.decode(String.self))
+                        } else if key == "vis" {
+                            self = .vis(try container.decode(VerbalIllustration.self))
                         } else {
                             throw DecodingError.typeMismatch(UsageNotes.Note.Element.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of UsageNotes"))
                         }
@@ -601,6 +619,9 @@ struct MWSenseSequence: Codable {
                         switch self {
                         case .textValue(let obj):
                             try container.encode("text")
+                            try container.encode(obj)
+                        case .vis(let obj):
+                            try container.encode("vis")
                             try container.encode(obj)
                         }
                     }

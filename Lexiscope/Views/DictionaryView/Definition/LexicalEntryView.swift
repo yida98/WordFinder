@@ -36,7 +36,7 @@ struct LexicalEntryView: View {
                     VStack(spacing: 8) {
                         HStack {
                             Text("\(senses()[senseIndex].definitions?.first ?? "")")
-                                .font(.bodyBaskerville)
+                                .font(.bodyPrimary)
                                 .textSelection(.enabled)
                                 .foregroundColor(Color(white: 0.4))
                             Spacer()

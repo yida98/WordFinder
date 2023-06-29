@@ -11,44 +11,49 @@ import SwiftUI
 extension Font {
 
     /// Create a font with the large title text style.
-    public static var largeTitleBaskerville: Font {
-        return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize + 10).uppercaseSmallCaps()
+    public static var largeTitlePrimary: Font {
+        return Font.custom("Merriweather", size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize + 10).uppercaseSmallCaps()
     }
 
     /// Create a font with the title text style.
-    public static var titleBaskerville: Font {
-        return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .title1).pointSize).uppercaseSmallCaps()
+    public static var titlePrimary: Font {
+        return Font.custom("Merriweather", size: UIFont.preferredFont(forTextStyle: .title1).pointSize).uppercaseSmallCaps()
     }
 
     /// Create a font with the headline text style.
-    public static var headlineBaskerville: Font {
-        return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .headline).pointSize)
+    public static var headlinePrimary: Font {
+        return Font.custom("Merriweather-BoldItalic", size: UIFont.preferredFont(forTextStyle: .headline).pointSize)
     }
 
     /// Create a font with the subheadline text style.
-    public static var subheadlineBaskerville: Font {
-        return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .subheadline).pointSize)
+    public static var subheadlinePrimary: Font {
+        return Font.custom("Merriweather-Italic", size: UIFont.preferredFont(forTextStyle: .subheadline).pointSize)
     }
 
     /// Create a font with the body text style.
-    public static var bodyBaskerville: Font {
-           return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .body).pointSize)
-       }
+    public static var bodyPrimary: Font {
+        return Font.custom("Merriweather", size: UIFont.preferredFont(forTextStyle: .body).pointSize - 2)
+    }
+    
+    /// Create a font with the body text style.
+    public static var bodyPrimaryBold: Font {
+        return Font.custom("Merriweather-Bold", size: UIFont.preferredFont(forTextStyle: .body).pointSize - 2)
+    }
 
     /// Create a font with the callout text style.
-    public static var calloutBaskerville: Font {
-           return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .callout).pointSize)
-       }
+    public static var calloutPrimary: Font {
+           return Font.custom("Merriweather-Bold", size: UIFont.preferredFont(forTextStyle: .callout).pointSize)
+    }
 
     /// Create a font with the footnote text style.
-    public static var footnoteBaskerville: Font {
-           return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .footnote).pointSize)
-       }
+    public static var footnotePrimary: Font {
+           return Font.custom("Merriweather", size: UIFont.preferredFont(forTextStyle: .footnote).pointSize)
+    }
 
     /// Create a font with the caption text style.
-    public static var captionBaskerville: Font {
-        return Font.custom("Baskerville", size: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
-       }
+    public static var captionPrimary: Font {
+        return Font.custom("Merriweather-LightItalic", size: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+    }
     
     public static var largeTitleQuiz: Font {
         return Font.system(.largeTitle).uppercaseSmallCaps().monospaced()

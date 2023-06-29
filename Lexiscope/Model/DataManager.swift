@@ -332,6 +332,8 @@ class DataManager: ObservableObject {
     
     func playSound(from data: Data) {
         do {
+            try AVAudioSession.sharedInstance().setCategory(.soloAmbient)
+            try AVAudioSession.sharedInstance().setActive(true)
             soundPlayer = try AVAudioPlayer(data: data)
             soundPlayer?.prepareToPlay()
             soundPlayer?.volume = 1

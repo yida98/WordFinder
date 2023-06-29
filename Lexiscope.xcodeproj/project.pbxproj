@@ -76,6 +76,7 @@
 		E4F3C7342A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3C7332A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift */; };
 		E4F3C7362A4CF1220091AA9D /* AlternateSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3C7352A4CF1220091AA9D /* AlternateSuggestionsView.swift */; };
 		E4F3C7382A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F3C7372A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift */; };
+		E4F3C74E2A4D3ED50091AA9D /* Merriweather in Resources */ = {isa = PBXBuildFile; fileRef = E4F3C74D2A4D3ED50091AA9D /* Merriweather */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,6 +152,7 @@
 		E4F3C7332A4BAB4E0091AA9D /* MWRetrieveGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWRetrieveGroupViewModel.swift; sourceTree = "<group>"; };
 		E4F3C7352A4CF1220091AA9D /* AlternateSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateSuggestionsView.swift; sourceTree = "<group>"; };
 		E4F3C7372A4CF68F0091AA9D /* AlternateSuggestionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateSuggestionsViewModel.swift; sourceTree = "<group>"; };
+		E4F3C74D2A4D3ED50091AA9D /* Merriweather */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Merriweather; sourceTree = "<group>"; };
 		FE902ECBDF162C6718CCB706 /* Pods-Lexiscope.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lexiscope.debug.xcconfig"; path = "Target Support Files/Pods-Lexiscope/Pods-Lexiscope.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -362,6 +364,7 @@
 				E4188BD429D26220003FB654 /* Info.plist */,
 				E4F362282821D46C0078721F /* LexiscopeApp.swift */,
 				E475BFEB294EE7710076824C /* AppData.swift */,
+				E4F3C74D2A4D3ED50091AA9D /* Merriweather */,
 				E4F362362821D5210078721F /* Views */,
 				E4DCC21C287D39B400F1495A /* Model */,
 				E4DCC21D287D39BE00F1495A /* Helper */,
@@ -473,6 +476,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4F3C74E2A4D3ED50091AA9D /* Merriweather in Resources */,
 				E4F362302821D46E0078721F /* Preview Assets.xcassets in Resources */,
 				E4F3622D2821D46E0078721F /* Assets.xcassets in Resources */,
 			);

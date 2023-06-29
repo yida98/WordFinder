@@ -76,7 +76,8 @@ struct FullSavedWordView: View {
                     viewModel.presentNotesEditor = true
                 }
             }
-            .padding(50)
+            .padding(40)
+            .padding(.vertical, 10)
             .background(RoundedRectangle(cornerRadius: 10).fill(.linearGradient(colors: [.gradient2a, .white], startPoint: .top, endPoint: .bottom)))
             .clipShape(RoundedRectangle(cornerRadius: 10))
         }

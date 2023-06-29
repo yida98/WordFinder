@@ -19,7 +19,7 @@ struct DefinitionView: View {
             // Header
             HStack {
                 Text(viewModel.headwordEntry.getWord())
-                    .font(viewModel.expanded ? .largeTitleBaskerville : .titleBaskerville)
+                    .font(viewModel.expanded ? .largeTitlePrimary : .titlePrimary)
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)
                     .textSelection(.enabled)

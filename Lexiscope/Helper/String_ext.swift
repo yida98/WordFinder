@@ -104,5 +104,9 @@ extension String {
         }
         return attribString
     }
+    
+    func senseNumberGroups() -> [String] {
+        split(separator: " ").map { String($0) }
+    }
 }
 

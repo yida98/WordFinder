@@ -6,10 +6,22 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension MWRetrieveGroup: Equatable {
     func allPronunciations() -> [MWPronunciation] {
-        entries.flatMap { $0.allPronunciations() }
+        let nonuniquePronunciations = entries.flatMap { $0.allPronunciations() }
+        var uniquePronunciationsSet = Set<MWPronunciation>()
+        return nonuniquePronunciations.reduce([MWPronunciation]()) { valueSoFar, newValue in
+            if uniquePronunciationsSet.contains(newValue) {
+                return valueSoFar
+            } else {
+                var result = valueSoFar
+                result.append(newValue)
+                uniquePronunciationsSet.insert(newValue)
+                return result
+            }
+        }
     }
     
     func allPronunciationURLs() -> [URL] {
@@ -34,6 +46,13 @@ extension MWRetrieveGroup: Equatable {
     
     func allShortDefs() -> [String] {
         entries.compactMap { $0.shortdef }.flatMap { $0 }
+    }
+    
+    func allEtymology() -> [(String, MWEtymology)] {
+        entries.compactMap {
+            guard let fl = $0.fl, let et = $0.et else { return nil }
+            return (fl, et)
+        }
     }
     
     static func ==(lhs: MWRetrieveGroup, rhs: MWRetrieveGroup) -> Bool {
@@ -73,7 +92,21 @@ extension MWRetrieveEntry {
 }
 
 extension MWPronunciation {
-    var writtenPronunciation: String? { mw }
+    var writtenPronunciation: String? {
+        var writtenPronunciation = ""
+        
+        if let leading = l {
+            writtenPronunciation.append(leading)
+        }
+        if let mw = mw {
+            writtenPronunciation.append(mw)
+        }
+        if let trailing = l2 {
+            writtenPronunciation.append(trailing)
+        }
+        
+        return writtenPronunciation.isEmpty ? nil : writtenPronunciation
+    }
     
     func pronunciationURL() -> URL? {
         guard let audioFile = audioFile else { return nil }
@@ -102,6 +135,16 @@ extension MWPronunciation {
     
     var hasAudio: Bool {
         return sound?.audio != nil
+    }
+}
+
+extension MWPronunciation: Hashable {
+    static func == (lhs: MWPronunciation, rhs: MWPronunciation) -> Bool {
+        lhs.mw == rhs.mw
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(mw)
     }
 }
 
@@ -198,7 +241,7 @@ extension MWSenseSequence.Element.Sen {
             allLabels.append(joinedLabels)
         }
         if let sgram = sgram {
-            let italicized = "*" + sgram.sgram + "*"
+            let italicized = "*" + sgram + "*"
             allLabels.append(italicized)
         }
         if let sls = sls {
@@ -213,12 +256,23 @@ extension MWSenseSequence.Element.Sen {
     }
 }
 
-extension MWSenseSequence.DefiningText {
-    
+extension MWSenseSequence.SDSense {
+    func fullLabel() -> String {
+        "\(sd) \(dt.text)"
+    }
 }
 
 extension MWSenseSequence.DefiningText.UsageNotes {    
     var flatNoteValues: [String] {
-        return notes.flatMap { $0.values.compactMap { switch $0 { case .textValue(let value): return value }} }
+        return notes.flatMap {
+            $0.values.compactMap {
+                switch $0 {
+                case .textValue(let value):
+                    return value
+                case .vis(_):
+                    return nil
+                }
+            }
+        }
     }
 }
