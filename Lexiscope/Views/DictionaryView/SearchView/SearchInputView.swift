@@ -29,6 +29,17 @@ struct SearchInputView: View {
                                 EmptyView()
                             }
                         }
+                        HStack {
+                            Text("Powered by ")
+                                .font(.subheadlineQuiz)
+                                .foregroundStyle(.white)
+                                .opacity(0.5)
+                            Image("mw.logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50)
+                                .opacity(0.1)
+                        }
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 50)
