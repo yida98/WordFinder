@@ -19,6 +19,19 @@ class AppData: NSObject, UIApplicationDelegate {
     override init() {
         self.currentAPI = MerriamWebsterAPI()
 //        DataManager.shared.nuke()
+        AppData.versioning()
+    }
+    
+    static func versioning() {
+        let existingVersion = UserDefaults.standard.object(forKey: "CurrentVersionNumber") as? String
+        let appVersionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+
+        if existingVersion != appVersionNumber {
+            UserDefaults.standard.set(appVersionNumber, forKey: "CurrentVersionNumber")
+            UserDefaults.standard.synchronize()
+
+            DataManager.shared.nuke()
+        }
     }
     
     enum Language: String {

@@ -226,6 +226,7 @@ class DataManager: ObservableObject {
         }
     }
     
+    // MARK: - Nuke
     // TODO: Remove
     func eraseCache() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: EntityName.vocabularyEntry.rawValue)
@@ -264,26 +265,7 @@ class DataManager: ObservableObject {
         }
     }
     
-//    private func setSaved(_ saved: Bool, for entry: NSManagedObject) {
-//        entry.setValue(saved, forKey: "saved")
-//        saveContext()
-//    }
-//
-//    func bookmarkNewWord(_ word: String) {
-//        guard let entry = fetchVocabularyEntry(for: word.lowercased()) else {
-//            debugPrint("The word \(word) is not in the cache.")
-//            return
-//        }
-//        setSaved(true, for: entry)
-//    }
-//
-//    func unbookmarkWord(_ word: String) {
-//        guard let entry = fetchVocabularyEntry(for: word.lowercased()) else {
-//            debugPrint("The word \(word) is not in the cache.")
-//            return
-//        }
-//        setSaved(false, for: entry)
-//    }
+    // MARK: - Save
     
     func saveContext() {
         let context = persistentContainer.viewContext
