@@ -33,7 +33,14 @@ struct MWRetrieveHeadwordView: View {
                     SubheadlineText(text: label)
                 }
                 
-                if let cxs = 
+                if let cxs = retrieveEntry.cxs {
+                    HStack {
+                        Text("Variant")
+                            .senseLabel()
+                        SubheadlineText(text: MWCognateCrossReferences.crossReferenceLabel(cxs))
+                        Spacer()
+                    }
+                }
             }
             
             if let definitions = retrieveEntry.def {

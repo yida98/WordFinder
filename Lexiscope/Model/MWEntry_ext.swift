@@ -91,6 +91,30 @@ extension MWRetrieveEntry {
     }
 }
 
+extension MWCognateCrossReferences {
+    static func crossReferenceLabel(_ cxs: cxs) -> String {
+        cxs.compactMap { reference in
+            var text = ""
+            if let cxl = reference.cxl {
+                text.append("*\(cxl)* ")
+            }
+            if let cxtis = reference.cxtis {
+                text.append(cxtis.compactMap { target in
+                    var targetText = ""
+                    if let cxl = target.cxl {
+                        targetText.append("*\(cxl)* ")
+                    }
+                    if let cxt = target.cxt {
+                        targetText.append(cxt.uppercased())
+                    }
+                    return targetText.isEmpty ? nil : targetText
+                }.joined(separator: ", "))
+            }
+            return text.isEmpty ? nil : text
+        }.joined(separator: ", ")
+    }
+}
+
 extension MWPronunciation {
     var writtenPronunciation: String? {
         var writtenPronunciation = ""
