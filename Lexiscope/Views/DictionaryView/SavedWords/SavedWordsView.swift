@@ -22,22 +22,26 @@ struct SavedWordsView: View {
                         ForEach(viewModel.sectionTitles ?? [String](), id: \.self) { key in
                             Section {
                                 ForEach(display(at: key)) { entry in
-                                    MWRetrieveEntryView(viewModel: MWRetrieveGroupViewModel(group: entry.getHeadwordEntry(), saved: true, expanded: false, fullScreen: false), contextualText: contextualText(for: entry))
-                                        .definitionCard(familiar: entry.recallDates?.count ?? 0 > 4)
-                                        .onTapGesture {
-                                            viewModel.presentingVocabularyEntry = entry
-                                            if viewModel.presentingVocabularyEntry != nil {
-                                                viewModel.isPresenting = true
+                                    if let headwordEntry = entry.getHeadwordEntry() {
+                                        MWRetrieveEntryView(viewModel: MWRetrieveGroupViewModel(group: headwordEntry, saved: true, expanded: false, fullScreen: false), contextualText: contextualText(for: entry))
+                                            .definitionCard(familiar: entry.recallDates?.count ?? 0 > 4)
+                                            .onTapGesture {
+                                                viewModel.presentingVocabularyEntry = entry
+                                                if viewModel.presentingVocabularyEntry != nil {
+                                                    viewModel.isPresenting = true
+                                                }
                                             }
-                                        }
-                                        .contextMenu {
-                                            Button {
-                                                showShareSheet(vocabularyEntry: entry)
-                                            } label: {
-                                                Label("Share definition", systemImage: "square.and.arrow.up")
+                                            .contextMenu {
+                                                Button {
+                                                    showShareSheet(vocabularyEntry: entry)
+                                                } label: {
+                                                    Label("Share definition", systemImage: "square.and.arrow.up")
+                                                }
                                             }
-                                        }
-                                        .id(entry.word)
+                                            .id(entry.word)
+                                    } else {
+                                         EmptyView()
+                                    }
                                     // TODO: MWRetrieveGroup instead of MWRetrieveEntry
 //                                    DefinitionView(viewModel: DefinitionViewModel(headwordEntry: entry.getHeadwordEntry(),
 //                                                                                  saved: true,
@@ -90,8 +94,8 @@ struct SavedWordsView: View {
                     DataManager.shared.resaveVocabularyEntry(entry)
                 }
             }, content: {
-                if let entry = viewModel.presentingVocabularyEntry {
-                    FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: entry.getHeadwordEntry(), saved: true))
+                if let entry = viewModel.presentingVocabularyEntry, let headwordEntry = entry.getHeadwordEntry() {
+                    FullSavedWordView(viewModel: FullSavedWordViewModel(headwordEntry: headwordEntry, saved: true))
                     .background(.ultraThinMaterial)
                 } else {
                     EmptyView()
@@ -114,8 +118,9 @@ struct SavedWordsView: View {
     }
     
     func showShareSheet(vocabularyEntry: VocabularyEntry) {
-        var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().headword.capitalized)\" is defined as:"]
-        if let shortDef = vocabularyEntry.getHeadwordEntry().allShortDefs().first {
+        guard let headwordEntry = vocabularyEntry.getHeadwordEntry() else { return }
+        var items: [String] = ["\"\(headwordEntry.headword.capitalized)\" is defined as:"]
+        if let shortDef = headwordEntry.allShortDefs().first {
             items.append(shortDef)
         }
         items = [String(items.joined(separator: "\n"))]
@@ -137,9 +142,14 @@ struct SavedWordsView: View {
 }
 
 extension VocabularyEntry {
-    func getHeadwordEntry() -> MWRetrieveGroup {
+    func getHeadwordEntry() -> MWRetrieveGroup? {
         guard let data = headwordEntry,
-                let result = DataManager.decodedData(data, dataType: MWRetrieveGroup.self) else { fatalError("No headword entry") }
+                let result = DataManager.decodedData(data, dataType: MWRetrieveGroup.self) else {
+            if let name = word {
+                DataManager.shared.deleteVocabularyEntry(named: name)
+            }
+            return nil
+        }
         return result
     }
 }

@@ -90,6 +90,20 @@ class DataManager: ObservableObject {
         }
     }
     
+    func fetchVocabularyEntry(named name: String) -> VocabularyEntry? {
+        let predicate = NSPredicate(format: "word == %@", name)
+        let results = fetch(entity: .vocabularyEntry, with: predicate)
+        switch results {
+        case .success(let objects):
+            if let entries = objects as? [VocabularyEntry] {
+                return entries.filter { $0.word == name }.compactMap { $0 }.first
+            }
+            return nil
+        default:
+            return nil
+        }
+    }
+    
     func fetchDateOrderedVocabularyEntries(ascending: Bool) -> [VocabularyEntry]? {
         let sortDescriptors = [NSSortDescriptor(key: "date", ascending: ascending)]
         let results = fetch(entity: .vocabularyEntry, sortDescriptors: sortDescriptors)
@@ -160,6 +174,14 @@ class DataManager: ObservableObject {
     
     func deleteVocabularyEntry(for headword: MWRetrieveGroup) { // Headword type
         guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(for: headword) else { return }
+        let context = getContext()
+        context.delete(vocabularyEntry)
+        
+        saveContext()
+    }
+    
+    func deleteVocabularyEntry(named word: String) {
+        guard let vocabularyEntry = DataManager.shared.fetchVocabularyEntry(named: word) else { return }
         let context = getContext()
         context.delete(vocabularyEntry)
         

@@ -83,7 +83,7 @@ struct ProgressEntry {
         }
 
         let title = vocabularyEntry.word ?? ""
-        let summary = vocabularyEntry.getHeadwordEntry().allShortDefs().first
+        let summary = vocabularyEntry.getHeadwordEntry()?.allShortDefs().first
         
         return ProgressEntry(title: title, step: step, summary: summary, valid: valid, vocabulary: vocabularyEntry)
     }
