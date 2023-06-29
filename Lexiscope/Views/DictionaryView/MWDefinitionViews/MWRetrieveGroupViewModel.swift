@@ -11,11 +11,13 @@ class MWRetrieveGroupViewModel: ObservableObject {
     @Published var group: MWRetrieveGroup
     @Published var saved: Bool
     @Published var expanded: Bool
+    @Published var fullScreen: Bool
     
-    init(group: MWRetrieveGroup, saved: Bool, expanded: Bool) {
+    init(group: MWRetrieveGroup, saved: Bool, expanded: Bool, fullScreen: Bool) {
         self.group = group
         self.saved = saved
         self.expanded = expanded
+        self.fullScreen = fullScreen
     }
     
     func bookmark() {

@@ -51,9 +51,9 @@ class DictionaryViewModel: ObservableObject, SavedWordsVocabularyDelegate {
             let entry = vocabularyEntry.headwordEntry,
             let fetchedHeadwordEntry = DataManager.decodedData(entry, dataType: appData.currentAPI.headwordType) {
             let saved = fetchedHeadwordEntry == group
-            return MWRetrieveGroupViewModel(group: group, saved: saved, expanded: true)
+            return MWRetrieveGroupViewModel(group: group, saved: saved, expanded: true, fullScreen: false)
         }
-        return MWRetrieveGroupViewModel(group: group, saved: false, expanded: true)
+        return MWRetrieveGroupViewModel(group: group, saved: false, expanded: true, fullScreen: false)
     }
     
     func recheckRetrieveSaved() {

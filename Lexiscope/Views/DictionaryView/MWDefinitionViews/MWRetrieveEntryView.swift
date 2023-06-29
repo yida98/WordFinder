@@ -13,6 +13,7 @@ struct MWRetrieveEntryView: View {
     
     @State var presentAlert: Bool = false
     @State var previousTitle: String = ""
+    var contextualText: String?
     var body: some View {
         ScrollViewReader { proxy in
             ZStack {
@@ -105,24 +106,28 @@ struct MWRetrieveEntryView: View {
                                         .foregroundColor(Color(white: 0.4))
                                     Spacer()
                                 }
+                            } else if let cxs = viewModel.group.allCognateCrossReferences() {
+                                MWCognateCrossReferencesView(cxs: cxs)
                             }
                         }
                     }
-                    Divider()
-                    HStack {
-                        Text("some decorative text to balanace out the UI")
-                            .font(.captionPrimary)
-                            .foregroundColor(.verdigris)
-                        Spacer()
+                    if let contextualText = contextualText {
+                        Divider()
+                        HStack {
+                            Text("\(contextualText)")
+                                .font(.captionPrimary)
+                                .foregroundColor(.verdigris)
+                            Spacer()
+                        }
                     }
                 }
                 
-                if viewModel.group.entries.count > 1 {
+                if viewModel.group.entries.count > 1, viewModel.fullScreen {
                     HStack {
                         Spacer()
                         SectionedScrollView(sectionTitles: entryScrollSectionTitles(), scrollProxy: proxy, previousTitle: $previousTitle)
                     }
-                    .offset(x: 50) // TODO: Magic number
+                    .offset(x: 40) // TODO: Magic number
                 }
             }
         }

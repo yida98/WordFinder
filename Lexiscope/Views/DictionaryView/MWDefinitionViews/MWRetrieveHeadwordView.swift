@@ -34,12 +34,7 @@ struct MWRetrieveHeadwordView: View {
                 }
                 
                 if let cxs = retrieveEntry.cxs {
-                    HStack {
-                        Text("Variant")
-                            .senseLabel()
-                        SubheadlineText(text: MWCognateCrossReferences.crossReferenceLabel(cxs))
-                        Spacer()
-                    }
+                    MWCognateCrossReferencesView(cxs: cxs)
                 }
             }
             
@@ -89,5 +84,18 @@ extension View {
             .padding(2)
             .padding(.horizontal, 2)
             .background(RoundedRectangle(cornerRadius: 4).fill(.gray.opacity(0.2)))
+    }
+}
+
+struct MWCognateCrossReferencesView: View {
+    var cxs: cxs
+    
+    var body: some View {
+        HStack {
+            Text("Variant")
+                .senseLabel()
+            SubheadlineText(text: MWCognateCrossReferences.crossReferenceLabel(cxs))
+            Spacer()
+        }
     }
 }

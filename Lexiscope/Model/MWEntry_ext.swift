@@ -55,6 +55,10 @@ extension MWRetrieveGroup: Equatable {
         }
     }
     
+    func allCognateCrossReferences() -> cxs {
+        entries.compactMap { $0.cxs }.flatMap { $0 }
+    }
+    
     static func ==(lhs: MWRetrieveGroup, rhs: MWRetrieveGroup) -> Bool {
         lhs.id == rhs.id
     }

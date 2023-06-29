@@ -15,14 +15,14 @@ struct SavedWordsView: View {
         ScrollViewReader { reader in
             ZStack {
                 if viewModel.vocabulary == nil || viewModel.vocabulary?.count == 0 {
-                    Text("No bookmarks")
+                    Text("NO BOOKMARKS")
                         .placeholder()
                 } else {
                     ScrollView(showsIndicators: false) {
                         ForEach(viewModel.sectionTitles ?? [String](), id: \.self) { key in
                             Section {
                                 ForEach(display(at: key)) { entry in
-                                    MWRetrieveEntryView(viewModel: MWRetrieveGroupViewModel(group: entry.getHeadwordEntry(), saved: true, expanded: false))
+                                    MWRetrieveEntryView(viewModel: MWRetrieveGroupViewModel(group: entry.getHeadwordEntry(), saved: true, expanded: false, fullScreen: false), contextualText: contextualText(for: entry))
                                         .definitionCard(familiar: entry.recallDates?.count ?? 0 > 4)
                                         .onTapGesture {
                                             viewModel.presentingVocabularyEntry = entry
@@ -115,14 +115,24 @@ struct SavedWordsView: View {
     
     func showShareSheet(vocabularyEntry: VocabularyEntry) {
         var items: [String] = ["\"\(vocabularyEntry.getHeadwordEntry().headword.capitalized)\" is defined as:"]
-//        if let sense = vocabularyEntry.getHeadwordEntry().allSenses().first(where: { sense in
-//            sense.hasDefinitions
-//        }), let definitions = sense.definitions {
-//            items.append(contentsOf: definitions)
-//        } // TODO: Summary
+        if let shortDef = vocabularyEntry.getHeadwordEntry().allShortDefs().first {
+            items.append(shortDef)
+        }
         items = [String(items.joined(separator: "\n"))]
         let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
         UIApplication.shared.currentUIWindow()?.rootViewController?.present(activityVC, animated: true, completion: nil)
+    }
+    
+    private func index(forWord word: String) -> Int? {
+        guard let vocabulary = viewModel.vocabulary else { return nil }
+        let flatVocab = vocabulary.flatMap { $0 }
+        let index = flatVocab.firstIndex { $0.word == word }?.distance(to: 0)
+        return index
+    }
+    
+    private func contextualText(for entry: VocabularyEntry) -> String? {
+        guard let word = entry.word, let index = index(forWord: word) else { return nil }
+        return "\(index.magnitude + 1) of \(viewModel.totalVocabulary)"
     }
 }
 

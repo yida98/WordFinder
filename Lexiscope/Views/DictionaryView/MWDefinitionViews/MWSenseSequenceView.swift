@@ -67,6 +67,8 @@ struct MWSenseSequenceView: View {
                             Text(verbalIllustration.content[index].t.localizedTokenizedString())
                                 .font(.footnotePrimary)
                                 .foregroundColor(Color(white: 0.6))
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
                             Spacer()
                         }
                     }

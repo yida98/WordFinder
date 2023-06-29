@@ -130,7 +130,7 @@ class FullSavedWordViewModel: MWRetrieveGroupViewModel {
         self.familiarity = FullSavedWordViewModel.getFamiliarity(for: headwordEntry)
         self.date = FullSavedWordViewModel.getDate(for: headwordEntry)
 
-        super.init(group: headwordEntry, saved: saved, expanded: true)
+        super.init(group: headwordEntry, saved: saved, expanded: true, fullScreen: true)
     }
     
     override func bookmark() {
