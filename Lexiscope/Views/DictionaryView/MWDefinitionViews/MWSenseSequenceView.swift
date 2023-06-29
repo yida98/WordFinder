@@ -127,6 +127,10 @@ struct MWSenseSequenceView: View {
                                 Text(sdsense.fullLabel().localizedTokenizedString())
                             }.senseParagraph()
                         }
+                        if let ca = sense.dt.ca, let label = ca.label() {
+                            Text(label.localizedTokenizedString())
+                                .senseParagraph()
+                        }
                         if let uns = sense.dt.uns {
                             UsageNotesView(usageNotes: uns)
                         }
@@ -136,7 +140,7 @@ struct MWSenseSequenceView: View {
                         if let vis = sense.dt.vis {
                             VerbalIllustrationView(verbalIllustration: vis)
                         }
-                        Spacer()
+                        Spacer(minLength: 0)
                     }
                 }
             }

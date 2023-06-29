@@ -471,8 +471,8 @@ struct MWSenseSequence: Codable {
         }
         
         struct CalledAlsoNote: Codable {
-            let intro: String
-            let cats: [Element]
+            let intro: String?
+            let cats: [Element]?
             
             struct Element: Codable {
                 let cat: String?
@@ -522,7 +522,7 @@ struct MWSenseSequence: Codable {
                     } else if key == "vis" {
                         self = .vis(try container.decode(VerbalIllustration.self))
                     } else {
-                        throw DecodingError.typeMismatch(SupplementalInformationNote.Note.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of CalledAlsoNote"))
+                        throw DecodingError.typeMismatch(SupplementalInformationNote.Note.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Type not element of SupplementalInformationNote"))
                     }
 //                    debugPrint("Finished decoding Note of SupplementalInformationNote")
                 }

@@ -300,3 +300,18 @@ extension MWSenseSequence.DefiningText.UsageNotes {
         }
     }
 }
+
+extension MWSenseSequence.DefiningText.CalledAlsoNote {
+    func label() -> String? {
+        var text = ""
+        
+        if let intro = intro {
+            text.append("\(intro) ")
+        }
+        if let cats = cats {
+            text.append("*\(cats.compactMap { $0.cat }.joined(separator: ", "))*")
+        }
+        
+        return text.isEmpty ? nil : "\u{2014} \(text)"
+    }
+}
