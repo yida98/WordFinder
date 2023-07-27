@@ -21,7 +21,7 @@ struct QuizView: View {
                 HStack(spacing: 20) {
                     ProgressBar(progression: viewModel.progression)
                         .progressBarStyle(DefaultProgressBarStyle(), fillColor: .celadon, backgroundColor: .celadon.opacity(0.3))
-                        .frame(height: 14)
+                        .frame(height: 14) // TODO: Magic value
                         .animation(.easeIn, value: viewModel.progression)
                         .opacity(shouldShowProgression ? 1 : 0)
                         .animation(.linear(duration: 0.2), value: shouldShowProgression)
@@ -66,6 +66,7 @@ struct QuizView: View {
                             .frame(width: Constant.screenBounds.width)
                         }
                     }
+                    .frame(width: Constant.screenBounds.width)
                     .animation(.linear, value: offset)
                     .offset(x: offset)
                 }

@@ -17,7 +17,7 @@ struct MWDefinitionView: View {
                     Text(verbDivider.localizedTokenizedString()) // TODO: Color
                         .font(.subheadlinePrimary)
                         .foregroundColor(.verdigris)
-                    Spacer()
+                    Spacer(minLength: 0)
                 }
             }
             if let sseq = definition.sseq {

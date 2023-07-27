@@ -27,7 +27,8 @@ struct MWRetrieveEntryView: View {
                                 .lineLimit(1)
                                 .textSelection(.enabled)
                                 .foregroundColor(.pineGreen) // primaryDark
-                            Spacer()
+                                .fixedSize(horizontal: false, vertical: true)
+                            Spacer(minLength: 0)
                             
                             Button {
                                 if viewModel.saved {
@@ -44,7 +45,7 @@ struct MWRetrieveEntryView: View {
                                     Image(viewModel.saved ? "bookmark.fill" : "bookmark")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: 20)
+                                        .frame(width: 20, height: 20)
                                 }
                             }.alert(isPresented: $presentAlert) {
                                 Alert(title: Text("Unbookmarking"), message: Text("Are you sure you want to unbookmark \(viewModel.group.getWord())"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Unbookmark")) {
