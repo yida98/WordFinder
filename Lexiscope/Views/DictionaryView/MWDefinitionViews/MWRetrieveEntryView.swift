@@ -107,8 +107,8 @@ struct MWRetrieveEntryView: View {
                                         .foregroundColor(Color(white: 0.4))
                                     Spacer()
                                 }
-                            } else if let cxs = viewModel.group.allCognateCrossReferences() {
-                                MWCognateCrossReferencesView(cxs: cxs)
+                            } else if !viewModel.group.allCognateCrossReferences().isEmpty {
+                                MWCognateCrossReferencesView(cxs: viewModel.group.allCognateCrossReferences())
                             }
                         }
                     }

@@ -38,9 +38,9 @@ struct QuizView: View {
                 }
                 .frame(height: 20)
                 .padding(30)
-                if let dataSource = viewModel.dataSource {
+                if !viewModel.dataSource.isEmpty {
                     HStack(spacing: 0) {
-                        ForEach(dataSource, id: \.id) { question in
+                        ForEach(viewModel.dataSource, id: \.id) { question in
                             GeometryReader { proxy in
                                 QuestionView(viewModel: viewModel, question: question, preparation: preparation, submission: submission)
                                     .onChange(of: proxy.frame(in: .global)) { newValue in
@@ -48,7 +48,7 @@ struct QuizView: View {
                                             removeExtraneousDataSources()
                                         }
                                     }.frame(width: Constant.screenBounds.width, alignment: .center)
-                                    .animation(nil, value: dataSource)
+                                    .animation(nil, value: viewModel.dataSource)
                                     
                             }.frame(width: Constant.screenBounds.width, alignment: .center)
                         }
